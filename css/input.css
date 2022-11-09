@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: "montserrat-medium";
+    src: url(../assets/fonts/Montserrat-Medium.ttf);
+}
+
+@font-face {
+    font-family: "montserrat-semibold";
+    src: url(../assets/fonts/Montserrat-SemiBold.ttf);
+}
+
+@font-face {
+    font-family: "montserrat-bold";
+    src: url(../assets/fonts/Montserrat-Bold.ttf);
+}
+
+@font-face {
+    font-family: "montserrat-extrabold";
+    src: url(../assets/fonts/Montserrat-ExtraBold.ttf);
+}
+
+body {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+    font-family: 'montserrat-medium', sans-serif;
+}
+
+
+.menu-line {
+    @apply w-[20px] h-[3px] my-[2px] bg-white block;
+}
+
+.menuu_active>span:nth-child(1) {
+    @apply rotate-45;
+}
+
+.menuu_active>span:nth-child(2) {
+    @apply scale-0;
+}
+
+.menuu_active>span:nth-child(3) {
+    @apply -rotate-45;
+}
+
+.swiper {
+    width: 100%;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+
+    right: 10px;
+    padding: 30px;
+    color: rgb(0, 0, 0) !important;
+    fill: rgb(0, 0, 0) !important;
+    scale: 50%;
+    stroke: black !important;
+}
+
+.swiper-pagination-bullet-active {
+    background-color: rgb(0, 0, 0) !important;
+}
