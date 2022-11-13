@@ -29,6 +29,51 @@ body {
     font-family: 'montserrat-medium', sans-serif;
 }
 
+.font-ex-color{
+  Color : #343948 !important;
+}
+
+.tab-focus{
+  color : white !important;
+  background-color : #343948 !important;
+}
+
+.font-ex-bold{
+  font-family : 'montserrat-extrabold', sans-serif !important;
+}
+
+.font-ex-semibold{
+  font-family : 'montserrat-semibold', sans-serif !important;
+}
+
+.font-ex-extrabold{
+  font-family : 'montserrat-extrabold', sans-serif !important;
+}
+
+.ex-sidebar.ex-hide-sidebar{
+  transform: translateX(-100%)!important;
+  transition: 1s;
+}
+
+.ex-sidebar{
+  transform: translateX(0)!important;
+  transition: 1s;
+}
+
+.ex-burger{
+}
+
+.ex-burger.show{
+  z-index: 50;
+  position: relative;
+  left: 220px;
+  transition: 20s;
+}
+
+.ex-hover-sidebar:hover{
+  background-color: #5C6171;
+  transition: ease-in-out 0.4s;
+}
 
 .menu-line {
     @apply w-[20px] h-[3px] my-[2px] bg-white block;
