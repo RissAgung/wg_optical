@@ -140,3 +140,20 @@ tr:hover {
 .swiper-pagination-bullet-active {
     background-color: rgb(0, 0, 0) !important;
 }
+
+.theme-button-alert {
+    margin: 0 2em;
+}
+
+.swal-footer {
+    overflow: auto;
+}
+
+.swal-button-container {
+    float: right;
+}
+
+.effectmodal {
+    display: block;
+    @apply bg-black opacity-50 scale-125;
+}
