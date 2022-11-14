@@ -29,25 +29,25 @@ body {
     font-family: 'montserrat-medium', sans-serif;
 }
 
-.font-ex-color{
-  Color : #343948 !important;
+.font-ex-color {
+    Color: #343948 !important;
 }
 
-.tab-focus{
-  color : white !important;
-  background-color : #343948 !important;
+.tab-focus {
+    color: white !important;
+    background-color: #343948 !important;
 }
 
-.font-ex-bold{
-  font-family : 'montserrat-extrabold', sans-serif !important;
+.font-ex-bold {
+    font-family: 'montserrat-extrabold', sans-serif !important;
 }
 
-.font-ex-semibold{
-  font-family : 'montserrat-semibold', sans-serif !important;
+.font-ex-semibold {
+    font-family: 'montserrat-semibold', sans-serif !important;
 }
 
-.font-ex-extrabold{
-  font-family : 'montserrat-extrabold', sans-serif !important;
+.font-ex-extrabold {
+    font-family: 'montserrat-extrabold', sans-serif !important;
 }
 
 /* @media (max-width: 1280px) {
@@ -61,14 +61,14 @@ body {
   }
 } */
 
-.ex-sidebar{
-  transform: translateX(0)!important;
-  /* transition: 1s; */
+.ex-sidebar {
+    transform: translateX(0) !important;
+    /* transition: 1s; */
 }
 
-.ex-sidebar.ex-hide-sidebar{
-  transform: translateX(-100%)!important;
-  transition: 1s;
+.ex-sidebar.ex-hide-sidebar {
+    transform: translateX(-100%) !important;
+    transition: 1s;
 }
 
 /* @media (min-width: 1280px) {
@@ -80,26 +80,26 @@ body {
   }
 } */
 
-.ex-burger{
-  @apply fill-[#343948];
+.ex-burger {
+    @apply fill-[#343948];
 }
 
-.ex-burger.show{
-  /*transition: ease-in-out 1s;*/
-  z-index: 50;
-  position: fixed;
-  @apply fill-white mt-3 top-[30px] translate-x-[200px];
+.ex-burger.show {
+    /*transition: ease-in-out 1s;*/
+    z-index: 50;
+    position: fixed;
+    @apply fill-white mt-3 top-[30px] translate-x-[200px];
 }
 
-.ex-hover-sidebar:hover{
-  background-color: #5C6171;
-  transition: ease-in-out 0.4s;
+.ex-hover-sidebar:hover {
+    background-color: #5C6171;
+    transition: ease-in-out 0.4s;
 }
 
 @media (min-width: 768px) {
-  .ex-table {
-    height: calc(100vh - 240px);
-  }
+    .ex-table {
+        height: calc(100vh - 240px);
+    }
 }
 
 .menu-line {
