@@ -85,10 +85,10 @@ body {
 }
 
 .ex-burger.show{
-  transition: ease-in-out 1s;
+  /*transition: ease-in-out 1s;*/
   z-index: 50;
-  position: relative;
-  @apply fill-white top-5 translate-x-[220px];
+  position: fixed;
+  @apply fill-white mt-3 top-[30px] translate-x-[200px];
 }
 
 .ex-hover-sidebar:hover{
