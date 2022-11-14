@@ -29,6 +29,10 @@ body {
     font-family: 'montserrat-medium', sans-serif;
 }
 
+tr:hover {
+    @apply bg-gray-100;
+}
+
 .font-ex-color {
     Color: #343948 !important;
 }
