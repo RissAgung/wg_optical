@@ -11,10 +11,13 @@
 
 <body class="bg-[#F0F0F0] font-ex-color box-border">
 
-    <div id="bgbody" class="w-full h-full bg-black fixed z-50 hidden"></div>
-    <!-- navbar -->
-    <div id="ex-sidebar" class="ex-sidebar ex-hide-sidebar fixed z-50 transition duration-[1s]"></div>
-    <!-- end navbar -->
+    <!-- Background hitam saat sidebar show -->
+    <div id="bgbody" class="w-full h-screen bg-black fixed z-50 hidden"></div>
+    <!-- End Background hitam saat sidebar show -->
+
+    <!-- sidebar -->
+    <div id="ex-sidebar" class="ex-sidebar ex-hide-sidebar fixed z-50 max-lg:transition max-lg:duration-[1s]"></div>
+    <!-- end sidebar -->
 
 
     <div class="lg:ml-72">
@@ -22,7 +25,7 @@
             <div class="flex flex-row uppercase font-ex-bold text-sm items-center">
 
                 <!-- hamburger -->
-                <div class="ex-burger mr-2 lg:hidden" id="burger">
+                <div class="ex-burger mr-2 lg:hidden absolute" id="burger">
                     <?xml version="1.0" encoding="UTF-8"?>
                     <svg xmlns="http://www.w3.org/2000/svg" id="Isolation_Mode" data-name="Isolation Mode" viewBox="0 0 24 24" width="20" height="20">
                         <rect y="10.5" width="24" height="3" />
@@ -30,6 +33,14 @@
                         <rect y="17.5" width="24" height="3" />
                     </svg>
                 </div>
+                <div class="ex-burger mr-2 lg:hidden">
+                  <?xml version="1.0" encoding="UTF-8"?>
+                  <svg xmlns="http://www.w3.org/2000/svg" id="Isolation_Mode" data-name="Isolation Mode" viewBox="0 0 24 24" width="20" height="20">
+                      <rect y="10.5" width="24" height="3" />
+                      <rect y="3.5" width="24" height="3" />
+                      <rect y="17.5" width="24" height="3" />
+                  </svg>
+              </div>
 
                 <h1>Master Data Product</h1>
             </div>
@@ -77,7 +88,7 @@
         </div>
 
         <!-- Table -->
-        <div class="text-sm w-full md:w-[90%] md:mx-auto bg-white rounded-md mt-4 ex-table">
+        <div class="overflow-x-auto  text-sm mx-auto w-[90%] md:w-[90%] md:mx-auto bg-white rounded-md mt-4 ex-table">
             <table class="w-full">
                 <thead class="border-b-2 border-gray-100">
                     <tr>
@@ -185,11 +196,9 @@
 
     <script src="../js/jquery-3.6.1.min.js"></script>
     <script>
-        $("#ex-sidebar").load("../assets/html/sidebar.html");
-        const size = $(document).width();
-        console.log(size);
+        $("#ex-sidebar").load("../assets/components/sidebar.html");
 
-        if (size >= 1024) {
+        if ($(document).width() >= 1024) {
             $('#ex-sidebar').removeClass("ex-hide-sidebar");
         } else {
             $("#burger").on("click", function() {
@@ -210,6 +219,11 @@
                 $('#bgbody').toggleClass("transition");
             });
         }
+
+        $('#click-modal').on('click', function(){
+          console.log("modal click")
+          $('#ex-modal').toggleClass("hidden");
+        });
     </script>
 
 </body>

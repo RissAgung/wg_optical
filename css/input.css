@@ -88,7 +88,7 @@ body {
     /*transition: ease-in-out 1s;*/
     z-index: 50;
     position: fixed;
-    @apply fill-white mt-3 top-[30px] translate-x-[200px];
+    @apply fill-white mt-3 top-[30px] translate-x-[200px] hidden;
 }
 
 .ex-hover-sidebar:hover {
