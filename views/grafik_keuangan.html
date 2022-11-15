@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grafk Keuangan | WG Optical</title>
+    <link rel="stylesheet" href="../css/output.css">
+    <link rel="stylesheet" href="../css/apexcharts.css">
+</head>
+
+<body class="bg-[#F0F0F0] font-ex-color box-border">
+
+
+    <!-- Logout modal -->
+    <div id="bgmodal" class="w-full h-screen fixed hidden bg-black z-[51] opacity-0 transition duration-300"></div>
+    <div id="modalLogout" class="w-[90%] md:w-[60%] lg:w-[30%] bg-white fixed z-[51] left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] shadow-xl rounded-lg scale-0  transition ease-in-out">
+        <div class="flex flex-row justify-between px-8 pt-[20px]">
+            <h1 class="font-bold text-xl md:text-2xl">Keluar</h1>
+            <h1>X</h1>
+        </div>
+        <div class="px-8 pt-[20px]">
+
+            <p class="text-sm md:text-lg text-slate-600">Apakah anda yakin ingin keluar?</p>
+        </div>
+
+        <div class="flex flex-row justify-end px-8 gap-2 pt-8 pb-8">
+
+            <div class="bg-[#3DBD9E] w-[70px] md:w-[80px] text-center rounded-md py-1 text-white text-sm sm:text-lg">
+                <p>Cancel</p>
+            </div>
+            <div class="bg-[#F35E58] w-[70px] md:w-[80px] text-center rounded-md py-1 text-white text-sm sm:text-lg">
+                <p>Oke</p>
+            </div>
+
+        </div>
+    </div>
+    <!-- end modal logout -->
+
+    <!-- modal -->
+    <div class="fixed left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] z-[51] scale-0 transition ease-in-out" id="modal">
+
+    </div>
+    <!-- end modal -->
+
+    <!-- Background hitam saat sidebar show -->
+    <div id="bgbody" class="w-full h-screen bg-black fixed z-50 bg-opacity-50 hidden"></div>
+    <!-- End Background hitam saat sidebar show -->
+
+    <!-- sidebar -->
+    <div id="ex-sidebar" class="ex-sidebar ex-hide-sidebar fixed z-50 max-lg:transition max-lg:duration-[1s]"></div>
+    <!-- end sidebar -->
+
+
+
+    <div class="lg:ml-72">
+        <div class="w-full h-16 bg-white flex items-center md:justify-between md:px-5 justify-around">
+            <div class="flex flex-row uppercase font-ex-bold text-sm items-center">
+
+                <!-- hamburger -->
+                <div class="ex-burger mr-2 lg:hidden absolute" id="burger">
+                    <?xml version="1.0" encoding="UTF-8"?>
+                    <svg xmlns="http://www.w3.org/2000/svg" id="Isolation_Mode" data-name="Isolation Mode" viewBox="0 0 24 24" width="20" height="20">
+                        <rect y="10.5" width="24" height="3" />
+                        <rect y="3.5" width="24" height="3" />
+                        <rect y="17.5" width="24" height="3" />
+                    </svg>
+                </div>
+                <div class="ex-burger mr-2 lg:hidden">
+                    <?xml version="1.0" encoding="UTF-8"?>
+                    <svg xmlns="http://www.w3.org/2000/svg" id="Isolation_Mode" data-name="Isolation Mode" viewBox="0 0 24 24" width="20" height="20">
+                        <rect y="10.5" width="24" height="3" />
+                        <rect y="3.5" width="24" height="3" />
+                        <rect y="17.5" width="24" height="3" />
+                    </svg>
+                </div>
+
+                <h1>Grafik Keuangan</h1>
+            </div>
+            <div class="flex flex-row items-center">
+                <div class="mr-4">
+                    <svg width="24" height="26" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M23.8313 21.0763L23.5594 20.8364C22.788 20.1491 22.1129 19.361 21.5521 18.4933C20.9397 17.2957 20.5727 15.9879 20.4725 14.6467V10.6961C20.4778 8.58936 19.7136 6.55319 18.3235 4.97017C16.9334 3.38714 15.013 2.36623 12.9233 2.09923V1.06761C12.9233 0.784463 12.8108 0.512912 12.6106 0.312696C12.4104 0.11248 12.1388 0 11.8557 0C11.5725 0 11.301 0.11248 11.1008 0.312696C10.9005 0.512912 10.7881 0.784463 10.7881 1.06761V2.11523C8.71703 2.40147 6.81989 3.42855 5.44804 5.00626C4.07618 6.58396 3.32257 8.60538 3.32679 10.6961V14.6467C3.22663 15.9879 2.85958 17.2957 2.24718 18.4933C1.69609 19.3588 1.03178 20.1468 0.271901 20.8364L0 21.0763V23.3315H23.8313V21.0763Z" fill="#444D68" />
+                        <path d="M9.81348 24.1712C9.8836 24.6781 10.1348 25.1425 10.5206 25.4787C10.9065 25.8148 11.401 26 11.9127 26C12.4245 26 12.9189 25.8148 13.3048 25.4787C13.6906 25.1425 13.9418 24.6781 14.0119 24.1712H9.81348Z" fill="#444D68" />
+                    </svg>
+                </div>
+                <img class="w-10 h-10 rounded-full" src="https://upload.wikimedia.org/wikipedia/id/d/d5/Aang_.jpg" alt="Rounded avatar">
+            </div>
+        </div>
+
+        <div class="mt-3 flex items-center flex-col md:flex-row md:justify-around lg:justify-between lg:px-16 md:py-[3px]">
+
+            <!-- Tab Bar -->
+            <div class="box-border p-1.5 drop-shadow-sm rounded-md flex justify-between flex-row text-sm font-ex-semibold bg-white">
+                <div class="flex justify-center py-1.5 px-4 rounded-md tab-focus">Grafik</div>
+                <div class="flex justify-center py-1.5 px-4 rounded-md">Laporan</div>
+                <div class="flex justify-center py-1.5 px-4 rounded-md">Belum Tau</div>
+            </div>
+
+            <!-- Search and Button Add -->
+            <div class="flex flex-col md:flex-row items-center mt-3 md:mt-0">
+
+
+                <!-- Button Add -->
+                <div class="md:my-auto h-10 w-24 font-ex-semibold text-white mt-3 md:mt-0" id="click-modal">
+                    <button class="bg-[#ffffff] drop-shadow-sm text-[#343948] text-sm h-full w-full rounded-md">Filter</button>
+                </div>
+                <!-- End Button Add -->
+
+            </div>
+            <!-- End Search and Button Add -->
+        </div>
+
+        <div class="text-sm mx-auto w-[90%] md:w-[90%] md:mx-auto bg-white rounded-md mt-4">
+            <div class="px-4 py-4" id="chart">
+            </div>
+        </div>
+        <script src="../js/apexcharts.js"></script>
+        <script src="../js/jquery-3.6.1.min.js"></script>
+        <script>
+            // load sidebar
+            $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
+
+                $('#grafik_keuangan').addClass("hover-sidebar");
+                $('#button-logout').on('click', function() {
+                    $('#modalLogout').toggleClass("scale-0");
+                    $('#bgmodal').addClass("effectmodal");
+                });
+            });
+
+            // load modal input
+            $("#modal").load("../assets/components/modal_tambah_master_product.html", function() {
+
+                $("#btn_out").on("click", function() {
+                    $('#modal').addClass("scale-0");
+                    $('#bgmodal').removeClass("effectmodal");
+                });
+
+                $("#btn_batal").on("click", function() {
+                    $('#modal').addClass("scale-0");
+                    $('#bgmodal').removeClass("effectmodal");
+                });
+
+                $("#btn_tambah").on("click", function() {
+                    $('#modal').addClass("scale-0");
+                    $('#bgmodal').removeClass("effectmodal");
+                });
+
+            });
+
+            if ($(document).width() >= 1024) {
+                $('#ex-sidebar').removeClass("ex-hide-sidebar");
+            } else {
+                $("#burger").on("click", function() {
+                    $('#bgbody').toggleClass("hidden");
+
+
+                    $('#ex-sidebar').toggleClass("ex-hide-sidebar");
+                    $('#burger').toggleClass("show");
+                });
+
+                $("#bgbody").on("click", function() {
+                    $('#ex-sidebar').toggleClass("ex-hide-sidebar");
+                    $('#burger').toggleClass("show");
+
+                    $('#bgbody').toggleClass("hidden");
+
+                });
+            }
+
+            $('#bgmodal').on('click', function() {
+                $('#modalLogout').toggleClass("scale-0");
+                $('#bgmodal').removeClass("effectmodal");
+            });
+
+            $('#click-modal').on('click', function() {
+                console.log("modal click");
+                $('#modal').removeClass("scale-0");
+                $('#bgmodal').addClass("effectmodal");
+            });
+
+            // chart
+
+            var options = {
+                chart: {
+                    type: 'bar',
+                    height: 450,
+                    toolbar: {
+                        show: true,
+                        offsetX: 0,
+                        offsetY: 0,
+
+                        export: {
+                            csv: {
+                                filename: undefined,
+                                columnDelimiter: ',',
+                                headerCategory: 'category',
+                                headerValue: 'value',
+                                dateFormatter(timestamp) {
+                                    return new Date(timestamp).toDateString()
+                                }
+                            },
+                            svg: {
+                                filename: undefined,
+                            },
+                            png: {
+                                filename: undefined,
+                            }
+                        },
+                        autoSelected: 'zoom'
+                    },
+                },
+                dataLabels: {
+                    enabled: false,
+
+                },
+                legend: {
+                    show: true,
+
+                    position: 'bottom',
+                    horizontalAlign: 'center',
+
+                    floating: false,
+                    fontSize: '14px',
+                    fontFamily: 'Helvetica, Arial',
+                    fontWeight: 400,
+
+
+
+                    offsetX: 0,
+                    offsetY: 0,
+
+                },
+
+                title: {
+                    text: 'Grafik Keuangan',
+                    align: 'left',
+                    margin: 60,
+                    offsetX: 0,
+                    offsetY: -20,
+                    floating: true,
+                    style: {
+                        fontSize: '14px',
+                        fontWeight: 'bold',
+                        fontFamily: undefined,
+                        color: '#263238'
+                    },
+                },
+
+
+                series: [{
+                        name: 'Pemasukkan',
+                        data: [30, 20, 45, 50, 32, 60, 42],
+                    },
+                    {
+                        name: 'Pengeluaran',
+                        data: [34, 40, 33, 25, 49, 42, 70]
+                    },
+
+                ],
+                stroke: {
+                    colors: ["transparent"],
+                    width: 2
+                },
+
+                fill: {
+                    colors: ['#ED30A2', '#0782C8']
+                },
+
+                xaxis: {
+                    categories: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu']
+                }
+
+            }
+
+            var chart = new ApexCharts(document.querySelector("#chart"), options);
+
+            chart.render();
+        </script>
+
+</body>
+
+</html>

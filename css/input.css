@@ -100,6 +100,11 @@ tr:hover {
     transition: ease-in-out 0.4s;
 }
 
+.hover-sidebar {
+    background-color: #5C6171;
+    transition: ease-in-out 0.4s;
+}
+
 @media (min-width: 768px) {
     .ex-table {
         height: calc(100vh - 240px);
@@ -107,15 +112,15 @@ tr:hover {
 }
 
 @media (max-width: 320px) {
-  .size-modal-add{
-    @apply w-[300px];
-  }
+    .size-modal-add {
+        @apply w-[300px];
+    }
 
-  .btn-modal-close{
-    @apply relative;
-    @apply bottom-3;
-    @apply left-14
-  }
+    .btn-modal-close {
+        @apply relative;
+        @apply bottom-3;
+        @apply left-14
+    }
 }
 
 .menu-line {
