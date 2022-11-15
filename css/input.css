@@ -106,6 +106,18 @@ tr:hover {
     }
 }
 
+@media (max-width: 320px) {
+  .size-modal-add{
+    @apply w-[300px];
+  }
+
+  .btn-modal-close{
+    @apply relative;
+    @apply bottom-3;
+    @apply left-14
+  }
+}
+
 .menu-line {
     @apply w-[20px] h-[3px] my-[2px] bg-white block;
 }
