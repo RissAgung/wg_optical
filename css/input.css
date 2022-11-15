@@ -39,7 +39,8 @@ tr:hover {
 
 .tab-focus {
     color: white !important;
-    background-color: #343948 !important;
+
+    z-index: 11;
 }
 
 .font-ex-bold {
