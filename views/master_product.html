@@ -15,6 +15,14 @@
     <div id="bgbody" class="w-full h-screen bg-black fixed z-50 hidden"></div>
     <!-- End Background hitam saat sidebar show -->
 
+    <!-- modal -->
+    <div id="bgmodal" class="w-full h-screen fixed hidden bg-black z-[51] opacity-0 transition duration-300"></div>
+
+    <div class="fixed left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] z-[51] scale-0 transition ease-in-out" id="modal">
+
+    </div>
+    <!-- end modal -->
+
     <!-- sidebar -->
     <div id="ex-sidebar" class="ex-sidebar ex-hide-sidebar fixed z-50 max-lg:transition max-lg:duration-[1s]"></div>
     <!-- end sidebar -->
@@ -77,7 +85,7 @@
                 <!-- End Search -->
 
                 <!-- Button Add -->
-                <div class="md:my-auto h-10 w-24 font-ex-semibold text-white mt-3 md:mt-0">
+                <div class="md:my-auto h-10 w-24 font-ex-semibold text-white mt-3 md:mt-0" id="click-modal">
                     <button class="bg-[#3DBD9E] h-full w-full rounded-md">Tambah</button>
                 </div>
                 <!-- End Button Add -->
@@ -197,13 +205,31 @@
     <script src="../js/jquery-3.6.1.min.js"></script>
     <script>
         $("#ex-sidebar").load("../assets/components/sidebar.html");
+        $("#modal").load("../assets/components/modal_tambah_master_product.html", function(){
+
+          $("#btn_out").on("click", function() {
+            $('#modal').addClass("scale-0");
+            $('#bgmodal').removeClass("effectmodal");
+          });
+
+          $("#btn_batal").on("click", function() {
+            $('#modal').addClass("scale-0");
+            $('#bgmodal').removeClass("effectmodal");
+          });
+
+          $("#btn_tambah").on("click", function() {
+            $('#modal').addClass("scale-0");
+            $('#bgmodal').removeClass("effectmodal");
+          });
+
+        });
 
         if ($(document).width() >= 1024) {
             $('#ex-sidebar').removeClass("ex-hide-sidebar");
         } else {
             $("#burger").on("click", function() {
                 $('#bgbody').toggleClass("hidden");
-                $('#bgbody').toggleClass("bg-opacity-50");
+                $('#bgbody').toggleClass("bg-opacity-50")
                 $('#bgbody').toggleClass("transition");
 
                 $('#ex-sidebar').toggleClass("ex-hide-sidebar");
@@ -222,7 +248,9 @@
 
         $('#click-modal').on('click', function(){
           console.log("modal click")
-          $('#ex-modal').toggleClass("hidden");
+          // $('#modal').removeClass("hidden");
+          $('#modal').removeClass("scale-0");
+          $('#bgmodal').addClass("effectmodal")
         });
     </script>
 

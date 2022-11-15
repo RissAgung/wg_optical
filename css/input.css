@@ -102,6 +102,18 @@ body {
     }
 }
 
+@media (max-width: 320px) {
+  .size-modal-add{
+    @apply w-[300px];
+  }
+
+  .btn-modal-close{
+    @apply relative;
+    @apply bottom-3;
+    @apply left-14
+  }
+}
+
 .menu-line {
     @apply w-[20px] h-[3px] my-[2px] bg-white block;
 }
@@ -135,4 +147,9 @@ body {
 
 .swiper-pagination-bullet-active {
     background-color: rgb(0, 0, 0) !important;
+}
+
+.effectmodal {
+    display: block;
+    @apply bg-black opacity-50 scale-125;
 }
