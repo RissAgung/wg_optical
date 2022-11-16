@@ -102,6 +102,10 @@ tr:hover {
     transition: ease-in-out 0.4s;
 }
 
+.transitionsidebar {
+    transition: ease-in-out 0.4s;
+}
+
 .hover-sidebar {
     background-color: #5C6171;
     transition: ease-in-out 0.4s;
@@ -114,7 +118,7 @@ tr:hover {
 }
 
 .ex-catalog {
-  height: calc(100vh - 170px);
+    height: calc(100vh - 170px);
 }
 
 @media (max-width: 320px) {
