@@ -40,7 +40,7 @@ tr:hover {
 .tab-focus {
     color: white !important;
 
-    z-index: 11;
+    position: relative;
 }
 
 .font-ex-bold {
@@ -85,6 +85,7 @@ tr:hover {
   }
 } */
 
+
 .ex-burger {
     @apply fill-[#343948];
 }
@@ -110,6 +111,10 @@ tr:hover {
     .ex-table {
         height: calc(100vh - 240px);
     }
+}
+
+.ex-catalog {
+  height: calc(100vh - 170px);
 }
 
 @media (max-width: 320px) {
