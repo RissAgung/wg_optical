@@ -62,7 +62,7 @@
 
 
   <div class="lg:ml-72">
-    <div class="w-full h-16 bg-white flex items-center md:justify-between md:px-5 justify-around">
+    <div class="w-full h-16 bg-white flex items-center md:justify-between md:px-5 justify-between px-6">
       <div class="flex flex-row uppercase font-ex-bold text-sm items-center">
 
         <!-- hamburger -->
@@ -154,7 +154,6 @@
                     <rect width="37" height="37" rx="5" fill="#EDC683" />
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M27.4782 8.38256C27.7335 8.48841 27.9655 8.64355 28.1609 8.83911C28.3564 9.03447 28.5116 9.26646 28.6174 9.52181C28.7233 9.77717 28.7777 10.0509 28.7777 10.3273C28.7777 10.6037 28.7233 10.8774 28.6174 11.1328C28.5116 11.3881 28.3564 11.6201 28.1609 11.8155L25.3473 14.6282L22.3717 11.6526L25.1845 8.83911C25.3798 8.64355 25.6118 8.48841 25.8672 8.38256C26.1225 8.27671 26.3962 8.22223 26.6727 8.22223C26.9491 8.22223 27.2228 8.27671 27.4782 8.38256ZM9.59277 25.7604C9.59295 24.9094 9.93117 24.0933 10.533 23.4916L21.2376 12.787L24.2132 15.7626L13.5086 26.4672C12.9069 27.069 12.0908 27.4072 11.2398 27.4074H9.59277V25.7604Z" fill="#3F2C0D" />
                   </svg>
-
                 </button>
                 <button>
                   <svg width="38" height="37" viewBox="0 0 38 37" fill="none" xmlns="http://www.w3.org/2000/svg">
