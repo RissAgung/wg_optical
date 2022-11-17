@@ -8,6 +8,11 @@
 }
 
 @font-face {
+    font-family: "montserrat-regular";
+    src: url(../assets/fonts/Montserrat-Regular.ttf);
+}
+
+@font-face {
     font-family: "montserrat-semibold";
     src: url(../assets/fonts/Montserrat-SemiBold.ttf);
 }
@@ -26,7 +31,7 @@ body {
     padding: 0px;
     margin: 0px;
     box-sizing: border-box;
-    font-family: 'montserrat-medium', sans-serif;
+    font-family: 'montserrat-regular', sans-serif;
 }
 
 tr:hover {
