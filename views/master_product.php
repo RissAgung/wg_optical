@@ -9,11 +9,6 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../css/output.css">
-  <style>
-    .container-catalog::-webkit-scrollbar {
-      display: none;
-    }
-  </style>
   <title>Master Data | WG Optical</title>
 </head>
 
@@ -62,7 +57,7 @@
 
 
   <div class="lg:ml-72">
-    <div class="w-full h-16 bg-white flex items-center md:justify-between md:px-5 justify-between px-6">
+    <div class="w-full h-16 bg-white flex items-center md:justify-between md:px-5 justify-between px-6 overflow-hidden">
       <div class="flex flex-row uppercase font-ex-bold text-sm items-center">
 
         <!-- hamburger -->
@@ -239,13 +234,13 @@
 
     <!-- konten catalog -->
     <div class="hidden" id="catalog">
-      <div class="container-catalog flex flex-row flex-wrap overflow-y-auto text-sm mx-auto w-[90%] md:w-[90%] md:mx-auto bg-white rounded-md mt-4 ex-catalog px-6 justify-between">
+      <div class="container-catalog flex flex-row flex-wrap overflow-y-scroll scrollbar-hide text-sm mx-auto w-[90%] md:w-[90%] md:mx-auto bg-white rounded-md mt-4 ex-catalog pl-6 pr-[8px] pt-[8pxb ] justify-between">
 
 
         <?php for ($i = 0; $i < 20; $i++) : ?>
           <!-- items -->
-          <div class="w-[163px] h-[273px] shadow-md relative rounded-2xl overflow-hidden mt-4 mr-4">
-            <div class="w-[163px] h-[163px] bg-red-100 rounded-2xl overflow-hidden">
+          <div class="container-item w-[163px] h-[273px] shadow-md relative rounded-2xl overflow-hidden mt-4 mr-4">
+            <div class="container-img-item w-[163px] h-[163px] bg-red-100 rounded-2xl overflow-hidden">
               <img class="h-full" src="https://media.glasses.com/2022/PLATFORM/CLP/Virtual_Mirror/GL_CLP_Virtual_Mirror_02_D.jpg" alt="product image">
             </div>
             <div class="flex flex-col w-full h-full p-[13px]">
@@ -317,8 +312,8 @@
       $('#bgtab').addClass("translate-x-[83px]");
       $('#tab_catalog').addClass("tab-focus");
       $('#tab_table').removeClass("tab-focus");
-      $('#table').toggleClass("hidden");
-      $('#catalog').toggleClass("hidden");
+      $('#table').addClass("hidden");
+      $('#catalog').removeClass("hidden");
     });
 
     $('#tab_table').on("click", function() {
@@ -326,8 +321,8 @@
       $('#bgtab').addClass("translate-x-0");
       $('#tab_catalog').removeClass("tab-focus");
       $('#tab_table').addClass("tab-focus");
-      $('#table').toggleClass("hidden");
-      $('#catalog').toggleClass("hidden");
+      $('#table').removeClass("hidden");
+      $('#catalog').addClass("hidden");
     });
 
     if ($(document).width() >= 1024) {
