@@ -189,3 +189,29 @@ tr:hover {
     display: block;
     @apply bg-black opacity-50 scale-125;
 }
+
+input[type="date"] {
+
+    padding-left: 15px;
+
+    top: 50%;
+    left: 50%;
+    font-family: "Roboto Mono", monospace;
+    overflow: hidden;
+
+    font-size: 15px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+}
+
+::-webkit-calendar-picker-indicator {
+    background-color: #C9C9C9;
+
+    display: flex;
+    justify-content: center;
+    @apply my-auto py-4 px-3;
+
+    cursor: pointer;
+    border-radius: 3px;
+}
