@@ -3,56 +3,56 @@
 @tailwind utilities;
 
 @font-face {
-    font-family: "montserrat-medium";
-    src: url(../assets/fonts/Montserrat-Medium.ttf);
+  font-family: "montserrat-medium";
+  src: url(../assets/fonts/Montserrat-Medium.ttf);
 }
 
 @font-face {
-    font-family: "montserrat-semibold";
-    src: url(../assets/fonts/Montserrat-SemiBold.ttf);
+  font-family: "montserrat-semibold";
+  src: url(../assets/fonts/Montserrat-SemiBold.ttf);
 }
 
 @font-face {
-    font-family: "montserrat-bold";
-    src: url(../assets/fonts/Montserrat-Bold.ttf);
+  font-family: "montserrat-bold";
+  src: url(../assets/fonts/Montserrat-Bold.ttf);
 }
 
 @font-face {
-    font-family: "montserrat-extrabold";
-    src: url(../assets/fonts/Montserrat-ExtraBold.ttf);
+  font-family: "montserrat-extrabold";
+  src: url(../assets/fonts/Montserrat-ExtraBold.ttf);
 }
 
 body {
-    padding: 0px;
-    margin: 0px;
-    box-sizing: border-box;
-    font-family: 'montserrat-medium', sans-serif;
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+  font-family: "montserrat-medium", sans-serif;
 }
 
 tr:hover {
-    @apply bg-gray-100;
+  @apply bg-gray-100;
 }
 
 .font-ex-color {
-    Color: #343948 !important;
+  color: #343948 !important;
 }
 
 .tab-focus {
-    color: white !important;
+  color: white !important;
 
-    position: relative;
+  position: relative;
 }
 
 .font-ex-bold {
-    font-family: 'montserrat-extrabold', sans-serif !important;
+  font-family: "montserrat-extrabold", sans-serif !important;
 }
 
 .font-ex-semibold {
-    font-family: 'montserrat-semibold', sans-serif !important;
+  font-family: "montserrat-semibold", sans-serif !important;
 }
 
 .font-ex-extrabold {
-    font-family: 'montserrat-extrabold', sans-serif !important;
+  font-family: "montserrat-extrabold", sans-serif !important;
 }
 
 /* @media (max-width: 1280px) {
@@ -67,13 +67,13 @@ tr:hover {
 } */
 
 .ex-sidebar {
-    transform: translateX(0) !important;
-    /* transition: 1s; */
+  transform: translateX(0) !important;
+  /* transition: 1s; */
 }
 
 .ex-sidebar.ex-hide-sidebar {
-    transform: translateX(-100%) !important;
-    transition: 1s;
+  transform: translateX(-100%) !important;
+  transition: 1s;
 }
 
 /* @media (min-width: 1280px) {
@@ -85,102 +85,130 @@ tr:hover {
   }
 } */
 
-
 .ex-burger {
-    @apply fill-[#343948];
+  @apply fill-[#343948];
 }
 
 .ex-burger.show {
-    /*transition: ease-in-out 1s;*/
-    z-index: 50;
-    position: fixed;
-    @apply fill-white mt-3 top-[30px] translate-x-[200px] hidden;
+  /*transition: ease-in-out 1s;*/
+  z-index: 50;
+  position: fixed;
+  @apply fill-white mt-3 top-[30px] translate-x-[200px] hidden;
 }
 
 .ex-hover-sidebar:hover {
-    background-color: #5C6171;
-    transition: ease-in-out 0.4s;
+  background-color: #5c6171;
+  transition: ease-in-out 0.4s;
 }
 
 .transitionsidebar {
-    transition: ease-in-out 0.4s;
+  transition: ease-in-out 0.4s;
 }
 
 .hover-sidebar {
-    background-color: #5C6171;
-    transition: ease-in-out 0.4s;
+  background-color: #5c6171;
+  transition: ease-in-out 0.4s;
 }
 
 @media (min-width: 768px) {
-    .ex-table {
-        height: calc(100vh - 240px);
-    }
+  .ex-table {
+    height: calc(100vh - 240px);
+  }
 }
 
 .ex-catalog {
-    height: calc(100vh - 170px);
+  height: calc(100vh - 170px);
 }
 
 @media (max-width: 320px) {
-    .size-modal-add {
-        @apply w-[300px];
-    }
+  .size-modal-add {
+    @apply w-[300px];
+  }
 
-    .btn-modal-close {
-        @apply relative;
-        @apply bottom-3;
-        @apply left-14
-    }
+  .btn-modal-close {
+    @apply relative;
+    @apply bottom-3;
+    @apply left-14;
+  }
+}
+
+/* invoice tab bar responsif */
+@media (max-width: 376px) {
+  .container-catalog {
+    @apply justify-center;
+  }
+  .tab-invoice{
+    @apply text-[11px];
+  }
+
+  /* .table-invoice table tr th{
+    @apply text-[11px];
+  }
+
+  .table-invoice table tr td{
+    @apply text-[11px];
+  } */
+}
+
+@media (min-width: 376px) and (max-width: 428px) {
+  .container-item {
+    width: 143px;
+    height: 253px;
+  }
+
+  .container-img-item{
+    width: 143px;
+    height: 143px;
+  }
 }
 
 .menu-line {
-    @apply w-[20px] h-[3px] my-[2px] bg-white block;
+  @apply w-[20px] h-[3px] my-[2px] bg-white block;
 }
 
-.menuu_active>span:nth-child(1) {
-    @apply rotate-45;
+.menuu_active > span:nth-child(1) {
+  @apply rotate-45;
 }
 
-.menuu_active>span:nth-child(2) {
-    @apply scale-0;
+.menuu_active > span:nth-child(2) {
+  @apply scale-0;
 }
 
-.menuu_active>span:nth-child(3) {
-    @apply -rotate-45;
+.menuu_active > span:nth-child(3) {
+  @apply -rotate-45;
 }
 
 .swiper {
-    width: 100%;
+  width: 100%;
 }
 
 .swiper-button-next,
 .swiper-button-prev {
-
-    right: 10px;
-    padding: 30px;
-    color: rgb(0, 0, 0) !important;
-    fill: rgb(0, 0, 0) !important;
-    scale: 50%;
-    stroke: black !important;
+  right: 10px;
+  padding: 30px;
+  color: rgb(0, 0, 0) !important;
+  fill: rgb(0, 0, 0) !important;
+  scale: 50%;
+  stroke: black !important;
 }
 
 .swiper-pagination-bullet-active {
-    background-color: rgb(0, 0, 0) !important;
+  background-color: rgb(0, 0, 0) !important;
 }
 
 .theme-button-alert {
-    margin: 0 2em;
+  margin: 0 2em;
 }
 
 .swal-footer {
-    overflow: auto;
+  overflow: auto;
 }
 
 .swal-button-container {
-    float: right;
+  float: right;
 }
 
 .effectmodal {
-    display: block;
-    @apply bg-black opacity-50 scale-125;
+  display: block;
+  @apply bg-black opacity-50 scale-125;
 }
