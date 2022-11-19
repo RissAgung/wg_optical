@@ -1766,10 +1766,12 @@ video {
 }
 
 body {
+  font-family: "montserrat-medium", sans-serif;
   padding: 0px;
   margin: 0px;
   box-sizing: border-box;
   font-family: "montserrat-medium", sans-serif;
+  font-family: "montserrat-regular", sans-serif;
 }
 
 tr:hover {
