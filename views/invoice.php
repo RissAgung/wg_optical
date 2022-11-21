@@ -335,7 +335,7 @@
 
     // load sidebar
     $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
-      $('#master_data').addClass("hover-sidebar");
+      $('#tab_invoice').addClass("hover-sidebar");
       $('#button-logout').on('click', function() {
         $('#modalLogout').toggleClass("scale-0");
         $('#bgmodal').addClass("effectmodal");
