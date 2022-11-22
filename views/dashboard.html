@@ -1,12 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/output.css">
   <title>Document</title>
 </head>
-<body>
-  
+
+<body class="bg-[#F0F0F0] font-ex-color box-border">
+
+  <!-- Background hitam saat sidebar show -->
+  <div id="bgbody" class="w-full h-screen bg-black fixed z-50 bg-opacity-50 hidden"></div>
+  <!-- End Background hitam saat sidebar show -->
+
+  <!-- sidebar -->
+  <div id="ex-sidebar" class="ex-sidebar ex-hide-sidebar fixed z-50 max-lg:transition max-lg:duration-[1s]"></div>
+  <!-- end sidebar -->
+
+  <!-- start -->
+  <div class="lg:ml-72 flex flex-col xl:h-screen">
+
+    <!-- header -->
+    <div class="w-full h-16 bg-white flex items-center md:justify-between md:px-5 justify-between px-6 overflow-hidden">
+      <div class="flex flex-row uppercase font-ex-bold text-sm items-center">
+
+        <!-- hamburger -->
+        <div class="ex-burger mr-2 lg:hidden absolute" id="burger">
+          <svg xmlns="http://www.w3.org/2000/svg" id="Isolation_Mode" data-name="Isolation Mode" viewBox="0 0 24 24"
+            width="20" height="20">
+            <rect y="10.5" width="24" height="3" />
+            <rect y="3.5" width="24" height="3" />
+            <rect y="17.5" width="24" height="3" />
+          </svg>
+        </div>
+        <div class="ex-burger mr-2 lg:hidden">
+          <svg xmlns="http://www.w3.org/2000/svg" id="Isolation_Mode" data-name="Isolation Mode" viewBox="0 0 24 24"
+            width="20" height="20">
+            <rect y="10.5" width="24" height="3" />
+            <rect y="3.5" width="24" height="3" />
+            <rect y="17.5" width="24" height="3" />
+          </svg>
+        </div>
+
+        <h1>Dashboard</h1>
+      </div>
+      <div class="flex flex-row items-center">
+        <div class="mr-4">
+          <svg width="24" height="26" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M23.8313 21.0763L23.5594 20.8364C22.788 20.1491 22.1129 19.361 21.5521 18.4933C20.9397 17.2957 20.5727 15.9879 20.4725 14.6467V10.6961C20.4778 8.58936 19.7136 6.55319 18.3235 4.97017C16.9334 3.38714 15.013 2.36623 12.9233 2.09923V1.06761C12.9233 0.784463 12.8108 0.512912 12.6106 0.312696C12.4104 0.11248 12.1388 0 11.8557 0C11.5725 0 11.301 0.11248 11.1008 0.312696C10.9005 0.512912 10.7881 0.784463 10.7881 1.06761V2.11523C8.71703 2.40147 6.81989 3.42855 5.44804 5.00626C4.07618 6.58396 3.32257 8.60538 3.32679 10.6961V14.6467C3.22663 15.9879 2.85958 17.2957 2.24718 18.4933C1.69609 19.3588 1.03178 20.1468 0.271901 20.8364L0 21.0763V23.3315H23.8313V21.0763Z"
+              fill="#444D68" />
+            <path
+              d="M9.81348 24.1712C9.8836 24.6781 10.1348 25.1425 10.5206 25.4787C10.9065 25.8148 11.401 26 11.9127 26C12.4245 26 12.9189 25.8148 13.3048 25.4787C13.6906 25.1425 13.9418 24.6781 14.0119 24.1712H9.81348Z"
+              fill="#444D68" />
+          </svg>
+        </div>
+        <img class="w-10 h-10 rounded-full" src="https://upload.wikimedia.org/wikipedia/id/d/d5/Aang_.jpg"
+          alt="Rounded avatar">
+      </div>
+    </div>
+    <!-- end header -->
+
+    <!-- Main content -->
+    <div class="flex flex-col xl:flex-row-reverse w-full xl:h-full p-5">
+
+      <!-- jam & pie chart -->
+      <div class="flex flex-col w-full xl:w-[40%] xl:p-5">
+        <div class="flex flex-col w-full h-[130px] xl:h-[20%] rounded-lg bg-white justify-center items-center">
+          <p class="font-ex-bold text-[40px]">07 : 30 : 25</p>
+          <p class="font-ex-semibold text-[15px]">11 Oktober 2022</p>
+        </div>
+        <div class="flex w-full h-[435px] xl:h-[80%] mt-5 rounded-lg bg-white justify-center items-center">ini pie
+          chart</div>
+      </div>
+
+      <!-- event laporan & chart -->
+      <div class="flex flex-col w-full xl:p-5 xl:w-[60%] xl:h-full xl:justify-between">
+
+        <!-- event & laporan -->
+        <div class="flex flex-col md:flex-row xl:h-[40%]">
+
+          <!-- <div class="flex w-1/2 bg-white">
+            ssss
+          </div> -->
+          <div class="flex max-md:h-[231px] xl:h-full md:w-1/2 md:mr-5 mt-5 rounded-lg bg-white justify-center items-center xl:mx-0 xl:my-auto">ini event</div>
+
+          <div class="flex flex-col w-full md:w-1/2 xl:justify-between xl:pl-4 xl:h-full">
+            <div
+              class="flex w-full h-[66px] xl:h-[30%] mt-5 xl:mt-0 rounded-lg bg-white justify-center items-center">
+              laporan pemasukan</div>
+            <div
+              class="flex w-full h-[66px] xl:h-[30%] mt-5 xl:mt-0 rounded-lg bg-white justify-center items-center">
+              laporan pegeluaran</div>
+            <div
+              class="flex w-full h-[66px] xl:h-[30%] mt-5 xl:mt-0 rounded-lg bg-white justify-center items-center">
+              laporan sisa pemasukan</div>
+          </div>
+
+        </div>
+
+        <!-- chart -->
+        <div class="flex h-[340px] xl:h-[57%] mt-5 xl:my-0 rounded-lg bg-white justify-center items-center">ini
+          chart</div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <script src="../js/jquery-3.6.1.min.js"></script>
+  <script>
+    // load sidebar
+    $("#ex-sidebar").load("../assets/components/sidebar.html", function () {
+      $('#dashboard').addClass("hover-sidebar");
+      $('#button-logout').on('click', function () {
+        $('#modalLogout').toggleClass("scale-0");
+        $('#bgmodal').addClass("effectmodal");
+      });
+    });
+
+    // auto hide sidebar
+    if ($(document).width() >= 1024) {
+      $('#ex-sidebar').removeClass("ex-hide-sidebar");
+    } else {
+      $("#burger").on("click", function () {
+        $('#bgbody').toggleClass("hidden");
+
+        $('#ex-sidebar').toggleClass("ex-hide-sidebar");
+        $('#burger').toggleClass("show");
+      });
+
+      $("#bgbody").on("click", function () {
+        $('#ex-sidebar').toggleClass("ex-hide-sidebar");
+        $('#burger').toggleClass("show");
+
+        $('#bgbody').toggleClass("hidden");
+
+      });
+    }
+  </script>
 </body>
+
 </html>
