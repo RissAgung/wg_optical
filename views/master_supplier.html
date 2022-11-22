@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Master Data Pegawai | WG Optical</title>
+    <title>Master Data Supplier | WG Optical</title>
     <link rel="stylesheet" href="../css/output.css">
 </head>
 
@@ -16,7 +16,7 @@
     <!-- konten modal-->
     <div id="modalkonten" class="w-[90%] md:w-[60%] lg:w-[40%] bg-white fixed z-[51] left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] shadow-xl rounded-lg scale-0  transition ease-in-out">
         <div class="header relative">
-            <h1 class="py-4 font-bold text-sm text-center">Tambah Pegawai</h1>
+            <h1 class="py-4 font-bold text-sm text-center">Tambah Supplier</h1>
             <div class="h-[1px] bg-[#C9C9C9]"></div>
             <div id="closemodal" class="absolute right-2 top-4 cursor-pointer hover:bg-slate-700 flex text-center my-auto rounded-md transition">
                 <h1 class="text-black font-semibold h-full w-full transition px-3 hover:text-white">X</h1>
@@ -24,31 +24,13 @@
         </div>
         <div class="flex flex-col overflow-y-scroll h-[400px] pb-8">
             <div class="h-12 flex mt-8 items-center px-14">
-                <h1 class="w-1/2 font-semibold text-sm">Tanggal Masuk</h1>
-                <div class=" h-[50px] w-full border border-[#C9C9C9] rounded-lg ml-4 overflow-hidden">
-                    <input type="date" name="" class="h-full w-full" id="">
-                </div>
-            </div>
-            <div class="h-12 flex mt-8 items-center px-14">
-                <h1 class="w-1/2 font-semibold text-sm">Email</h1>
+                <h1 class="w-1/2 font-semibold text-sm">Nama</h1>
                 <div class="h-[50px] w-full border border-[#C9C9C9] rounded-lg ml-4 overflow-hidden">
                     <input type="text" name="" class="h-full w-full  px-4" id="">
                 </div>
             </div>
             <div class="h-12 flex mt-8 items-center px-14">
-                <h1 class="w-1/2 font-semibold text-sm">Nama</h1>
-                <div class="h-[50px] w-full border border-[#C9C9C9] rounded-lg ml-4 overflow-hidden">
-                    <input type="text" name="" class="h-full w-full " id="">
-                </div>
-            </div>
-            <div class="h-12 flex mt-8 items-center px-14">
-                <h1 class="w-1/2 font-semibold text-sm">Gender</h1>
-                <div class="h-[50px] w-full border border-[#C9C9C9] rounded-lg ml-4 overflow-hidden">
-                    <input type="text" name="" class="h-full w-full " id="">
-                </div>
-            </div>
-            <div class="h-12 flex mt-8 items-center px-14">
-                <h1 class="w-1/2 font-semibold text-sm">No Telepon</h1>
+                <h1 class="w-1/2 font-semibold text-sm">No. Telp</h1>
                 <div class="h-[50px] w-full border border-[#C9C9C9] rounded-lg ml-4 overflow-hidden">
                     <input type="text" name="" class="h-full w-full " id="">
                 </div>
@@ -60,19 +42,7 @@
                 </div>
             </div>
             <div class="h-12 flex mt-8 items-center px-14">
-                <h1 class="w-1/2 font-semibold text-sm">Foto Pegawai</h1>
-                <div class="h-[50px] w-full border border-[#C9C9C9] rounded-lg ml-4 overflow-hidden">
-                    <input type="text" name="" class="h-full w-full " id="">
-                </div>
-            </div>
-            <div class="h-12 flex mt-8 items-center px-14">
-                <h1 class="w-1/2 font-semibold text-sm">Foto KTP</h1>
-                <div class="h-[50px] w-full border border-[#C9C9C9] rounded-lg ml-4 overflow-hidden">
-                    <input type="text" name="" class="h-full w-full " id="">
-                </div>
-            </div>
-            <div class="h-12 flex mt-8 items-center px-14">
-                <h1 class="w-1/2 font-semibold text-sm">Foto KK</h1>
+                <h1 class="w-1/2 font-semibold text-sm">Keterangan</h1>
                 <div class="h-[50px] w-full border border-[#C9C9C9] rounded-lg ml-4 overflow-hidden">
                     <input type="text" name="" class="h-full w-full " id="">
                 </div>
@@ -119,7 +89,7 @@
                     </svg>
                 </div>
 
-                <h1>Master Data Pegawai</h1>
+                <h1>Master Data Supplier</h1>
             </div>
             <div class="flex flex-row items-center">
                 <div class="mr-4">
@@ -130,8 +100,6 @@
                 </div>
                 <img class="w-10 h-10 rounded-full" src="https://upload.wikimedia.org/wikipedia/id/d/d5/Aang_.jpg" alt="Rounded avatar">
             </div>
-
-
         </div>
 
         <div class="mt-3 flex items-center flex-col md:flex-row md:justify-around lg:justify-between lg:px-16 md:py-[3px]">
@@ -143,23 +111,24 @@
                     <path d="M19.2502 19.25L15.138 15.1305M17.4168 9.62501C17.4168 11.6915 16.5959 13.6733 15.1347 15.1346C13.6735 16.5958 11.6916 17.4167 9.62516 17.4167C7.55868 17.4167 5.57684 16.5958 4.11562 15.1346C2.6544 13.6733 1.8335 11.6915 1.8335 9.62501C1.8335 7.55853 2.6544 5.57669 4.11562 4.11547C5.57684 2.65425 7.55868 1.83334 9.62516 1.83334C11.6916 1.83334 13.6735 2.65425 15.1347 4.11547C16.5959 5.57669 17.4168 7.55853 17.4168 9.62501V9.62501Z" stroke="#797E8D" stroke-width="2" stroke-linecap="round" />
                 </svg>
 
-                <input type="text" placeholder="Cari Pegawai" class="h-11 bg-transparent ml-2 outline-none" />
+                <input type="text" placeholder="Cari Supplier" class="h-11 bg-transparent ml-2 outline-none" />
             </div>
             <!-- End Search -->
 
             <!-- Search and Button Add -->
             <div class="flex flex-col md:flex-row items-center mt-3 md:mt-0">
+
+
                 <!-- Button Add -->
                 <div class="md:my-auto h-10 w-24 font-ex-semibold text-white mt-3 md:mt-0" id="click-modal">
                     <button class="bg-[#3DBD9E] h-full w-full rounded-md">Tambah</button>
                 </div>
                 <!-- End Button Add -->
+
             </div>
             <!-- End Search and Button Add -->
+
         </div>
-
-
-
 
         <!-- konten table -->
         <div class="" id="table">
@@ -169,27 +138,22 @@
                     <thead class="border-b-2 border-gray-100">
                         <tr>
                             <th class="p-3 text-sm tracking-wide text-center"><input type="checkbox" name="" id=""></th>
+                            <th class="p-3 text-sm tracking-wide text-center">ID Supplier</th>
                             <th class="p-3 text-sm tracking-wide text-center">Nama</th>
-                            <th class="p-3 text-sm tracking-wide text-center">ID Pegawai</th>
-                            <th class="p-3 text-sm tracking-wide text-center">Gender</th>
                             <th class="p-3 text-sm tracking-wide text-center">No Telepon</th>
                             <th class="p-3 text-sm tracking-wide text-center">Alamat</th>
+                            <th class="p-3 text-sm tracking-wide text-center">Keterangan</th>
                             <th class="p-3 text-sm tracking-wide text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td class="p-3 text-sm tracking-wide text-center "><input type="checkbox" name="" id=""></td>
-                            <td class="p-3 text-sm tracking-wide justify-center">
-                                <div class="flex flex-row items-center content-center">
-                                    <img class="w-6 h-6 rounded-full" src="https://upload.wikimedia.org/wikipedia/id/d/d5/Aang_.jpg" alt="Rounded avatar">
-                                    <p class="px-2">Mphstar</p>
-                                </div>
-                            </td>
                             <td class="p-3 text-sm tracking-wide text-center">05112201</td>
-                            <td class="p-3 text-sm tracking-wide text-center">Laki-laki</td>
+                            <td class="p-3 text-sm tracking-wide text-center">Rizal</td>
                             <td class="p-3 text-sm tracking-wide text-center">0895393933040</td>
                             <td class="p-3 text-sm tracking-wide text-center">Jalan Letjend Panjaitan X/50</td>
+                            <td class="p-3 text-sm tracking-wide text-center">Frame A</td>
                             <td class="p-3 text-sm tracking-wide text-center">
                                 <button>
                                     <svg width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -207,17 +171,12 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="p-3 text-sm tracking-wide text-center"><input type="checkbox" name="" id=""></td>
-                            <td class="p-3 text-sm tracking-wide justify-center">
-                                <div class="flex flex-row items-center content-center">
-                                    <img class="w-6 h-6 rounded-full" src="https://upload.wikimedia.org/wikipedia/id/d/d5/Aang_.jpg" alt="Rounded avatar">
-                                    <p class="px-2">Mphstar</p>
-                                </div>
-                            </td>
+                            <td class="p-3 text-sm tracking-wide text-center "><input type="checkbox" name="" id=""></td>
                             <td class="p-3 text-sm tracking-wide text-center">05112201</td>
-                            <td class="p-3 text-sm tracking-wide text-center">Laki-laki</td>
+                            <td class="p-3 text-sm tracking-wide text-center">Rizal</td>
                             <td class="p-3 text-sm tracking-wide text-center">0895393933040</td>
                             <td class="p-3 text-sm tracking-wide text-center">Jalan Letjend Panjaitan X/50</td>
+                            <td class="p-3 text-sm tracking-wide text-center">Frame A</td>
                             <td class="p-3 text-sm tracking-wide text-center">
                                 <button>
                                     <svg width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -235,17 +194,12 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="p-3 text-sm tracking-wide text-center"><input type="checkbox" name="" id=""></td>
-                            <td class="p-3 text-sm tracking-wide justify-center">
-                                <div class="flex flex-row items-center content-center">
-                                    <img class="w-6 h-6 rounded-full" src="https://upload.wikimedia.org/wikipedia/id/d/d5/Aang_.jpg" alt="Rounded avatar">
-                                    <p class="px-2">Mphstar</p>
-                                </div>
-                            </td>
+                            <td class="p-3 text-sm tracking-wide text-center "><input type="checkbox" name="" id=""></td>
                             <td class="p-3 text-sm tracking-wide text-center">05112201</td>
-                            <td class="p-3 text-sm tracking-wide text-center">Laki-laki</td>
+                            <td class="p-3 text-sm tracking-wide text-center">Rizal</td>
                             <td class="p-3 text-sm tracking-wide text-center">0895393933040</td>
                             <td class="p-3 text-sm tracking-wide text-center">Jalan Letjend Panjaitan X/50</td>
+                            <td class="p-3 text-sm tracking-wide text-center">Frame A</td>
                             <td class="p-3 text-sm tracking-wide text-center">
                                 <button>
                                     <svg width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
