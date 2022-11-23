@@ -226,3 +226,41 @@ input[type="date"] {
     cursor: pointer;
     border-radius: 3px;
 }
+
+/* tab pointer pembayaran invoice */
+
+@media (max-width: 375px) {
+  .pointer-bayar1{
+    @apply translate-x-0;
+  }
+  .pointer-bayar2{
+    @apply translate-x-[87px];
+  }
+  .pointer-bayar3{
+    @apply translate-x-[178px];
+  }
+}
+
+@media (min-width: 375px){
+  .pointer-bayar1{
+    @apply translate-x-0;
+  }
+  .pointer-bayar2{
+    @apply translate-x-[110px];
+  }
+  .pointer-bayar3{
+    @apply translate-x-[217px];
+  }
+}
+
+@media (min-width: 768px){
+  .pointer-bayar1{
+    @apply translate-x-0;
+  }
+  .pointer-bayar2{
+    @apply translate-x-[140px];
+  }
+  .pointer-bayar3{
+    @apply translate-x-[268px];
+  }
+}
