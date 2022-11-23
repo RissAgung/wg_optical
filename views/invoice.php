@@ -44,14 +44,14 @@
   </div>
   <!-- end modal logout -->
 
-  <!-- modal -->
-  <div class="fixed left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] z-[51] scale-0 transition ease-in-out" id="modal">
+  <!-- modal edit pembayaran -->
+  <div class="fixed z-[52] scale-0 transition ease-in-out" id="modal_edit_bayar">
 
   </div>
-  <!-- end modal -->
+  <!-- end modal edit pembayaran-->
 
   <!-- Background hitam saat sidebar show -->
-  <div id="bgbody" class="w-full h-screen bg-black fixed z-50 bg-opacity-50 hidden"></div>
+  <div id="bgbody" class="w-full h-screen fixed z-[51] scale-0"></div>
   <!-- End Background hitam saat sidebar show -->
 
   <!-- sidebar -->
@@ -287,7 +287,8 @@
                     Cicilan 1
                   </td>
                   <td class="p-3 text-sm tracking-wide text-center">
-                    <button>
+                    <!-- edit -->
+                    <button onclick="show_pembayaran()">
                       <svg width="35" height="35" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect width="25.3637" height="25.3637" rx="5" fill="#EDC683" />
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M19.0511 6.117C19.2375 6.19425 19.4068 6.30746 19.5493 6.45018C19.692 6.59274 19.8052 6.76204 19.8825 6.94839C19.9597 7.13474 19.9995 7.33448 19.9995 7.53621C19.9995 7.73793 19.9597 7.93768 19.8825 8.12402C19.8052 8.31037 19.692 8.47967 19.5493 8.62223L17.4961 10.6749L15.3246 8.50338L17.3773 6.45018C17.5198 6.30746 17.6891 6.19425 17.8755 6.117C18.0618 6.03976 18.2616 6 18.4633 6C18.665 6 18.8648 6.03976 19.0511 6.117ZM6 18.7987C6.00013 18.1776 6.24695 17.5821 6.68616 17.143L14.4979 9.33123L16.6694 11.5027L8.85763 19.3145C8.41855 19.7537 7.82299 20.0005 7.20195 20.0006H6V18.7987Z" fill="#3F2C0D" />
@@ -455,6 +456,23 @@
       $('#modalLogout').toggleClass("scale-0");
       $('#bgmodal').removeClass("effectmodal");
     });
+
+    // modal edit pembayaran
+    $("#modal_edit_bayar").load("../assets/components/modal_edit_invoice.html", function(){
+      $('#btn_out').on('click', function(){
+        $('#modal_edit_bayar').addClass("scale-0");
+        $('#bgbody').addClass('scale-0');
+        $('#bgbody').removeClass('effectmodal');
+      })
+    });
+
+    // show modal edit pembayaran
+    function show_pembayaran(){
+      $('#bgbody').addClass('effectmodal');
+      $('#bgbody').removeClass('scale-0');
+      $('#modal_edit_bayar').toggleClass('scale-0');
+    }
+
   </script>
 
 </body>

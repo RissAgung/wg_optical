@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../css/output.css">
+  <title>Document</title>
+</head>
+
+<body class="font-ex-color">
+  <div class="flex justify-center items-center w-screen h-screen">
+
+    <!-- container edit -->
+    <div
+      class="flex flex-col max-md:w-[90%] mx-auto max-[392px]:p-[15px] p-[29px] bg-white max-[375px]:text-sm text-lg rounded-xl shadow-lg">
+
+      <div class="flex flex-row justify-between">
+        <h1 class="font-ex-bold">Edit Status</h1>
+        <svg id="btn_out" class="cursor-pointer" width="15" height="15" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M7.3289 5.47926L10.6264 2.18142C10.8405 1.93831 10.9539 1.62288 10.9436 1.29924C10.9332 0.975599 10.7999 0.668037 10.5707 0.439072C10.3415 0.210106 10.0337 0.0769213 9.70976 0.0665883C9.38581 0.0562553 9.07009 0.16955 8.82676 0.383443L5.52586 3.67789L2.21901 0.373252C2.10056 0.254916 1.95995 0.161048 1.80519 0.097005C1.65044 0.0329623 1.48457 1.24687e-09 1.31706 0C1.14956 -1.24687e-09 0.983689 0.0329623 0.828933 0.097005C0.674177 0.161048 0.533562 0.254916 0.415117 0.373252C0.296672 0.491587 0.202716 0.632072 0.138614 0.786685C0.0745119 0.941298 0.041519 1.10701 0.041519 1.27436C0.041519 1.44171 0.0745119 1.60743 0.138614 1.76204C0.202716 1.91665 0.296672 2.05714 0.415117 2.17547L3.72282 5.47926L0.425318 8.77625C0.295996 8.89175 0.19162 9.03239 0.118574 9.18957C0.0455293 9.34676 0.00535166 9.51718 0.000499102 9.69041C-0.00435345 9.86364 0.0262212 10.036 0.0903528 10.1971C0.154484 10.3581 0.250824 10.5043 0.373478 10.6269C0.496133 10.7494 0.642522 10.8457 0.80369 10.9097C0.964858 10.9738 1.13742 11.0043 1.31081 10.9995C1.4842 10.9947 1.65478 10.9545 1.81211 10.8815C1.96944 10.8086 2.11021 10.7043 2.22581 10.5751L5.52586 7.28063L8.82251 10.5751C9.06172 10.8141 9.38616 10.9483 9.72446 10.9483C10.0628 10.9483 10.3872 10.8141 10.6264 10.5751C10.8656 10.3361 11 10.0119 11 9.67396C11 9.33598 10.8656 9.01184 10.6264 8.77286L7.3289 5.47926Z"
+            fill="#343948" />
+        </svg>
+      </div>
+
+      <!-- tab bar -->
+      <div class="flex flex-row max-[375px]:text-[11px] max-md:text-[13px] md:text-[15px] pt-7">
+        <p id="tab_bayar1" class="cursor-pointer font-ex-semibold max-[375px]:mr-[9px] max-md:mr-[12px] mr-[20px]"
+          onclick="tab_pointer('bayar1')">Pembayaran 1</p>
+        <p id="tab_bayar2" class="cursor-pointer max-[375px]:mr-[9px] max-md:mr-[12px] mr-[20px]"
+          onclick="tab_pointer('bayar2')">Pembayaran 2</p>
+        <p id="tab_bayar3" class="cursor-pointer " onclick="tab_pointer('bayar3')">Pembayaran 3</p>
+      </div>
+      <div class="flex flex-col mt-2 h-3 justify-center">
+        <div>
+          <div id="tab_pointer" class="relative top-[2px] h-1 w-[80px] rounded-lg bg-[#209F80] transition ease-in-out">
+          </div>
+          <hr>
+        </div>
+      </div>
+      <!-- end tab bar -->
+
+      <!-- input -->
+      <div class="flex flex-col max-[375px]:text-[11px] text-[14px] mt-5">
+        <h2 class="pl-2 font-ex-semibold">Bukti Nota</h2>
+
+        <div
+          class="flex mt-2 md:w-[400px] max-[375px]:h-[160px] md:h-[260px] h-[168px] border-[1px] border-[#D9D9D9] rounded-md">
+        </div>
+
+        <select
+          class=" cursor-pointer mt-3 md:mt-6 max-[375px]:h-[42px] h-[50px] md:h-[62px] border-[1px] border-[#D9D9D9] rounded-md pl-6"
+          name="cars" id="cars">
+          <option class="bg-red-400" value="Belum lunas">Belum lunas</option>
+          <option class="" value="Lunas">Lunas</option>
+        </select>
+      </div>
+      <!-- end input -->
+
+      <!-- footer -->
+      <div class="flex flex-row justify-end mt-3 md:mt-7 text-[11px] md:text-[15px] font-ex-semibold text-white">
+        <div
+          class="cursor-pointer flex justify-center items-center w-[100px] max-[375px]:h-[30px] h-[38px] rounded-md bg-[#3DBD9E]">
+          Konfirmasi</div>
+      </div>
+      <!-- end footer -->
+    </div>
+  </div>
+
+  <script src="../../js/jquery-3.6.1.min.js"></script>
+  <script>
+    function tab_pointer(nama_tab) {
+
+      if (nama_tab == "bayar1") {
+        console.log("bayar1");
+        $('#tab_pointer').addClass("pointer-bayar1");
+        $('#tab_pointer').removeClass("pointer-bayar2");
+        $('#tab_pointer').removeClass("pointer-bayar3");
+
+        $('#tab_bayar1').addClass("font-ex-semibold");
+        $('#tab_bayar2').removeClass("font-ex-semibold");
+        $('#tab_bayar3').removeClass("font-ex-semibold");
+      } else if (nama_tab == "bayar2") {
+        console.log("bayar1");
+        $('#tab_pointer').removeClass("pointer-bayar1");
+        $('#tab_pointer').addClass("pointer-bayar2");
+        $('#tab_pointer').removeClass("pointer-bayar3");
+
+        $('#tab_bayar1').removeClass("font-ex-semibold");
+        $('#tab_bayar2').addClass("font-ex-semibold");
+        $('#tab_bayar3').removeClass("font-ex-semibold");
+      } else if (nama_tab == "bayar3") {
+        console.log("bayar1");
+        $('#tab_pointer').removeClass("pointer-bayar1");
+        $('#tab_pointer').removeClass("pointer-bayar2");
+        $('#tab_pointer').addClass("pointer-bayar3");
+
+        $('#tab_bayar1').removeClass("font-ex-semibold");
+        $('#tab_bayar2').removeClass("font-ex-semibold");
+        $('#tab_bayar3').addClass("font-ex-semibold");
+      }
+    }
+  </script>
+</body>
+
+</html>
