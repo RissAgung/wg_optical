@@ -234,13 +234,13 @@
 
     <!-- konten catalog -->
     <div class="hidden" id="catalog">
-      <div class="container-catalog flex flex-row flex-wrap overflow-y-scroll scrollbar-hide text-sm mx-auto w-[90%] md:w-[90%] md:mx-auto bg-white rounded-md mt-4 ex-catalog pl-6 pr-[8px] pt-[8pxb ] justify-between">
+      <div class="container-catalog flex flex-row flex-wrap overflow-y-scroll scrollbar-hide text-sm mx-auto w-[90%] md:w-[90%] md:mx-auto bg-white rounded-md mt-4 ex-catalog pl-6 pr-[8px] pt-[8pxb ] justify-between max-[391px]:justify-center">
 
 
         <?php for ($i = 0; $i < 20; $i++) : ?>
           <!-- items -->
-          <div class="container-item w-[163px] h-[273px] shadow-md relative rounded-2xl overflow-hidden mt-4 mr-4">
-            <div class="container-img-item w-[163px] h-[163px] bg-red-100 rounded-2xl overflow-hidden">
+          <div class="max-[400px]:w-[163px] max-md:w-[149px] w-[163px] h-[273px]  shadow-md relative rounded-2xl overflow-hidden mt-4 mr-4">
+            <div class="max-[400px]:w-[163px] max-md:w-[149px] max-[400px]:h-[163px] max-md:h-[149px] h-[163px] w-[163px] bg-red-100 rounded-2xl overflow-hidden">
               <img class="h-full" src="https://media.glasses.com/2022/PLATFORM/CLP/Virtual_Mirror/GL_CLP_Virtual_Mirror_02_D.jpg" alt="product image">
             </div>
             <div class="flex flex-col w-full h-full p-[13px]">
@@ -325,9 +325,6 @@
       $('#catalog').addClass("hidden");
     });
 
-    if ($(document).width() >= 1024) {
-      $('#ex-sidebar').removeClass("ex-hide-sidebar");
-    } else {
       $("#burger").on("click", function() {
         $('#bgbody').toggleClass("hidden");
 
@@ -342,7 +339,6 @@
         $('#bgbody').toggleClass("hidden");
 
       });
-    }
 
     $('#bgmodal').on('click', function() {
       $('#modalLogout').toggleClass("scale-0");

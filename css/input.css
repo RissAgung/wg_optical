@@ -76,9 +76,15 @@ tr:hover {
     /* transition: 1s; */
 }
 
-.ex-sidebar.ex-hide-sidebar {
+@media (max-width: 1024px){
+  .ex-sidebar.ex-hide-sidebar {
     transform: translateX(-100%) !important;
     transition: 1s;
+  }
+}
+
+.ex-sidebar.ex-hide-sidebar {
+  transition: 0;
 }
 
 /* @media (min-width: 1280px) {
@@ -225,6 +231,31 @@ input[type="date"] {
 
     cursor: pointer;
     border-radius: 3px;
+}
+
+/* tab pointer invoice */
+/* tab_bar_invoice */
+@media (max-width: 374px){
+  .pointer1{
+    @apply translate-x-0;
+  }
+  .pointer2{
+    @apply translate-x-[75px];
+  }
+  .pointer3{
+    @apply translate-x-[158px];
+  }
+}
+@media (min-width: 375px){
+  .pointer1{
+    @apply translate-x-0;
+  }
+  .pointer2{
+    @apply translate-x-[104px];
+  }
+  .pointer3{
+    @apply translate-x-[212px];
+  }
 }
 
 /* tab pointer pembayaran invoice */

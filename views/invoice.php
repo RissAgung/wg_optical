@@ -98,19 +98,19 @@
     <!-- End header -->
 
     <!-- main content -->
-    <div class="flex flex-col justify-between main-content w-[90%] mx-auto mt-4 text-sm p-5 bg-white rounded-md relative">
+    <div class="flex flex-col justify-between main-content w-[90%] mx-auto mt-4 max-[374px]:text-[13px] text-sm p-5 bg-white rounded-md relative">
 
     <!-- atas -->
       <div>
         <!-- tab bar -->
         <div class="overflow-x-auto">
           <div class="tab-invoice flex flex-row">
-            <h2 class="mr-8 font-ex-semibold cursor-pointer" id="tab_Pembelian">Pembelian</h2>
-            <h2 class="mr-8 cursor-pointer" id="tab_Proses">Di proses</h2>
-            <h2 class="tab_Pembayaran cursor-pointer" id="tab_Pembayaran">Pembayaran</h2>
+            <h2 class="max-[374px]:mr-3 mr-8 font-ex-semibold cursor-pointer" onclick="tab('1')" id="tab_Pembelian">Pembelian</h2>
+            <h2 class="max-[374px]:mr-3 mr-8 cursor-pointer" onclick="tab('2')" id="tab_Proses">Di proses</h2>
+            <h2 class="tab_Pembayaran cursor-pointer" onclick="tab('3')" id="tab_Pembayaran">Pembayaran</h2>
           </div>
           <hr class="mt-3 bg-[#343948] h-[0.3px]">
-          <div id="tab" class="transition ease-in-out h-[5px] w-[80px] bg-[#209F80] rounded-md absolute top-[50px]"></div>
+          <div id="tab_bar_invoice" class="transition ease-in-out h-[5px] w-[80px] bg-[#209F80] rounded-md absolute top-[50px]"></div>
         </div>
         <!-- end tab bar -->
 
@@ -391,51 +391,10 @@
 
     });
 
-    if ($(document).width() <= 386) {
-      console.log($(document).width());
-      $('#tab').removeClass("w-[80px]");
-      $('#tab').addClass("w-[65px]");
-
-      $('#tab_Pembelian').on("click", function() {
-        $('#tab').addClass("translate-x-0");
-        $('#tab').removeClass("translate-x-[87px]");
-        $('#tab').removeClass("translate-x-[180px]");
-      });
-      $('#tab_Proses').on("click", function() {
-        $('#tab').removeClass("translate-x-0");
-        $('#tab').addClass("translate-x-[87px]");
-        $('#tab').removeClass("translate-x-[180px]");
-      });
-      $('#tab_Pembayaran').on("click", function() {
-        $('#tab').removeClass("translate-x-0");
-        $('#tab').removeClass("translate-x-[87px]");
-        $('#tab').addClass("translate-x-[180px]");
-      });
-    } else {
-      $('#tab').addClass("w-[80px]");
-      $('#tab').removeClass("w-[65px]");
-
-      $('#tab_Pembelian').on("click", function() {
-        $('#tab').addClass("translate-x-0");
-        $('#tab').removeClass("translate-x-[102px]");
-        $('#tab').removeClass("translate-x-[215px]");
-      });
-      $('#tab_Proses').on("click", function() {
-        $('#tab').removeClass("translate-x-0");
-        $('#tab').addClass("translate-x-[102px]");
-        $('#tab').removeClass("translate-x-[215px]");
-      });
-      $('#tab_Pembayaran').on("click", function() {
-        $('#tab').removeClass("translate-x-0");
-        $('#tab').removeClass("translate-x-[102px]");
-        $('#tab').addClass("translate-x-[215px]");
-      });
-    }
+    
 
     // hide show sidebar
-    if ($(document).width() >= 1024) {
-      $('#ex-sidebar').removeClass("ex-hide-sidebar");
-    } else {
+
       $("#burger").on("click", function() {
         $('#bgbody').toggleClass("hidden");
 
@@ -450,6 +409,23 @@
         $('#bgbody').toggleClass("hidden");
 
       });
+    
+
+    // tab bar
+    function tab(point){
+      if(point == "1"){
+        $('#tab_bar_invoice').addClass("pointer1");
+        $('#tab_bar_invoice').removeClass('pointer2');
+        $('#tab_bar_invoice').removeClass('pointer3');
+      }else if(point == "2"){
+        $('#tab_bar_invoice').removeClass('pointer1');
+        $('#tab_bar_invoice').addClass('pointer2');
+        $('#tab_bar_invoice').removeClass('pointer3');
+      }else if(point == "3"){
+        $('#tab_bar_invoice').removeClass('pointer1');
+        $('#tab_bar_invoice').removeClass('pointer2');
+        $('#tab_bar_invoice').addClass('pointer3');
+      }
     }
 
     $('#bgmodal').on('click', function() {
