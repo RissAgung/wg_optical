@@ -125,7 +125,7 @@
                             <thead class="border-b-2 border-gray-100">
                                 <tr>
                                     <th class="p-3 text-sm tracking-wide text-center"><input type="checkbox" name="" id=""></th>
-                                    <th class="p-3 text-sm tracking-wide text-center">Kode Transaksi</th>
+                                    <th class="p-3 text-sm tracking-wide text-center">Kode aaa</th>
                                     <th class="p-3 text-sm tracking-wide text-center">Tanggal</th>
                                     <th class="p-3 text-sm tracking-wide text-center">Supplier</th>
                                     <th class="p-3 text-sm tracking-wide text-center">Keterangan</th>
@@ -411,21 +411,21 @@
 
             });
 
-                $("#burger").on("click", function() {
-                    $('#bgbody').toggleClass("hidden");
+            $("#burger").on("click", function() {
+                $('#bgbody').toggleClass("hidden");
 
 
-                    $('#ex-sidebar').toggleClass("ex-hide-sidebar");
-                    $('#burger').toggleClass("show");
-                });
+                $('#ex-sidebar').toggleClass("ex-hide-sidebar");
+                $('#burger').toggleClass("show");
+            });
 
-                $("#bgbody").on("click", function() {
-                    $('#ex-sidebar').toggleClass("ex-hide-sidebar");
-                    $('#burger').toggleClass("show");
+            $("#bgbody").on("click", function() {
+                $('#ex-sidebar').toggleClass("ex-hide-sidebar");
+                $('#burger').toggleClass("show");
 
-                    $('#bgbody').toggleClass("hidden");
+                $('#bgbody').toggleClass("hidden");
 
-                });
+            });
 
 
             $('#bgmodal').on('click', function() {
@@ -443,22 +443,16 @@
 
                 $('#pagegrafik').removeClass("hidden");
                 $('#pagelaporan').addClass("hidden");
-                $('#pagegatau').addClass("hidden");
 
-                $('#hovertab').addClass("translate-x-[30px]");
-                $('#hovertab').removeClass("translate-x-[80px]");
-                $('#hovertab').removeClass("translate-x-[165px]");
+                $('#hovertab').addClass("translate-x-[0px]");
+                $('#hovertab').removeClass("translate-x-[115px]");
+
 
                 // change theme tab
                 $('#tabgrafik').addClass("tab-focus");
                 $('#tablaporan').removeClass("tab-focus");
                 $('#tabgatau').removeClass("tab-focus");
 
-                function reload_js(src) {
-                    $('script[src="' + src + '"]').remove();
-                    $('<script>').attr('src', src).appendTo('head');
-                }
-                reload_js('../js/app.js');
 
             });
 
@@ -468,9 +462,9 @@
                 $('#pagegatau').addClass("hidden");
                 $('#pagelaporan').removeClass("hidden");
 
-                $('#hovertab').addClass("translate-x-[80px]");
+                $('#hovertab').addClass("translate-x-[115px]");
                 $('#hovertab').removeClass("translate-x-[0px]");
-                $('#hovertab').removeClass("translate-x-[165px]");
+
 
                 // change theme tab
                 $('#tabgrafik').removeClass("tab-focus");
