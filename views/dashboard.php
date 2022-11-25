@@ -81,15 +81,39 @@
             ssss
           </div> -->
           <div class="flex flex-col max-md:h-[231px] xl:h-full md:w-1/2 md:mr-5 mt-5 rounded-lg bg-white items-start xl:mx-0 xl:my-auto p-5">
-            <p class="font-ex-semibold text-[16px]">Event Terdekat</p>
-            <div class="flex flex-col justify-between w-full h-full bg-red-400">
-              <div class="flex flex-row items-center bg-blue-600 w-full h-[32%] py-1">
-                <div class="flex flex-row w-[40%] h-full">
-                  <div class="w-[20px] h-[20px] rounded-full bg-[#7CBBAC]"></div>
+            <p class="font-ex-semibold text-[16px] mb-3">Event Terdekat</p>
+            <div class="flex flex-col justify-between w-full h-full overflow-auto scrollbar-hide text-[9px] font-ex-semibold">
+
+              <!-- item -->
+              <div class="flex flex-row items-center w-full h-[32%] py-1">
+                <div class="flex flex-row w-[40%] h-full justify-between items-center pl-2">
+                  <div class="w-[16px] h-[16px] rounded-full bg-[#7CBBAC]"></div>
                   <p>30-09-2022</p>
-                  <div class="border-l-2 border-gray-200 h-full"></div>
+                  <div class="border-l-2 border-[#C2C2C2] h-full"></div>
                 </div>
-                <p class="w-[60%]">Meriksa mata picek di TK Tadika-Mesra</p>
+                <div class="flex items-center overflow-y-auto h-full w-[60%] pl-3 scrollbar-hide">
+                  <p>Meriksa mata picek di TK Tadika-Mesra Lorem ipsum dolor sit amet.</p>
+                </div>
+              </div>
+              <div class="flex flex-row items-center w-full h-[32%] py-1">
+                <div class="flex flex-row w-[40%] h-full justify-between items-center pl-2">
+                  <div class="w-[16px] h-[16px] rounded-full bg-[#7CBBAC]"></div>
+                  <p>30-09-2022</p>
+                  <div class="border-l-2 border-[#C2C2C2] h-full"></div>
+                </div>
+                <div class="flex items-center overflow-y-auto h-full w-[60%] pl-3 scrollbar-hide">
+                  <p>Meriksa mata picek di TK Tadika-Mesra Lorem ipsum dolor sit amet.</p>
+                </div>
+              </div>
+              <div class="flex flex-row items-center w-full h-[32%] py-1">
+                <div class="flex flex-row w-[40%] h-full justify-between items-center pl-2">
+                  <div class="w-[16px] h-[16px] rounded-full bg-[#7CBBAC]"></div>
+                  <p>30-09-2022</p>
+                  <div class="border-l-2 border-[#C2C2C2] h-full"></div>
+                </div>
+                <div class="flex items-center overflow-y-auto h-full w-[60%] pl-3 scrollbar-hide">
+                  <p>Meriksa mata picek di TK Tadika-Mesra Lorem ipsum dolor sit amet.</p>
+                </div>
               </div>
             </div>
           </div>

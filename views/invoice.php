@@ -110,7 +110,7 @@
             <h2 class="tab_Pembayaran cursor-pointer" onclick="tab('3')" id="tab_Pembayaran">Pembayaran</h2>
           </div>
           <hr class="mt-3 bg-[#343948] h-[0.3px]">
-          <div id="tab_bar_invoice" class="transition ease-in-out h-[5px] w-[80px] bg-[#209F80] rounded-md absolute top-[50px]"></div>
+          <div id="tab_bar_invoice" class="transition ease-in-out h-[5px] max-[374px]:w-[70px] w-[80px] bg-[#209F80] rounded-md absolute top-[50px]"></div>
         </div>
         <!-- end tab bar -->
 
