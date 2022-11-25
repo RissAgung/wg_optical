@@ -12,7 +12,6 @@
 
 <body class="bg-[#F0F0F0] font-ex-color box-border">
 
-
     <!-- Logout modal -->
     <div id="bgmodal" class="w-full h-screen fixed hidden bg-black z-[51] opacity-0 transition duration-300"></div>
     <div id="modalLogout" class="w-[90%] md:w-[60%] lg:w-[30%] bg-white fixed z-[51] left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] shadow-xl rounded-lg scale-0  transition ease-in-out">
@@ -94,10 +93,12 @@
         <div class="mt-3 flex items-center flex-col md:flex-row md:justify-around lg:justify-between lg:px-16 md:py-[3px]">
 
             <!-- Tab Bar -->
-            <div class="box-border p-1.5 drop-shadow-sm rounded-md flex justify-between flex-row text-sm font-ex-semibold bg-white z-[1]">
-                <div id="hovertab" class="transition translate-x-[0px] ease-in-out h-[35px] rounded-lg w-[110px] absolute bg-[#343948]"></div>
-                <div id="tabgrafik" class="flex cursor-pointer justify-center py-1.5 px-4 rounded-md tab-focus">Operasional</div>
-                <div id="tablaporan" class="flex cursor-pointer justify-center py-1.5 px-4 rounded-md">Lain-Lain</div>
+            <div class="box-border p-1.5 drop-shadow-sm rounded-md flex flex-row text-sm font-ex-semibold bg-white relative">
+
+
+                <div id="tabgrafik" class="flex z-40 cursor-pointer justify-center py-1.5 px-4 rounded-md tab-focus">Operasional</div>
+                <div id="tablaporan" class="flex z-40 cursor-pointer justify-center py-1.5 px-4 rounded-md">Lain-Lain</div>
+                <div id="hovertab" class="transition h-[35px] rounded-lg absolute -translate-y-[2.5px]  bg-[#343948]"></div>
             </div>
 
             <div class="flex flex-col md:flex-row items-center mt-3 md:mt-0 gap-2">
@@ -269,118 +270,9 @@
 
 
         </div>
-        <script src="../js/apexcharts.js"></script>
+
         <script src="../js/jquery-3.6.1.min.js"></script>
         <script>
-            // chart
-            var sizeChart;
-            if ($(document).width() >= 720 && $(document).width() < 1080) {
-                sizeChart = 500;
-            } else if ($(document).width() >= 1080) {
-                sizeChart = 450;
-            } else {
-                sizeChart = 300;
-            }
-
-            var options = {
-                chart: {
-                    redrawOnWindowResize: true,
-                    type: 'bar',
-                    height: sizeChart,
-                    // width: undefined,
-                    toolbar: {
-                        show: true,
-                        offsetX: 0,
-                        offsetY: 0,
-
-                        export: {
-                            csv: {
-                                filename: undefined,
-                                columnDelimiter: ',',
-                                headerCategory: 'category',
-                                headerValue: 'value',
-                                dateFormatter(timestamp) {
-                                    return new Date(timestamp).toDateString()
-                                }
-                            },
-                            svg: {
-                                filename: undefined,
-                            },
-                            png: {
-                                filename: undefined,
-                            }
-                        },
-                        autoSelected: 'zoom'
-                    },
-                },
-                dataLabels: {
-                    enabled: false,
-
-                },
-                legend: {
-                    show: true,
-
-                    position: 'bottom',
-                    horizontalAlign: 'center',
-
-                    floating: false,
-                    fontSize: '14px',
-                    fontFamily: 'Helvetica, Arial',
-                    fontWeight: 400,
-
-
-
-                    offsetX: 0,
-                    offsetY: 0,
-                    labels: {
-                        colors: ['#ED30A2', '#0782C8'],
-                        useSeriesColors: false
-                    },
-                },
-
-                title: {
-                    text: 'Grafik Keuangan',
-                    align: 'left',
-                    margin: 60,
-                    offsetX: 0,
-                    offsetY: -20,
-                    floating: true,
-                    style: {
-                        fontSize: '24px',
-                        fontWeight: 'bold',
-                        fontFamily: undefined,
-                        color: '#263238'
-                    },
-                },
-
-
-                series: [{
-                        name: 'Pemasukkan',
-                        data: [30, 20, 45, 50, 32, 60, 42],
-                    },
-                    {
-                        name: 'Pengeluaran',
-                        data: [34, 40, 33, 25, 49, 42, 70]
-                    },
-
-                ],
-                stroke: {
-                    colors: ["transparent"],
-                    width: 2
-                },
-
-                colors: ['#ED30A2', '#0782C8'],
-
-                xaxis: {
-                    categories: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu']
-                }
-
-            }
-
-            var chart = new ApexCharts(document.querySelector("#chart"), options);
-
-            chart.render();
-
             // load sidebar
             $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
 
@@ -439,39 +331,68 @@
                 $('#bgmodal').addClass("effectmodal");
             });
 
-            $('#tabgrafik').on('click', function() {
-
-                $('#pagegrafik').removeClass("hidden");
-                $('#pagelaporan').addClass("hidden");
-
-                $('#hovertab').addClass("translate-x-[0px]");
-                $('#hovertab').removeClass("translate-x-[115px]");
 
 
-                // change theme tab
-                $('#tabgrafik').addClass("tab-focus");
-                $('#tablaporan').removeClass("tab-focus");
-                $('#tabgatau').removeClass("tab-focus");
+            $(document).ready(function(e) {
+                $('#hovertab').addClass("w-[115px]");
 
+                $('#tabgrafik').on('click', function() {
+                    changeTabbar({
+                        id: '#tabgrafik',
+                        move: '0px',
+                        width: '115px',
+                    });
+                });
 
-            });
+                $('#tablaporan').on('click', function() {
+                    changeTabbar({
+                        id: '#tablaporan',
+                        move: '115px',
+                        width: '100px',
+                    });
+                });
 
-            $('#tablaporan').on('click', function() {
+            }); // end of document ready function
 
-                $('#pagegrafik').addClass("hidden");
-                $('#pagegatau').addClass("hidden");
-                $('#pagelaporan').removeClass("hidden");
+            var tempMove = '0px';
+            var tempWidth = '115px';
 
-                $('#hovertab').addClass("translate-x-[115px]");
-                $('#hovertab').removeClass("translate-x-[0px]");
+            function changeTabbar({
+                id,
+                move,
+                width,
+            }) {
+                if (id === '#tabgrafik') {
+                    $('#hovertab').removeClass("translate-x-[" + tempMove + "]");
+                    $('#hovertab').addClass("translate-x-[" + move + "]");
 
+                    $('#hovertab').removeClass("w-[" + tempWidth + "]");
+                    $('#hovertab').addClass("w-[" + width + "]");
 
-                // change theme tab
-                $('#tabgrafik').removeClass("tab-focus");
-                $('#tabgatau').removeClass("tab-focus");
+                    $('#pagegrafik').removeClass("hidden");
+                    $('#pagelaporan').addClass("hidden");
+                    console.log("translate-x-[" + move + "]");
 
-                $('#tablaporan').addClass("tab-focus");
-            });
+                    $('#tabgrafik').addClass("tab-focus");
+                    $('#tablaporan').removeClass("tab-focus");
+                } else {
+                    $('#hovertab').removeClass("translate-x-[" + tempMove + "]");
+                    $('#hovertab').addClass("translate-x-[" + move + "]");
+
+                    $('#hovertab').removeClass("w-[" + tempWidth + "]");
+                    $('#hovertab').addClass("w-[" + width + "]");
+
+                    console.log("translate-x-[" + move + "]");
+
+                    $('#pagegrafik').addClass("hidden");
+                    $('#pagelaporan').removeClass("hidden");
+
+                    $('#tabgrafik').removeClass("tab-focus");
+                    $('#tablaporan').addClass("tab-focus");
+                }
+                tempMove = move;
+                tempWidth = width;
+            }
         </script>
 
 </body>
