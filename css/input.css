@@ -76,9 +76,14 @@ tr:hover {
     /* transition: 1s; */
 }
 
-.ex-sidebar.ex-hide-sidebar {
+@media(max-width: 1024px){
+  .ex-sidebar.ex-hide-sidebar {
     transform: translateX(-100%) !important;
     transition: 1s;
+  }
+}
+.ex-sidebar.ex-hide-sidebar {
+    transition: 0;
 }
 
 /* @media (min-width: 1280px) {
