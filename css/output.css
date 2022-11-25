@@ -692,6 +692,10 @@ video {
   margin-top: 1.25rem;
 }
 
+.ml-5 {
+  margin-left: 1.25rem;
+}
+
 .mt-3 {
   margin-top: 0.75rem;
 }
@@ -856,6 +860,14 @@ video {
   height: 435px;
 }
 
+.h-full {
+  height: 100%;
+}
+
+.h-\[30\%\] {
+  height: 30%;
+}
+
 .h-\[66px\] {
   height: 66px;
 }
@@ -866,10 +878,6 @@ video {
 
 .h-\[35px\] {
   height: 35px;
-}
-
-.h-full {
-  height: 100%;
 }
 
 .h-\[500px\] {
@@ -1326,6 +1334,14 @@ video {
   border-bottom-width: 2px;
 }
 
+.border-l-2 {
+  border-left-width: 2px;
+}
+
+.border-l-4 {
+  border-left-width: 4px;
+}
+
 .border-solid {
   border-style: solid;
 }
@@ -1358,6 +1374,11 @@ video {
   border-color: rgb(217 217 217 / var(--tw-border-opacity));
 }
 
+.border-gray-200 {
+  --tw-border-opacity: 1;
+  border-color: rgb(229 231 235 / var(--tw-border-opacity));
+}
+
 .bg-\[\#F0F0F0\] {
   --tw-bg-opacity: 1;
   background-color: rgb(240 240 240 / var(--tw-bg-opacity));
@@ -1371,6 +1392,11 @@ video {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
+.bg-red-400 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(248 113 113 / var(--tw-bg-opacity));
 }
 
 .bg-\[\#3DBD9E\] {
@@ -1442,14 +1468,24 @@ video {
   background-color: rgb(237 198 131 / var(--tw-bg-opacity));
 }
 
-.bg-red-400 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(248 113 113 / var(--tw-bg-opacity));
-}
-
 .bg-slate-600 {
   --tw-bg-opacity: 1;
   background-color: rgb(71 85 105 / var(--tw-bg-opacity));
+}
+
+.bg-blue-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(37 99 235 / var(--tw-bg-opacity));
+}
+
+.bg-green-700 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(21 128 61 / var(--tw-bg-opacity));
+}
+
+.bg-\[\#7CBBAC\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(124 187 172 / var(--tw-bg-opacity));
 }
 
 .bg-opacity-50 {
@@ -1598,6 +1634,10 @@ video {
   padding-bottom: 0.75rem;
 }
 
+.pl-5 {
+  padding-left: 1.25rem;
+}
+
 .pt-\[20px\] {
   padding-top: 20px;
 }
@@ -1687,6 +1727,14 @@ video {
   font-size: 15px;
 }
 
+.text-\[16px\] {
+  font-size: 16px;
+}
+
+.text-\[11px\] {
+  font-size: 11px;
+}
+
 .text-xl {
   font-size: 1.25rem;
   line-height: 1.75rem;
@@ -1710,10 +1758,6 @@ video {
 .text-2xl {
   font-size: 1.5rem;
   line-height: 2rem;
-}
-
-.text-\[11px\] {
-  font-size: 11px;
 }
 
 .text-\[14px\] {
