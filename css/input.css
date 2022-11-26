@@ -335,3 +335,9 @@ input[type=file]::file-selector-button {
 .textrich {
     line-break: anywhere;
 }
+
+@media (max-height: 568px) {
+    .main-detain-invoice {
+        @apply h-[290px];
+    }
+}

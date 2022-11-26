@@ -50,6 +50,18 @@
   </div>
   <!-- end modal edit pembayaran-->
 
+  <!-- modal detail invoice -->
+  <div class="fixed z-[52] scale-0 transition ease-in-out" id="modal_detail_invoice">
+
+  </div>
+  <!-- end modal detail invoice -->
+
+  <!-- modal edit tracking -->
+  <div class="fixed z-[52] scale-0 transition ease-in-out" id="modal_edit_tracking">
+
+  </div>
+  <!-- end modal edit tracking -->
+
   <!-- Background hitam saat sidebar show -->
   <div id="bgbody" class="w-full h-screen fixed z-[51] scale-0"></div>
   <!-- End Background hitam saat sidebar show -->
@@ -100,7 +112,7 @@
     <!-- main content -->
     <div class="flex flex-col justify-between main-content w-[90%] mx-auto mt-4 max-[374px]:text-[13px] text-sm p-5 bg-white rounded-md relative">
 
-    <!-- atas -->
+      <!-- atas -->
       <div>
         <!-- tab bar -->
         <div class="overflow-x-auto">
@@ -164,7 +176,7 @@
                     DP
                   </td>
                   <td class="p-3 text-sm tracking-wide text-center">
-                    <button class="">
+                    <button class="" onclick="show_detail()">
                       <svg width="35" height="35" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect width="25.3637" height="25.3637" rx="5" fill="#EDC683" />
                         <path d="M11.7273 15.9375C11.7281 15.1415 11.967 14.3633 12.4143 13.6995C12.8615 13.0357 13.4975 12.5156 14.2432 12.2038C14.9888 11.8919 15.8114 11.8021 16.6086 11.9454C17.4058 12.0887 18.1426 12.4589 18.7274 13.01V6.875C18.7274 6.37772 18.5263 5.90081 18.1682 5.54917C17.8102 5.19754 17.3246 5 16.8183 5H9.18185C8.33828 5.00099 7.52955 5.33055 6.93306 5.91639C6.33656 6.50222 6.00101 7.2965 6 8.125V16.875C6.00101 17.7035 6.33656 18.4978 6.93306 19.0836C7.52955 19.6694 8.33828 19.999 9.18185 20H15.8637C14.7667 20 13.7146 19.572 12.9389 18.8101C12.1631 18.0483 11.7273 17.0149 11.7273 15.9375V15.9375ZM9.18185 9.375C9.18185 9.20924 9.2489 9.05027 9.36824 8.93306C9.48758 8.81585 9.64944 8.75 9.81822 8.75H14.9092C15.078 8.75 15.2398 8.81585 15.3592 8.93306C15.4785 9.05027 15.5455 9.20924 15.5455 9.375C15.5455 9.54076 15.4785 9.69973 15.3592 9.81694C15.2398 9.93415 15.078 10 14.9092 10H9.81822C9.64944 10 9.48758 9.93415 9.36824 9.81694C9.2489 9.69973 9.18185 9.54076 9.18185 9.375ZM19.8137 19.8169C19.6943 19.934 19.5325 19.9999 19.3638 19.9999C19.195 19.9999 19.0332 19.934 18.9139 19.8169L17.3821 18.3125C16.9285 18.5968 16.4019 18.7486 15.8637 18.75C15.2974 18.75 14.7437 18.585 14.2728 18.276C13.8018 17.967 13.4348 17.5277 13.2181 17.0138C13.0013 16.4999 12.9446 15.9344 13.0551 15.3888C13.1656 14.8432 13.4383 14.3421 13.8388 13.9488C14.2393 13.5554 14.7496 13.2876 15.3051 13.179C15.8606 13.0705 16.4363 13.1262 16.9596 13.3391C17.4829 13.552 17.9301 13.9124 18.2448 14.375C18.5594 14.8375 18.7274 15.3812 18.7274 15.9375C18.726 16.466 18.5715 16.9832 18.2819 17.4287L19.8137 18.9331C19.933 19.0503 20 19.2093 20 19.375C20 19.5407 19.933 19.6997 19.8137 19.8169Z" fill="#51514F" />
@@ -234,7 +246,7 @@
                         <path d="M11.7273 15.9375C11.7281 15.1415 11.967 14.3633 12.4143 13.6995C12.8615 13.0357 13.4975 12.5156 14.2432 12.2038C14.9888 11.8919 15.8114 11.8021 16.6086 11.9454C17.4058 12.0887 18.1426 12.4589 18.7274 13.01V6.875C18.7274 6.37772 18.5263 5.90081 18.1682 5.54917C17.8102 5.19754 17.3246 5 16.8183 5H9.18185C8.33828 5.00099 7.52955 5.33055 6.93306 5.91639C6.33656 6.50222 6.00101 7.2965 6 8.125V16.875C6.00101 17.7035 6.33656 18.4978 6.93306 19.0836C7.52955 19.6694 8.33828 19.999 9.18185 20H15.8637C14.7667 20 13.7146 19.572 12.9389 18.8101C12.1631 18.0483 11.7273 17.0149 11.7273 15.9375V15.9375ZM9.18185 9.375C9.18185 9.20924 9.2489 9.05027 9.36824 8.93306C9.48758 8.81585 9.64944 8.75 9.81822 8.75H14.9092C15.078 8.75 15.2398 8.81585 15.3592 8.93306C15.4785 9.05027 15.5455 9.20924 15.5455 9.375C15.5455 9.54076 15.4785 9.69973 15.3592 9.81694C15.2398 9.93415 15.078 10 14.9092 10H9.81822C9.64944 10 9.48758 9.93415 9.36824 9.81694C9.2489 9.69973 9.18185 9.54076 9.18185 9.375ZM19.8137 19.8169C19.6943 19.934 19.5325 19.9999 19.3638 19.9999C19.195 19.9999 19.0332 19.934 18.9139 19.8169L17.3821 18.3125C16.9285 18.5968 16.4019 18.7486 15.8637 18.75C15.2974 18.75 14.7437 18.585 14.2728 18.276C13.8018 17.967 13.4348 17.5277 13.2181 17.0138C13.0013 16.4999 12.9446 15.9344 13.0551 15.3888C13.1656 14.8432 13.4383 14.3421 13.8388 13.9488C14.2393 13.5554 14.7496 13.2876 15.3051 13.179C15.8606 13.0705 16.4363 13.1262 16.9596 13.3391C17.4829 13.552 17.9301 13.9124 18.2448 14.375C18.5594 14.8375 18.7274 15.3812 18.7274 15.9375C18.726 16.466 18.5715 16.9832 18.2819 17.4287L19.8137 18.9331C19.933 19.0503 20 19.2093 20 19.375C20 19.5407 19.933 19.6997 19.8137 19.8169Z" fill="#51514F" />
                       </svg>
                     </button>
-                    <button>
+                    <button onclick="show_tracking()">
                       <svg width="35" height="35" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect width="25.3637" height="25.3637" rx="5" fill="#82DCC6" />
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M19.0511 6.117C19.2375 6.19425 19.4068 6.30746 19.5493 6.45018C19.692 6.59274 19.8052 6.76204 19.8825 6.94839C19.9597 7.13474 19.9995 7.33448 19.9995 7.53621C19.9995 7.73793 19.9597 7.93768 19.8825 8.12402C19.8052 8.31037 19.692 8.47967 19.5493 8.62223L17.4961 10.6749L15.3246 8.50338L17.3773 6.45018C17.5198 6.30746 17.6891 6.19425 17.8755 6.117C18.0618 6.03976 18.2616 6 18.4633 6C18.665 6 18.8648 6.03976 19.0511 6.117ZM6 18.7987C6.00013 18.1776 6.24695 17.5821 6.68616 17.143L14.4979 9.33123L16.6694 11.5027L8.85763 19.3145C8.41855 19.7537 7.82299 20.0005 7.20195 20.0006H6V18.7987Z" fill="#073D2F" />
@@ -309,9 +321,9 @@
         </div>
         <!-- end table Pembayaran -->
       </div>
-    <!-- end atas -->
+      <!-- end atas -->
 
-    <!-- bawah -->
+      <!-- bawah -->
       <div>
         <!-- pagination and info data -->
         <div class="flex flex-col-reverse mt-[30px] items-center">
@@ -324,7 +336,7 @@
         </div>
         <!-- end pagination -->
       </div>
-    <!-- end bawah -->
+      <!-- end bawah -->
 
     </div>
     <!-- End main conent -->
@@ -391,37 +403,37 @@
 
     });
 
-    
+
 
     // hide show sidebar
 
-      $("#burger").on("click", function() {
-        $('#bgbody').toggleClass("hidden");
+    $("#burger").on("click", function() {
+      $('#bgbody').toggleClass("hidden");
 
-        $('#ex-sidebar').toggleClass("ex-hide-sidebar");
-        $('#burger').toggleClass("show");
-      });
+      $('#ex-sidebar').toggleClass("ex-hide-sidebar");
+      $('#burger').toggleClass("show");
+    });
 
-      $("#bgbody").on("click", function() {
-        $('#ex-sidebar').toggleClass("ex-hide-sidebar");
-        $('#burger').toggleClass("show");
+    $("#bgbody").on("click", function() {
+      $('#ex-sidebar').toggleClass("ex-hide-sidebar");
+      $('#burger').toggleClass("show");
 
-        $('#bgbody').toggleClass("hidden");
+      $('#bgbody').toggleClass("hidden");
 
-      });
-    
+    });
+
 
     // tab bar
-    function tab(point){
-      if(point == "1"){
+    function tab(point) {
+      if (point == "1") {
         $('#tab_bar_invoice').addClass("pointer1");
         $('#tab_bar_invoice').removeClass('pointer2');
         $('#tab_bar_invoice').removeClass('pointer3');
-      }else if(point == "2"){
+      } else if (point == "2") {
         $('#tab_bar_invoice').removeClass('pointer1');
         $('#tab_bar_invoice').addClass('pointer2');
         $('#tab_bar_invoice').removeClass('pointer3');
-      }else if(point == "3"){
+      } else if (point == "3") {
         $('#tab_bar_invoice').removeClass('pointer1');
         $('#tab_bar_invoice').removeClass('pointer2');
         $('#tab_bar_invoice').addClass('pointer3');
@@ -434,19 +446,49 @@
     });
 
     // modal edit pembayaran
-    $("#modal_edit_bayar").load("../assets/components/modal_edit_invoice.html", function(){
-      $('#btn_out').on('click', function(){
-        $('#modal_edit_bayar').addClass("scale-0");
+    $("#modal_edit_bayar").load("../assets/components/modal_edit_invoice.html", function() {
+      $('#close_pembayaran').on('click', function() {
+        $('#modal_edit_bayar').addClass('scale-0');
         $('#bgbody').addClass('scale-0');
         $('#bgbody').removeClass('effectmodal');
       })
     });
 
-    // show modal edit pembayaran
-    function show_pembayaran(){
+    function show_pembayaran() {
       $('#bgbody').addClass('effectmodal');
       $('#bgbody').removeClass('scale-0');
-      $('#modal_edit_bayar').toggleClass('scale-0');
+      $('#modal_edit_bayar').removeClass('scale-0');
+    }
+
+    // modal edit tracking
+    $("#modal_edit_tracking").load("../assets/components/modal_edit_tracking_invoice.html", function() {
+      $('#close_tracking').on('click', function() {
+        $('#modal_edit_tracking').addClass("scale-0");
+        $('#bgbody').addClass('scale-0');
+        $('#bgbody').removeClass('effectmodal');
+      })
+    });
+
+    function show_tracking() {
+      $('#bgbody').addClass('effectmodal');
+      $('#bgbody').removeClass('scale-0');
+      $('#modal_edit_tracking').removeClass('scale-0');
+    }
+
+    // modal detail invoice
+    $("#modal_detail_invoice").load("../assets/components/modal_detail_invoice.html", function() {
+      $('#close_detail').on('click', function() {
+        console.log("pppppphello");
+        $('#modal_detail_invoice').addClass("scale-0");
+        $('#bgbody').addClass('scale-0');
+        $('#bgbody').removeClass('effectmodal');
+      })
+    });
+
+    function show_detail() {
+      $('#bgbody').addClass('effectmodal');
+      $('#bgbody').removeClass('scale-0');
+      $('#modal_detail_invoice').removeClass('scale-0');
     }
 
   </script>
