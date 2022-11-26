@@ -232,6 +232,33 @@ input[type="date"] {
     border-radius: 3px;
 }
 
+/* tab pointer invoice */
+@media (max-width: 375px) {
+  .pointer1 {
+      @apply translate-x-0;
+  }
+
+  .pointer2 {
+      @apply translate-x-[81px];
+  }
+
+  .pointer3 {
+      @apply translate-x-[164px];
+  }
+}
+@media (min-width: 375px) {
+  .pointer1 {
+      @apply translate-x-0;
+  }
+
+  .pointer2 {
+      @apply translate-x-[104px];
+  }
+
+  .pointer3 {
+      @apply translate-x-[213px];
+  }
+}
 /* tab pointer pembayaran invoice */
 
 @media (max-width: 375px) {
