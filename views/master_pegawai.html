@@ -15,9 +15,9 @@
     <!-- Background -->
     <div id="bgmodal" class="w-full h-screen fixed hidden bg-black z-[51] opacity-0 transition duration-300"></div>
     <!-- konten modal-->
-    <div id="modalkonten" class="w-[90%] h-[80%] md:w-[60%] lg:w-[40%] bg-white fixed z-[51] left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] shadow-xl rounded-lg scale-0  transition ease-in-out">
+    <div id="modalkonten" class="w-[90%] md:w-[60%] lg:w-[40%] bg-white fixed z-[51] left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] shadow-xl rounded-lg scale-0  transition ease-in-out">
         <div class="header relative">
-            <h1 class="py-4 font-bold text-sm text-center">Tambah Pegawai</h1>
+            <h1 id="title-modal" class="py-4 font-bold text-lg text-[#343948] text-center">Tambah Pegawai</h1>
             <div class="h-[1px] bg-[#C9C9C9]"></div>
             <div id="closemodal" class="absolute right-5 top-4 cursor-pointer flex text-center my-auto rounded-md transition">
                 <svg id="btn_out" class="cursor-pointer" width="15" height="15" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -25,7 +25,7 @@
                 </svg>
             </div>
         </div>
-        <div class="flex flex-col overflow-y-scroll h-3/4 pb-8">
+        <div class="flex flex-col overflow-y-scroll h-[60vh] pb-8">
             <div class="h-12 flex mt-8 items-center px-8">
                 <h1 class="w-1/2 font-semibold text-sm">Tanggal Masuk</h1>
                 <div class=" h-[50px] w-full border border-[#C9C9C9] rounded-lg ml-4 overflow-hidden">
@@ -36,6 +36,12 @@
                 <h1 class="w-1/2 font-semibold text-sm">Email</h1>
                 <div class="h-[50px] w-full border border-[#C9C9C9] rounded-lg ml-4 overflow-hidden">
                     <input type="text" name="" class="h-full w-full border-0 outline-none px-4" id="">
+                </div>
+            </div>
+            <div class="h-12 flex mt-8 items-center px-8">
+                <h1 class="w-1/2 font-semibold text-sm">Password</h1>
+                <div class="h-[50px] w-full border border-[#C9C9C9] rounded-lg ml-4 overflow-hidden">
+                    <input type="password" name="" class="h-full w-full border-0 outline-none px-4" id="">
                 </div>
             </div>
             <div class="h-12 flex mt-8 items-center px-8">
@@ -59,7 +65,7 @@
             <div class="h-12 flex mt-4 items-center px-8">
                 <h1 class="w-1/2 font-semibold text-sm">Alamat</h1>
                 <div class="h-[80px] w-full border border-[#C9C9C9] rounded-lg mt-12 ml-4 overflow-hidden">
-                    <textarea id="message" rows="4" class="block h-full w-full border-0 outline-none px-4 py-2" placeholder="Write your thoughts here..."></textarea>
+                    <textarea id="message" rows="4" class="block h-full w-full border-0 outline-none px-4 py-2" placeholder=""></textarea>
                 </div>
             </div>
             <div class="h-12 flex mt-12 items-center px-8">
@@ -117,6 +123,11 @@
         </div>
     </div>
     <!-- end modal -->
+
+    <!-- modal delete -->
+    <div id="modal-delete" class=""></div>
+    <!-- end modal delete -->
+
     <!-- Background hitam saat sidebar show -->
     <div id="bgbody" class="w-full h-screen bg-black fixed z-50 bg-opacity-50 hidden"></div>
     <!-- End Background hitam saat sidebar show -->
@@ -210,13 +221,13 @@
                             <td class="p-3 text-sm tracking-wide text-center">0895393933040</td>
                             <td class="p-3 text-sm tracking-wide text-center">Jalan Letjend Panjaitan X/50</td>
                             <td class="p-3 text-sm tracking-wide text-center">
-                                <button>
+                                <button id="edit-button">
                                     <svg width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <rect width="37" height="37" rx="5" fill="#EDC683" />
                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M27.4782 8.38256C27.7335 8.48841 27.9655 8.64355 28.1609 8.83911C28.3564 9.03447 28.5116 9.26646 28.6174 9.52181C28.7233 9.77717 28.7777 10.0509 28.7777 10.3273C28.7777 10.6037 28.7233 10.8774 28.6174 11.1328C28.5116 11.3881 28.3564 11.6201 28.1609 11.8155L25.3473 14.6282L22.3717 11.6526L25.1845 8.83911C25.3798 8.64355 25.6118 8.48841 25.8672 8.38256C26.1225 8.27671 26.3962 8.22223 26.6727 8.22223C26.9491 8.22223 27.2228 8.27671 27.4782 8.38256ZM9.59277 25.7604C9.59295 24.9094 9.93117 24.0933 10.533 23.4916L21.2376 12.787L24.2132 15.7626L13.5086 26.4672C12.9069 27.069 12.0908 27.4072 11.2398 27.4074H9.59277V25.7604Z" fill="#3F2C0D" />
                                     </svg>
                                 </button>
-                                <button>
+                                <button id="delete-button">
                                     <svg width="38" height="37" viewBox="0 0 38 37" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <rect x="0.444336" width="37" height="37" rx="5" fill="#F35E58" />
                                         <path d="M23.3982 10.5062V8.67903C23.3982 8.19444 23.2105 7.72969 22.8764 7.38703C22.5423 7.04437 22.0892 6.85187 21.6167 6.85187H16.2723C15.7998 6.85187 15.3467 7.04437 15.0126 7.38703C14.6785 7.72969 14.4908 8.19444 14.4908 8.67903V10.5062H10.0371V12.3333H11.8186V26.0371C11.8186 26.7639 12.1001 27.4611 12.6013 27.975C13.1024 28.489 13.7821 28.7778 14.4908 28.7778H23.3982C24.1069 28.7778 24.7866 28.489 25.2878 27.975C25.7889 27.4611 26.0704 26.7639 26.0704 26.0371V12.3333H27.8519V10.5062H23.3982ZM18.0538 22.3827H16.2723V16.9012H18.0538V22.3827ZM21.6167 22.3827H19.8353V16.9012H21.6167V22.3827ZM21.6167 10.5062H16.2723V8.67903H21.6167V10.5062Z" fill="#501614" />
@@ -244,7 +255,7 @@
                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M27.4782 8.38256C27.7335 8.48841 27.9655 8.64355 28.1609 8.83911C28.3564 9.03447 28.5116 9.26646 28.6174 9.52181C28.7233 9.77717 28.7777 10.0509 28.7777 10.3273C28.7777 10.6037 28.7233 10.8774 28.6174 11.1328C28.5116 11.3881 28.3564 11.6201 28.1609 11.8155L25.3473 14.6282L22.3717 11.6526L25.1845 8.83911C25.3798 8.64355 25.6118 8.48841 25.8672 8.38256C26.1225 8.27671 26.3962 8.22223 26.6727 8.22223C26.9491 8.22223 27.2228 8.27671 27.4782 8.38256ZM9.59277 25.7604C9.59295 24.9094 9.93117 24.0933 10.533 23.4916L21.2376 12.787L24.2132 15.7626L13.5086 26.4672C12.9069 27.069 12.0908 27.4072 11.2398 27.4074H9.59277V25.7604Z" fill="#3F2C0D" />
                                     </svg>
                                 </button>
-                                <button>
+                                <button id="delete-button">
                                     <svg width="38" height="37" viewBox="0 0 38 37" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <rect x="0.444336" width="37" height="37" rx="5" fill="#F35E58" />
                                         <path d="M23.3982 10.5062V8.67903C23.3982 8.19444 23.2105 7.72969 22.8764 7.38703C22.5423 7.04437 22.0892 6.85187 21.6167 6.85187H16.2723C15.7998 6.85187 15.3467 7.04437 15.0126 7.38703C14.6785 7.72969 14.4908 8.19444 14.4908 8.67903V10.5062H10.0371V12.3333H11.8186V26.0371C11.8186 26.7639 12.1001 27.4611 12.6013 27.975C13.1024 28.489 13.7821 28.7778 14.4908 28.7778H23.3982C24.1069 28.7778 24.7866 28.489 25.2878 27.975C25.7889 27.4611 26.0704 26.7639 26.0704 26.0371V12.3333H27.8519V10.5062H23.3982ZM18.0538 22.3827H16.2723V16.9012H18.0538V22.3827ZM21.6167 22.3827H19.8353V16.9012H21.6167V22.3827ZM21.6167 10.5062H16.2723V8.67903H21.6167V10.5062Z" fill="#501614" />
@@ -272,7 +283,7 @@
                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M27.4782 8.38256C27.7335 8.48841 27.9655 8.64355 28.1609 8.83911C28.3564 9.03447 28.5116 9.26646 28.6174 9.52181C28.7233 9.77717 28.7777 10.0509 28.7777 10.3273C28.7777 10.6037 28.7233 10.8774 28.6174 11.1328C28.5116 11.3881 28.3564 11.6201 28.1609 11.8155L25.3473 14.6282L22.3717 11.6526L25.1845 8.83911C25.3798 8.64355 25.6118 8.48841 25.8672 8.38256C26.1225 8.27671 26.3962 8.22223 26.6727 8.22223C26.9491 8.22223 27.2228 8.27671 27.4782 8.38256ZM9.59277 25.7604C9.59295 24.9094 9.93117 24.0933 10.533 23.4916L21.2376 12.787L24.2132 15.7626L13.5086 26.4672C12.9069 27.069 12.0908 27.4072 11.2398 27.4074H9.59277V25.7604Z" fill="#3F2C0D" />
                                     </svg>
                                 </button>
-                                <button>
+                                <button id="delete-button">
                                     <svg width="38" height="37" viewBox="0 0 38 37" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <rect x="0.444336" width="37" height="37" rx="5" fill="#F35E58" />
                                         <path d="M23.3982 10.5062V8.67903C23.3982 8.19444 23.2105 7.72969 22.8764 7.38703C22.5423 7.04437 22.0892 6.85187 21.6167 6.85187H16.2723C15.7998 6.85187 15.3467 7.04437 15.0126 7.38703C14.6785 7.72969 14.4908 8.19444 14.4908 8.67903V10.5062H10.0371V12.3333H11.8186V26.0371C11.8186 26.7639 12.1001 27.4611 12.6013 27.975C13.1024 28.489 13.7821 28.7778 14.4908 28.7778H23.3982C24.1069 28.7778 24.7866 28.489 25.2878 27.975C25.7889 27.4611 26.0704 26.7639 26.0704 26.0371V12.3333H27.8519V10.5062H23.3982ZM18.0538 22.3827H16.2723V16.9012H18.0538V22.3827ZM21.6167 22.3827H19.8353V16.9012H21.6167V22.3827ZM21.6167 10.5062H16.2723V8.67903H21.6167V10.5062Z" fill="#501614" />
@@ -320,28 +331,56 @@
             });
         });
 
+        $('#edit-button').on('click', function() {
+            $('#title-modal').html('Ubah Pegawai');
+
+            $('#modalkonten').toggleClass("scale-100");
+            $('#bgmodal').addClass("effectmodal");
+
+        });
+
+
+        // load modal
+        $("#modal-delete").load("../assets/components/modal_hapus.html", function() {
+            $('#button-logout').on('click', function() {
+                // kosong
+            });
+            $('#delete-button').on('click', function() {
+                $('#title').html('Hapus Data Pegawai ini');
+
+                $('#modalkontenhapus').toggleClass("scale-100");
+                $('#bgmodalhapus').addClass("effectmodal");
+
+            });
+
+
+            $('#closemodalhapus').on('click', function() {
+
+                $('#modalkontenhapus').toggleClass("scale-100");
+                $('#bgmodalhapus').removeClass("effectmodal");
+            });
+        });
+
+
         // auto hide sidebar
-        if ($(document).width() >= 1024) {
-            $('#ex-sidebar').removeClass("ex-hide-sidebar");
-        } else {
-            $("#burger").on("click", function() {
-                $('#bgbody').toggleClass("hidden");
 
-                $('#ex-sidebar').toggleClass("ex-hide-sidebar");
-                $('#burger').toggleClass("show");
-            });
+        $("#burger").on("click", function() {
+            $('#bgbody').toggleClass("hidden");
 
-            $("#bgbody").on("click", function() {
-                $('#ex-sidebar').toggleClass("ex-hide-sidebar");
-                $('#burger').toggleClass("show");
+            $('#ex-sidebar').toggleClass("ex-hide-sidebar");
+            $('#burger').toggleClass("show");
+        });
 
-                $('#bgbody').toggleClass("hidden");
+        $("#bgbody").on("click", function() {
+            $('#ex-sidebar').toggleClass("ex-hide-sidebar");
+            $('#burger').toggleClass("show");
 
-            });
-        }
+            $('#bgbody').toggleClass("hidden");
+
+        });
 
         $('#click-modal').on('click', function() {
-
+            $('#title-modal').html('Tambah Pegawai');
             $('#modalkonten').toggleClass("scale-100");
             $('#bgmodal').addClass("effectmodal");
         });
