@@ -146,7 +146,7 @@
     <script>
         // load sidebar
         $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
-            $('#master_data').addClass("hover-sidebar");
+            $('#salary').addClass("hover-sidebar");
             $('#button-logout').on('click', function() {
                 // kosong
             });
