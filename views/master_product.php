@@ -46,6 +46,10 @@
   </div>
   <!-- end modal -->
 
+  <!-- modal delete -->
+  <div id="modal-delete" class=""></div>
+  <!-- modal delete -->
+
   <!-- Background hitam saat sidebar show -->
   <div id="bgbody" class="w-full h-screen bg-black fixed z-50 bg-opacity-50 hidden"></div>
   <!-- End Background hitam saat sidebar show -->
@@ -138,71 +142,29 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td class="p-3 text-sm tracking-wide text-center">1</td>
-              <td class="p-3 text-sm tracking-wide text-center">DLGH01</td>
-              <td class="p-3 text-sm tracking-wide text-center">Kacamata Koboy</td>
-              <td class="p-3 text-sm tracking-wide text-center">Rp. 50.000</td>
-              <td class="p-3 text-sm tracking-wide text-center">
-                <button>
-                  <svg width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="37" height="37" rx="5" fill="#EDC683" />
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M27.4782 8.38256C27.7335 8.48841 27.9655 8.64355 28.1609 8.83911C28.3564 9.03447 28.5116 9.26646 28.6174 9.52181C28.7233 9.77717 28.7777 10.0509 28.7777 10.3273C28.7777 10.6037 28.7233 10.8774 28.6174 11.1328C28.5116 11.3881 28.3564 11.6201 28.1609 11.8155L25.3473 14.6282L22.3717 11.6526L25.1845 8.83911C25.3798 8.64355 25.6118 8.48841 25.8672 8.38256C26.1225 8.27671 26.3962 8.22223 26.6727 8.22223C26.9491 8.22223 27.2228 8.27671 27.4782 8.38256ZM9.59277 25.7604C9.59295 24.9094 9.93117 24.0933 10.533 23.4916L21.2376 12.787L24.2132 15.7626L13.5086 26.4672C12.9069 27.069 12.0908 27.4072 11.2398 27.4074H9.59277V25.7604Z" fill="#3F2C0D" />
-                  </svg>
-                </button>
-                <button>
-                  <svg width="38" height="37" viewBox="0 0 38 37" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="0.444336" width="37" height="37" rx="5" fill="#F35E58" />
-                    <path d="M23.3982 10.5062V8.67903C23.3982 8.19444 23.2105 7.72969 22.8764 7.38703C22.5423 7.04437 22.0892 6.85187 21.6167 6.85187H16.2723C15.7998 6.85187 15.3467 7.04437 15.0126 7.38703C14.6785 7.72969 14.4908 8.19444 14.4908 8.67903V10.5062H10.0371V12.3333H11.8186V26.0371C11.8186 26.7639 12.1001 27.4611 12.6013 27.975C13.1024 28.489 13.7821 28.7778 14.4908 28.7778H23.3982C24.1069 28.7778 24.7866 28.489 25.2878 27.975C25.7889 27.4611 26.0704 26.7639 26.0704 26.0371V12.3333H27.8519V10.5062H23.3982ZM18.0538 22.3827H16.2723V16.9012H18.0538V22.3827ZM21.6167 22.3827H19.8353V16.9012H21.6167V22.3827ZM21.6167 10.5062H16.2723V8.67903H21.6167V10.5062Z" fill="#501614" />
-                  </svg>
+            <?php for ($i = 0; $i < 3; $i++) : ?>
+              <tr>
+                <td class="p-3 text-sm tracking-wide text-center">1</td>
+                <td class="p-3 text-sm tracking-wide text-center">DLGH01</td>
+                <td class="p-3 text-sm tracking-wide text-center">Kacamata Koboy</td>
+                <td class="p-3 text-sm tracking-wide text-center">Rp. 50.000</td>
+                <td class="p-3 text-sm tracking-wide text-center">
+                  <button>
+                    <svg width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect width="37" height="37" rx="5" fill="#EDC683" />
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M27.4782 8.38256C27.7335 8.48841 27.9655 8.64355 28.1609 8.83911C28.3564 9.03447 28.5116 9.26646 28.6174 9.52181C28.7233 9.77717 28.7777 10.0509 28.7777 10.3273C28.7777 10.6037 28.7233 10.8774 28.6174 11.1328C28.5116 11.3881 28.3564 11.6201 28.1609 11.8155L25.3473 14.6282L22.3717 11.6526L25.1845 8.83911C25.3798 8.64355 25.6118 8.48841 25.8672 8.38256C26.1225 8.27671 26.3962 8.22223 26.6727 8.22223C26.9491 8.22223 27.2228 8.27671 27.4782 8.38256ZM9.59277 25.7604C9.59295 24.9094 9.93117 24.0933 10.533 23.4916L21.2376 12.787L24.2132 15.7626L13.5086 26.4672C12.9069 27.069 12.0908 27.4072 11.2398 27.4074H9.59277V25.7604Z" fill="#3F2C0D" />
+                    </svg>
+                  </button>
+                  <button id="delete-button">
+                    <svg width="38" height="37" viewBox="0 0 38 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="0.444336" width="37" height="37" rx="5" fill="#F35E58" />
+                      <path d="M23.3982 10.5062V8.67903C23.3982 8.19444 23.2105 7.72969 22.8764 7.38703C22.5423 7.04437 22.0892 6.85187 21.6167 6.85187H16.2723C15.7998 6.85187 15.3467 7.04437 15.0126 7.38703C14.6785 7.72969 14.4908 8.19444 14.4908 8.67903V10.5062H10.0371V12.3333H11.8186V26.0371C11.8186 26.7639 12.1001 27.4611 12.6013 27.975C13.1024 28.489 13.7821 28.7778 14.4908 28.7778H23.3982C24.1069 28.7778 24.7866 28.489 25.2878 27.975C25.7889 27.4611 26.0704 26.7639 26.0704 26.0371V12.3333H27.8519V10.5062H23.3982ZM18.0538 22.3827H16.2723V16.9012H18.0538V22.3827ZM21.6167 22.3827H19.8353V16.9012H21.6167V22.3827ZM21.6167 10.5062H16.2723V8.67903H21.6167V10.5062Z" fill="#501614" />
+                    </svg>
 
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td class="p-3 text-sm tracking-wide text-center">1</td>
-              <td class="p-3 text-sm tracking-wide text-center">DLGH01</td>
-              <td class="p-3 text-sm tracking-wide text-center">Kacamata Koboy</td>
-              <td class="p-3 text-sm tracking-wide text-center">Rp. 50.000</td>
-              <td class="p-3 text-sm tracking-wide text-center">
-                <button>
-                  <svg width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="37" height="37" rx="5" fill="#EDC683" />
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M27.4782 8.38256C27.7335 8.48841 27.9655 8.64355 28.1609 8.83911C28.3564 9.03447 28.5116 9.26646 28.6174 9.52181C28.7233 9.77717 28.7777 10.0509 28.7777 10.3273C28.7777 10.6037 28.7233 10.8774 28.6174 11.1328C28.5116 11.3881 28.3564 11.6201 28.1609 11.8155L25.3473 14.6282L22.3717 11.6526L25.1845 8.83911C25.3798 8.64355 25.6118 8.48841 25.8672 8.38256C26.1225 8.27671 26.3962 8.22223 26.6727 8.22223C26.9491 8.22223 27.2228 8.27671 27.4782 8.38256ZM9.59277 25.7604C9.59295 24.9094 9.93117 24.0933 10.533 23.4916L21.2376 12.787L24.2132 15.7626L13.5086 26.4672C12.9069 27.069 12.0908 27.4072 11.2398 27.4074H9.59277V25.7604Z" fill="#3F2C0D" />
-                  </svg>
-
-                </button>
-                <button>
-                  <svg width="38" height="37" viewBox="0 0 38 37" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="0.444336" width="37" height="37" rx="5" fill="#F35E58" />
-                    <path d="M23.3982 10.5062V8.67903C23.3982 8.19444 23.2105 7.72969 22.8764 7.38703C22.5423 7.04437 22.0892 6.85187 21.6167 6.85187H16.2723C15.7998 6.85187 15.3467 7.04437 15.0126 7.38703C14.6785 7.72969 14.4908 8.19444 14.4908 8.67903V10.5062H10.0371V12.3333H11.8186V26.0371C11.8186 26.7639 12.1001 27.4611 12.6013 27.975C13.1024 28.489 13.7821 28.7778 14.4908 28.7778H23.3982C24.1069 28.7778 24.7866 28.489 25.2878 27.975C25.7889 27.4611 26.0704 26.7639 26.0704 26.0371V12.3333H27.8519V10.5062H23.3982ZM18.0538 22.3827H16.2723V16.9012H18.0538V22.3827ZM21.6167 22.3827H19.8353V16.9012H21.6167V22.3827ZM21.6167 10.5062H16.2723V8.67903H21.6167V10.5062Z" fill="#501614" />
-                  </svg>
-
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td class="p-3 text-sm tracking-wide text-center">1</td>
-              <td class="p-3 text-sm tracking-wide text-center">DLGH01</td>
-              <td class="p-3 text-sm tracking-wide text-center">Kacamata Koboy</td>
-              <td class="p-3 text-sm tracking-wide text-center">Rp. 50.000</td>
-              <td class="p-3 text-sm tracking-wide text-center">
-                <button>
-                  <svg width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="37" height="37" rx="5" fill="#EDC683" />
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M27.4782 8.38256C27.7335 8.48841 27.9655 8.64355 28.1609 8.83911C28.3564 9.03447 28.5116 9.26646 28.6174 9.52181C28.7233 9.77717 28.7777 10.0509 28.7777 10.3273C28.7777 10.6037 28.7233 10.8774 28.6174 11.1328C28.5116 11.3881 28.3564 11.6201 28.1609 11.8155L25.3473 14.6282L22.3717 11.6526L25.1845 8.83911C25.3798 8.64355 25.6118 8.48841 25.8672 8.38256C26.1225 8.27671 26.3962 8.22223 26.6727 8.22223C26.9491 8.22223 27.2228 8.27671 27.4782 8.38256ZM9.59277 25.7604C9.59295 24.9094 9.93117 24.0933 10.533 23.4916L21.2376 12.787L24.2132 15.7626L13.5086 26.4672C12.9069 27.069 12.0908 27.4072 11.2398 27.4074H9.59277V25.7604Z" fill="#3F2C0D" />
-                  </svg>
-
-                </button>
-                <button>
-                  <svg width="38" height="37" viewBox="0 0 38 37" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="0.444336" width="37" height="37" rx="5" fill="#F35E58" />
-                    <path d="M23.3982 10.5062V8.67903C23.3982 8.19444 23.2105 7.72969 22.8764 7.38703C22.5423 7.04437 22.0892 6.85187 21.6167 6.85187H16.2723C15.7998 6.85187 15.3467 7.04437 15.0126 7.38703C14.6785 7.72969 14.4908 8.19444 14.4908 8.67903V10.5062H10.0371V12.3333H11.8186V26.0371C11.8186 26.7639 12.1001 27.4611 12.6013 27.975C13.1024 28.489 13.7821 28.7778 14.4908 28.7778H23.3982C24.1069 28.7778 24.7866 28.489 25.2878 27.975C25.7889 27.4611 26.0704 26.7639 26.0704 26.0371V12.3333H27.8519V10.5062H23.3982ZM18.0538 22.3827H16.2723V16.9012H18.0538V22.3827ZM21.6167 22.3827H19.8353V16.9012H21.6167V22.3827ZM21.6167 10.5062H16.2723V8.67903H21.6167V10.5062Z" fill="#501614" />
-                  </svg>
-
-                </button>
-              </td>
-            </tr>
+                  </button>
+                </td>
+              </tr>
+            <?php endfor ?>
           </tbody>
 
         </table>
@@ -325,20 +287,20 @@
       $('#catalog').addClass("hidden");
     });
 
-      $("#burger").on("click", function() {
-        $('#bgbody').toggleClass("hidden");
+    $("#burger").on("click", function() {
+      $('#bgbody').toggleClass("hidden");
 
-        $('#ex-sidebar').toggleClass("ex-hide-sidebar");
-        $('#burger').toggleClass("show");
-      });
+      $('#ex-sidebar').toggleClass("ex-hide-sidebar");
+      $('#burger').toggleClass("show");
+    });
 
-      $("#bgbody").on("click", function() {
-        $('#ex-sidebar').toggleClass("ex-hide-sidebar");
-        $('#burger').toggleClass("show");
+    $("#bgbody").on("click", function() {
+      $('#ex-sidebar').toggleClass("ex-hide-sidebar");
+      $('#burger').toggleClass("show");
 
-        $('#bgbody').toggleClass("hidden");
+      $('#bgbody').toggleClass("hidden");
 
-      });
+    });
 
     $('#bgmodal').on('click', function() {
       $('#modalLogout').toggleClass("scale-0");
@@ -349,6 +311,27 @@
       console.log("modal click");
       $('#modal').removeClass("scale-0");
       $('#bgmodal').addClass("effectmodal");
+    });
+
+    // delete modal
+    $("#modal-delete").load("../assets/components/modal_hapus.html", function() {
+      $('#button-logout').on('click', function() {
+        // kosong
+      });
+      $('#delete-button').on('click', function() {
+        $('#title').html('Hapus Data Frame ini');
+
+        $('#modalkontenhapus').toggleClass("scale-100");
+        $('#bgmodalhapus').addClass("effectmodal");
+
+      });
+
+
+      $('#closemodalhapus').on('click', function() {
+
+        $('#modalkontenhapus').toggleClass("scale-100");
+        $('#bgmodalhapus').removeClass("effectmodal");
+      });
     });
   </script>
 

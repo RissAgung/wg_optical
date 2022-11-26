@@ -45,7 +45,13 @@
 
         <div
           class="flex flex-col justify-center items-center border-[2px] border-dashed h-[147px] w-52 rounded-md border-[#C9C9C9] outline-none p-2">
-          <img id="blah" class="w-full h-[75%] rounded-md" src="#" alt="Gambar anda">
+          <svg id="imgdefault_peg" class="" width="30" height="30" viewBox="0 0 47 47" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M40.324 0H6.67596C4.90602 0.00207314 3.20917 0.706097 1.95763 1.95763C0.706097 3.20917 0.00207314 4.90602 0 6.67596L0 47H47V6.67596C46.9979 4.90602 46.2939 3.20917 45.0424 1.95763C43.7908 0.706097 42.094 0.00207314 40.324 0V0ZM6.67596 5.875H40.324C40.5363 5.87552 40.7397 5.96007 40.8898 6.11017C41.0399 6.26026 41.1245 6.46369 41.125 6.67596V41.125L20.3941 20.3941C19.6596 19.6598 18.6636 19.2473 17.625 19.2473C16.5864 19.2473 15.5904 19.6598 14.8559 20.3941L5.875 29.375V6.67596C5.87552 6.46369 5.96007 6.26026 6.11017 6.11017C6.26026 5.96007 6.46369 5.87552 6.67596 5.875Z"
+              fill="#999999" />
+          </svg>
+          <img id="imgpreview_peg" class="w-full h-[75%] rounded-md hidden" src="#" alt="Gambar anda">
           <label for="imgInp"
             class="flex justify-center cursor-pointer w-[74px] h-[22px] bg-[#343948] rounded-sm text-white font-ex-semibold text-[10px] mt-2">
             Upload
@@ -80,7 +86,9 @@
     imgInp.onchange = evt => {
       const [file] = imgInp.files
       if (file) {
-        blah.src = URL.createObjectURL(file)
+        imgpreview_peg.src = URL.createObjectURL(file);
+        $('#imgpreview_peg').removeClass("hidden");
+        $('#imgdefault_peg').addClass("hidden");
       }
     }
   </script>
