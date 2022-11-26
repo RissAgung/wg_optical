@@ -15,7 +15,7 @@
     <!-- Background -->
     <div id="bgmodal" class="w-full h-screen fixed hidden bg-black z-[51] opacity-0 transition duration-300"></div>
     <!-- konten modal-->
-    <div id="modalkonten" class="w-[90%] h-[80%] md:w-[60%] lg:w-[40%] bg-white fixed z-[51] left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] shadow-xl rounded-lg scale-0  transition ease-in-out">
+    <div id="modalkonten" class="w-[90%] md:w-[60%] lg:w-[40%] bg-white fixed z-[51] left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] shadow-xl rounded-lg scale-0  transition ease-in-out">
         <div class="header relative">
             <h1 id="title-modal" class="py-4 font-bold text-lg text-[#343948] text-center">Tambah Pegawai</h1>
             <div class="h-[1px] bg-[#C9C9C9]"></div>
@@ -25,7 +25,7 @@
                 </svg>
             </div>
         </div>
-        <div class="flex flex-col overflow-y-scroll h-3/4 pb-8">
+        <div class="flex flex-col overflow-y-scroll h-[60vh] pb-8">
             <div class="h-12 flex mt-8 items-center px-8">
                 <h1 class="w-1/2 font-semibold text-sm">Tanggal Masuk</h1>
                 <div class=" h-[50px] w-full border border-[#C9C9C9] rounded-lg ml-4 overflow-hidden">
@@ -363,24 +363,21 @@
 
 
         // auto hide sidebar
-        if ($(document).width() >= 1024) {
-            $('#ex-sidebar').removeClass("ex-hide-sidebar");
-        } else {
-            $("#burger").on("click", function() {
-                $('#bgbody').toggleClass("hidden");
 
-                $('#ex-sidebar').toggleClass("ex-hide-sidebar");
-                $('#burger').toggleClass("show");
-            });
+        $("#burger").on("click", function() {
+            $('#bgbody').toggleClass("hidden");
 
-            $("#bgbody").on("click", function() {
-                $('#ex-sidebar').toggleClass("ex-hide-sidebar");
-                $('#burger').toggleClass("show");
+            $('#ex-sidebar').toggleClass("ex-hide-sidebar");
+            $('#burger').toggleClass("show");
+        });
 
-                $('#bgbody').toggleClass("hidden");
+        $("#bgbody").on("click", function() {
+            $('#ex-sidebar').toggleClass("ex-hide-sidebar");
+            $('#burger').toggleClass("show");
 
-            });
-        }
+            $('#bgbody').toggleClass("hidden");
+
+        });
 
         $('#click-modal').on('click', function() {
             $('#title-modal').html('Tambah Pegawai');
