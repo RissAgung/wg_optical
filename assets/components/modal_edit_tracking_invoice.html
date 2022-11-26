@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../css/output.css">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="flex justify-center items-center h-screen w-screen">
+
+    <!-- container modal -->
+    <div class=" flex flex-col max-md:p-5 p-9 max-md:w-[90%] w-[468px] bg-white font-ex-color rounded-md shadow-md">
+      <div class="flex flex-row justify-between px-2">
+        <p class="max-md:text-sm font-ex-semibold mb-5">Edit status</p>
+        <div class="cursor-pointer" id="close_tracking">
+          <svg width="15" height="15" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M7.3289 5.47926L10.6264 2.18142C10.8405 1.93831 10.9539 1.62288 10.9436 1.29924C10.9332 0.975599 10.7999 0.668037 10.5707 0.439072C10.3415 0.210106 10.0337 0.0769213 9.70976 0.0665883C9.38581 0.0562553 9.07009 0.16955 8.82676 0.383443L5.52586 3.67789L2.21901 0.373252C2.10056 0.254916 1.95995 0.161048 1.80519 0.097005C1.65044 0.0329623 1.48457 1.24687e-09 1.31706 0C1.14956 -1.24687e-09 0.983689 0.0329623 0.828933 0.097005C0.674177 0.161048 0.533562 0.254916 0.415117 0.373252C0.296672 0.491587 0.202716 0.632072 0.138614 0.786685C0.0745119 0.941298 0.041519 1.10701 0.041519 1.27436C0.041519 1.44171 0.0745119 1.60743 0.138614 1.76204C0.202716 1.91665 0.296672 2.05714 0.415117 2.17547L3.72282 5.47926L0.425318 8.77625C0.295996 8.89175 0.19162 9.03239 0.118574 9.18957C0.0455293 9.34676 0.00535166 9.51718 0.000499102 9.69041C-0.00435345 9.86364 0.0262212 10.036 0.0903528 10.1971C0.154484 10.3581 0.250824 10.5043 0.373478 10.6269C0.496133 10.7494 0.642522 10.8457 0.80369 10.9097C0.964858 10.9738 1.13742 11.0043 1.31081 10.9995C1.4842 10.9947 1.65478 10.9545 1.81211 10.8815C1.96944 10.8086 2.11021 10.7043 2.22581 10.5751L5.52586 7.28063L8.82251 10.5751C9.06172 10.8141 9.38616 10.9483 9.72446 10.9483C10.0628 10.9483 10.3872 10.8141 10.6264 10.5751C10.8656 10.3361 11 10.0119 11 9.67396C11 9.33598 10.8656 9.01184 10.6264 8.77286L7.3289 5.47926Z"
+              fill="#343948" />
+          </svg>
+        </div>
+      </div>
+      <select
+        class=" cursor-pointer mt-3 md:mt-6 max-[375px]:h-[42px] h-[50px] md:h-[62px] border-[1px] border-[#D9D9D9] rounded-md pl-6 mb-7 max-md:text-sm"
+        name="cars" id="cars">
+        <option class="bg-red-400" value="Belum lunas">Belum lunas</option>
+        <option class="" value="Lunas">Lunas</option>
+      </select>
+      <div class="flex flex-row justify-end text-white font-ex-semibold">
+        <button class="cursor-pointer w-[103px] h-[34px] bg-[#F35E58] rounded-md max-md:text-sm mr-4">Batal</button>
+        <button class="cursor-pointer w-[103px] h-[34px] bg-[#3DBD9E] rounded-md max-md:text-sm">Batal</button>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
