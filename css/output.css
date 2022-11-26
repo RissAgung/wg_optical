@@ -688,6 +688,11 @@ video {
   margin-right: 0.25rem;
 }
 
+.mx-8 {
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+
 .mr-2 {
   margin-right: 0.5rem;
 }
@@ -788,12 +793,16 @@ video {
   margin-bottom: 0.5rem;
 }
 
-.mr-\[20px\] {
-  margin-right: 20px;
+.mt-16 {
+  margin-top: 4rem;
 }
 
 .mt-2 {
   margin-top: 0.5rem;
+}
+
+.mr-\[20px\] {
+  margin-right: 20px;
 }
 
 .mb-5 {
@@ -992,16 +1001,20 @@ video {
   height: 100px;
 }
 
+.h-\[200px\] {
+  height: 200px;
+}
+
 .h-\[15px\] {
   height: 15px;
 }
 
-.h-3 {
-  height: 0.75rem;
-}
-
 .h-1 {
   height: 0.25rem;
+}
+
+.h-3 {
+  height: 0.75rem;
 }
 
 .h-\[168px\] {
@@ -1150,6 +1163,14 @@ video {
 
 .w-\[120px\] {
   width: 120px;
+}
+
+.w-32 {
+  width: 8rem;
+}
+
+.w-1\/3 {
+  width: 33.333333%;
 }
 
 .w-\[100px\] {
@@ -1556,6 +1577,11 @@ video {
   background-color: rgb(237 198 131 / var(--tw-bg-opacity));
 }
 
+.bg-slate-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(71 85 105 / var(--tw-bg-opacity));
+}
+
 .bg-\[\#EEEEEE\] {
   --tw-bg-opacity: 1;
   background-color: rgb(238 238 238 / var(--tw-bg-opacity));
@@ -1566,14 +1592,14 @@ video {
   background-color: rgb(92 97 113 / var(--tw-bg-opacity));
 }
 
+.bg-\[\#EEF1F9\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(238 241 249 / var(--tw-bg-opacity));
+}
+
 .bg-red-400 {
   --tw-bg-opacity: 1;
   background-color: rgb(248 113 113 / var(--tw-bg-opacity));
-}
-
-.bg-slate-600 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(71 85 105 / var(--tw-bg-opacity));
 }
 
 .bg-opacity-50 {
@@ -1814,6 +1840,10 @@ video {
   padding-bottom: 1rem;
 }
 
+.pr-8 {
+  padding-right: 2rem;
+}
+
 .pt-7 {
   padding-top: 1.75rem;
 }
@@ -1903,6 +1933,11 @@ video {
 
 .text-\[10px\] {
   font-size: 10px;
+}
+
+.text-xs {
+  font-size: 0.75rem;
+  line-height: 1rem;
 }
 
 .font-bold {
@@ -2135,7 +2170,7 @@ tr:hover {
   /* transition: 1s; */
 }
 
-@media(max-width: 1024px){
+@media(max-width: 1024px) {
   .ex-sidebar.ex-hide-sidebar {
     transform: translateX(-100%) !important;
     transition: 1s;
@@ -2418,7 +2453,11 @@ input[type=file]::file-selector-button {
   display: block;
 }
 
-@media (max-height: 568px){
+.textrich {
+  line-break: anywhere;
+}
+
+@media (max-height: 568px) {
   .main-detain-invoice {
     height: 290px;
   }
@@ -2800,6 +2839,11 @@ input[type=file]::file-selector-button {
     padding-right: 3.5rem;
   }
 
+  .md\:px-12 {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+
   .md\:pb-44 {
     padding-bottom: 11rem;
   }
@@ -2820,6 +2864,10 @@ input[type=file]::file-selector-button {
     padding-top: 13rem;
   }
 
+  .md\:pl-4 {
+    padding-left: 1rem;
+  }
+
   .md\:text-start {
     text-align: start;
   }
@@ -2837,6 +2885,11 @@ input[type=file]::file-selector-button {
   .md\:text-4xl {
     font-size: 2.25rem;
     line-height: 2.5rem;
+  }
+
+  .md\:text-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
   }
 
   .md\:text-\[15px\] {

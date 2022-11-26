@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../css/output.css">
+    <title>Document</title>
+</head>
+
+<body class=" bg-slate-600 text-[#343948]"></body>
+<!-- Modal -->
+<!-- Background -->
+<div id="bgmodal" class="w-full h-screen fixed hidden bg-black z-[51] opacity-0 transition duration-300"></div>
+<!-- konten modal-->
+<div id="modalkonten" class="w-[90%] md:w-[60%] lg:w-[40%] bg-white fixed z-[51] left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] shadow-xl rounded-lg scale-0 transition ease-in-out">
+    <div class="header relative">
+        <h1 id="title-modal" class="py-6 font-bold text-xl text-[#343948] text-start px-6 md:px-12">Detail Penggajian</h1>
+        <div class="h-[1px] bg-[#C9C9C9]"></div>
+        <div id="closemodal" class="absolute right-5 top-4 cursor-pointer flex text-center my-auto rounded-md transition">
+            <svg id="btn_out" class="cursor-pointer" width="15" height="15" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7.3289 5.47926L10.6264 2.18142C10.8405 1.93831 10.9539 1.62288 10.9436 1.29924C10.9332 0.975599 10.7999 0.668037 10.5707 0.439072C10.3415 0.210106 10.0337 0.0769213 9.70976 0.0665883C9.38581 0.0562553 9.07009 0.16955 8.82676 0.383443L5.52586 3.67789L2.21901 0.373252C2.10056 0.254916 1.95995 0.161048 1.80519 0.097005C1.65044 0.0329623 1.48457 1.24687e-09 1.31706 0C1.14956 -1.24687e-09 0.983689 0.0329623 0.828933 0.097005C0.674177 0.161048 0.533562 0.254916 0.415117 0.373252C0.296672 0.491587 0.202716 0.632072 0.138614 0.786685C0.0745119 0.941298 0.041519 1.10701 0.041519 1.27436C0.041519 1.44171 0.0745119 1.60743 0.138614 1.76204C0.202716 1.91665 0.296672 2.05714 0.415117 2.17547L3.72282 5.47926L0.425318 8.77625C0.295996 8.89175 0.19162 9.03239 0.118574 9.18957C0.0455293 9.34676 0.00535166 9.51718 0.000499102 9.69041C-0.00435345 9.86364 0.0262212 10.036 0.0903528 10.1971C0.154484 10.3581 0.250824 10.5043 0.373478 10.6269C0.496133 10.7494 0.642522 10.8457 0.80369 10.9097C0.964858 10.9738 1.13742 11.0043 1.31081 10.9995C1.4842 10.9947 1.65478 10.9545 1.81211 10.8815C1.96944 10.8086 2.11021 10.7043 2.22581 10.5751L5.52586 7.28063L8.82251 10.5751C9.06172 10.8141 9.38616 10.9483 9.72446 10.9483C10.0628 10.9483 10.3872 10.8141 10.6264 10.5751C10.8656 10.3361 11 10.0119 11 9.67396C11 9.33598 10.8656 9.01184 10.6264 8.77286L7.3289 5.47926Z" fill="#343948" />
+            </svg>
+        </div>
+    </div>
+    <div class="flex flex-col overflow-y-scroll h-[60vh] pb-8">
+
+        <div class="h-12 flex mt-8 items-center px-6 md:px-12 text-xs md:text-sm">
+            <h1 class="w-1/2 font-bold text-xl">Salary</h1>
+        </div>
+
+        <div class="h-1 flex justify-start mt-8 items-start px-6 md:px-12 text-xs md:text-sm">
+            <h1 class="w-32">Komisi</h1>
+            <p class="pr-8 text-xs md:text-sm">:</p>
+            <p class="">Rp. 350.000</p>
+        </div>
+        <div class="h-1 flex justify-start mt-8 items-start px-6 md:px-12 text-xs md:text-sm">
+            <h1 class="w-32">Operasional</h1>
+            <p class="pr-8">:</p>
+            <p class="">Rp. 0</p>
+        </div>
+        <div class="h-1 flex justify-start mt-8 items-start px-6 md:px-12 text-xs md:text-sm">
+            <h1 class="w-32">Pinjaman</h1>
+            <p class="pr-8">:</p>
+            <p class="">Rp. 100.000</p>
+        </div>
+        <div class="h-1 flex justify-start mt-8 items-start px-6 md:px-12 text-xs md:text-sm">
+            <h1 class="w-32">Bonus</h1>
+            <p class="pr-8">:</p>
+            <p class="">Rp. 600.000</p>
+        </div>
+        <div class="h-1 flex justify-start mt-8 items-start px-6 md:px-12 text-xs md:text-sm">
+            <h1 class="w-32"><b>Salary Final</b></h1>
+            <p class="pr-8">:</p>
+            <p class="">Rp. 2.500.000</p>
+        </div>
+
+        <section id="bonus">
+            <div class="h-[1px] mt-16 bg-[#C9C9C9]"></div>
+            <div class="h-12 flex mt-8 items-center px-6 md:px-12">
+                <h1 class="w-1/2 font-bold text-xl">Bonus</h1>
+            </div>
+            <div class="border border-[#C9C9C9] rounded-lg mx-8 mt-4 pt-8 pb-8 relative">
+                <div id="deletebonus" class="absolute right-5 top-4 cursor-pointer flex text-center my-auto rounded-md transition">
+                    <svg id="btn_out" class="cursor-pointer" width="12" height="12" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7.3289 5.47926L10.6264 2.18142C10.8405 1.93831 10.9539 1.62288 10.9436 1.29924C10.9332 0.975599 10.7999 0.668037 10.5707 0.439072C10.3415 0.210106 10.0337 0.0769213 9.70976 0.0665883C9.38581 0.0562553 9.07009 0.16955 8.82676 0.383443L5.52586 3.67789L2.21901 0.373252C2.10056 0.254916 1.95995 0.161048 1.80519 0.097005C1.65044 0.0329623 1.48457 1.24687e-09 1.31706 0C1.14956 -1.24687e-09 0.983689 0.0329623 0.828933 0.097005C0.674177 0.161048 0.533562 0.254916 0.415117 0.373252C0.296672 0.491587 0.202716 0.632072 0.138614 0.786685C0.0745119 0.941298 0.041519 1.10701 0.041519 1.27436C0.041519 1.44171 0.0745119 1.60743 0.138614 1.76204C0.202716 1.91665 0.296672 2.05714 0.415117 2.17547L3.72282 5.47926L0.425318 8.77625C0.295996 8.89175 0.19162 9.03239 0.118574 9.18957C0.0455293 9.34676 0.00535166 9.51718 0.000499102 9.69041C-0.00435345 9.86364 0.0262212 10.036 0.0903528 10.1971C0.154484 10.3581 0.250824 10.5043 0.373478 10.6269C0.496133 10.7494 0.642522 10.8457 0.80369 10.9097C0.964858 10.9738 1.13742 11.0043 1.31081 10.9995C1.4842 10.9947 1.65478 10.9545 1.81211 10.8815C1.96944 10.8086 2.11021 10.7043 2.22581 10.5751L5.52586 7.28063L8.82251 10.5751C9.06172 10.8141 9.38616 10.9483 9.72446 10.9483C10.0628 10.9483 10.3872 10.8141 10.6264 10.5751C10.8656 10.3361 11 10.0119 11 9.67396C11 9.33598 10.8656 9.01184 10.6264 8.77286L7.3289 5.47926Z" fill="#343948" />
+                    </svg>
+                </div>
+                <div class="h-8 flex justify-start items-start px-6">
+                    <h1 class="w-20 text-xs md:text-sm">Tgl</h1>
+                    <p class="pr-4 text-xs md:text-sm">:</p>
+                    <p class="text-xs md:text-sm">20 / 08 / 2022</p>
+                </div>
+                <div class="h-8 flex justify-start items-start px-6">
+                    <h1 class="w-20 text-xs md:text-sm">Nominal</h1>
+                    <p class="pr-4 text-xs md:text-sm">:</p>
+                    <p class="text-xs md:text-sm">Rp. 300.000</p>
+                </div>
+                <div class="flex justify-start items-start mt-2 px-6">
+                    <h1 class="w-20 text-xs md:text-sm">Deskripsi</h1>
+                    <p class="pr-4 pl-6 md:pl-4 text-xs md:text-sm">:</p>
+                    <div class="text-xs md:text-sm textrich">
+                        <p class="">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia nostrum labore quidem dolores? Expedita earum quo vel neque voluptatem explicabo assumenda laborum qui, enim molestiae omnis, quod, distinctio accusamus magni?</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="detailsalary">
+            <div class="h-[1px] mt-16 bg-[#C9C9C9]"></div>
+            <div class="h-12 flex mt-8 items-start px-6 md:px-12">
+                <h1 class="w-1/2 font-bold text-xl">Detail</h1>
+            </div>
+            <div class="px-6 md:px-12 overflow-hidden">
+
+                <table class="w-full rounded-md overflow-hidden">
+                    <thead class="bg-[#EEF1F9]">
+                        <tr>
+                            <th class="p-3 text-xs md:text-sm text-start">TANGGAL</th>
+                            <th class="p-3 text-xs md:text-sm text-start">PENJUALAN</th>
+                            <th class="p-3 text-xs md:text-sm text-start">SETORAN</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div id="content-detail1" class="h-[40px] flex flex-col overflow-hidden transitionsidebar">
+                    <div id="content-click1" class="flex justify-center w-full transition transitionsidebar">
+                        <h1 class="p-3 text-xs w-1/3 text-start">1 Oktober 2022</h1>
+                        <h1 class="p-3 text-xs w-1/3 text-start">Rp. 700.000</h1>
+                        <h1 class="p-3 text-xs w-1/3 text-start">Rp. 900.000</h1>
+                    </div>
+                    <div id="superdetail1" class="border border-[#C9C9C9] rounded-lg p-4">
+                        <h1 class="font-bold text-[#343948]">Detail Gaji</h1>
+                        <table class="rounded-md w-full overflow-hidden ">
+                            <thead class="bg-[#EEF1F9] rounded-md">
+                                <tr>
+                                    <th class="p-3 text-xs md:text-sm w-1/3 text-start">#</th>
+                                    <th class="p-3 text-xs md:text-sm w-1/3 text-start">#</th>
+                                    <th class="p-3 text-xs md:text-sm w-1/3 text-start">#</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-xs tracking-wide">Rizal Maulana</td>
+                                    <td class="text-xs tracking-wide">DLGH3</td>
+                                    <td class="text-xs tracking-wide">Rp. 200.000</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-xs tracking-wide textrich">Rizal</td>
+                                    <td class="text-xs tracking-wide">Super Vision</td>
+                                    <td class="text-xs tracking-wide">Rp. 400.000</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div>
+                <div id="content-detail2" class="h-[40px] flex flex-col overflow-hidden transitionsidebar">
+                    <div id="content-click2" class="flex justify-center w-full transition transitionsidebar">
+                        <h1 class="p-3 text-xs w-1/3 text-start">1 Oktober 2022</h1>
+                        <h1 class="p-3 text-xs w-1/3 text-start">Rp. 700.000</h1>
+                        <h1 class="p-3 text-xs w-1/3 text-start">Rp. 900.000</h1>
+                    </div>
+                    <div id="superdetail2" class="border border-[#C9C9C9] rounded-lg p-4">
+                        <h1 class="font-bold text-[#343948]">Detail Gaji</h1>
+                        <table class="rounded-md w-full overflow-hidden ">
+                            <thead class="bg-[#EEF1F9] rounded-md">
+                                <tr>
+                                    <th class="p-3 text-xs md:text-sm w-1/3 text-start">#</th>
+                                    <th class="p-3 text-xs md:text-sm w-1/3 text-start">#</th>
+                                    <th class="p-3 text-xs md:text-sm w-1/3 text-start">#</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-xs tracking-wide">Rizal Maulana</td>
+                                    <td class="text-xs tracking-wide">DLGH3</td>
+                                    <td class="text-xs tracking-wide">Rp. 200.000</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-xs tracking-wide textrich">Rizal</td>
+                                    <td class="text-xs tracking-wide">Super Vision</td>
+                                    <td class="text-xs tracking-wide">Rp. 400.000</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div>
+                <div id="content-detail3" class="h-[40px] flex flex-col overflow-hidden transitionsidebar">
+                    <div id="content-click3" class="flex justify-center w-full transition transitionsidebar">
+                        <h1 class="p-3 text-xs w-1/3 text-start">1 Oktober 2022</h1>
+                        <h1 class="p-3 text-xs w-1/3 text-start">Rp. 700.000</h1>
+                        <h1 class="p-3 text-xs w-1/3 text-start">Rp. 900.000</h1>
+                    </div>
+                    <div id="superdetail3" class="border border-[#C9C9C9] rounded-lg p-4">
+                        <h1 class="font-bold text-[#343948]">Detail Gaji</h1>
+                        <table class="rounded-md w-full overflow-hidden ">
+                            <thead class="bg-[#EEF1F9] rounded-md">
+                                <tr>
+                                    <th class="p-3 text-xs md:text-sm w-1/3 text-start">#</th>
+                                    <th class="p-3 text-xs md:text-sm w-1/3 text-start">#</th>
+                                    <th class="p-3 text-xs md:text-sm w-1/3 text-start">#</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-xs tracking-wide">Rizal Maulana</td>
+                                    <td class="text-xs tracking-wide">DLGH3</td>
+                                    <td class="text-xs tracking-wide">Rp. 200.000</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-xs tracking-wide textrich">Rizal</td>
+                                    <td class="text-xs tracking-wide">Super Vision</td>
+                                    <td class="text-xs tracking-wide">Rp. 400.000</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div>
+
+        </section>
+
+    </div>
+
+</div>
+<!-- end modal -->
+
+<script src="../js/jquery-3.6.1.min.js"></script>
+<script>
+    $(document).ready(function() {
+        for (let index = 1; index <= 3; index++) {
+            $("#content-click" + index + "").on("click", function() {
+                $("#content-detail" + index + "").toggleClass('h-[40px]');
+                console.log('ahaaa');
+            });
+        }
+    });
+</script>
+</body>
+
+</html>
