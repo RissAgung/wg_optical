@@ -20,7 +20,7 @@ if (isset($_POST['login'])) {
 
     if ($num != 0) {
         if ($emailval == $email && $passwordval == md5($password)) {
-            header('Location: dashboard.html');
+            header('Location: dashboard.php');
         } else {
             $error = 'Email atau password salah';
             header('Location: login.php?error='.$error);

@@ -856,8 +856,13 @@ video {
   margin-left: 3.5rem;
 }
 
+<<<<<<< HEAD
 .mt-20 {
   margin-top: 5rem;
+=======
+.mb-2 {
+  margin-bottom: 0.5rem;
+>>>>>>> b4aeffab8f95e711c4cb6bc677f33f2faccc625b
 }
 
 .box-border {
@@ -1060,12 +1065,25 @@ video {
   height: 170px;
 }
 
+<<<<<<< HEAD
 .h-1\/2 {
   height: 50%;
 }
 
 .h-1\/4 {
   height: 25%;
+=======
+.h-\[15px\] {
+  height: 15px;
+}
+
+.h-\[17px\] {
+  height: 17px;
+}
+
+.h-\[16px\] {
+  height: 16px;
+>>>>>>> b4aeffab8f95e711c4cb6bc677f33f2faccc625b
 }
 
 .w-full {
@@ -1180,6 +1198,7 @@ video {
   width: 18rem;
 }
 
+<<<<<<< HEAD
 .w-\[115px\] {
   width: 115px;
 }
@@ -1190,6 +1209,18 @@ video {
 
 .w-\[130px\] {
   width: 130px;
+=======
+.w-\[15px\] {
+  width: 15px;
+}
+
+.w-\[17px\] {
+  width: 17px;
+}
+
+.w-\[16px\] {
+  width: 16px;
+>>>>>>> b4aeffab8f95e711c4cb6bc677f33f2faccc625b
 }
 
 .max-w-\[250px\] {
@@ -1414,12 +1445,24 @@ video {
   gap: 1rem;
 }
 
+.overflow-auto {
+  overflow: auto;
+}
+
 .overflow-hidden {
   overflow: hidden;
 }
 
 .overflow-x-auto {
   overflow-x: auto;
+}
+
+.overflow-y-auto {
+  overflow-y: auto;
+}
+
+.overflow-y-hidden {
+  overflow-y: hidden;
 }
 
 .overflow-y-scroll {
@@ -1525,6 +1568,11 @@ video {
   border-color: rgb(217 217 217 / var(--tw-border-opacity));
 }
 
+.border-\[\#C2C2C2\] {
+  --tw-border-opacity: 1;
+  border-color: rgb(194 194 194 / var(--tw-border-opacity));
+}
+
 .bg-\[\#F0F0F0\] {
   --tw-bg-opacity: 1;
   background-color: rgb(240 240 240 / var(--tw-bg-opacity));
@@ -1627,6 +1675,21 @@ video {
 .bg-slate-600 {
   --tw-bg-opacity: 1;
   background-color: rgb(71 85 105 / var(--tw-bg-opacity));
+}
+
+.bg-yellow-300 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(253 224 71 / var(--tw-bg-opacity));
+}
+
+.bg-purple-300 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(216 180 254 / var(--tw-bg-opacity));
+}
+
+.bg-red-300 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(252 165 165 / var(--tw-bg-opacity));
 }
 
 .bg-opacity-50 {
@@ -1874,6 +1937,7 @@ video {
   padding-bottom: 3rem;
 }
 
+<<<<<<< HEAD
 .pl-8 {
   padding-left: 2rem;
 }
@@ -1900,6 +1964,10 @@ video {
 
 .pt-0 {
   padding-top: 0px;
+=======
+.pl-3 {
+  padding-left: 0.75rem;
+>>>>>>> b4aeffab8f95e711c4cb6bc677f33f2faccc625b
 }
 
 .text-center {
@@ -1971,6 +2039,10 @@ video {
 .text-lg {
   font-size: 1.125rem;
   line-height: 1.75rem;
+}
+
+.text-\[9px\] {
+  font-size: 9px;
 }
 
 .font-bold {
@@ -2381,6 +2453,42 @@ input[type="date"] {
   border-radius: 3px;
 }
 
+/* tab pointer invoice */
+
+@media (max-width: 375px) {
+  .pointer1 {
+    --tw-translate-x: 0px;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  }
+
+  .pointer2 {
+    --tw-translate-x: 81px;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  }
+
+  .pointer3 {
+    --tw-translate-x: 164px;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  }
+}
+
+@media (min-width: 375px) {
+  .pointer1 {
+    --tw-translate-x: 0px;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  }
+
+  .pointer2 {
+    --tw-translate-x: 104px;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  }
+
+  .pointer3 {
+    --tw-translate-x: 213px;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  }
+}
+
 /* tab pointer pembayaran invoice */
 
 @media (max-width: 375px) {
@@ -2612,6 +2720,10 @@ input[type=file]::file-selector-button {
 @media (max-width: 374px) {
   .max-\[374px\]\:mr-3 {
     margin-right: 0.75rem;
+  }
+
+  .max-\[374px\]\:w-\[70px\] {
+    width: 70px;
   }
 
   .max-\[374px\]\:text-\[13px\] {
