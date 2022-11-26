@@ -76,12 +76,13 @@ tr:hover {
     /* transition: 1s; */
 }
 
-@media(max-width: 1024px){
-  .ex-sidebar.ex-hide-sidebar {
-    transform: translateX(-100%) !important;
-    transition: 1s;
-  }
+@media(max-width: 1024px) {
+    .ex-sidebar.ex-hide-sidebar {
+        transform: translateX(-100%) !important;
+        transition: 1s;
+    }
 }
+
 .ex-sidebar.ex-hide-sidebar {
     transition: 0;
 }
@@ -234,31 +235,33 @@ input[type="date"] {
 
 /* tab pointer invoice */
 @media (max-width: 375px) {
-  .pointer1 {
-      @apply translate-x-0;
-  }
+    .pointer1 {
+        @apply translate-x-0;
+    }
 
-  .pointer2 {
-      @apply translate-x-[81px];
-  }
+    .pointer2 {
+        @apply translate-x-[81px];
+    }
 
-  .pointer3 {
-      @apply translate-x-[164px];
-  }
+    .pointer3 {
+        @apply translate-x-[164px];
+    }
 }
+
 @media (min-width: 375px) {
-  .pointer1 {
-      @apply translate-x-0;
-  }
+    .pointer1 {
+        @apply translate-x-0;
+    }
 
-  .pointer2 {
-      @apply translate-x-[104px];
-  }
+    .pointer2 {
+        @apply translate-x-[104px];
+    }
 
-  .pointer3 {
-      @apply translate-x-[213px];
-  }
+    .pointer3 {
+        @apply translate-x-[213px];
+    }
 }
+
 /* tab pointer pembayaran invoice */
 
 @media (max-width: 375px) {
@@ -329,8 +332,12 @@ input[type=file]::file-selector-button {
 
 }
 
-@media (max-height: 568px){
-  .main-detain-invoice{
-    @apply h-[290px];
-  }
+.textrich {
+    line-break: anywhere;
+}
+
+@media (max-height: 568px) {
+    .main-detain-invoice {
+        @apply h-[290px];
+    }
 }
