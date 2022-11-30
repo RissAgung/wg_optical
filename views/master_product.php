@@ -1,4 +1,14 @@
 <?php
+require "../config/koneksi.php";
+
+$crud = new koneksi();
+$data = $crud->showData("SELECT * FROM produk");
+
+function rupiah($angka){
+  $hasil_rupiah = "Rp " . number_format($angka, 0, ',', '.');
+  return $hasil_rupiah;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -136,18 +146,21 @@
             <tr>
               <th class="p-3 text-sm tracking-wide text-center">No</th>
               <th class="p-3 text-sm tracking-wide text-center">Kode Frame</th>
+              <th class="p-3 text-sm tracking-wide text-center">Merk</th>
+              <th class="p-3 text-sm tracking-wide text-center">Warna</th>
               <th class="p-3 text-sm tracking-wide text-center">Harga Jual</th>
-              <th class="p-3 text-sm tracking-wide text-center">Nama</th>
               <th class="p-3 text-sm tracking-wide text-center">Aksi</th>
             </tr>
           </thead>
           <tbody>
-            <?php for ($i = 0; $i < 3; $i++) : ?>
+            <?php $i = 1 ?>
+            <?php foreach ($data as $index) : ?>
               <tr>
-                <td class="p-3 text-sm tracking-wide text-center">1</td>
-                <td class="p-3 text-sm tracking-wide text-center">DLGH01</td>
-                <td class="p-3 text-sm tracking-wide text-center">Kacamata Koboy</td>
-                <td class="p-3 text-sm tracking-wide text-center">Rp. 50.000</td>
+                <td class="p-3 text-sm tracking-wide text-center"><?= $i ?></td>
+                <td class="p-3 text-sm tracking-wide text-center"><?= $index["kode_frame"] ?></td>
+                <td class="p-3 text-sm tracking-wide text-center"><?= $index["merk"] ?></td>
+                <td class="p-3 text-sm tracking-wide text-center"><?= $index["warna"] ?></td>
+                <td class="p-3 text-sm tracking-wide text-center"><?= rupiah($index["harga_jual"]) ?></td>
                 <td class="p-3 text-sm tracking-wide text-center">
                   <button>
                     <svg width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -164,7 +177,8 @@
                   </button>
                 </td>
               </tr>
-            <?php endfor ?>
+              <?php $i++ ?>
+            <?php endforeach ?>
           </tbody>
 
         </table>
