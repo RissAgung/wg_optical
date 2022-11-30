@@ -13,7 +13,8 @@ if(isset($_POST["type"])){
 }
 
 class koneksi {
-    private $server="127.0.0.1";
+
+    private $server="localhost";
     private $username = "root";
     private $password= "";
     private $db= "wgoptical";
