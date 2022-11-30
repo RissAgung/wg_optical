@@ -1873,6 +1873,11 @@ tr:hover {
   transition: ease-in-out 0.4s;
 }
 
+.ex-hover-filter:hover {
+  background-color: #bcc0c9;
+  transition: ease-in-out 0.4s;
+}
+
 .transitionsidebar {
   transition: ease-in-out 0.4s;
 }
@@ -2378,3 +2383,4 @@ input[type="date"] {
     padding-right: 11rem;
   }
 }
+
