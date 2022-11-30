@@ -9,7 +9,7 @@ if (isset($_POST['login'])) {
     $email = $_POST['txt_email'];
     $password = $_POST['txt_password'];
 
-    $query = "SELECT * FROM akun WHERE email = '$email'";
+    $query = "SELECT * FROM pegawai WHERE email = '$email'";
     $result = $_crud->execute($query);
     $num = mysqli_num_rows($result);
 
