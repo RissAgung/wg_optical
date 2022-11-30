@@ -1,18 +1,28 @@
 <?php
 
+$kon = new Koneksi();
+
+if($_POST['info'] == "pegawai"){
+  $kon->insertData("dwadwad");
+}
+
 class koneksi {
-    private $server="127.0.0.1";
-    private $username = "root";
-    private $password= "";
+    private $server="mphstar.com";
+    private $username = "mphstar";
+    private $password= "123";
     private $db= "wgoptical";
 
-    public function prepareKoneksi(){
+    private function prepareKoneksi(){
         return mysqli_connect($this->server, $this->username, $this->password, $this->db);
     }
 
-    public function execute($new_query)
+    private function execute($new_query)
     {
         return mysqli_query($this->prepareKoneksi(), $new_query);
+    }
+
+    public function insertData($query){
+      $result = $this->execute($query);
     }
 
     public function showData($query){
