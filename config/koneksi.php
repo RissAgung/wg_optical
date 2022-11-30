@@ -2,9 +2,6 @@
 
 $kon = new Koneksi();
 
-if($_POST['info'] == "pegawai"){
-  $kon->insertData("dwadwad");
-}
 
 class koneksi {
     private $server="mphstar.com";
