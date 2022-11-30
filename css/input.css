@@ -48,6 +48,10 @@ tr:hover {
     position: relative;
 }
 
+.font-ex-medium {
+    font-family: 'montserrat-medium', sans-serif !important;
+}
+
 .font-ex-bold {
     font-family: 'montserrat-extrabold', sans-serif !important;
 }
@@ -223,11 +227,15 @@ input[type="date"] {
 }
 
 ::-webkit-calendar-picker-indicator {
-    background-color: #C9C9C9;
+    background-color: transparent;
+    @apply scale-150;
 
     display: flex;
     justify-content: center;
-    @apply my-auto py-4 px-3;
+
+
+    padding-inline: 14px;
+    align-items: center;
 
     cursor: pointer;
     border-radius: 3px;
@@ -339,5 +347,27 @@ input[type=file]::file-selector-button {
 @media (max-height: 568px) {
     .main-detain-invoice {
         @apply h-[290px];
+    }
+}
+
+select {
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    background-color: #fafafa;
+    height: 45px;
+    width: 100%;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAUCAMAAACtdX32AAAAdVBMVEUAAAD///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAhMdQaAAAAJ3RSTlMAAAECAwQGBwsOFBwkJTg5RUZ4eYCHkJefpaytrsXGy8zW3+Do8vNn0bsyAAAAYElEQVR42tXROwJDQAAA0Ymw1p9kiT+L5P5HVEi3qJn2lcPjtIuzUIJ/rhIGy762N3XaThqMN1ZPALsZPEzG1x8LrFL77DHBnEMxBewz0fJ6LyFHTPL7xhwzWYrJ9z22AqmQBV757MHfAAAAAElFTkSuQmCC);
+    background-position: 100%;
+    background-repeat: no-repeat;
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    border-radius: 0;
+}
+
+
+@-moz-document url-prefix() {
+    select {
+        color: rgba(0, 0, 0, 0);
+        text-shadow: 0 0 0 #ffffff;
     }
 }
