@@ -1,5 +1,17 @@
 <?php
 
+$kon = new koneksi();
+
+if(isset($_POST["type"])){
+  if($_POST["type"] == "insert"){
+    $kon -> execute($_POST["query"]);
+  }
+
+  if($_POST["type"] == "delete"){
+    $kon -> execute($_POST["query"]);
+  }
+}
+
 class koneksi {
     private $server="127.0.0.1";
     private $username = "root";
@@ -12,7 +24,7 @@ class koneksi {
 
     public function execute($new_query)
     {
-        return mysqli_query($this->prepareKoneksi(), $new_query);
+      return mysqli_query($this->prepareKoneksi(), $new_query);
     }
 
     public function showData($query){
@@ -25,4 +37,3 @@ class koneksi {
       return $datas;
     }
 }
-?>

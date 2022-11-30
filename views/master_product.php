@@ -4,8 +4,9 @@ require "../config/koneksi.php";
 $crud = new koneksi();
 $data = $crud->showData("SELECT * FROM produk");
 
-function rupiah($angka){
-  $hasil_rupiah = "Rp " . number_format($angka, 0, ',', '.');
+function rupiah($angka)
+{
+  $hasil_rupiah = "Rp. " . number_format($angka, 0, ',', '.');
   return $hasil_rupiah;
 }
 
@@ -157,7 +158,7 @@ function rupiah($angka){
             <?php foreach ($data as $index) : ?>
               <tr>
                 <td class="p-3 text-sm tracking-wide text-center"><?= $i ?></td>
-                <td class="p-3 text-sm tracking-wide text-center"><?= $index["kode_frame"] ?></td>
+                <td id="kode<?= $i ?>" class="p-3 text-sm tracking-wide text-center"><?= $index["kode_frame"] ?></td>
                 <td class="p-3 text-sm tracking-wide text-center"><?= $index["merk"] ?></td>
                 <td class="p-3 text-sm tracking-wide text-center"><?= $index["warna"] ?></td>
                 <td class="p-3 text-sm tracking-wide text-center"><?= rupiah($index["harga_jual"]) ?></td>
@@ -168,7 +169,7 @@ function rupiah($angka){
                       <path fill-rule="evenodd" clip-rule="evenodd" d="M27.4782 8.38256C27.7335 8.48841 27.9655 8.64355 28.1609 8.83911C28.3564 9.03447 28.5116 9.26646 28.6174 9.52181C28.7233 9.77717 28.7777 10.0509 28.7777 10.3273C28.7777 10.6037 28.7233 10.8774 28.6174 11.1328C28.5116 11.3881 28.3564 11.6201 28.1609 11.8155L25.3473 14.6282L22.3717 11.6526L25.1845 8.83911C25.3798 8.64355 25.6118 8.48841 25.8672 8.38256C26.1225 8.27671 26.3962 8.22223 26.6727 8.22223C26.9491 8.22223 27.2228 8.27671 27.4782 8.38256ZM9.59277 25.7604C9.59295 24.9094 9.93117 24.0933 10.533 23.4916L21.2376 12.787L24.2132 15.7626L13.5086 26.4672C12.9069 27.069 12.0908 27.4072 11.2398 27.4074H9.59277V25.7604Z" fill="#3F2C0D" />
                     </svg>
                   </button>
-                  <button id="delete-button">
+                  <button id="delete-button-<?= $i; ?>">
                     <svg width="38" height="37" viewBox="0 0 38 37" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <rect x="0.444336" width="37" height="37" rx="5" fill="#F35E58" />
                       <path d="M23.3982 10.5062V8.67903C23.3982 8.19444 23.2105 7.72969 22.8764 7.38703C22.5423 7.04437 22.0892 6.85187 21.6167 6.85187H16.2723C15.7998 6.85187 15.3467 7.04437 15.0126 7.38703C14.6785 7.72969 14.4908 8.19444 14.4908 8.67903V10.5062H10.0371V12.3333H11.8186V26.0371C11.8186 26.7639 12.1001 27.4611 12.6013 27.975C13.1024 28.489 13.7821 28.7778 14.4908 28.7778H23.3982C24.1069 28.7778 24.7866 28.489 25.2878 27.975C25.7889 27.4611 26.0704 26.7639 26.0704 26.0371V12.3333H27.8519V10.5062H23.3982ZM18.0538 22.3827H16.2723V16.9012H18.0538V22.3827ZM21.6167 22.3827H19.8353V16.9012H21.6167V22.3827ZM21.6167 10.5062H16.2723V8.67903H21.6167V10.5062Z" fill="#501614" />
@@ -265,6 +266,18 @@ function rupiah($angka){
     // load modal input
     $("#modal").load("../assets/components/modal_tambah_master_product.html", function() {
 
+      var kode_frame;
+      var merk;
+      var warna;
+      var harga;
+
+      function getData() {
+        kode_frame = $("#kode_txt").val();
+        merk = $("#merk_txt").val();
+        warna = $("#warna_txt").val();
+        harga = parseInt($("#harga_txt").val().replace("Rp.", "").replace(".", "").replace(" ", ""));
+      }
+
       $("#btn_out").on("click", function() {
         $('#modal').addClass("scale-0");
         $('#bgmodal').removeClass("effectmodal");
@@ -276,8 +289,23 @@ function rupiah($angka){
       });
 
       $("#btn_tambah").on("click", function() {
-        $('#modal').addClass("scale-0");
-        $('#bgmodal').removeClass("effectmodal");
+
+        getData();
+
+        $.ajax({
+          type: "post",
+          url: "../config/koneksi.php",
+          data: {
+            type: "insert",
+            query: "INSERT INTO produk VALUES ('" + kode_frame + "','" + merk + "','" + warna + "','0','','" + harga + "')"
+          },
+          cache: false,
+          success: function(data) {
+            window.location.replace("master_product.php");
+          }
+        });
+        // $('#modal').addClass("scale-0");
+        // $('#bgmodal').removeClass("effectmodal");
       });
 
     });
@@ -332,14 +360,40 @@ function rupiah($angka){
       $('#button-logout').on('click', function() {
         // kosong
       });
-      $('#delete-button').on('click', function() {
-        $('#title').html('Hapus Data Frame ini');
 
-        $('#modalkontenhapus').toggleClass("scale-100");
-        $('#bgmodalhapus').addClass("effectmodal");
+      var lengthData = '<?= count($data) ?>';
+      var id;
 
-      });
+      for (var index = 1; index <= lengthData; index++) {
+        $('#delete-button-' + index).on('click', function() {
 
+          var currentRow = $(this).closest("tr")
+          id = currentRow.find("td:eq(1)").text();
+
+          $('#title').html('Hapus Data Frame ini' + id);
+
+          $('#modalkontenhapus').toggleClass("scale-100");
+          $('#bgmodalhapus').addClass("effectmodal");
+
+        });
+      }
+
+      $('#hapus').on('click', function() {
+
+        $.ajax({
+          type: "post",
+          url: "../config/koneksi.php",
+          data: {
+            type: "delete",
+            query: "DELETE FROM `produk` WHERE kode_frame = '" + id + "'"
+          },
+          cache: false,
+          success: function(data) {
+            window.location.replace("master_product.php");
+          }
+        });
+
+      })
 
       $('#closemodalhapus').on('click', function() {
 
