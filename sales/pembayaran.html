@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembayaran Transaksi</title>
+    <link rel="stylesheet" href="../css/output.css">
+</head>
+
+<body class="scrollbar-hide">
+    <section id="header" class="fixed z-[9999] w-full top-0">
+        <div class="flex flex-row px-8 py-6 shadow-md bg-white">
+            <svg class="my-[2px]" width="9" height="19" viewBox="0 0 9 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 1.18543C8.99973 1.50063 8.87945 1.80281 8.66559 2.02555L2.83474 8.10612C2.65826 8.29012 2.51825 8.50857 2.42274 8.749C2.32722 8.98943 2.27806 9.24713 2.27806 9.50738C2.27806 9.76763 2.32722 10.0253 2.42274 10.2658C2.51825 10.5062 2.65826 10.7246 2.83474 10.9086L8.65799 16.9852C8.86566 17.2095 8.98057 17.5098 8.97797 17.8215C8.97537 18.1332 8.85548 18.4314 8.64411 18.6518C8.43274 18.8722 8.1468 18.9972 7.84789 19C7.54898 19.0027 7.26101 18.8828 7.046 18.6663L1.22275 12.5944C0.439753 11.7763 9.53674e-07 10.6676 9.53674e-07 9.51174C9.53674e-07 8.35585 0.439753 7.24719 1.22275 6.42905L7.0536 0.348482C7.21281 0.182346 7.41564 0.0691128 7.63649 0.0230694C7.85735 -0.022974 8.08634 0.000234604 8.29456 0.0897694C8.50278 0.179304 8.68091 0.331152 8.80646 0.526152C8.932 0.721149 8.99935 0.95056 9 1.18543Z" fill="#373F47" />
+            </svg>
+            <h1 class="px-6 font-ex-semibold">Pembayaran</h1>
+        </div>
+    </section>
+
+
+    <section class="text-[#373F47] font-ex-medium mt-[100px] mb-24" id="konten">
+        <div class="flex flex-col overflow-y-auto scrollbar-hide">
+            <div class="bg-white h-[72px] drop-shadow-md mx-6 rounded-lg">
+                <div class="flex flex-row justify-between items-center h-full px-4">
+
+                    <svg width="30" height="34" viewBox="0 0 30 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19.0911 8.5C19.4528 8.5 19.7996 8.64926 20.0553 8.91493C20.3111 9.18061 20.4547 9.54094 20.4547 9.91667C20.4547 10.2924 20.3111 10.6527 20.0553 10.9184C19.7996 11.1841 19.4528 11.3333 19.0911 11.3333H8.1819C7.82024 11.3333 7.47339 11.1841 7.21765 10.9184C6.96192 10.6527 6.81825 10.2924 6.81825 9.91667C6.81825 9.54094 6.96192 9.18061 7.21765 8.91493C7.47339 8.64926 7.82024 8.5 8.1819 8.5H19.0911ZM29.6007 33.5849C29.345 33.8505 28.9982 33.9997 28.6366 33.9997C28.2751 33.9997 27.9283 33.8505 27.6725 33.5849L24.3902 30.175C23.4182 30.8195 22.2897 31.1635 21.1366 31.1667C19.9229 31.1667 18.7365 30.7928 17.7274 30.0923C16.7182 29.3918 15.9317 28.3962 15.4673 27.2313C15.0028 26.0664 14.8813 24.7846 15.1181 23.548C15.3548 22.3113 15.9393 21.1754 16.7975 20.2839C17.6557 19.3923 18.7491 18.7851 19.9394 18.5392C21.1298 18.2932 22.3636 18.4194 23.4849 18.9019C24.6062 19.3844 25.5645 20.2015 26.2388 21.2499C26.9131 22.2983 27.273 23.5308 27.273 24.7917C27.2699 25.9896 26.9388 27.162 26.3184 28.1718L29.6007 31.5817C29.8564 31.8474 30 32.2077 30 32.5833C30 32.959 29.8564 33.3193 29.6007 33.5849ZM21.1366 28.3333C21.8108 28.3333 22.4699 28.1256 23.0306 27.7365C23.5912 27.3473 24.0282 26.7942 24.2862 26.147C24.5442 25.4998 24.6117 24.7877 24.4802 24.1007C24.3486 23.4137 24.024 22.7826 23.5472 22.2873C23.0704 21.792 22.463 21.4547 21.8017 21.3181C21.1404 21.1814 20.4549 21.2515 19.832 21.5196C19.209 21.7877 18.6766 22.2416 18.302 22.824C17.9274 23.4064 17.7274 24.0912 17.7274 24.7917C17.7274 25.731 18.0866 26.6318 18.726 27.296C19.3653 27.9602 20.2324 28.3333 21.1366 28.3333ZM15.0001 31.1667H6.81825C5.73326 31.1667 4.69271 30.7189 3.92551 29.9219C3.15831 29.1248 2.7273 28.0438 2.7273 26.9167V7.08333C2.7273 5.95616 3.15831 4.87516 3.92551 4.07813C4.69271 3.2811 5.73326 2.83333 6.81825 2.83333H23.182C23.5437 2.83333 23.8906 2.98259 24.1463 3.24827C24.402 3.51394 24.5457 3.87428 24.5457 4.25V15.5833C24.5457 15.9591 24.6894 16.3194 24.9451 16.5851C25.2008 16.8507 25.5477 17 25.9093 17C26.271 17 26.6179 16.8507 26.8736 16.5851C27.1293 16.3194 27.273 15.9591 27.273 15.5833V4.25C27.273 3.12283 26.842 2.04183 26.0748 1.2448C25.3076 0.447767 24.267 0 23.182 0L6.81825 0C5.0106 0.00224946 3.27761 0.749249 1.99941 2.07714C0.72121 3.40504 0.00216528 5.20541 0 7.08333V26.9167C0.00216528 28.7946 0.72121 30.595 1.99941 31.9229C3.27761 33.2508 5.0106 33.9977 6.81825 34H15.0001C15.3618 34 15.7087 33.8507 15.9644 33.5851C16.2201 33.3194 16.3638 32.9591 16.3638 32.5833C16.3638 32.2076 16.2201 31.8473 15.9644 31.5816C15.7087 31.3159 15.3618 31.1667 15.0001 31.1667Z" fill="#4F4F4F" />
+                    </svg>
+                    <h1>Detail Pesanan</h1>
+
+                    <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g filter="url(#filter0_d_1200_459)">
+                            <circle cx="17" cy="17" r="13" transform="rotate(-180 17 17)" fill="#444D68" />
+                            <path d="M14.5107 21.5995C14.5109 21.4251 14.5774 21.258 14.6957 21.1347L17.9213 17.771C18.0189 17.6692 18.0964 17.5484 18.1492 17.4154C18.2021 17.2824 18.2293 17.1398 18.2293 16.9959C18.2293 16.8519 18.2021 16.7093 18.1492 16.5763C18.0964 16.4433 18.0189 16.3225 17.9213 16.2207L14.6999 12.8592C14.5851 12.7351 14.5215 12.569 14.5229 12.3966C14.5244 12.2241 14.5907 12.0592 14.7076 11.9373C14.8245 11.8153 14.9827 11.7462 15.1481 11.7447C15.3134 11.7432 15.4727 11.8094 15.5917 11.9292L18.8131 15.2881C19.2462 15.7407 19.4895 16.354 19.4895 16.9935C19.4895 17.6329 19.2462 18.2462 18.8131 18.6988L15.5875 22.0625C15.4994 22.1544 15.3872 22.217 15.265 22.2425C15.1428 22.268 15.0162 22.2551 14.901 22.2056C14.7858 22.1561 14.6873 22.0721 14.6178 21.9642C14.5484 21.8563 14.5111 21.7294 14.5107 21.5995Z" fill="white" />
+                        </g>
+                        <defs>
+                            <filter id="filter0_d_1200_459" x="0" y="0" width="34" height="34" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+                                <feOffset />
+                                <feGaussianBlur stdDeviation="2" />
+                                <feComposite in2="hardAlpha" operator="out" />
+                                <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
+                                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1200_459" />
+                                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1200_459" result="shape" />
+                            </filter>
+                        </defs>
+                    </svg>
+
+                </div>
+            </div>
+            <h1 class="font-ex-semibold px-6 pt-8">Detail Custommer</h1>
+            <div class="flex flex-col px-6 py-4 bg-white mt-[0.5px] font-ex-medium">
+                <h1 class="pt-4">Nama</h1>
+                <input class="cursor-pointer px-4 outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden" type="text" placeholder="" name="" id="">
+                <h1 class="pt-6">No Telepon</h1>
+                <input class="cursor-pointer px-4 outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden" type="text" placeholder="" name="" id="">
+                <h1 class="pt-6">Pekerjaan / Instansi</h1>
+                <div class="px-4 flex flex-row justify-between items-center outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden">
+                    <input class="cursor-pointer h-full w-full pr-4 outline-0" type="text" placeholder="" name="" id="">
+                    <h1 class="h-full flex items-center justify-center font-ex-semibold w-12 text-center">/</h1>
+                    <input class="cursor-pointer h-full w-full pl-4 outline-0" type="text" placeholder="" name="" id="">
+                </div>
+            </div>
+            <h1 class="font-ex-semibold px-6 pt-8">Detail Alamat</h1>
+            <div class="flex flex-col px-6 py-4 bg-white mt-[0.5px] font-ex-medium">
+                <h1 class="pt-6">Provinsi / Kota</h1>
+                <div class="px-4 flex flex-row justify-between items-center outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden">
+                    <input class="cursor-pointer h-full w-full pr-4 outline-0" type="text" placeholder="" name="" id="">
+                    <h1 class="h-full flex items-center justify-center font-ex-semibold w-12 text-center">/</h1>
+                    <input class="cursor-pointer h-full w-full pl-4 outline-0" type="text" placeholder="" name="" id="">
+                </div>
+                <h1 class="pt-6">Kecamatan / Desa</h1>
+                <div class="px-4 flex flex-row justify-between items-center outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden">
+                    <input class="cursor-pointer h-full w-full pr-4 outline-0" type="text" placeholder="" name="" id="">
+                    <h1 class="h-full flex items-center justify-center font-ex-semibold w-12 text-center">/</h1>
+                    <input class="cursor-pointer h-full w-full pl-4 outline-0" type="text" placeholder="" name="" id="">
+                </div>
+                <h1 class="pt-6">Alamat</h1>
+                <div class="h-[167px] w-full border border-[#C9C9C9] rounded-lg mt-3 overflow-hidden">
+                    <textarea id="message" rows="4" class="block h-full w-full border-0 outline-none px-4 py-2" placeholder=""></textarea>
+                </div>
+
+
+            </div>
+
+            <h1 class="font-ex-semibold px-6 pt-8">Pembayaran</h1>
+            <div class="flex flex-col px-6 py-4 bg-white mt-[0.5px] font-ex-medium">
+                <h1 class="pt-6">Pilih Pembayaran</h1>
+                <select class="px-4 cursor-pointer outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden" name="cars" id="cars">
+                    <option class="text-xs" value="">Lunas</option>
+                    <option class="text-xs" value="">Cicilan</option>
+                </select>
+                <h1 class="pt-6">Tanggal Jatuh Tempo</h1>
+                <div class="h-16 w-full border border-[#C9C9C9] rounded-lg mt-3 overflow-hidden">
+                    <input type="date" name="" class="h-full w-full" id="">
+                </div>
+                <h1 class="pt-6">Depan Bayar</h1>
+                <input class="cursor-pointer px-4 outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden" type="text" placeholder="" name="" id="">
+            </div>
+        </div>
+    </section>
+    <div class="fixed z-[9999] font-ex-medium flex flex-col w-full my-auto bg-white py-6 bottom-0">
+        <div class="h-[1px] -translate-y-[24px] w-full bg-[#C9C9C9]"></div>
+        <div class="flex flex-row justify-center w-full gap-4 h-full px-6 items-center">
+            <div class="bg-[#444D68] w-1/2 h-12 text-center rounded-xl py-1 text-white font-ex-semibold flex justify-center items-center">
+                <p>Lanjut Proses</p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
