@@ -76,9 +76,15 @@ tr:hover {
     /* transition: 1s; */
 }
 
+@media(max-width: 1024px) {
+    .ex-sidebar.ex-hide-sidebar {
+        transform: translateX(-100%) !important;
+        transition: 1s;
+    }
+}
+
 .ex-sidebar.ex-hide-sidebar {
-    transform: translateX(-100%) !important;
-    transition: 1s;
+    transition: 0;
 }
 
 /* @media (min-width: 1280px) {
@@ -225,4 +231,113 @@ input[type="date"] {
 
     cursor: pointer;
     border-radius: 3px;
+}
+
+/* tab pointer invoice */
+@media (max-width: 375px) {
+    .pointer1 {
+        @apply translate-x-0;
+    }
+
+    .pointer2 {
+        @apply translate-x-[81px];
+    }
+
+    .pointer3 {
+        @apply translate-x-[164px];
+    }
+}
+
+@media (min-width: 375px) {
+    .pointer1 {
+        @apply translate-x-0;
+    }
+
+    .pointer2 {
+        @apply translate-x-[104px];
+    }
+
+    .pointer3 {
+        @apply translate-x-[213px];
+    }
+}
+
+/* tab pointer pembayaran invoice */
+
+@media (max-width: 375px) {
+    .pointer-bayar1 {
+        @apply translate-x-0;
+    }
+
+    .pointer-bayar2 {
+        @apply translate-x-[87px];
+    }
+
+    .pointer-bayar3 {
+        @apply translate-x-[178px];
+    }
+}
+
+@media (min-width: 375px) {
+    .pointer-bayar1 {
+        @apply translate-x-0;
+    }
+
+    .pointer-bayar2 {
+        @apply translate-x-[110px];
+    }
+
+    .pointer-bayar3 {
+        @apply translate-x-[217px];
+    }
+}
+
+@media (min-width: 768px) {
+    .pointer-bayar1 {
+        @apply translate-x-0;
+    }
+
+    .pointer-bayar2 {
+        @apply translate-x-[140px];
+    }
+
+    .pointer-bayar3 {
+        @apply translate-x-[268px];
+    }
+}
+
+input[type=file] {
+    color: transparent !important;
+    position: absolute;
+
+}
+
+input[type=file]::file-selector-button {
+    transform: translateY(70px);
+    color: white !important;
+    background-color: #5C6171;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 14px;
+
+    margin: auto auto;
+    content: 'Upload';
+    text-align: center;
+    border: 0;
+    border-radius: 4px;
+
+
+    display: block;
+
+}
+
+.textrich {
+    line-break: anywhere;
+}
+
+@media (max-height: 568px) {
+    .main-detain-invoice {
+        @apply h-[290px];
+    }
 }

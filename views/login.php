@@ -1,3 +1,38 @@
+<?php require('../config/koneksi.php');
+require('../config/query.php');
+
+
+$_crud = new crud();
+
+
+if (isset($_POST['login'])) {
+    $email = $_POST['txt_email'];
+    $password = $_POST['txt_password'];
+
+    $query = "SELECT * FROM akun WHERE email = '$email'";
+    $result = $_crud->execute($query);
+    $num = mysqli_num_rows($result);
+
+    while ($row = mysqli_fetch_array($result)) {
+        $emailval = $row['email'];
+        $passwordval = $row['password'];
+    }
+
+    if ($num != 0) {
+        if ($emailval == $email && $passwordval == md5($password)) {
+            header('Location: dashboard.php');
+        } else {
+            $error = 'Email atau password salah';
+            header('Location: login.php?error='.$error);
+        }
+    } else {
+        $error = 'User tidak ditemukan';
+        header('Location: login.php?error='.$error);
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,6 +42,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WG Optical | Login Page</title>
     <link rel="stylesheet" href="../css/output.css">
+    <link rel="stylesheet" href="../css/sweetalert2.min.css">
 </head>
 
 <body class="bg-[#171A23]">
@@ -55,22 +91,34 @@
 
         <div class="w-full md:w-[40%]">
             <div class="flex flex-col mt-12 md:mt-48 items-center px-12">
-                <form action="index.html" method="POST">
-                    <input class="w-full rounded-lg md:w-[100%] lg:w-[70%] h-[50px] px-4 border-none mb-6" placeholder="Email" type="text">
-                    <input class="w-full rounded-lg md:w-[100%] lg:w-[70%] h-[50px] px-4 border-none" placeholder="Password" type="text">
+                <form action="login.php" method="POST">
+                    <input name="txt_email" class="w-full rounded-lg md:w-[100%] lg:w-[70%] h-[50px] px-4 border-none mb-6" placeholder="Email" type="text">
+                    <input name="txt_password" class="w-full rounded-lg md:w-[100%] lg:w-[70%] h-[50px] px-4 border-none" placeholder="Password" type="password">
                     <div class="w-full md:w-[100%] lg:w-[70%] py-4 px-4">
 
                     </div>
-                    <a href="master_product.php">
-                        <div class="w-full mb-32 md:w-[100%] lg:w-[70%] py-4 px-4 bg-[#3E5FC1] rounded-lg">
-                            <p class="text-white font-semibold text-center">LOGIN</p>
-                        </div>
-                    </a>
+
+                    <button type="submit" name="login" class="w-full mb-32 md:w-[100%] lg:w-[70%] py-4 px-4 bg-[#3E5FC1] rounded-lg">
+                        <p class="text-white font-semibold text-center">LOGIN</p>
+                    </button>
+
                 </form>
             </div>
         </div>
     </div>
     <script src="../js/script.js"></script>
+    <script src="../js/sweetalert2.min.js"></script>
+    <?php if(isset($_GET['error'])){ ?><script>
+        Swal.fire(
+            'Gagal',
+            '<?php echo $_GET['error']; ?>',
+            'error'
+        ).then((result)=> {
+            location.replace('login.php');
+        });
+    </script><?php } ?>
+
+
 </body>
 
 </html>
