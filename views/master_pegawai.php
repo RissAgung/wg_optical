@@ -1,4 +1,5 @@
-<?php require('../config/koneksi.php');
+<?php
+require('../config/koneksi.php');
 
 $crud = new koneksi();
 
@@ -26,6 +27,7 @@ function generateID(Koneksi $obj, $tglmasuk)
     <title>Master Data Pegawai | WG Optical</title>
     <link rel="stylesheet" href="../css/output.css">
     <link rel="stylesheet" href="../css/apexcharts.css">
+    <link rel="stylesheet" href="../css/sweetalert2.min.css">
 </head>
 
 <body class="bg-[#F0F0F0] font-ex-color box-border">
@@ -120,7 +122,8 @@ function generateID(Koneksi $obj, $tglmasuk)
                     </thead>
                     <tbody>
                         <?php
-                        $execute = $crud->showData('SELECT * FROM pegawai');
+                        $execute = $crud->showData('SELECT * FROM `pegawai` ORDER BY SUBSTRING(id_pegawai, -1, 5)');
+                        $i = 0;
                         foreach ($execute as $data) {
                         ?>
                             <tr>
@@ -136,7 +139,7 @@ function generateID(Koneksi $obj, $tglmasuk)
                                 <td class="p-3 text-sm tracking-wide text-center"><?php echo $data['no.Telp'] ?></td>
                                 <td class="p-3 text-sm tracking-wide text-center"><?php echo $data['alamat'] ?></td>
                                 <td class="p-3 text-sm tracking-wide text-center">
-                                    <button id="edit-button">
+                                    <button id="edit-button-<?php echo $i; ?>">
                                         <svg width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <rect width="37" height="37" rx="5" fill="#EDC683" />
                                             <path fill-rule="evenodd" clip-rule="evenodd" d="M27.4782 8.38256C27.7335 8.48841 27.9655 8.64355 28.1609 8.83911C28.3564 9.03447 28.5116 9.26646 28.6174 9.52181C28.7233 9.77717 28.7777 10.0509 28.7777 10.3273C28.7777 10.6037 28.7233 10.8774 28.6174 11.1328C28.5116 11.3881 28.3564 11.6201 28.1609 11.8155L25.3473 14.6282L22.3717 11.6526L25.1845 8.83911C25.3798 8.64355 25.6118 8.48841 25.8672 8.38256C26.1225 8.27671 26.3962 8.22223 26.6727 8.22223C26.9491 8.22223 27.2228 8.27671 27.4782 8.38256ZM9.59277 25.7604C9.59295 24.9094 9.93117 24.0933 10.533 23.4916L21.2376 12.787L24.2132 15.7626L13.5086 26.4672C12.9069 27.069 12.0908 27.4072 11.2398 27.4074H9.59277V25.7604Z" fill="#3F2C0D" />
@@ -152,7 +155,9 @@ function generateID(Koneksi $obj, $tglmasuk)
                                 </td>
                             </tr>
                         <?php
-                        } ?>
+                            $i++;
+                        }
+                        ?>
 
 
                     </tbody>
@@ -185,6 +190,7 @@ function generateID(Koneksi $obj, $tglmasuk)
         <!-- end konten table -->
     </div>
     <script src="../js/jquery-3.6.1.min.js"></script>
+    <script src="../js/sweetalert2.min.js"></script>
     <script>
         // load sidebar
         $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
@@ -194,13 +200,31 @@ function generateID(Koneksi $obj, $tglmasuk)
             });
         });
 
-        $('#edit-button').on('click', function() {
-            $('#title-modal').html('Ubah Pegawai');
+        var aa = 'tes';
 
-            $('#modalkonten').toggleClass("scale-100");
-            $('#bgmodal').addClass("effectmodal");
+
+
+        $(document).ready(function() {
+
+            <?php
+            for ($index = 0; $index < count($execute); $index++) {
+            ?>
+                $('#edit-button-<?php echo $index; ?>').on('click', function() {
+                    console.log("<?php echo $execute[$index]['nama']; ?>");
+
+                    $('#txt_nama').val('<?php echo $execute[$index]['nama']; ?>');
+
+                    $('#title-modal').html('Ubah Pegawai');
+                    $('#modalkonten').toggleClass("scale-100");
+                    $('#bgmodal').addClass("effectmodal");
+
+                });
+            <?php
+            }
+            ?>
 
         });
+
 
         // load modal
         $("#modal-form").load("../assets/components/modal_master_pegawai.html", function() {
@@ -234,7 +258,7 @@ function generateID(Koneksi $obj, $tglmasuk)
                 // kosong
             });
 
-            $('#closemodal').on('click', function() {
+            $('#cancelmodal, #closemodal').on('click', function() {
                 $('#modalkonten').toggleClass("scale-100");
                 $('#bgmodal').removeClass("effectmodal");
             });
@@ -242,6 +266,24 @@ function generateID(Koneksi $obj, $tglmasuk)
             $('#submitform').on('click', function() {
                 var date = new Date($('#tglmasuk').val());
                 console.log('<?= generateID($crud, "'+ date.getDate() + + ( date.getMonth() + 1) + date.getFullYear()+'"); ?>');
+                console.log("" + $('#txt_nama').val() + "");
+                $.ajax({
+                    url: "../config/koneksi.php",
+                    type: "post",
+                    data: {
+                        type: "pegawai",
+                        query: "INSERT INTO pegawai VALUES ('<?= generateID($crud, '"+ date.getDate() + + ( date.getMonth() + 1) + date.getFullYear()+"'); ?>', '" + $('#txt_nama').val() + "', '" + $('#txt_gender').val() + "', '" + $('#txt_notelepon').val() + "', '" + $('#txt_alamat').val() + "', '" + date.getDate() + +(date.getMonth() + 1) + date.getFullYear() + "', NULL, NULL, NULL, '" + $('#txt_email').val() + "', '<?= md5("'+$('#txt_password').val()+'"); ?>', 2)",
+                    },
+                }).then(function(response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil',
+                        text: 'Berhasil Menambahkan Data Pegawai',
+                    }).then(function() {
+                        location.href = 'master_pegawai.php';
+                    });
+                    //alert(response);
+                });
             });
         });
 
