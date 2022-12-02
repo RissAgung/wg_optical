@@ -12,7 +12,7 @@ class koneksi
     return mysqli_connect($this->server, $this->username, $this->password, $this->db);
   }
 
-  private function execute($new_query)
+  public function execute($new_query)
   {
     return mysqli_query($this->prepareKoneksi(), $new_query);
   }
