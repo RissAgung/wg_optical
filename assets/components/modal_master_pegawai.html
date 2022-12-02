@@ -24,7 +24,18 @@
                 </svg>
             </div>
         </div>
-        <div class="flex flex-col overflow-y-scroll h-[60vh] pb-8">
+
+        <div id="form-password" class="hidden flex-col overflow-y-scroll h-[30vh] pb-8">
+            <h1 class="font-semibold text-sm px-8 py-4 mt-8">Password Baru</h1>
+            <div id="new-password" class="h-12 flex mt-0 items-center px-8">
+                <div class="h-[50px] w-full border border-[#C9C9C9] rounded-lg overflow-hidden">
+                    <input type="password" name="" class="h-full w-full border-0 outline-none px-4" id="txt_password">
+                </div>
+            </div>
+
+        </div>
+
+        <div id="form-modal" class="flex flex-col overflow-y-scroll h-[60vh] pb-8">
             <div class="h-12 flex mt-8 items-center px-8">
                 <h1 class="w-1/2 font-semibold text-sm">Tanggal Masuk</h1>
                 <div class=" h-[50px] w-full border border-[#C9C9C9] rounded-lg ml-4 overflow-hidden">
@@ -37,7 +48,7 @@
                     <input type="text" name="" class="h-full w-full border-0 outline-none px-4" id="txt_email">
                 </div>
             </div>
-            <div class="h-12 flex mt-8 items-center px-8">
+            <div id="field-password" class="h-12 flex mt-8 items-center px-8">
                 <h1 class="w-1/2 font-semibold text-sm">Password</h1>
                 <div class="h-[50px] w-full border border-[#C9C9C9] rounded-lg ml-4 overflow-hidden">
                     <input type="password" name="" class="h-full w-full border-0 outline-none px-4" id="txt_password">
@@ -67,6 +78,7 @@
                     <textarea id="txt_alamat" rows="4" class="block h-full w-full border-0 outline-none px-4 py-2" placeholder=""></textarea>
                 </div>
             </div>
+
             <div class="h-12 flex mt-12 items-center px-8">
                 <h1 class="w-1/2 mt-4 font-semibold text-sm">Foto Pegawai</h1>
                 <div class="h-[120px] relative flex flex-col items-center w-full border border-[#C9C9C9] rounded-lg mt-24 ml-4 overflow-hidden">
@@ -77,9 +89,12 @@
                             <path d="M40.324 0H6.67596C4.90602 0.00207314 3.20917 0.706097 1.95763 1.95763C0.706097 3.20917 0.00207314 4.90602 0 6.67596L0 47H47V6.67596C46.9979 4.90602 46.2939 3.20917 45.0424 1.95763C43.7908 0.706097 42.094 0.00207314 40.324 0V0ZM6.67596 5.875H40.324C40.5363 5.87552 40.7397 5.96007 40.8898 6.11017C41.0399 6.26026 41.1245 6.46369 41.125 6.67596V41.125L20.3941 20.3941C19.6596 19.6598 18.6636 19.2473 17.625 19.2473C16.5864 19.2473 15.5904 19.6598 14.8559 20.3941L5.875 29.375V6.67596C5.87552 6.46369 5.96007 6.26026 6.11017 6.11017C6.26026 5.96007 6.46369 5.87552 6.67596 5.875Z" fill="#999999" />
                         </svg>
                     </div>
-                    <input type="file" name="dwadwa" value="Upload" title="tes" class="text-center h-full w-full border-0 outline-none px-4" id="imgInp_peg">
+
+                    <input type="file" name="imgInp_peg" value="Upload" class="text-center h-full w-full border-0 outline-none px-4" id="imgInp_peg">
+
                 </div>
             </div>
+
             <div class="h-12 flex mt-28 items-center px-8">
                 <h1 class="w-1/2 font-semibold text-sm">Foto KTP</h1>
                 <div class="h-[120px] relative flex flex-col items-center w-full border border-[#C9C9C9] rounded-lg mt-24 ml-4 overflow-hidden">
@@ -90,7 +105,7 @@
                             <path d="M40.324 0H6.67596C4.90602 0.00207314 3.20917 0.706097 1.95763 1.95763C0.706097 3.20917 0.00207314 4.90602 0 6.67596L0 47H47V6.67596C46.9979 4.90602 46.2939 3.20917 45.0424 1.95763C43.7908 0.706097 42.094 0.00207314 40.324 0V0ZM6.67596 5.875H40.324C40.5363 5.87552 40.7397 5.96007 40.8898 6.11017C41.0399 6.26026 41.1245 6.46369 41.125 6.67596V41.125L20.3941 20.3941C19.6596 19.6598 18.6636 19.2473 17.625 19.2473C16.5864 19.2473 15.5904 19.6598 14.8559 20.3941L5.875 29.375V6.67596C5.87552 6.46369 5.96007 6.26026 6.11017 6.11017C6.26026 5.96007 6.46369 5.87552 6.67596 5.875Z" fill="#999999" />
                         </svg>
                     </div>
-                    <input type="file" name="dwadwa" value="Upload" title="tes" class="text-center h-full w-full border-0 outline-none px-4" id="imgInp_ktp">
+                    <input type="file" name="imgInp_ktp" value="Upload" class="text-center h-full w-full border-0 outline-none px-4" id="imgInp_ktp">
                 </div>
             </div>
             <div class="h-12 flex mt-28 items-center px-8">
@@ -103,18 +118,51 @@
                             <path d="M40.324 0H6.67596C4.90602 0.00207314 3.20917 0.706097 1.95763 1.95763C0.706097 3.20917 0.00207314 4.90602 0 6.67596L0 47H47V6.67596C46.9979 4.90602 46.2939 3.20917 45.0424 1.95763C43.7908 0.706097 42.094 0.00207314 40.324 0V0ZM6.67596 5.875H40.324C40.5363 5.87552 40.7397 5.96007 40.8898 6.11017C41.0399 6.26026 41.1245 6.46369 41.125 6.67596V41.125L20.3941 20.3941C19.6596 19.6598 18.6636 19.2473 17.625 19.2473C16.5864 19.2473 15.5904 19.6598 14.8559 20.3941L5.875 29.375V6.67596C5.87552 6.46369 5.96007 6.26026 6.11017 6.11017C6.26026 5.96007 6.46369 5.87552 6.67596 5.875Z" fill="#999999" />
                         </svg>
                     </div>
-                    <input type="file" name="dwadwa" value="Upload" title="tes" class="text-center h-full w-full border-0 outline-none px-4" id="imgInp_kk">
+                    <input type="file" name="imgInp_kk" value="Upload" class="text-center h-full w-full border-0 outline-none px-4" id="imgInp_kk">
                 </div>
             </div>
         </div>
         <div id="footer-modal" class="mt-4">
             <div class="h-[1px] bg-[#C9C9C9]"></div>
+            <div id="footer-edit" class="hidden flex-row justify-between px-6 py-4">
+                <div id="password-button" class="cursor-pointer bg-[#ce7611] flex justify-center items-center rounded-md py-1 px-2 text-white text-sm sm:text-lg">
+                    <svg class="fill-white" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="22" height="20" viewBox="0 0 581.209 581.21" style="enable-background:new 0 0 581.209 581.21;" xml:space="preserve">
+                        <g>
+                            <g>
+                                <path d="M290.605,0C210.65,0,145.601,65.049,145.601,145.004v38.7c0,8.604,6.12,15.092,14.235,15.092
+			c2.179,0,4.382-0.465,6.555-1.38c15.744-6.641,32.503-12.062,49.816-16.114c8.932-2.09,15.667-10.523,15.667-19.614v-16.684
+			c0-32.384,26.347-58.73,58.73-58.73s58.73,26.347,58.73,58.73v16.684c0,9.091,6.738,17.524,15.67,19.614
+			c17.296,4.048,34.056,9.468,49.808,16.114c2.173,0.915,4.379,1.38,6.558,1.38c8.115,0,14.235-6.487,14.235-15.092v-38.7
+			C435.609,65.049,370.56,0,290.605,0z" />
+                                <path d="M137.005,230.562c-6.423,3.565-12.528,11.267-14.517,18.32c-7.194,25.496-10.842,52.066-10.842,78.97
+			c0,57.589,16.365,112.226,47.329,157.997c29.997,44.349,72.727,77.629,120.313,93.712c4.03,1.362,8.378,1.649,11.316,1.649
+			s7.286-0.284,11.315-1.649c47.59-16.083,90.316-49.363,120.313-93.712c30.964-45.771,47.329-100.408,47.329-157.997
+			c0-26.833-3.653-53.4-10.86-78.967c-1.988-7.05-8.094-14.758-14.517-18.323c-46.866-26.01-99.976-39.755-153.59-39.755
+			C236.981,190.806,183.872,204.552,137.005,230.562z M313.337,370.336l9.78,58.673c0.799,4.786-2.488,8.666-7.341,8.666h-50.343
+			c-4.85,0-8.137-3.88-7.341-8.666l9.78-58.673c0.799-4.785-1.708-11.11-4.617-14.993c-4.101-5.478-6.607-12.148-6.607-19.535
+			c0-18.768,15.187-33.957,33.957-33.957c18.767,0,33.957,15.187,33.957,33.957c0,7.387-2.506,14.058-6.606,19.535
+			C315.048,359.229,312.542,365.554,313.337,370.336z" />
+                            </g>
+                        </g>
 
-            <div class="flex flex-row justify-center gap-4 py-4">
-                <div id="cancelmodal" class="cursor-pointer bg-[#F35E58] w-[70px] md:w-[80px] text-center rounded-md py-1 text-white text-sm sm:text-lg">
+                    </svg>
+
+                </div>
+                <div class="flex flex-row gap-4 text-center items-center">
+                    <div id="cancelmodal" class="cursor-pointer bg-[#F35E58]  text-center rounded-md py-2 px-2 text-white text-sm sm:text-lg">
+                        <p class="cursor-pointer">Batal</p>
+                    </div>
+                    <div id="submitform" class="cursor-pointer bg-[#3DBD9E]  text-center rounded-md py-2 px-2 text-white text-sm sm:text-lg">
+                        <p class="cursor-pointer">Tambah</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="footer-add" class="flex flex-row gap-4 justify-center py-4 text-center items-center">
+                <div id="cancelmodal" class="cursor-pointer bg-[#F35E58]  text-center rounded-md py-2 px-2 text-white text-sm sm:text-lg">
                     <p class="cursor-pointer">Batal</p>
                 </div>
-                <div id="submitform" class="cursor-pointer bg-[#3DBD9E] w-[70px] md:w-[80px] text-center rounded-md py-1 text-white text-sm sm:text-lg">
+                <div id="submitformadd" class="cursor-pointer bg-[#3DBD9E]  text-center rounded-md py-2 px-2 text-white text-sm sm:text-lg">
                     <p class="cursor-pointer">Tambah</p>
                 </div>
             </div>

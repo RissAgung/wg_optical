@@ -130,7 +130,7 @@ function generateID(Koneksi $obj, $tglmasuk)
 
                                 <td class="p-3 text-sm tracking-wide justify-center">
                                     <div class="flex flex-row items-center content-center">
-                                        <img class="w-6 h-6 rounded-full" src="https://upload.wikimedia.org/wikipedia/id/d/d5/Aang_.jpg" alt="Rounded avatar">
+                                        <img class="w-6 h-6 rounded-full" src="../images/pegawai/foto_pegawai/<?php echo $data['foto_pegawai'] ?>" alt="Rounded avatar">
                                         <p class="px-2"><?php echo $data['nama'] ?></p>
                                     </div>
                                 </td>
@@ -200,40 +200,111 @@ function generateID(Koneksi $obj, $tglmasuk)
             });
         });
 
-        var aa = 'tes';
-
-
 
         $(document).ready(function() {
+
+            $('#click-modal').on('click', function() {
+                $('#title-modal').html('Tambah Pegawai');
+                $('#modalkonten').toggleClass("scale-100");
+                $('#bgmodal').addClass("effectmodal");
+
+                $('#footer-add').removeClass('hidden');
+                $('#footer-add').addClass('flex');
+
+                $('#footer-edit').removeClass('flex');
+                $('#footer-edit').addClass('hidden');
+
+                $('#form-password').addClass('hidden');
+                $('#form-password').removeClass('flex');
+
+                $('#form-modal').addClass('flex');
+                $('#form-modal').removeClass('hidden');
+
+
+
+            });
 
             <?php
             for ($index = 0; $index < count($execute); $index++) {
             ?>
                 $('#edit-button-<?php echo $index; ?>').on('click', function() {
+                    $('#footer-add').removeClass('flex');
+                    $('#footer-add').addClass('hidden');
+
+                    $('#footer-edit').removeClass('hidden');
+                    $('#footer-edit').addClass('flex');
+
                     console.log("<?php echo $execute[$index]['nama']; ?>");
 
+                    let getd = '<?php echo $execute[$index]['tgl_masuk']; ?>'.substring(8, 10);
+                    let getm = '<?php echo $execute[$index]['tgl_masuk']; ?>'.substring(5, 7);
+                    let gety = '<?php echo $execute[$index]['tgl_masuk']; ?>'.substring(0, 4);
+                    console.log(gety + '-' + getm + '-' + getd);
+
+                    $('#tglmasuk').val(gety + '-' + getm + '-' + getd);
+                    $('#txt_email').val('<?php echo $execute[$index]['email']; ?>');
                     $('#txt_nama').val('<?php echo $execute[$index]['nama']; ?>');
+                    $('#txt_gender').val('<?php echo $execute[$index]['gender']; ?>');
+                    $('#txt_notelepon').val('<?php echo $execute[$index]['no.Telp']; ?>');
+                    $('#txt_alamat').val('<?php echo $execute[$index]['alamat']; ?>');
+
+                    $('#imgpreview_peg').removeClass('hidden');
+                    $('#imgdefault_peg').addClass('hidden');
+                    $('#imgpreview_peg').attr("src", '../images/pegawai/foto_pegawai/<?php echo $execute[$index]['foto_pegawai']; ?>');
+
+                    imgpeg = '<?php echo $execute[$index]['foto_pegawai']; ?>';
+                    console.log(imgpeg);
+
+                    $('#imgpreview_ktp').removeClass('hidden');
+                    $('#imgdefault_ktp').addClass('hidden');
+                    $('#imgpreview_ktp').attr("src", '../images/pegawai/foto_ktp/<?php echo $execute[$index]['foto_ktp']; ?>');
+
+                    $('#imgpreview_kk').removeClass('hidden');
+                    $('#imgdefault_kk').addClass('hidden');
+                    $('#imgpreview_kk').attr("src", '../images/pegawai/foto_kk/<?php echo $execute[$index]['foto_kk']; ?>');
+
+                    $('#field-password').addClass('hidden');
 
                     $('#title-modal').html('Ubah Pegawai');
                     $('#modalkonten').toggleClass("scale-100");
                     $('#bgmodal').addClass("effectmodal");
 
+                    $('#form-password').addClass('hidden');
+                    $('#form-password').removeClass('flex');
+
+                    $('#form-modal').addClass('flex');
+                    $('#form-modal').removeClass('hidden');
+
                 });
             <?php
             }
             ?>
-
         });
+
+        function getFileExtension(fstring) {
+            return fstring.slice((Math.max(0, fstring.lastIndexOf(".")) || Infinity) + 1);
+        }
 
 
         // load modal
         $("#modal-form").load("../assets/components/modal_master_pegawai.html", function() {
+            $('#password-button').on('click', function() {
+                $('#form-password').toggleClass('hidden');
+                $('#form-password').toggleClass('flex');
+
+                $('#form-modal').toggleClass('flex');
+                $('#form-modal').toggleClass('hidden');
+
+                console.log('awkoawk');
+            });
+
             imgInp_peg.onchange = evt => {
                 const [file] = imgInp_peg.files
                 if (file) {
                     imgpreview_peg.src = URL.createObjectURL(file)
                     $('#imgpreview_peg').removeClass("hidden");
                     $('#imgdefault_peg').addClass("hidden");
+
                 }
             }
 
@@ -259,30 +330,136 @@ function generateID(Koneksi $obj, $tglmasuk)
             });
 
             $('#cancelmodal, #closemodal').on('click', function() {
+
+                $('#field-password').removeClass('hidden');
                 $('#modalkonten').toggleClass("scale-100");
                 $('#bgmodal').removeClass("effectmodal");
+
+
+                $('#tglmasuk').val("");
+                $('#txt_email').val("");
+                $('#txt_password').val("");
+                $('#txt_nama').val("");
+                $('#txt_gender').val("");
+                $('#txt_notelepon').val("");
+                $('#txt_alamat').val("");
+
+                $('#imgpreview_peg').addClass('hidden');
+                $('#imgdefault_peg').removeClass('hidden');
+                $('#imgpreview_peg').removeAttr("src");
+
+                $('#imgpreview_ktp').addClass('hidden');
+                $('#imgdefault_ktp').removeClass('hidden');
+                $('#imgpreview_ktp').removeAttr("src");
+
+                $('#imgpreview_kk').addClass('hidden');
+                $('#imgdefault_kk').removeClass('hidden');
+                $('#imgpreview_kk').removeAttr("src");
+
             });
 
-            $('#submitform').on('click', function() {
-                var date = new Date($('#tglmasuk').val());
-                console.log('<?= generateID($crud, "'+ date.getDate() + + ( date.getMonth() + 1) + date.getFullYear()+'"); ?>');
-                console.log("" + $('#txt_nama').val() + "");
-                $.ajax({
-                    url: "../config/koneksi.php",
-                    type: "post",
-                    data: {
-                        type: "pegawai",
-                        query: "INSERT INTO pegawai VALUES ('<?= generateID($crud, '"+ date.getDate() + + ( date.getMonth() + 1) + date.getFullYear()+"'); ?>', '" + $('#txt_nama').val() + "', '" + $('#txt_gender').val() + "', '" + $('#txt_notelepon').val() + "', '" + $('#txt_alamat').val() + "', '" + date.getDate() + +(date.getMonth() + 1) + date.getFullYear() + "', NULL, NULL, NULL, '" + $('#txt_email').val() + "', '<?= md5("'+$('#txt_password').val()+'"); ?>', 2)",
-                    },
-                }).then(function(response) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Berhasil',
-                        text: 'Berhasil Menambahkan Data Pegawai',
-                    }).then(function() {
-                        location.href = 'master_pegawai.php';
-                    });
-                    //alert(response);
+            $(document).ready(function() {
+                $('#submitform').on('click', function(e) {
+                    e.preventDefault();
+
+                    let form_data = new FormData();
+                    let imgpeg = $("#imgInp_peg")[0].files;
+                    let imgktp = $("#imgInp_ktp")[0].files;
+                    let imgkk = $("#imgInp_kk")[0].files;
+
+                    let query;
+                    if (!imgpeg.length > 0 || !imgktp.length > 0 || !imgkk.length > 0) {
+                        if (!imgpeg.length > 0) {
+                            // query = "UPDATE pegawai SET nama = '', gender = '', no.Telp = '', alamat = '', tgl_masuk = '', email = '' WHERE id_pegawai = '';";
+                            query = "Gambar Pegawai Tidak Ada";
+                        } else if (!imgktp.length > 0) {
+                            query = 'Gambar KTP Tidak Ada';
+
+                        } else if (!imgkk.length > 0) {
+                            query = 'Gambar KK Tidak Ada';
+
+                        } else {
+
+                        }
+                    } else {
+                        query = 'Gambar Ada Semua';
+
+                    }
+
+                    console.log(query);
+
+
+
+                });
+
+                $('#submitformadd').on('click', function(e) {
+                    e.preventDefault();
+                    //here
+                    let form_data = new FormData();
+                    let imgpeg = $("#imgInp_peg")[0].files;
+                    let imgktp = $("#imgInp_ktp")[0].files;
+                    let imgkk = $("#imgInp_kk")[0].files;
+
+                    var date = new Date($('#tglmasuk').val());
+
+
+                    // Check image selected or not
+                    if (imgpeg.length > 0 && imgktp.length > 0 && imgkk.length > 0) {
+                        form_data.append('image_peg', imgpeg[0]);
+                        form_data.append('image_ktp', imgktp[0]);
+                        form_data.append('image_kk', imgkk[0]);
+                        form_data.append('type', "tambah_pegawai");
+                        var img_name_peg = form_data.get('image_peg')['name'];
+                        var img_name_ktp = form_data.get('image_ktp')['name'];
+                        var img_name_kk = form_data.get('image_kk')['name'];
+
+                        var generateUniqPeg = "<?php echo uniqid("foto-pegawai-", true) . "." . '"+getFileExtension(img_name_peg)+"'; ?>";
+                        var generateUniqKTP = "<?php echo uniqid("foto-ktp-", true) . "." . '"+getFileExtension(img_name_ktp)+"'; ?>";
+                        var generateUniqKK = "<?php echo uniqid("foto-kk-", true) . "." . '"+getFileExtension(img_name_kk)+"'; ?>";
+
+                        form_data.append('query', "INSERT INTO pegawai VALUES ('<?= generateID($crud, '"+ date.getDate() + + ( date.getMonth() + 1) + date.getFullYear()+"'); ?>', '" + $('#txt_nama').val() + "', '" + $('#txt_gender').val() + "', '" + $('#txt_notelepon').val() + "', '" + $('#txt_alamat').val() + "', '" + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + "', '<?= '"+generateUniqPeg+"'; ?>', '<?= '"+generateUniqKTP+"'; ?>', '<?= '"+generateUniqKK+"'; ?>', '" + $('#txt_email').val() + "', '<?= md5("'+$('#txt_password').val()+'"); ?>', 2)");
+                        form_data.append('img_file_peg', generateUniqPeg);
+                        form_data.append('img_file_ktp', generateUniqKTP);
+                        form_data.append('img_file_kk', generateUniqKK);
+                        $.ajax({
+                            url: '../config/koneksi.php',
+                            type: 'post',
+                            data: form_data,
+                            contentType: false,
+                            processData: false,
+                            success: function(res) {
+                                const data = JSON.parse(res);
+
+                                if (data.status == 'error') {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Gagal',
+                                        text: data.msg,
+
+                                    })
+                                } else {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Berhasil',
+                                        text: data.msg,
+
+                                    }).then(function() {
+                                        window.location.href = window.location.href;
+                                    });
+                                }
+
+                            }
+                        });
+
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal',
+                            text: 'Masukkan Gambar Terlebih Dahulu',
+
+                        })
+                    }
+
                 });
             });
         });
@@ -327,11 +504,7 @@ function generateID(Koneksi $obj, $tglmasuk)
 
         });
 
-        $('#click-modal').on('click', function() {
-            $('#title-modal').html('Tambah Pegawai');
-            $('#modalkonten').toggleClass("scale-100");
-            $('#bgmodal').addClass("effectmodal");
-        });
+
 
         $('#closemodal').on('click', function() {
 
