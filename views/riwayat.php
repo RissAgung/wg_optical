@@ -181,7 +181,7 @@
   <script>
     // load sidebar
     $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
-      $('#riwayat').addClass("hover-sidebar");
+      $('#master_data').addClass("hover-sidebar");
       $('#button-logout').on('click', function() {
         $('#modalLogout').toggleClass("scale-0");
         $('#bgmodal').addClass("effectmodal");
