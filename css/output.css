@@ -639,14 +639,6 @@ video {
   left: 6rem;
 }
 
-.left-20 {
-  left: 5rem;
-}
-
-.z-\[9999\] {
-  z-index: 9999;
-}
-
 .z-50 {
   z-index: 50;
 }
@@ -877,6 +869,14 @@ video {
   margin-top: 1.75rem;
 }
 
+.mb-\[27px\] {
+  margin-bottom: 27px;
+}
+
+.mt-14 {
+  margin-top: 3.5rem;
+}
+
 .ml-6 {
   margin-left: 1.5rem;
 }
@@ -1073,6 +1073,10 @@ video {
   height: 2rem;
 }
 
+.h-\[18px\] {
+  height: 18px;
+}
+
 .h-\[273px\] {
   height: 273px;
 }
@@ -1233,6 +1237,14 @@ video {
   width: 5rem;
 }
 
+.w-72 {
+  width: 18rem;
+}
+
+.w-\[18px\] {
+  width: 18px;
+}
+
 .w-\[163px\] {
   width: 163px;
 }
@@ -1305,10 +1317,6 @@ video {
   width: 390px;
 }
 
-.w-72 {
-  width: 18rem;
-}
-
 .max-w-\[250px\] {
   max-width: 250px;
 }
@@ -1371,21 +1379,6 @@ video {
 
 .-translate-y-\[2\.5px\] {
   --tw-translate-y: -2.5px;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.translate-x-1 {
-  --tw-translate-x: 0.25rem;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.translate-x-5 {
-  --tw-translate-x: 1.25rem;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.translate-x-6 {
-  --tw-translate-x: 1.5rem;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
@@ -1729,6 +1722,16 @@ video {
   background-color: rgb(62 95 193 / var(--tw-bg-opacity));
 }
 
+.bg-\[\#9A9EA9\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(154 158 169 / var(--tw-bg-opacity));
+}
+
+.bg-\[\#5C6171\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(92 97 113 / var(--tw-bg-opacity));
+}
+
 .bg-red-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(254 226 226 / var(--tw-bg-opacity));
@@ -1754,11 +1757,6 @@ video {
   background-color: rgb(238 238 238 / var(--tw-bg-opacity));
 }
 
-.bg-\[\#5C6171\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(92 97 113 / var(--tw-bg-opacity));
-}
-
 .bg-\[\#EEF1F9\] {
   --tw-bg-opacity: 1;
   background-color: rgb(238 241 249 / var(--tw-bg-opacity));
@@ -1767,21 +1765,6 @@ video {
 .bg-red-400 {
   --tw-bg-opacity: 1;
   background-color: rgb(248 113 113 / var(--tw-bg-opacity));
-}
-
-.bg-purple-500 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(168 85 247 / var(--tw-bg-opacity));
-}
-
-.bg-green-400 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(74 222 128 / var(--tw-bg-opacity));
-}
-
-.bg-purple-400 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(192 132 252 / var(--tw-bg-opacity));
 }
 
 .bg-opacity-50 {
@@ -1796,12 +1779,12 @@ video {
   fill: #fff;
 }
 
-.fill-\[\#797E8D\] {
-  fill: #797E8D;
-}
-
 .fill-\[\#535A6D\] {
   fill: #535A6D;
+}
+
+.fill-\[\#797E8D\] {
+  fill: #797E8D;
 }
 
 .object-cover {
@@ -2216,6 +2199,10 @@ video {
   color: rgb(249 81 28 / var(--tw-text-opacity));
 }
 
+.no-underline {
+  text-decoration-line: none;
+}
+
 .opacity-0 {
   opacity: 0;
 }
@@ -2305,6 +2292,15 @@ video {
 
 .ease-in-out {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
 
 @font-face {
@@ -2735,6 +2731,21 @@ select {
 .hover\:bg-\[\#06A981\]:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(6 169 129 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-\[\#6c7283\]:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(108 114 131 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-\[\#ccd2e2\]:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(204 210 226 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-\[\#e7e7e7\]:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(231 231 231 / var(--tw-bg-opacity));
 }
 
 .hover\:fill-\[\#373F47\]:hover {
