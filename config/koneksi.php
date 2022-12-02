@@ -10,6 +10,10 @@ if(isset($_POST["type"])){
   if($_POST["type"] == "delete"){
     $kon -> execute($_POST["query"]);
   }
+  
+  if($_POST["type"] == "update"){
+    $kon -> execute($_POST["query"]);
+  }
 }
 
 class koneksi {
