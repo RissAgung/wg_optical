@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/output.css">
-    <title>Riwayat</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/output.css">
+  <title>Riwayat</title>
 </head>
-<body class="bg-[#F0F0F0] font-ex-color box-border" >
-    <!-- Logout modal -->
+
+<body class="bg-[#F0F0F0] font-ex-color box-border">
+  <!-- Logout modal -->
   <div id="bgmodal" class="w-full h-screen fixed hidden bg-black z-[51] opacity-0 transition duration-300"></div>
   <div id="modalLogout" class="w-[90%] md:w-[60%] lg:w-[30%] bg-white fixed z-[51] left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] shadow-xl rounded-lg scale-0  transition ease-in-out">
     <div class="flex flex-row justify-between px-8 pt-[20px]">
@@ -47,11 +49,11 @@
   <div id="ex-sidebar" class="ex-sidebar ex-hide-sidebar fixed z-50 max-lg:transition max-lg:duration-[1s]"></div>
   <!-- end sidebar -->
 
-  <div class = "lg:ml-72">
+  <div class="lg:ml-72">
     <div class="w-full h-16 bg-white flex items-center md:justify-between md:px-5 justify-between px-6 overflow-hidden">
       <div class="flex flex-row uppercase font-ex-bold text-sm items-center">
-        
-      <!-- hamburger -->
+
+        <!-- hamburger -->
         <div class="ex-burger mr-2 lg:hidden absolute" id="burger">
           <svg xmlns="http://www.w3.org/2000/svg" id="Isolation_Mode" data-name="Isolation Mode" viewBox="0 0 24 24" width="20" height="20">
             <rect y="10.5" width="24" height="3" />
@@ -101,7 +103,7 @@
 
           <input type="text" placeholder="Type here" class="h-11 bg-transparent ml-2 outline-none" />
         </div>
-        
+
       </div>
       <!-- End Search -->
 
@@ -113,33 +115,33 @@
       <!-- End Search and Button Add -->
     </div>
     <!-- konten table -->
-      <div class="" id="table">
-        <!--table-->
-        <div class="overflow-x-auto  text-sm mx-auto w-[90%] md:w-[90%] md:mx-auto bg-white rounded-md mt-4 ex-table">
+    <div class="" id="table">
+      <!--table-->
+      <div class="overflow-x-auto  text-sm mx-auto w-[90%] md:w-[90%] md:mx-auto bg-white rounded-md mt-4 ex-table">
         <table class="w-full">
-            <thead class="border-b-2 border-gray-100">
-              <tr>
-                <th class="p-3 text-sm tracking-wide text-center">Tanggal</th>
-                <th class="p-3 text-sm tracking-wide text-center">Kode Pesanan</th>
-                <th class="p-3 text-sm tracking-wide text-center">Sales</th>
-                <th class="p-3 text-sm tracking-wide text-center">Customer</th>
-                <th class="p-3 text-sm tracking-wide text-center">Detail</th>
-                <th class="p-3 text-sm tracking-wide text-center">aksi</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td class="flex justify-center">
-                <button >
-                <svg width="35" height="35" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="25.3637" height="25.3637" rx="5" fill="#EDC683" />
-                        <path d="M11.7273 15.9375C11.7281 15.1415 11.967 14.3633 12.4143 13.6995C12.8615 13.0357 13.4975 12.5156 14.2432 12.2038C14.9888 11.8919 15.8114 11.8021 16.6086 11.9454C17.4058 12.0887 18.1426 12.4589 18.7274 13.01V6.875C18.7274 6.37772 18.5263 5.90081 18.1682 5.54917C17.8102 5.19754 17.3246 5 16.8183 5H9.18185C8.33828 5.00099 7.52955 5.33055 6.93306 5.91639C6.33656 6.50222 6.00101 7.2965 6 8.125V16.875C6.00101 17.7035 6.33656 18.4978 6.93306 19.0836C7.52955 19.6694 8.33828 19.999 9.18185 20H15.8637C14.7667 20 13.7146 19.572 12.9389 18.8101C12.1631 18.0483 11.7273 17.0149 11.7273 15.9375V15.9375ZM9.18185 9.375C9.18185 9.20924 9.2489 9.05027 9.36824 8.93306C9.48758 8.81585 9.64944 8.75 9.81822 8.75H14.9092C15.078 8.75 15.2398 8.81585 15.3592 8.93306C15.4785 9.05027 15.5455 9.20924 15.5455 9.375C15.5455 9.54076 15.4785 9.69973 15.3592 9.81694C15.2398 9.93415 15.078 10 14.9092 10H9.81822C9.64944 10 9.48758 9.93415 9.36824 9.81694C9.2489 9.69973 9.18185 9.54076 9.18185 9.375ZM19.8137 19.8169C19.6943 19.934 19.5325 19.9999 19.3638 19.9999C19.195 19.9999 19.0332 19.934 18.9139 19.8169L17.3821 18.3125C16.9285 18.5968 16.4019 18.7486 15.8637 18.75C15.2974 18.75 14.7437 18.585 14.2728 18.276C13.8018 17.967 13.4348 17.5277 13.2181 17.0138C13.0013 16.4999 12.9446 15.9344 13.0551 15.3888C13.1656 14.8432 13.4383 14.3421 13.8388 13.9488C14.2393 13.5554 14.7496 13.2876 15.3051 13.179C15.8606 13.0705 16.4363 13.1262 16.9596 13.3391C17.4829 13.552 17.9301 13.9124 18.2448 14.375C18.5594 14.8375 18.7274 15.3812 18.7274 15.9375C18.726 16.466 18.5715 16.9832 18.2819 17.4287L19.8137 18.9331C19.933 19.0503 20 19.2093 20 19.375C20 19.5407 19.933 19.6997 19.8137 19.8169Z" fill="#51514F" />
-                      </svg>
+          <thead class="border-b-2 border-gray-100">
+            <tr>
+              <th class="p-3 text-sm tracking-wide text-center">Tanggal</th>
+              <th class="p-3 text-sm tracking-wide text-center">Kode Pesanan</th>
+              <th class="p-3 text-sm tracking-wide text-center">Sales</th>
+              <th class="p-3 text-sm tracking-wide text-center">Customer</th>
+              <th class="p-3 text-sm tracking-wide text-center">Detail</th>
+              <th class="p-3 text-sm tracking-wide text-center">aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td class="flex justify-center">
+                <button>
+                  <svg width="35" height="35" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="25.3637" height="25.3637" rx="5" fill="#EDC683" />
+                    <path d="M11.7273 15.9375C11.7281 15.1415 11.967 14.3633 12.4143 13.6995C12.8615 13.0357 13.4975 12.5156 14.2432 12.2038C14.9888 11.8919 15.8114 11.8021 16.6086 11.9454C17.4058 12.0887 18.1426 12.4589 18.7274 13.01V6.875C18.7274 6.37772 18.5263 5.90081 18.1682 5.54917C17.8102 5.19754 17.3246 5 16.8183 5H9.18185C8.33828 5.00099 7.52955 5.33055 6.93306 5.91639C6.33656 6.50222 6.00101 7.2965 6 8.125V16.875C6.00101 17.7035 6.33656 18.4978 6.93306 19.0836C7.52955 19.6694 8.33828 19.999 9.18185 20H15.8637C14.7667 20 13.7146 19.572 12.9389 18.8101C12.1631 18.0483 11.7273 17.0149 11.7273 15.9375V15.9375ZM9.18185 9.375C9.18185 9.20924 9.2489 9.05027 9.36824 8.93306C9.48758 8.81585 9.64944 8.75 9.81822 8.75H14.9092C15.078 8.75 15.2398 8.81585 15.3592 8.93306C15.4785 9.05027 15.5455 9.20924 15.5455 9.375C15.5455 9.54076 15.4785 9.69973 15.3592 9.81694C15.2398 9.93415 15.078 10 14.9092 10H9.81822C9.64944 10 9.48758 9.93415 9.36824 9.81694C9.2489 9.69973 9.18185 9.54076 9.18185 9.375ZM19.8137 19.8169C19.6943 19.934 19.5325 19.9999 19.3638 19.9999C19.195 19.9999 19.0332 19.934 18.9139 19.8169L17.3821 18.3125C16.9285 18.5968 16.4019 18.7486 15.8637 18.75C15.2974 18.75 14.7437 18.585 14.2728 18.276C13.8018 17.967 13.4348 17.5277 13.2181 17.0138C13.0013 16.4999 12.9446 15.9344 13.0551 15.3888C13.1656 14.8432 13.4383 14.3421 13.8388 13.9488C14.2393 13.5554 14.7496 13.2876 15.3051 13.179C15.8606 13.0705 16.4363 13.1262 16.9596 13.3391C17.4829 13.552 17.9301 13.9124 18.2448 14.375C18.5594 14.8375 18.7274 15.3812 18.7274 15.9375C18.726 16.466 18.5715 16.9832 18.2819 17.4287L19.8137 18.9331C19.933 19.0503 20 19.2093 20 19.375C20 19.5407 19.933 19.6997 19.8137 19.8169Z" fill="#51514F" />
+                  </svg>
                 </button>
                 <!-- <button>
                   <svg width="38" height="37" viewBox="0 0 38 37" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -147,12 +149,12 @@
                     <path d="M23.3982 10.5062V8.67903C23.3982 8.19444 23.2105 7.72969 22.8764 7.38703C22.5423 7.04437 22.0892 6.85187 21.6167 6.85187H16.2723C15.7998 6.85187 15.3467 7.04437 15.0126 7.38703C14.6785 7.72969 14.4908 8.19444 14.4908 8.67903V10.5062H10.0371V12.3333H11.8186V26.0371C11.8186 26.7639 12.1001 27.4611 12.6013 27.975C13.1024 28.489 13.7821 28.7778 14.4908 28.7778H23.3982C24.1069 28.7778 24.7866 28.489 25.2878 27.975C25.7889 27.4611 26.0704 26.7639 26.0704 26.0371V12.3333H27.8519V10.5062H23.3982ZM18.0538 22.3827H16.2723V16.9012H18.0538V22.3827ZM21.6167 22.3827H19.8353V16.9012H21.6167V22.3827ZM21.6167 10.5062H16.2723V8.67903H21.6167V10.5062Z" fill="#501614" />
                   </svg>
                 </button> -->
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-           <!-- Pagination And Info Data -->
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- Pagination And Info Data -->
       <div class="flex flex-col-reverse  md:flex-row lg:flex-row lg:justify-between md:justify-around lg:px-16 lg:mt-5 items-center mt-3 text-sm">
         <!-- <div class="flex flex-row mb-3 font-ex-semibold">
           <div class="flex justify-center items-center h-10 w-10 mr-2 rounded-sm bg-white drop-shadow-md">
@@ -172,86 +174,87 @@
         <div class="mb-3">20 from 120 data</div>
       </div>
       <!-- End Pagination And Info Data -->
-        </div>
+    </div>
   </div>
 
-<script src="../js/jquery-3.6.1.min.js"></script>
-<script>
-  // load sidebar
-  $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
-      $('#master_data').addClass("hover-sidebar");
+  <script src="../js/jquery-3.6.1.min.js"></script>
+  <script>
+    // load sidebar
+    $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
+      $('#riwayat').addClass("hover-sidebar");
       $('#button-logout').on('click', function() {
         $('#modalLogout').toggleClass("scale-0");
         $('#bgmodal').addClass("effectmodal");
       });
     });
 
-    
+
     // load modal input
     $("#modal").load("../assets/components/modal_tambah_master_product.html", function() {
 
-$("#btn_out").on("click", function() {
-  $('#modal').addClass("scale-0");
-  $('#bgmodal').removeClass("effectmodal");
-});
+      $("#btn_out").on("click", function() {
+        $('#modal').addClass("scale-0");
+        $('#bgmodal').removeClass("effectmodal");
+      });
 
-$("#btn_batal").on("click", function() {
-  $('#modal').addClass("scale-0");
-  $('#bgmodal').removeClass("effectmodal");
-});
+      $("#btn_batal").on("click", function() {
+        $('#modal').addClass("scale-0");
+        $('#bgmodal').removeClass("effectmodal");
+      });
 
-$("#btn_tambah").on("click", function() {
-  $('#modal').addClass("scale-0");
-  $('#bgmodal').removeClass("effectmodal");
-});
+      $("#btn_tambah").on("click", function() {
+        $('#modal').addClass("scale-0");
+        $('#bgmodal').removeClass("effectmodal");
+      });
 
-});
+    });
 
-// tab focus
-$('#tab_catalog').on("click", function() {
-$('#bgtab').removeClass("translate-x-0");
-$('#bgtab').addClass("translate-x-[83px]");
-$('#tab_catalog').addClass("tab-focus");
-$('#tab_table').removeClass("tab-focus");
-$('#table').addClass("hidden");
-$('#catalog').removeClass("hidden");
-});
+    // tab focus
+    $('#tab_catalog').on("click", function() {
+      $('#bgtab').removeClass("translate-x-0");
+      $('#bgtab').addClass("translate-x-[83px]");
+      $('#tab_catalog').addClass("tab-focus");
+      $('#tab_table').removeClass("tab-focus");
+      $('#table').addClass("hidden");
+      $('#catalog').removeClass("hidden");
+    });
 
-$('#tab_table').on("click", function() {
-$('#bgtab').removeClass("translate-x-[83px]");
-$('#bgtab').addClass("translate-x-0");
-$('#tab_catalog').removeClass("tab-focus");
-$('#tab_table').addClass("tab-focus");
-$('#table').removeClass("hidden");
-$('#catalog').addClass("hidden");
-});
+    $('#tab_table').on("click", function() {
+      $('#bgtab').removeClass("translate-x-[83px]");
+      $('#bgtab').addClass("translate-x-0");
+      $('#tab_catalog').removeClass("tab-focus");
+      $('#tab_table').addClass("tab-focus");
+      $('#table').removeClass("hidden");
+      $('#catalog').addClass("hidden");
+    });
 
-$("#burger").on("click", function() {
-  $('#bgbody').toggleClass("hidden");
+    $("#burger").on("click", function() {
+      $('#bgbody').toggleClass("hidden");
 
-  $('#ex-sidebar').toggleClass("ex-hide-sidebar");
-  $('#burger').toggleClass("show");
-});
+      $('#ex-sidebar').toggleClass("ex-hide-sidebar");
+      $('#burger').toggleClass("show");
+    });
 
-$("#bgbody").on("click", function() {
-  $('#ex-sidebar').toggleClass("ex-hide-sidebar");
-  $('#burger').toggleClass("show");
+    $("#bgbody").on("click", function() {
+      $('#ex-sidebar').toggleClass("ex-hide-sidebar");
+      $('#burger').toggleClass("show");
 
-  $('#bgbody').toggleClass("hidden");
+      $('#bgbody').toggleClass("hidden");
 
-});
+    });
 
-$('#bgmodal').on('click', function() {
-$('#modalLogout').toggleClass("scale-0");
-$('#bgmodal').removeClass("effectmodal");
-});
+    $('#bgmodal').on('click', function() {
+      $('#modalLogout').toggleClass("scale-0");
+      $('#bgmodal').removeClass("effectmodal");
+    });
 
-$('#click-modal').on('click', function() {
-console.log("modal click");
-$('#modal').removeClass("scale-0");
-$('#bgmodal').addClass("effectmodal");
-});
-</script>
-    
+    $('#click-modal').on('click', function() {
+      console.log("modal click");
+      $('#modal').removeClass("scale-0");
+      $('#bgmodal').addClass("effectmodal");
+    });
+  </script>
+
 </body>
+
 </html>
