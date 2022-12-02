@@ -32,6 +32,7 @@ function rupiah($angka)
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../css/output.css">
+  <link rel="stylesheet" href="../css/sweetalert2.min.css">
   <title>Master Data | WG Optical</title>
 </head>
 
@@ -323,9 +324,10 @@ function rupiah($angka)
   </div>
   </div>
   <!-- konten catalog -->
-  
+
 
   <script src="../js/jquery-3.6.1.min.js"></script>
+  <script src="../js/sweetalert2.min.js"></script>
   <script>
     // load sidebar
     $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
@@ -338,13 +340,16 @@ function rupiah($angka)
 
     // reset 
     var input = '<?= $input ?>';
-    console.log("pleerrr "+input);
     if (input !== "") {
       $('#btn_reset').removeClass('hidden');
       $('#btn_reset').addClass('flex');
       $('#btn_reset').on('click', function() {
         window.location.replace("master_product.php");
       })
+    }
+
+    function getFileExtension(fstring) {
+      return fstring.slice((Math.max(0, fstring.lastIndexOf(".")) || Infinity) + 1);
     }
 
     // load modal input
@@ -355,21 +360,79 @@ function rupiah($angka)
         console.log("modal click");
         $('#title').html('Tambah Data');
         $('#btn_tambah').html('Tambah');
-        $("#btn_tambah").on("click", function() {
+        $("#btn_tambah").on("click", function(e) {
+
+          e.preventDefault();
 
           getData();
-          $.ajax({
-            type: "post",
-            url: "../config/koneksi.php",
-            data: {
-              type: "insert",
-              query: "INSERT INTO produk VALUES ('" + kode_frame + "','" + merk + "','" + warna + "','0','','" + harga + "')"
-            },
-            cache: false,
-            success: function(data) {
-              window.location.replace("master_product.php");
-            }
-          });
+
+          let formData = new FormData();
+          let imgProduk = $('#imgInp')[0].files;
+          let query;
+
+          if (imgProduk.length > 0) {
+            query = "gambar product ada";
+
+            formData.append('image_produk', imgProduk[0]);
+            formData.append('type', "insert");
+
+            var img_name_produk = formData.get('image_produk')['name'];
+            var generateUniqProduk = "<?php echo uniqid('produk-lensa-', true) . '.' . '"+getFileExtension(img_name_produk).toLowerCase()+"' ?>";
+
+            // cek bagian toLowercase jika error (tmp)
+
+            formData.append('img_file_produk', generateUniqProduk);
+            formData.append('query', "INSERT INTO produk VALUES ('" + kode_frame + "','" + merk + "','" + warna + "','0','" + generateUniqProduk + "','" + harga + "')");
+
+            $.ajax({
+              type: "post",
+              url: "../controllers/productController.php",
+              data: formData,
+              contentType: false,
+              processData: false,
+              success: function(res) {
+                const data = JSON.parse(res);
+
+                if (data.status == 'error') {
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal',
+                    text: data.msg,
+                  })
+                } else {
+                  Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: data.msg,
+
+                  }).then(function() {
+                    window.location.replace("master_product.php?halaman=<?= $halamanAktif ?>");
+                  });
+                }
+              }
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Gagal',
+              text: 'Masukkan Gambar Terlebih Dahulu',
+
+            })
+          }
+          console.log(query);
+
+          // $.ajax({
+          //   type: "post",
+          //   url: "../controllers/productController.php",
+          //   data: {
+          //     type: "insert",
+          //     query: "INSERT INTO produk VALUES ('" + kode_frame + "','" + merk + "','" + warna + "','0','','" + harga + "')"
+          //   },
+          //   cache: false,
+          //   success: function(data) {
+          //     window.location.replace("master_product.php?halaman=<?= $halamanAktif ?>");
+          //   }
+          // });
         });
 
         $('#modal').removeClass("scale-0");
@@ -394,14 +457,14 @@ function rupiah($angka)
             getData();
             $.ajax({
               type: "post",
-              url: "../config/koneksi.php",
+              url: "../controllers/productController.php",
               data: {
                 type: "update",
                 query: "UPDATE produk SET merk='" + merk + "', warna='" + warna + "', harga_jual='" + harga + "' WHERE kode_frame = '" + kode_frame + "'"
               },
               cache: false,
               success: function(data) {
-                window.location.replace("master_product.php");
+                window.location.replace("master_product.php?halaman=<?= $halamanAktif ?>");
               }
             });
           });
@@ -479,51 +542,73 @@ function rupiah($angka)
     // delete modal
     $("#modal-delete").load("../assets/components/modal_hapus.html", function() {
 
-      var lengthData = '<?= count($data) ?>';
-      var id;
+      <?php for ($i = 1; $i <= count($data); $i++) : ?>
+        $('#delete-button-<?= $i ?>').on('click', function() {
+          var id = '<?= $data[$i - 1]["kode_frame"] ?>';
+          var img_path = '<?= $data[$i - 1]["gambar"] ?>';
 
-      for (var index = 1; index <= lengthData; index++) {
-        $('#delete-button-' + index).on('click', function() {
-
-          var currentRow = $(this).closest("tr")
-          id = currentRow.find("td:eq(1)").text();
-
-          $('#title').html('Hapus Data Frame ini' + id);
+          $('#title_delete').html('Hapus Data Pegawai ini? ' + id);
 
           $('#modalkontenhapus').toggleClass("scale-100");
           $('#bgmodalhapus').addClass("effectmodal");
 
+          $('#hapus').on('click', function() {
+
+            console.log("hello");
+            $.ajax({
+              type: "post",
+              url: "../controllers/productController.php",
+              data: {
+                type: "delete",
+                query: "DELETE FROM `produk` WHERE kode_frame = '" + id + "'",
+                imgPath: img_path,
+              },
+              cache: false,
+              success: function(res) {
+                const data = JSON.parse(res);
+
+                if (data.status == 'success') {
+                  Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: data.msg,
+                  }).then(function() {
+                    window.location.replace("master_product.php");
+                  });
+                }
+              }
+            });
+
+          })
+
+          $('#closemodalhapus').on('click', function() {
+
+            $('#modalkontenhapus').removeClass("scale-100");
+            $('#bgmodalhapus').removeClass("effectmodal");
+          });
+
+          $('#batal').on('click', function() {
+
+            $('#modalkontenhapus').removeClass("scale-100");
+            $('#bgmodalhapus').removeClass("effectmodal");
+          });
+
         });
-      }
+      <?php endfor ?>
 
-      $('#hapus').on('click', function() {
+      // for (var index = 1; index <= lengthData; index++) {
+      //   $('#delete-button-' + index).on('click', function() {
 
-        $.ajax({
-          type: "post",
-          url: "../config/koneksi.php",
-          data: {
-            type: "delete",
-            query: "DELETE FROM `produk` WHERE kode_frame = '" + id + "'"
-          },
-          cache: false,
-          success: function(data) {
-            window.location.replace("master_product.php");
-          }
-        });
+      //     var currentRow = $(this).closest("tr")
+      //     id = currentRow.find("td:eq(1)").text();
 
-      })
+      //     $('#title').html('Hapus Data Frame ini' + id);
 
-      $('#closemodalhapus').on('click', function() {
+      //     $('#modalkontenhapus').toggleClass("scale-100");
+      //     $('#bgmodalhapus').addClass("effectmodal");
 
-        $('#modalkontenhapus').toggleClass("scale-100");
-        $('#bgmodalhapus').removeClass("effectmodal");
-      });
-
-      $('#batal').on('click', function() {
-
-        $('#modalkontenhapus').toggleClass("scale-100");
-        $('#bgmodalhapus').removeClass("effectmodal");
-      });
+      //   });
+      // }
     });
 
     // search
