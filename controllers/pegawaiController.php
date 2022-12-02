@@ -144,7 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 'status' => 'error',
                                 'msg' => 'Ekstensi Foto Pegawai Tidak Sesuai'
                             );
-                            
+
                             $response = array(
                                 'status' => 'success',
                                 'msg' => 'Berhasil Mengubah Data'
@@ -162,21 +162,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             # crating upload path on root directory
                             $img_upload_path_peg = "../images/pegawai/foto_pegawai/" . $_POST['img_file_peg'];
                             $img_upload_path_ktp = "../images/pegawai/foto_ktp/" . $_POST['img_file_ktp'];
-                        
+
 
                             $img_upload_path_peg_old = "../images/pegawai/foto_pegawai/" . $_POST['img_file_peg_old'];
                             $img_upload_path_ktp_old = "../images/pegawai/foto_ktp/" . $_POST['img_file_ktp_old'];
-                    
+
                             // hapus foto lama
                             unlink($img_upload_path_peg_old);
                             unlink($img_upload_path_ktp_old);
-                    
+
                             # move uploaded image to 'uploads' folder
                             move_uploaded_file($tmppeg_name, $img_upload_path_peg);
                             move_uploaded_file($tmpktp_name, $img_upload_path_ktp);
-        
+
                             // echo $_POST['query'];
-            
+
                             $crud->execute($_POST['query']);
                             $response = array(
                                 'status' => 'success',
@@ -194,8 +194,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     echo json_encode($response);
                     exit();
                 }
-
-
             } else if ($_POST['opsifoto'] == 'fotopegawai-dan-kk') {
 
                 $imgpeg_name = $_FILES['image_peg']['name'];
@@ -208,7 +206,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $imgkk_size = $_FILES['image_kk']['size'];
                 $tmpkk_name = $_FILES['image_kk']['tmp_name'];
                 $errorkk    = $_FILES['image_kk']['error'];
-                
+
 
                 if ($errorpeg === 0 || $errorkk === 0) {
                     if ($imgpeg_size > 2000000) {
@@ -232,7 +230,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 'status' => 'error',
                                 'msg' => 'Ekstensi Foto Pegawai Tidak Sesuai'
                             );
-                            
+
                             $response = array(
                                 'status' => 'success',
                                 'msg' => 'Berhasil Mengubah Data'
@@ -262,7 +260,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             move_uploaded_file($tmppeg_name, $img_upload_path_peg);
                             move_uploaded_file($tmpkk_name, $img_upload_path_kk);
                             // echo $_POST['query'];
-            
+
                             $crud->execute($_POST['query']);
                             $response = array(
                                 'status' => 'success',
@@ -286,7 +284,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $tmppeg_name = $_FILES['image_peg']['tmp_name'];
                 $errorpeg    = $_FILES['image_peg']['error'];
 
-                
+
 
                 if ($errorpeg === 0) {
                     if ($imgpeg_size > 2000000) {
@@ -303,7 +301,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 'status' => 'error',
                                 'msg' => 'Ekstensi Foto Pegawai Tidak Sesuai'
                             );
-                            
+
                             $response = array(
                                 'status' => 'success',
                                 'msg' => 'Berhasil Mengubah Data'
@@ -313,17 +311,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         } else {
                             # crating upload path on root directory
                             $img_upload_path_peg = "../images/pegawai/foto_pegawai/" . $_POST['img_file_peg'];
-                        
+
                             $img_upload_path_peg_old = "../images/pegawai/foto_pegawai/" . $_POST['img_file_peg_old'];
-                        
+
                             // hapus foto lama
                             unlink($img_upload_path_peg_old);
-                        
+
                             # move uploaded image to 'uploads' folder
                             move_uploaded_file($tmppeg_name, $img_upload_path_peg);
-                        
+
                             // echo $_POST['query'];
-            
+
                             $crud->execute($_POST['query']);
                             $response = array(
                                 'status' => 'success',
@@ -353,7 +351,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $imgkk_size = $_FILES['image_kk']['size'];
                 $tmpkk_name = $_FILES['image_kk']['tmp_name'];
                 $errorkk    = $_FILES['image_kk']['error'];
-                
+
 
                 if ($errorktp === 0 || $errorkk === 0) {
                     if ($imgktp_size > 2000000) {
@@ -401,7 +399,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             move_uploaded_file($tmpktp_name, $img_upload_path_ktp);
                             move_uploaded_file($tmpkk_name, $img_upload_path_kk);
                             // echo $_POST['query'];
-            
+
                             $crud->execute($_POST['query']);
                             $response = array(
                                 'status' => 'success',
@@ -419,7 +417,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     echo json_encode($response);
                     exit();
                 }
-            } else if($_POST['opsifoto'] == 'fotoktp'){
+            } else if ($_POST['opsifoto'] == 'fotoktp') {
                 // img ktp
                 $imgktp_name = $_FILES['image_ktp']['name'];
                 $imgktp_size = $_FILES['image_ktp']['size'];
@@ -434,7 +432,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         );
                         echo json_encode($response);
                         exit();
-                    }  else {
+                    } else {
                         if (!in_array(pathinfo($imgktp_name, PATHINFO_EXTENSION), $allowed_exs)) {
                             $response = array(
                                 'status' => 'error',
@@ -454,7 +452,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             # move uploaded image to 'uploads' folder
                             move_uploaded_file($tmpktp_name, $img_upload_path_ktp);
                             // echo $_POST['query'];
-            
+
                             $crud->execute($_POST['query']);
                             $response = array(
                                 'status' => 'success',
@@ -479,7 +477,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $imgkk_size = $_FILES['image_kk']['size'];
                 $tmpkk_name = $_FILES['image_kk']['tmp_name'];
                 $errorkk    = $_FILES['image_kk']['error'];
-                
+
 
                 if ($errorkk === 0) {
                     if ($imgkk_size > 2000000) {
@@ -509,7 +507,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             # move uploaded image to 'uploads' folder
                             move_uploaded_file($tmpkk_name, $img_upload_path_kk);
                             // echo $_POST['query'];
-            
+
                             $crud->execute($_POST['query']);
                             $response = array(
                                 'status' => 'success',
@@ -544,7 +542,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $imgkk_size = $_FILES['image_kk']['size'];
                 $tmpkk_name = $_FILES['image_kk']['tmp_name'];
                 $errorkk    = $_FILES['image_kk']['error'];
-                
+
 
                 if ($errorpeg === 0 || $errorktp === 0 || $errorkk === 0) {
                     if ($imgpeg_size > 2000000) {
@@ -575,7 +573,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 'status' => 'error',
                                 'msg' => 'Ekstensi Foto Pegawai Tidak Sesuai'
                             );
-                            
+
                             $response = array(
                                 'status' => 'success',
                                 'msg' => 'Berhasil Mengubah Data'
@@ -616,7 +614,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             move_uploaded_file($tmpktp_name, $img_upload_path_ktp);
                             move_uploaded_file($tmpkk_name, $img_upload_path_kk);
                             // echo $_POST['query'];
-            
+
                             $crud->execute($_POST['query']);
                             $response = array(
                                 'status' => 'success',
@@ -635,6 +633,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     exit();
                 }
             }
+        } else if ($_POST['type'] == 'ubah_password_pegawai') {
+            $crud->execute($_POST['query']);
+            $response = array(
+                'status' => 'success',
+                'msg' => 'Berhasil Mengubah Password'
+            );
+            echo json_encode($response);
+            exit();
         }
     }
 
