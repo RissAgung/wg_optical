@@ -17,7 +17,6 @@ if(isset($_POST["type"])){
 }
 
 class koneksi {
-
     private $server="localhost";
     private $username = "root";
     private $password= "";
@@ -42,3 +41,5 @@ class koneksi {
       return $datas;
     }
 }
+
+?>
