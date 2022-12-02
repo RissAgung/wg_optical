@@ -1,7 +1,5 @@
 <?php
-require('../config/koneksi.php');
-
-$crud = new koneksi();
+require('../controllers/pegawaiController.php');
 
 function generateID(Koneksi $obj, $tglmasuk)
 {
@@ -422,7 +420,7 @@ function generateID(Koneksi $obj, $tglmasuk)
                         form_data.append('img_file_ktp', generateUniqKTP);
                         form_data.append('img_file_kk', generateUniqKK);
                         $.ajax({
-                            url: '../config/koneksi.php',
+                            url: '../controllers/pegawaiController.php',
                             type: 'post',
                             data: form_data,
                             contentType: false,
