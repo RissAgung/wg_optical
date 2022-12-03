@@ -47,8 +47,7 @@
 
       <div class="flex flex-row w-full items-center justify-between px-5 mt-7">
         <p class="font-ex-semibold">Harga Jual</p>
-        <input type="text" id="harga_txt"
-          class="border-[1px] h-11 w-52 px-3 rounded-md border-[#C9C9C9] outline-none">
+        <input type="text" id="harga_txt" class="border-[1px] h-11 w-52 px-3 rounded-md border-[#C9C9C9] outline-none">
       </div>
 
       <div class="flex flex-row w-full justify-between px-5 mt-7">
@@ -83,8 +82,15 @@
       </div>
 
       <div
-        class="cursor-pointer flex hover:bg-[#06A981] hover:transition hover:duration-[0.3s] justify-center items-center ml-4 h-[40 px] w-[103px] bg-[#3DBD9E] rounded-md"
-        id="btn_tambah" onclick="getValue()">
+        class="hidden cursor-pointer hover:bg-[#06A981] hover:transition hover:duration-[0.3s] justify-center items-center ml-4 h-[40 px] w-[103px] bg-[#3DBD9E] rounded-md"
+        id="btn_tambah">
+        Tambah
+      </div>
+
+      <div
+        class="hidden cursor-pointer hover:bg-[#06A981] hover:transition hover:duration-[0.3s] justify-center items-center ml-4 h-[40 px] w-[103px] bg-[#3DBD9E] rounded-md"
+        id="btn_edit">
+        Edit
       </div>
     </div>
     <!-- end button -->
@@ -95,13 +101,30 @@
 
   <script src="../../js/jquery-3.6.1.min.js"></script>
   <script>
-    imgInp.onchange = evt => {
-      const [file] = imgInp.files
-      if (file) {
-        imgpreview_peg.src = URL.createObjectURL(file);
-        $('#imgpreview_peg').removeClass("hidden");
-        $('#imgdefault_peg').addClass("hidden");
+
+    function chenge(choise){
+      if(choise == "tambah"){
+        $('#btn_tambah').addClass("flex");
+        $('#btn_tambah').removeClass("hidden");
+        $('#btn_edit').addClass("hidden");
+        $('#btn_edit').removeClass("flex");
+      }else if(choise == "edit"){
+        $('#btn_edit').addClass("flex");
+        $('#btn_edit').removeClass("hidden");
+        $('#btn_tambah').addClass("hidden");
+        $('#btn_tambah').removeClass("flex");
       }
+    }
+
+    function reset() {
+      console.log("coba coba haha");
+      $('#kode_txt').val(null);
+      $('#merk_txt').val(null);
+      $('#warna_txt').val(null);
+      $('#harga_txt').val(null);
+      imgpreview_peg.src = "#";
+      $('#imgpreview_peg').addClass("hidden");
+      $('#imgdefault_peg').removeClass("hidden");
     }
 
     /* Dengan Rupiah */
@@ -125,11 +148,6 @@
 
       rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
       return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
-    }
-
-    function getValue() {
-      var dengan_rupiah = document.getElementById('input_rupiah');
-      console.log(dengan_rupiah.value);
     }
   </script>
 </body>

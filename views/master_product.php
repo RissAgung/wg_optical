@@ -357,7 +357,25 @@ function rupiah($angka)
 
       // tambah
       $('#click-modal').on('click', function() {
-        console.log("modal click");
+
+        chenge("tambah");
+
+        reset();
+
+        $('#modal').removeClass("scale-0");
+        $('#bgmodal').addClass("effectmodal");
+
+        console.log("tambah click");
+
+        imgInp.onchange = evt => {
+          const [file] = imgInp.files
+          if (file) {
+            imgpreview_peg.src = URL.createObjectURL(file);
+            $('#imgpreview_peg').removeClass("hidden");
+            $('#imgdefault_peg').addClass("hidden");
+          }
+        }
+
         $('#title').html('Tambah Data');
         $('#btn_tambah').html('Tambah');
         $("#btn_tambah").on("click", function(e) {
@@ -420,28 +438,31 @@ function rupiah($angka)
             })
           }
           console.log(query);
-
-          // $.ajax({
-          //   type: "post",
-          //   url: "../controllers/productController.php",
-          //   data: {
-          //     type: "insert",
-          //     query: "INSERT INTO produk VALUES ('" + kode_frame + "','" + merk + "','" + warna + "','0','','" + harga + "')"
-          //   },
-          //   cache: false,
-          //   success: function(data) {
-          //     window.location.replace("master_product.php?halaman=<?= $halamanAktif ?>");
-          //   }
-          // });
         });
-
-        $('#modal').removeClass("scale-0");
-        $('#bgmodal').addClass("effectmodal");
       });
 
       // edit
       <?php for ($i = 1; $i <= count($data); $i++) : ?>
         $('#edit-button-<?= $i ?>').on('click', function() {
+
+          chenge("edit");
+
+          reset();
+
+          console.log("edit click");
+
+          imgInp.onchange = evt => {
+            const [file] = imgInp.files
+            if (file) {
+              imgpreview_peg.src = URL.createObjectURL(file);
+              $('#imgpreview_peg').removeClass("hidden");
+              $('#imgdefault_peg').addClass("hidden");
+            }
+          }
+
+          $('#modal').removeClass("scale-0");
+          $('#bgmodal').addClass("effectmodal");
+
           $('#title').html('Edit Data');
           $('#btn_tambah').html('Edit');
 
@@ -452,25 +473,96 @@ function rupiah($angka)
           $("#warna_txt").val('<?= $data[$i - 1]["warna"] ?>');
           $("#harga_txt").val('<?= rupiah($data[$i - 1]["harga_jual"]) ?>');
 
-          $("#btn_tambah").on("click", function() {
+          imgpreview_peg.src = "../../images/produk/<?= $data[$i - 1]["gambar"] ?>";
+          $('#imgpreview_peg').removeClass("hidden");
+          $('#imgdefault_peg').addClass("hidden");
+
+          $("#btn_edit").on("click", function(e) {
+
+            e.preventDefault();
 
             getData();
-            $.ajax({
-              type: "post",
-              url: "../controllers/productController.php",
-              data: {
-                type: "update",
-                query: "UPDATE produk SET merk='" + merk + "', warna='" + warna + "', harga_jual='" + harga + "' WHERE kode_frame = '" + kode_frame + "'"
-              },
-              cache: false,
-              success: function(data) {
-                window.location.replace("master_product.php?halaman=<?= $halamanAktif ?>");
-              }
-            });
-          });
 
-          $('#modal').removeClass("scale-0");
-          $('#bgmodal').addClass("effectmodal");
+            let formData = new FormData();
+            let imgProduk = $('#imgInp')[0].files;
+
+            if (!imgProduk.length > 0) {
+              console.log("tanpa gambar");
+              // gambar tidak ada atau kosong
+              formData.append('type', "update");
+              formData.append('query', "UPDATE produk SET merk='" + merk + "', warna='" + warna + "', harga_jual='" + harga + "' WHERE kode_frame = '" + kode_frame + "'");
+
+              $.ajax({
+                type: "post",
+                url: "../controllers/productController.php",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(res) {
+                  const data = JSON.parse(res);
+
+                  if (data.status == 'error') {
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Gagal',
+                      text: data.msg,
+                    })
+                  } else {
+                    Swal.fire({
+                      icon: 'success',
+                      title: 'Berhasil',
+                      text: data.msg,
+
+                    }).then(function() {
+                      window.location.replace("master_product.php?halaman=<?= $halamanAktif ?>");
+                    });
+                  }
+                }
+              });
+            } else {
+              console.log("dengan gambar");
+
+              formData.append('image_produk', imgProduk[0]);
+              formData.append('type', "update");
+
+              var img_name_produk = formData.get('image_produk')['name'];
+              var generateUniqProduk = "<?php echo uniqid('produk-lensa-', true) . '.' . '"+getFileExtension(img_name_produk).toLowerCase()+"' ?>";
+              var img_name_produk_lama = '<?= $data[$i - 1]["gambar"] ?>';
+
+              formData.append('img_file_produk_baru', generateUniqProduk);
+              formData.append('img_file_produk_lama', img_name_produk_lama);
+
+              formData.append('query', "UPDATE produk SET merk='" + merk + "', warna='" + warna + "', harga_jual='" + harga + "', gambar='" + generateUniqProduk + "' WHERE kode_frame = '" + kode_frame + "'");
+
+              $.ajax({
+                type: "post",
+                url: "../controllers/productController.php",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(res) {
+                  const data = JSON.parse(res);
+
+                  if (data.status == 'error') {
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Gagal',
+                      text: data.msg,
+                    })
+                  } else {
+                    Swal.fire({
+                      icon: 'success',
+                      title: 'Berhasil',
+                      text: data.msg,
+
+                    }).then(function() {
+                      window.location.replace("master_product.php?halaman=<?= $halamanAktif ?>");
+                    });
+                  }
+                }
+              });
+            }
+          });
         });
       <?php endfor ?>
 
