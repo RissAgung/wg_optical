@@ -262,26 +262,26 @@ function rupiah($angka)
     <div class="hidden" id="catalog">
       <div class="container-catalog flex flex-row flex-wrap overflow-y-scroll scrollbar-hide text-sm mx-auto w-[90%] md:w-[90%] md:mx-auto bg-white rounded-md mt-4 ex-catalog pl-6 pr-[8px] pt-[8pxb ] justify-between max-[391px]:justify-center">
 
-
-        <?php for ($i = 0; $i < 20; $i++) : ?>
+        <?php $idx = 1 ?>
+        <?php foreach ($data as $index) : ?>
           <!-- items -->
           <div class="max-[400px]:w-[163px] max-md:w-[149px] w-[163px] h-[273px]  shadow-md relative rounded-2xl overflow-hidden mt-4 mr-4">
             <div class="max-[400px]:w-[163px] max-md:w-[149px] max-[400px]:h-[163px] max-md:h-[149px] h-[163px] w-[163px] bg-red-100 rounded-2xl overflow-hidden">
-              <img class="h-full" src="https://media.glasses.com/2022/PLATFORM/CLP/Virtual_Mirror/GL_CLP_Virtual_Mirror_02_D.jpg" alt="product image">
+              <img class="max-[400px]:w-[163px] max-md:w-[149px] max-[400px]:h-[163px] max-md:h-[149px] h-[163px] w-[163px] object-cover" src="../../images/produk/<?= $index["gambar"] ?>" alt="product image">
             </div>
             <div class="flex flex-col w-full h-full p-[13px]">
-              <h3 class="uppercase text-[11px]">dlgh3</h3>
-              <h2 class="font-ex-semibold text-[14px]">Rp.300.000</h2>
+              <h3 class="uppercase text-[11px]"><?= $index["kode_frame"] ?></h3>
+              <h2 class="font-ex-semibold text-[14px]"><?= rupiah($index["harga_jual"]) ?></h2>
               <hr class="mt-3">
               <div class="flex flex-row justify-between py-2 items-center">
-                <p class="text-[10px]">Stock : 20</p>
+                <p class="text-[10px]">Stock : <?= $index["stock"] ?></p>
                 <div class="flex flex-row">
-                  <div class="flex items-center justify-center w-[25px] h-[25px] bg-[#EDC683] rounded-md mr-[11px]">
+                  <div id="edit-button-catalog-<?= $idx ?>" class="cursor-pointer flex items-center justify-center w-[29px] h-[29px] bg-[#EDC683] rounded-md mr-[11px]">
                     <svg width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path fill-rule="evenodd" clip-rule="evenodd" d="M13.3722 0.80805C13.5491 0.88139 13.7098 0.988883 13.8452 1.12438C13.9807 1.25974 14.0882 1.42048 14.1615 1.59741C14.2349 1.77434 14.2726 1.96399 14.2726 2.15552C14.2726 2.34704 14.2349 2.53669 14.1615 2.71362C14.0882 2.89055 13.9807 3.05129 13.8452 3.18665L11.8958 5.13551L9.83406 3.07381L11.7829 1.12438C11.9183 0.988883 12.079 0.88139 12.256 0.80805C12.4329 0.73471 12.6225 0.69696 12.8141 0.69696C13.0056 0.69696 13.1952 0.73471 13.3722 0.80805ZM0.979492 12.8487C0.979618 12.2591 1.21396 11.6936 1.63097 11.2767L9.04789 3.8598L11.1096 5.92151L3.69267 13.3384C3.27579 13.7554 2.71034 13.9898 2.12069 13.9899H0.979492V12.8487Z" fill="#3F2C0D" />
                     </svg>
                   </div>
-                  <div class="flex items-center justify-center w-[25px] h-[25px] bg-[#F35E58] rounded-md">
+                  <div id="delete-button-catalog-<?= $idx ?>" class="cursor-pointer flex items-center justify-center w-[29px] h-[29px] bg-[#F35E58] rounded-md">
                     <svg width="13" height="16" viewBox="0 0 13 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M9.26735 3.27949V2.01349C9.26735 1.67773 9.1373 1.35572 8.90582 1.1183C8.67434 0.880879 8.36037 0.747498 8.03301 0.747498H4.32997C4.0026 0.747498 3.68864 0.880879 3.45716 1.1183C3.22567 1.35572 3.09563 1.67773 3.09563 2.01349V3.27949H0.00976562V4.54548H1.24411V14.0404C1.24411 14.5441 1.43918 15.0271 1.78641 15.3832C2.13363 15.7394 2.60457 15.9394 3.09563 15.9394H9.26735C9.7584 15.9394 10.2293 15.7394 10.5766 15.3832C10.9238 15.0271 11.1189 14.5441 11.1189 14.0404V4.54548H12.3532V3.27949H9.26735ZM5.56432 11.5085H4.32997V7.71047H5.56432V11.5085ZM8.03301 11.5085H6.79866V7.71047H8.03301V11.5085ZM8.03301 3.27949H4.32997V2.01349H8.03301V3.27949Z" fill="#501614" />
                     </svg>
@@ -292,7 +292,8 @@ function rupiah($angka)
             </div>
           </div>
           <!-- items -->
-        <?php endfor ?>
+          <?php $idx++ ?>
+        <?php endforeach ?>
 
       </div>
 
@@ -330,7 +331,25 @@ function rupiah($angka)
 
       // tambah
       $('#click-modal').on('click', function() {
-        console.log("modal click");
+
+        chenge("tambah");
+
+        reset();
+
+        $('#modal').removeClass("scale-0");
+        $('#bgmodal').addClass("effectmodal");
+
+        console.log("tambah click");
+
+        imgInp.onchange = evt => {
+          const [file] = imgInp.files
+          if (file) {
+            imgpreview_peg.src = URL.createObjectURL(file);
+            $('#imgpreview_peg').removeClass("hidden");
+            $('#imgdefault_peg').addClass("hidden");
+          }
+        }
+
         $('#title').html('Tambah Data');
         $('#btn_tambah').html('Tambah');
         $("#btn_tambah").on("click", function(e) {
@@ -393,28 +412,31 @@ function rupiah($angka)
             })
           }
           console.log(query);
-
-          // $.ajax({
-          //   type: "post",
-          //   url: "../controllers/productController.php",
-          //   data: {
-          //     type: "insert",
-          //     query: "INSERT INTO produk VALUES ('" + kode_frame + "','" + merk + "','" + warna + "','0','','" + harga + "')"
-          //   },
-          //   cache: false,
-          //   success: function(data) {
-          //     window.location.replace("master_product.php?halaman=<?= $halamanAktif ?>");
-          //   }
-          // });
         });
-
-        $('#modal').removeClass("scale-0");
-        $('#bgmodal').addClass("effectmodal");
       });
 
       // edit
       <?php for ($i = 1; $i <= count($data); $i++) : ?>
         $('#edit-button-<?= $i ?>').on('click', function() {
+
+          chenge("edit");
+
+          reset();
+
+          console.log("edit click");
+
+          imgInp.onchange = evt => {
+            const [file] = imgInp.files
+            if (file) {
+              imgpreview_peg.src = URL.createObjectURL(file);
+              $('#imgpreview_peg').removeClass("hidden");
+              $('#imgdefault_peg').addClass("hidden");
+            }
+          }
+
+          $('#modal').removeClass("scale-0");
+          $('#bgmodal').addClass("effectmodal");
+
           $('#title').html('Edit Data');
           $('#btn_tambah').html('Edit');
 
@@ -425,25 +447,221 @@ function rupiah($angka)
           $("#warna_txt").val('<?= $data[$i - 1]["warna"] ?>');
           $("#harga_txt").val('<?= rupiah($data[$i - 1]["harga_jual"]) ?>');
 
-          $("#btn_tambah").on("click", function() {
+          imgpreview_peg.src = "../../images/produk/<?= $data[$i - 1]["gambar"] ?>";
+          $('#imgpreview_peg').removeClass("hidden");
+          $('#imgdefault_peg').addClass("hidden");
+
+          $("#btn_edit").on("click", function(e) {
+
+            e.preventDefault();
 
             getData();
-            $.ajax({
-              type: "post",
-              url: "../controllers/productController.php",
-              data: {
-                type: "update",
-                query: "UPDATE produk SET merk='" + merk + "', warna='" + warna + "', harga_jual='" + harga + "' WHERE kode_frame = '" + kode_frame + "'"
-              },
-              cache: false,
-              success: function(data) {
-                window.location.replace("master_product.php?halaman=<?= $halamanAktif ?>");
-              }
-            });
+
+            let formData = new FormData();
+            let imgProduk = $('#imgInp')[0].files;
+
+            if (!imgProduk.length > 0) {
+              console.log("tanpa gambar");
+              // gambar tidak ada atau kosong
+              formData.append('type', "update");
+              formData.append('query', "UPDATE produk SET merk='" + merk + "', warna='" + warna + "', harga_jual='" + harga + "' WHERE kode_frame = '" + kode_frame + "'");
+
+              $.ajax({
+                type: "post",
+                url: "../controllers/productController.php",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(res) {
+                  const data = JSON.parse(res);
+
+                  if (data.status == 'error') {
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Gagal',
+                      text: data.msg,
+                    })
+                  } else {
+                    Swal.fire({
+                      icon: 'success',
+                      title: 'Berhasil',
+                      text: data.msg,
+
+                    }).then(function() {
+                      window.location.replace("master_product.php?halaman=<?= $halamanAktif ?>");
+                    });
+                  }
+                }
+              });
+            } else {
+              console.log("dengan gambar");
+
+              formData.append('image_produk', imgProduk[0]);
+              formData.append('type', "update");
+
+              var img_name_produk = formData.get('image_produk')['name'];
+              var generateUniqProduk = "<?php echo uniqid('produk-lensa-', true) . '.' . '"+getFileExtension(img_name_produk).toLowerCase()+"' ?>";
+              var img_name_produk_lama = '<?= $data[$i - 1]["gambar"] ?>';
+
+              formData.append('img_file_produk_baru', generateUniqProduk);
+              formData.append('img_file_produk_lama', img_name_produk_lama);
+
+              formData.append('query', "UPDATE produk SET merk='" + merk + "', warna='" + warna + "', harga_jual='" + harga + "', gambar='" + generateUniqProduk + "' WHERE kode_frame = '" + kode_frame + "'");
+
+              $.ajax({
+                type: "post",
+                url: "../controllers/productController.php",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(res) {
+                  const data = JSON.parse(res);
+
+                  if (data.status == 'error') {
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Gagal',
+                      text: data.msg,
+                    })
+                  } else {
+                    Swal.fire({
+                      icon: 'success',
+                      title: 'Berhasil',
+                      text: data.msg,
+
+                    }).then(function() {
+                      window.location.replace("master_product.php?halaman=<?= $halamanAktif ?>");
+                    });
+                  }
+                }
+              });
+            }
           });
+        });
+      <?php endfor ?>
+
+      // edit catalog
+      <?php for ($i = 1; $i <= count($data); $i++) : ?>
+        $('#edit-button-catalog-<?= $i ?>').on('click', function() {
+
+          chenge("edit");
+
+          reset();
+
+          console.log("edit click");
+
+          imgInp.onchange = evt => {
+            const [file] = imgInp.files
+            if (file) {
+              imgpreview_peg.src = URL.createObjectURL(file);
+              $('#imgpreview_peg').removeClass("hidden");
+              $('#imgdefault_peg').addClass("hidden");
+            }
+          }
 
           $('#modal').removeClass("scale-0");
           $('#bgmodal').addClass("effectmodal");
+
+          $('#title').html('Edit Data');
+          $('#btn_tambah').html('Edit');
+
+          // load data
+          $("#kode_txt").val('<?= $data[$i - 1]["kode_frame"] ?>');
+          $("#kode_txt").attr('readonly', true);
+          $("#merk_txt").val('<?= $data[$i - 1]["merk"] ?>');
+          $("#warna_txt").val('<?= $data[$i - 1]["warna"] ?>');
+          $("#harga_txt").val('<?= rupiah($data[$i - 1]["harga_jual"]) ?>');
+
+          imgpreview_peg.src = "../../images/produk/<?= $data[$i - 1]["gambar"] ?>";
+          $('#imgpreview_peg').removeClass("hidden");
+          $('#imgdefault_peg').addClass("hidden");
+
+          $("#btn_edit").on("click", function(e) {
+
+            e.preventDefault();
+
+            getData();
+
+            let formData = new FormData();
+            let imgProduk = $('#imgInp')[0].files;
+
+            if (!imgProduk.length > 0) {
+              console.log("tanpa gambar");
+              // gambar tidak ada atau kosong
+              formData.append('type', "update");
+              formData.append('query', "UPDATE produk SET merk='" + merk + "', warna='" + warna + "', harga_jual='" + harga + "' WHERE kode_frame = '" + kode_frame + "'");
+
+              $.ajax({
+                type: "post",
+                url: "../controllers/productController.php",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(res) {
+                  const data = JSON.parse(res);
+
+                  if (data.status == 'error') {
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Gagal',
+                      text: data.msg,
+                    })
+                  } else {
+                    Swal.fire({
+                      icon: 'success',
+                      title: 'Berhasil',
+                      text: data.msg,
+
+                    }).then(function() {
+                      window.location.replace("master_product.php?halaman=<?= $halamanAktif ?>");
+                    });
+                  }
+                }
+              });
+            } else {
+              console.log("dengan gambar");
+
+              formData.append('image_produk', imgProduk[0]);
+              formData.append('type', "update");
+
+              var img_name_produk = formData.get('image_produk')['name'];
+              var generateUniqProduk = "<?php echo uniqid('produk-lensa-', true) . '.' . '"+getFileExtension(img_name_produk).toLowerCase()+"' ?>";
+              var img_name_produk_lama = '<?= $data[$i - 1]["gambar"] ?>';
+
+              formData.append('img_file_produk_baru', generateUniqProduk);
+              formData.append('img_file_produk_lama', img_name_produk_lama);
+
+              formData.append('query', "UPDATE produk SET merk='" + merk + "', warna='" + warna + "', harga_jual='" + harga + "', gambar='" + generateUniqProduk + "' WHERE kode_frame = '" + kode_frame + "'");
+
+              $.ajax({
+                type: "post",
+                url: "../controllers/productController.php",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(res) {
+                  const data = JSON.parse(res);
+
+                  if (data.status == 'error') {
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Gagal',
+                      text: data.msg,
+                    })
+                  } else {
+                    Swal.fire({
+                      icon: 'success',
+                      title: 'Berhasil',
+                      text: data.msg,
+
+                    }).then(function() {
+                      window.location.replace("master_product.php?halaman=<?= $halamanAktif ?>");
+                    });
+                  }
+                }
+              });
+            }
+          });
         });
       <?php endfor ?>
 
@@ -512,17 +730,75 @@ function rupiah($angka)
     // delete modal
     $("#modal-delete").load("../assets/components/modal_hapus.html", function() {
 
+      // delete
       <?php for ($i = 1; $i <= count($data); $i++) : ?>
         $('#delete-button-<?= $i ?>').on('click', function() {
           var id = '<?= $data[$i - 1]["kode_frame"] ?>';
           var img_path = '<?= $data[$i - 1]["gambar"] ?>';
 
-          $('#title_delete').html('Hapus Data Pegawai ini? ' + id);
+          $('#title_delete').html('Hapus Data Pegawai ini?');
 
           $('#modalkontenhapus').toggleClass("scale-100");
           $('#bgmodalhapus').addClass("effectmodal");
 
-          $('#hapus').on('click', function() {
+          $('#submithapus').on('click', function() {
+
+            console.log("hello");
+            $.ajax({
+              type: "post",
+              url: "../controllers/productController.php",
+              data: {
+                type: "delete",
+                query: "DELETE FROM `produk` WHERE kode_frame = '" + id + "'",
+                imgPath: img_path,
+              },
+              cache: false,
+              success: function(res) {
+                const data = JSON.parse(res);
+
+                if (data.status == 'success') {
+                  Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: data.msg,
+                  }).then(function() {
+                    window.location.replace("master_product.php");
+                  });
+                }else{
+
+                }
+              }
+            });
+
+          })
+
+          $('#closemodalhapus').on('click', function() {
+
+            $('#modalkontenhapus').removeClass("scale-100");
+            $('#bgmodalhapus').removeClass("effectmodal");
+          });
+
+          $('#batal').on('click', function() {
+
+            $('#modalkontenhapus').removeClass("scale-100");
+            $('#bgmodalhapus').removeClass("effectmodal");
+          });
+
+        });
+      <?php endfor ?>
+
+      // delete catalog
+      <?php for ($i = 1; $i <= count($data); $i++) : ?>
+        $('#delete-button-catalog-<?= $i ?>').on('click', function() {
+          var id = '<?= $data[$i - 1]["kode_frame"] ?>';
+          var img_path = '<?= $data[$i - 1]["gambar"] ?>';
+
+          $('#title_delete').html('Hapus Data Pegawai ini?');
+
+          $('#modalkontenhapus').toggleClass("scale-100");
+          $('#bgmodalhapus').addClass("effectmodal");
+
+          $('#submithapus').on('click', function() {
 
             console.log("hello");
             $.ajax({
@@ -549,7 +825,7 @@ function rupiah($angka)
               }
             });
 
-          })
+          });
 
           $('#closemodalhapus').on('click', function() {
 
@@ -557,7 +833,7 @@ function rupiah($angka)
             $('#bgmodalhapus').removeClass("effectmodal");
           });
 
-          $('#batal').on('click', function() {
+          $('#cancelmodalhapus').on('click', function() {
 
             $('#modalkontenhapus').removeClass("scale-100");
             $('#bgmodalhapus').removeClass("effectmodal");
@@ -565,20 +841,6 @@ function rupiah($angka)
 
         });
       <?php endfor ?>
-
-      // for (var index = 1; index <= lengthData; index++) {
-      //   $('#delete-button-' + index).on('click', function() {
-
-      //     var currentRow = $(this).closest("tr")
-      //     id = currentRow.find("td:eq(1)").text();
-
-      //     $('#title').html('Hapus Data Frame ini' + id);
-
-      //     $('#modalkontenhapus').toggleClass("scale-100");
-      //     $('#bgmodalhapus').addClass("effectmodal");
-
-      //   });
-      // }
     });
 
     // search
