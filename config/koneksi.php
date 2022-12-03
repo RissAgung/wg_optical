@@ -2,12 +2,12 @@
 
 class koneksi
 {
-  private $server = "mphstar.com";
-  private $username = "mphstar";
-  private $password = "123";
+  private $server = "localhost";
+  private $username = "root";
+  private $password = "";
   private $db = "wgoptical";
 
-  private function prepareKoneksi()
+  public function prepareKoneksi()
   {
     return mysqli_connect($this->server, $this->username, $this->password, $this->db);
   }
