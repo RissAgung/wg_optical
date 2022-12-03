@@ -641,6 +641,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             );
             echo json_encode($response);
             exit();
+        } else if ($_POST['type'] == 'hapus_pegawai') {
+
+            $img_upload_path_peg_old = "../images/pegawai/foto_pegawai/" . $_POST['pathfotopegawai'];
+            $img_upload_path_ktp_old = "../images/pegawai/foto_ktp/" . $_POST['pathfotoktp'];
+            $img_upload_path_kk_old = "../images/pegawai/foto_kk/" . $_POST['pathfotokk'];
+
+            // hapus foto lama
+            unlink($img_upload_path_peg_old);
+            unlink($img_upload_path_ktp_old);
+            unlink($img_upload_path_kk_old);
+
+            $crud->execute($_POST['query']);
+            $response = array(
+                'status' => 'success',
+                'msg' => 'Berhasil Hapus Data'
+            );
+            echo json_encode($response);
+            exit();
         }
     }
 
