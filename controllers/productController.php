@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo json_encode($response);
             exit();
           } else {
-            $img_upload_path_produk = "../images/produk/" . $_POST['img_file_produk'];
+            $img_upload_path_produk = "../../images/produk/" . $_POST['img_file_produk'];
             move_uploaded_file($tmpproduk_name, $img_upload_path_produk);
             $crud->execute($_POST["query"]);
             $response = array(
@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($_POST["type"] == "delete") {
       $crud->execute($_POST["query"]);
-      $path = "../images/produk/" . $_POST["imgPath"];
+      $path = "../../images/produk/" . $_POST["imgPath"];
       unlink($path);
       $response = array(
         'status' => 'success',
