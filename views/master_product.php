@@ -771,7 +771,7 @@ function rupiah($angka)
           $('#modalkontenhapus').toggleClass("scale-100");
           $('#bgmodalhapus').addClass("effectmodal");
 
-          $('#hapus').on('click', function() {
+          $('#submithapus').on('click', function() {
 
             console.log("hello");
             $.ajax({
