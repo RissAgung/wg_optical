@@ -127,7 +127,7 @@ function generateID(Koneksi $obj, $tglmasuk)
         <!-- konten table -->
         <div class="" id="table">
             <!-- Table -->
-            <div class="overflow-x-auto  text-sm mx-auto w-[90%] md:w-[90%] md:mx-auto bg-white rounded-md mt-4 py-6 px-6 ex-table">
+            <div class="overflow-x-auto  text-sm mx-auto w-[90%] md:w-[90%] md:mx-auto bg-white rounded-md mt-4 py-6 px-6 h-[70vh]">
                 <table class="w-full ">
                     <thead class="border-b-2 border-gray-100">
                         <tr>
