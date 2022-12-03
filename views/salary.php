@@ -8,6 +8,7 @@
     <title>Salary | WG Optical</title>
     <link rel="stylesheet" href="../css/output.css">
     <link rel="stylesheet" href="../css/apexcharts.css">
+    <link rel="stylesheet" href="../css/sweetalert2.min.css">
 </head>
 
 <body class="bg-[#F0F0F0] font-ex-color box-border">
@@ -143,17 +144,13 @@
         <!-- end konten table -->
     </div>
     <script src="../js/jquery-3.6.1.min.js"></script>
+    <script src="../js/sweetalert2.min.js"></script>
     <script>
         // load sidebar
         $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
             $('#salary').addClass("hover-sidebar");
-            $('#button-logout').on('click', function() {
-                // kosong
-            });
+            
         });
-
-
-
 
         $("#modal-detail").load("../assets/components/modal_detail_salary.html", function() {
             for (var index = 1; index < 20; index++) {
@@ -182,28 +179,6 @@
             });
         });
 
-
-
-        // load modal
-        $("#modal-delete").load("../assets/components/modal_hapus.html", function() {
-            $('#button-logout').on('click', function() {
-                // kosong
-            });
-            $('#delete-button').on('click', function() {
-                $('#title').html('Hapus Data Pegawai ini');
-
-                $('#modalkontenhapus').toggleClass("scale-100");
-                $('#bgmodalhapus').addClass("effectmodal");
-
-            });
-
-
-            $('#closemodalhapus').on('click', function() {
-
-                $('#modalkontenhapus').toggleClass("scale-100");
-                $('#bgmodalhapus').removeClass("effectmodal");
-            });
-        });
 
 
         // auto hide sidebar

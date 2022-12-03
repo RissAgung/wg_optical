@@ -809,6 +809,10 @@ video {
   margin-bottom: 1.5rem;
 }
 
+.mt-0 {
+  margin-top: 0px;
+}
+
 .mt-6 {
   margin-top: 1.5rem;
 }
@@ -855,10 +859,6 @@ video {
 
 .mb-7 {
   margin-bottom: 1.75rem;
-}
-
-.mt-0 {
-  margin-top: 0px;
 }
 
 .mt-24 {
@@ -1151,14 +1151,6 @@ video {
 
 .h-\[170px\] {
   height: 170px;
-}
-
-.h-\[70vh\] {
-  height: 70vh;
-}
-
-.h-\[50vh\] {
-  height: 50vh;
 }
 
 .w-screen {
@@ -1917,6 +1909,11 @@ video {
 .px-9 {
   padding-left: 2.25rem;
   padding-right: 2.25rem;
+}
+
+.py-0 {
+  padding-top: 0px;
+  padding-bottom: 0px;
 }
 
 .px-0 {

@@ -1,38 +1,3 @@
-<?php require('../config/koneksi.php');
-require('../config/query.php');
-
-
-$_crud = new crud();
-
-
-if (isset($_POST['login'])) {
-    $email = $_POST['txt_email'];
-    $password = $_POST['txt_password'];
-
-    $query = "SELECT * FROM pegawai WHERE email = '$email'";
-    $result = $_crud->execute($query);
-    $num = mysqli_num_rows($result);
-
-    while ($row = mysqli_fetch_array($result)) {
-        $emailval = $row['email'];
-        $passwordval = $row['password'];
-    }
-
-    if ($num != 0) {
-        if ($emailval == $email && $passwordval == md5($password)) {
-            header('Location: dashboard.php');
-        } else {
-            $error = 'Email atau password salah';
-            header('Location: login.php?error='.$error);
-        }
-    } else {
-        $error = 'User tidak ditemukan';
-        header('Location: login.php?error='.$error);
-    }
-}
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -91,14 +56,12 @@ if (isset($_POST['login'])) {
 
         <div class="w-full md:w-[40%]">
             <div class="flex flex-col mt-12 md:mt-48 items-center px-12">
-                <form action="login.php" method="POST">
-                    <input name="txt_email" class="w-full rounded-lg md:w-[100%] lg:w-[70%] h-[50px] px-4 border-none mb-6" placeholder="Email" type="text">
-                    <input name="txt_password" class="w-full rounded-lg md:w-[100%] lg:w-[70%] h-[50px] px-4 border-none" placeholder="Password" type="password">
+                <form>
+                    <input id="txt_email" name="txt_email" class="w-full rounded-lg md:w-[100%] lg:w-[70%] h-[50px] px-4 border-none mb-6" placeholder="Email" type="text">
+                    <input id="txt_password" name="txt_password" class="w-full rounded-lg md:w-[100%] lg:w-[70%] h-[50px] px-4 border-none" placeholder="Password" type="password">
                     <div class="w-full md:w-[100%] lg:w-[70%] py-4 px-4">
-
                     </div>
-
-                    <button type="submit" name="login" class="w-full mb-32 md:w-[100%] lg:w-[70%] py-4 px-4 bg-[#3E5FC1] rounded-lg">
+                    <button id="login" type="button" name="login" class="w-full mb-32 md:w-[100%] lg:w-[70%] py-4 px-4 bg-[#3E5FC1] rounded-lg">
                         <p class="text-white font-semibold text-center">LOGIN</p>
                     </button>
 
@@ -106,17 +69,50 @@ if (isset($_POST['login'])) {
             </div>
         </div>
     </div>
-    <script src="../js/script.js"></script>
     <script src="../js/sweetalert2.min.js"></script>
-    <?php if(isset($_GET['error'])){ ?><script>
-        Swal.fire(
-            'Gagal',
-            '<?php echo $_GET['error']; ?>',
-            'error'
-        ).then((result)=> {
-            location.replace('login.php');
+    <script src="../js/jquery-3.6.1.min.js"></script>
+
+    <script>
+        $('#login').on('click', function() {
+            $.ajax({
+                url: '../controllers/loginController.php',
+                type: 'post',
+                data: {
+                    'type': 'login',
+                    'txt_email': $('#txt_email').val(),
+                    'txt_password': $('#txt_password').val(),
+                },
+                success: function(res) {
+                    const data = JSON.parse(res);
+                    if (data.status == 'error') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal',
+                            text: data.msg,
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil',
+                            text: data.msg,
+                        }).then(function() {
+                            window.location.replace("dashboard.php");
+                        });
+                    }
+                }
+            });
         });
-    </script><?php } ?>
+    </script>
+
+    <?php if (isset($_GET['error'])) { ?><script>
+            Swal.fire(
+                'Gagal',
+                '<?php echo $_GET['error']; ?>',
+                'error'
+            ).then((result) => {
+                location.replace('login.php');
+            });
+        </script><?php } ?>
 
 
 </body>
