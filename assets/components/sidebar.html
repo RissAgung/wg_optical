@@ -154,7 +154,7 @@
 
             <!-- bawah -->
 
-            <div id="button-logout" class="ex-hover-sidebar h-14 flex flex-row items-center justify-start rounded-lg px-5">
+            <div id="button-logout" class="ex-hover-sidebar cursor-pointer h-14 flex flex-row items-center justify-start rounded-lg px-5">
                 <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M3.00003 0C2.20438 0 1.44131 0.316071 0.87869 0.87868C0.316074 1.44129 0 2.20435 0 3V17C0 17.7956 0.316074 18.5587 0.87869 19.1213C1.44131 19.6839 2.20438 20 3.00003 20H9.0001C9.79576 20 10.5588 19.6839 11.1214 19.1213C11.6841 18.5587 12.0001 17.7956 12.0001 17V3C12.0001 2.20435 11.6841 1.44129 11.1214 0.87868C10.5588 0.316071 9.79576 0 9.0001 0H3.00003ZM13.2931 5.293C13.4807 5.10553 13.735 5.00021 14.0002 5.00021C14.2653 5.00021 14.5196 5.10553 14.7072 5.293L18.7072 9.293C18.8947 9.48053 19 9.73484 19 10C19 10.2652 18.8947 10.5195 18.7072 10.707L14.7072 14.707C14.5186 14.8892 14.266 14.99 14.0038 14.9877C13.7416 14.9854 13.4907 14.8802 13.3053 14.6948C13.1199 14.5094 13.0147 14.2586 13.0125 13.9964C13.0102 13.7342 13.111 13.4816 13.2931 13.293L15.5862 11H7.00008C6.73486 11 6.4805 10.8946 6.29296 10.7071C6.10543 10.5196 6.00007 10.2652 6.00007 10C6.00007 9.73478 6.10543 9.48043 6.29296 9.29289C6.4805 9.10536 6.73486 9 7.00008 9H15.5862L13.2931 6.707C13.1057 6.51947 13.0004 6.26516 13.0004 6C13.0004 5.73484 13.1057 5.48053 13.2931 5.293Z" fill="#F0F0F0" />
                 </svg>
@@ -169,7 +169,7 @@
 
     </div>
 
-    <script src="../js/jquery-3.6.1.min.js"></script>
+    <script src="../../js/jquery-3.6.1.min.js"></script>
     <script>
         $("#masterdatamain").on("click", function() {
 
@@ -187,6 +187,24 @@
             $('#dropdown-msbarang').toggleClass('h-[170px]');
             $('#master_data').toggleClass('h-[320px]');
             $('#dropdownicon1').toggleClass('rotate-[60deg] & origin-center');
+        });
+
+        $('#button-logout').on('click', function() {
+            console.log('aawas');
+            Swal.fire({
+                title: 'Apakah anda yakin keluar?',
+                showDenyButton: true,
+                confirmButtonText: 'Ya',
+                denyButtonText: `Batal`,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    window.location.replace('../views/login.php');
+
+                } else if (result.isDenied) {
+
+                }
+            })
         });
     </script>
 </body>

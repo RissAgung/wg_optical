@@ -91,8 +91,8 @@ function generateID(Koneksi $obj, $tglmasuk)
 
         </div>
 
-        <div class="mx-auto w-[90%] md:w-[90%] md:mx-auto rounded-md py-2 px-0">
-            <div class="mt-3 flex items-center content-center flex-wrap justify-between max-[450px]:justify-center">
+        <div class="mx-auto w-[90%] md:w-[90%] md:mx-auto rounded-md py-0 px-0">
+            <div class="mt-0 flex items-center content-center flex-wrap justify-between max-[450px]:justify-center">
                 <!-- Search -->
                 <div class="flex flex-row shadow-sm rounded-md items-center justify-around bg-white w-72 box-border px-2 md:mr-6 mt-6">
                     <div class="w-full flex flex-row items-center">
@@ -127,7 +127,7 @@ function generateID(Koneksi $obj, $tglmasuk)
         <!-- konten table -->
         <div class="" id="table">
             <!-- Table -->
-            <div class="overflow-x-auto  text-sm mx-auto w-[90%] md:w-[90%] md:mx-auto bg-white rounded-md mt-4 py-6 px-6 h-[70vh]">
+            <div class="overflow-x-auto  text-sm mx-auto w-[90%] md:w-[90%] md:mx-auto bg-white rounded-md mt-4 py-6 px-6 ex-table">
                 <table class="w-full ">
                     <thead class="border-b-2 border-gray-100">
                         <tr>
@@ -191,7 +191,7 @@ function generateID(Koneksi $obj, $tglmasuk)
             <!-- End Table -->
 
             <!-- Pagination And Info Data -->
-            <div class="mx-auto w-[90%] md:w-[90%] md:mx-autorounded-md py-6 px-0">
+            <div class="mx-auto w-[90%] md:w-[90%] md:mx-autorounded-md py-2 px-0">
                 <div class="flex flex-col md:flex-row justify-between  items-center mt-3 text-sm">
                     <div class="flex flex-row mb-3 font-ex-semibold">
                         <?php if ($halamanAktif > 4 && $jumlahHalaman > 4) : ?>
