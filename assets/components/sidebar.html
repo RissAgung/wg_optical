@@ -199,7 +199,16 @@
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                    window.location.replace('../views/login.php');
+                    $.ajax({
+                        url: '../controllers/loginController.php',
+                        type: 'post',
+                        data: {
+                            'type': 'logout',
+                        },
+                        success: function() {
+                            window.location.replace('../views/login.php');
+                        }
+                    });
 
                 } else if (result.isDenied) {
 
