@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+
+if(!isset($_SESSION['statusLogin'])){
+  header('Location: login.php');
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,6 +16,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../css/output.css">
+  <link rel="stylesheet" href="../css/sweetalert2.min.css">
   <title>Document</title>
 </head>
 
@@ -42,7 +53,7 @@
           </svg>
         </div>
 
-        <h1>Dashboard</h1>
+        <h1><?php echo isset($_SESSION["statusLogin"]) ? $_SESSION["email"] : "Dashboard"; ?></h1>
       </div>
       <div class="flex flex-row items-center">
         <div class="mr-4">
@@ -168,7 +179,33 @@
 
   <script src="../js/apexcharts.js"></script>
   <script src="../js/jquery-3.6.1.min.js"></script>
+  <script src="../js/jquery.iddle.min.js"></script>
+  <script src="../js/sweetalert2.min.js"></script>
   <script>
+    $(document).idle({
+      onIdle: function() {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Informasi',
+          text: 'Sesi anda telah habis, silahkan login kembali',
+
+        }).then(function() {
+          $.ajax({
+            url: '../controllers/loginController.php',
+            type: 'post',
+            data: {
+              'type': 'logout',
+            },
+            success: function() {
+              window.location.replace('../views/login.php');
+            }
+          });
+        });
+
+      },
+      idle: 20000
+    });
+
     $(document).ready(function() {
       console.log($(document).width());
     });
