@@ -1,15 +1,35 @@
 <?php
-require('../controllers/pegawaiController.php');
+include '../controllers/pegawaiController.php';
+
+session_start();
 
 
+if (!isset($_SESSION['statusLogin'])) {
+    header('Location: login.php');
+}
 // pagination
 $jumlahDataPerHalaman = 6;
-$jumlahData = (isset($_GET["search"])) ? count($crud->showData("SELECT * FROM pegawai WHERE nama LIKE'%" . $_GET["search"] . "%' LIMIT 0, $jumlahDataPerHalaman")) : count($crud->showData("SELECT * FROM pegawai"));
-$jumlahHalaman = ceil($jumlahData / $jumlahDataPerHalaman);
-$halamanAktif = (isset($_GET["halaman"])) ? $_GET["halaman"] : 1;
-$awalData = ($jumlahDataPerHalaman * $halamanAktif) - $jumlahDataPerHalaman;
 
-$execute = (isset($_GET["search"])) ? $crud->showData("SELECT * FROM pegawai WHERE nama LIKE'%" . $_GET["search"] . "%' ORDER BY SUBSTRING(id_pegawai, -1, 5) DESC LIMIT $awalData, $jumlahDataPerHalaman") : $crud->showData("SELECT * FROM pegawai ORDER BY SUBSTRING(id_pegawai, -1, 5) DESC LIMIT $awalData, $jumlahDataPerHalaman");
+$roles;
+
+if ($_SESSION['level'] == '1') {
+    $jumlahData = (isset($_GET["search"])) ? count($crud->showData("SELECT * FROM pegawai WHERE nama LIKE'%" . $_GET["search"] . "%' LIMIT 0, $jumlahDataPerHalaman")) : count($crud->showData("SELECT * FROM pegawai"));
+    $halamanAktif = (isset($_GET["halaman"])) ? $_GET["halaman"] : 1;
+    $roles = 1;
+} else if ($_SESSION['level'] == '2') {
+    $jumlahData = (isset($_GET["search"])) ? count($crud->showData("SELECT * FROM pegawai WHERE nama LIKE'%" . $_GET["search"] . "%' AND id_level = '3' LIMIT 0, $jumlahDataPerHalaman")) : count($crud->showData("SELECT * FROM pegawai WHERE id_level = '3'"));
+    $halamanAktif = (isset($_GET["halaman"])) ? $_GET["halaman"] : 1;
+    $roles = 2;
+}
+$jumlahHalaman = ceil($jumlahData / $jumlahDataPerHalaman);
+
+$awalData = ($jumlahDataPerHalaman * $halamanAktif) - $jumlahDataPerHalaman;
+if ($roles == 1) {
+    $execute = (isset($_GET["search"])) ? $crud->showData("SELECT * FROM pegawai WHERE nama LIKE'%" . $_GET["search"] . "%' ORDER BY SUBSTRING(id_pegawai, -1, 5) DESC LIMIT $awalData, $jumlahDataPerHalaman") : $crud->showData("SELECT * FROM pegawai ORDER BY SUBSTRING(id_pegawai, -1, 5) DESC LIMIT $awalData, $jumlahDataPerHalaman");
+} else {
+    $execute = (isset($_GET["search"])) ? $crud->showData("SELECT * FROM pegawai WHERE nama LIKE'%" . $_GET["search"] . "%' AND id_level = '3' ORDER BY SUBSTRING(id_pegawai, -1, 5) DESC LIMIT $awalData, $jumlahDataPerHalaman") : $crud->showData("SELECT * FROM pegawai WHERE id_level = '3' ORDER BY SUBSTRING(id_pegawai, -1, 5) DESC LIMIT $awalData, $jumlahDataPerHalaman");
+}
+
 
 
 function generateID(Koneksi $obj, $tglmasuk)
@@ -21,6 +41,24 @@ function generateID(Koneksi $obj, $tglmasuk)
         foreach ($data as $value) {
             return $tglmasuk . "" . ($value['jumlah'] + 1);
         }
+    }
+}
+
+function getNameRoles($id)
+{
+    switch ($id) {
+        case '1':
+            return "Super Admin";
+            break;
+        case '2':
+            return "Admin";
+            break;
+        case '3':
+            return "Sales";
+            break;
+        default:
+
+            break;
     }
 }
 
@@ -136,6 +174,7 @@ function generateID(Koneksi $obj, $tglmasuk)
                             <th class="p-3 text-sm tracking-wide text-center">ID Pegawai</th>
                             <th class="p-3 text-sm tracking-wide text-center">Gender</th>
                             <th class="p-3 text-sm tracking-wide text-center">No Telepon</th>
+                            <th class="p-3 text-sm tracking-wide text-center">Level</th>
                             <th class="p-3 text-sm tracking-wide text-center">Alamat</th>
                             <th class="p-3 text-sm tracking-wide text-center">Aksi</th>
                         </tr>
@@ -157,6 +196,7 @@ function generateID(Koneksi $obj, $tglmasuk)
                                 <td class="p-3 text-sm tracking-wide text-center"><?php echo $data['id_pegawai'] ?></td>
                                 <td class="p-3 text-sm tracking-wide text-center"><?php echo $data['gender'] ?></td>
                                 <td class="p-3 text-sm tracking-wide text-center"><?php echo $data['no.Telp'] ?></td>
+                                <td class="p-3 text-sm tracking-wide text-center"><?php echo getNameRoles($data['id_level']) ?></td>
                                 <td class="p-3 text-sm tracking-wide text-center"><?php echo $data['alamat'] ?></td>
                                 <td class="p-3 text-sm tracking-wide text-center">
                                     <button id="edit-button-<?php echo $i; ?>">
@@ -268,9 +308,36 @@ function generateID(Koneksi $obj, $tglmasuk)
     </div>
     <script src="../js/jquery-3.6.1.min.js"></script>
     <script src="../js/sweetalert2.min.js"></script>
+    <script src="../js/jquery.iddle.min.js"></script>
     <script src="../js/md5.js"></script>
 
+
     <script>
+        $(document).idle({
+            onIdle: function() {
+                $.ajax({
+                    url: '../controllers/loginController.php',
+                    type: 'post',
+                    data: {
+                        'type': 'logout',
+                    },
+                    success: function() {
+
+                    }
+                });
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Informasi',
+                    text: 'Sesi anda telah habis, silahkan login kembali',
+
+                }).then(function() {
+                    window.location.replace('../views/login.php');
+                });
+
+            },
+            idle: 50000
+        });
+
         // load sidebar
         $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
             $('#master_data').addClass("hover-sidebar");
@@ -279,6 +346,37 @@ function generateID(Koneksi $obj, $tglmasuk)
             });
         });
 
+        function convertNameRolestoId(nameroles) {
+            switch (nameroles) {
+                case "Super Admin":
+                    return "1";
+                    break;
+                case "Admin":
+                    return "2";
+                    break;
+                case "Sales":
+                    return "3";
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        function convertIdRolesToName(idroles) {
+            switch (idroles) {
+                case "1":
+                    return "Super Admin";
+                    break;
+                case "2":
+                    return "Admin";
+                    break;
+                case "3":
+                    return "Sales";
+                    break;
+                default:
+                    break;
+            }
+        }
 
         $(document).ready(function() {
 
@@ -298,6 +396,9 @@ function generateID(Koneksi $obj, $tglmasuk)
 
                 $('#form-modal').addClass('flex');
                 $('#form-modal').removeClass('hidden');
+
+                $("#txt_level").val("Sales");
+
 
 
 
@@ -324,6 +425,7 @@ function generateID(Koneksi $obj, $tglmasuk)
                     $('#txt_email').val('<?php echo $execute[$index]['email']; ?>');
                     $('#txt_nama').val('<?php echo $execute[$index]['nama']; ?>');
                     $('#txt_gender').val('<?php echo $execute[$index]['gender']; ?>');
+                    $('#txt_level').val(convertIdRolesToName('<?php echo $execute[$index]['id_level']; ?>'));
                     $('#txt_notelepon').val('<?php echo $execute[$index]['no.Telp']; ?>');
                     $('#txt_alamat').val('<?php echo $execute[$index]['alamat']; ?>');
 
@@ -378,6 +480,11 @@ function generateID(Koneksi $obj, $tglmasuk)
 
         // load modal
         $("#modal-form").load("../assets/components/modal_master_pegawai.html", function() {
+
+            if ('2' == '<?php echo $_SESSION['level'] ?>') {
+                $("#divlevel").addClass("hidden");
+            }
+
             $('#password-button').on('click', function() {
                 $('#form-password').toggleClass('hidden');
                 $('#form-password').toggleClass('flex');
@@ -440,7 +547,7 @@ function generateID(Koneksi $obj, $tglmasuk)
                 $('#txt_email').val("");
                 $('#txt_password').val("");
                 $('#txt_nama').val("");
-                $('#txt_gender').val("");
+                // $('#txt_gender').val("");
                 $('#txt_notelepon').val("");
                 $('#txt_alamat').val("");
 
@@ -510,7 +617,7 @@ function generateID(Koneksi $obj, $tglmasuk)
                         var query = "";
 
                         if (!imgpeg.length > 0 && !imgktp.length > 0 && !imgkk.length > 0) {
-                            query = "UPDATE pegawai SET nama = '" + $('#txt_nama').val() + "', gender = '" + $('#txt_gender').val() + "', `no.Telp` = '" + $('#txt_notelepon').val() + "', alamat = '" + $('#txt_alamat').val() + "', tgl_masuk = '" + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + "', email = '" + $('#txt_email').val() + "' WHERE id_pegawai = '" + selected_idpegawai + "'";
+                            query = "UPDATE pegawai SET nama = '" + $('#txt_nama').val() + "', gender = '" + $('#txt_gender').val() + "', `no.Telp` = '" + $('#txt_notelepon').val() + "', alamat = '" + $('#txt_alamat').val() + "', tgl_masuk = '" + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + "', email = '" + $('#txt_email').val() + "', id_level = '" + convertNameRolestoId($('#txt_level').val()) + "' WHERE id_pegawai = '" + selected_idpegawai + "'";
                             form_editdata.append('opsifoto', "tanpa-foto");
                         } else {
                             if (!imgpeg.length > 0 || !imgktp.length > 0 || !imgkk.length > 0) {
@@ -526,7 +633,7 @@ function generateID(Koneksi $obj, $tglmasuk)
                                         var generateUniqKTP = "<?php echo uniqid("foto-ktp-", true) . "." . '"+getFileExtension(img_name_ktp)+"'; ?>";
 
 
-                                        query = "UPDATE pegawai SET nama = '" + $('#txt_nama').val() + "', gender = '" + $('#txt_gender').val() + "', `no.Telp` = '" + $('#txt_notelepon').val() + "', alamat = '" + $('#txt_alamat').val() + "', tgl_masuk = '" + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + "', email = '" + $('#txt_email').val() + "', foto_pegawai = '<?= '"+generateUniqPeg+"'; ?>', foto_ktp = '<?= '"+generateUniqKTP+"'; ?>' WHERE id_pegawai = '" + selected_idpegawai + "'";
+                                        query = "UPDATE pegawai SET nama = '" + $('#txt_nama').val() + "', gender = '" + $('#txt_gender').val() + "', `no.Telp` = '" + $('#txt_notelepon').val() + "', alamat = '" + $('#txt_alamat').val() + "', tgl_masuk = '" + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + "', email = '" + $('#txt_email').val() + "', id_level = '" + convertNameRolestoId($('#txt_level').val()) + "', foto_pegawai = '<?= '"+generateUniqPeg+"'; ?>', foto_ktp = '<?= '"+generateUniqKTP+"'; ?>' WHERE id_pegawai = '" + selected_idpegawai + "'";
                                         form_editdata.append('opsifoto', "fotopegawai-dan-ktp");
                                     } else if (imgpeg.length > 0 && imgkk.length > 0) {
                                         form_editdata.append('image_peg', imgpeg[0]);
@@ -538,7 +645,7 @@ function generateID(Koneksi $obj, $tglmasuk)
                                         var generateUniqPeg = "<?php echo uniqid("foto-pegawai-", true) . "." . '"+getFileExtension(img_name_peg)+"'; ?>";
                                         var generateUniqKK = "<?php echo uniqid("foto-kk-", true) . "." . '"+getFileExtension(img_name_kk)+"'; ?>";
 
-                                        query = "UPDATE pegawai SET nama = '" + $('#txt_nama').val() + "', gender = '" + $('#txt_gender').val() + "', `no.Telp` = '" + $('#txt_notelepon').val() + "', alamat = '" + $('#txt_alamat').val() + "', tgl_masuk = '" + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + "', email = '" + $('#txt_email').val() + "', foto_pegawai = '<?= '"+generateUniqPeg+"'; ?>', foto_kk = '<?= '"+generateUniqKK+"'; ?>' WHERE id_pegawai = '" + selected_idpegawai + "'";
+                                        query = "UPDATE pegawai SET nama = '" + $('#txt_nama').val() + "', gender = '" + $('#txt_gender').val() + "', `no.Telp` = '" + $('#txt_notelepon').val() + "', alamat = '" + $('#txt_alamat').val() + "', tgl_masuk = '" + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + "', email = '" + $('#txt_email').val() + "', id_level = '" + convertNameRolestoId($('#txt_level').val()) + "', foto_pegawai = '<?= '"+generateUniqPeg+"'; ?>', foto_kk = '<?= '"+generateUniqKK+"'; ?>' WHERE id_pegawai = '" + selected_idpegawai + "'";
                                         form_editdata.append('opsifoto', "fotopegawai-dan-kk");
                                     } else {
                                         form_editdata.append('image_peg', imgpeg[0]);
@@ -547,7 +654,7 @@ function generateID(Koneksi $obj, $tglmasuk)
 
                                         var generateUniqPeg = "<?php echo uniqid("foto-pegawai-", true) . "." . '"+getFileExtension(img_name_peg)+"'; ?>";
 
-                                        query = "UPDATE pegawai SET nama = '" + $('#txt_nama').val() + "', gender = '" + $('#txt_gender').val() + "', `no.Telp` = '" + $('#txt_notelepon').val() + "', alamat = '" + $('#txt_alamat').val() + "', tgl_masuk = '" + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + "', email = '" + $('#txt_email').val() + "', foto_pegawai = '<?= '"+generateUniqPeg+"'; ?>' WHERE id_pegawai = '" + selected_idpegawai + "'";
+                                        query = "UPDATE pegawai SET nama = '" + $('#txt_nama').val() + "', gender = '" + $('#txt_gender').val() + "', `no.Telp` = '" + $('#txt_notelepon').val() + "', alamat = '" + $('#txt_alamat').val() + "', tgl_masuk = '" + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + "', email = '" + $('#txt_email').val() + "', id_level = '" + convertNameRolestoId($('#txt_level').val()) + "', foto_pegawai = '<?= '"+generateUniqPeg+"'; ?>' WHERE id_pegawai = '" + selected_idpegawai + "'";
                                         form_editdata.append('opsifoto', "fotopegawai");
                                     }
                                 } else if (imgktp.length > 0) {
@@ -561,7 +668,7 @@ function generateID(Koneksi $obj, $tglmasuk)
                                         var generateUniqKTP = "<?php echo uniqid("foto-ktp-", true) . "." . '"+getFileExtension(img_name_ktp)+"'; ?>";
                                         var generateUniqKK = "<?php echo uniqid("foto-kk-", true) . "." . '"+getFileExtension(img_name_kk)+"'; ?>";
 
-                                        query = "UPDATE pegawai SET nama = '" + $('#txt_nama').val() + "', gender = '" + $('#txt_gender').val() + "', `no.Telp` = '" + $('#txt_notelepon').val() + "', alamat = '" + $('#txt_alamat').val() + "', tgl_masuk = '" + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + "', email = '" + $('#txt_email').val() + "', foto_ktp = '<?= '"+generateUniqKTP+"'; ?>', foto_kk = '<?= '"+generateUniqKK+"'; ?>' WHERE id_pegawai = '" + selected_idpegawai + "'";
+                                        query = "UPDATE pegawai SET nama = '" + $('#txt_nama').val() + "', gender = '" + $('#txt_gender').val() + "', `no.Telp` = '" + $('#txt_notelepon').val() + "', alamat = '" + $('#txt_alamat').val() + "', tgl_masuk = '" + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + "', email = '" + $('#txt_email').val() + "', id_level = '" + convertNameRolestoId($('#txt_level').val()) + "', foto_ktp = '<?= '"+generateUniqKTP+"'; ?>', foto_kk = '<?= '"+generateUniqKK+"'; ?>' WHERE id_pegawai = '" + selected_idpegawai + "'";
                                         form_editdata.append('opsifoto', "fotoktp-dan-kk");
                                     } else {
                                         form_editdata.append('image_ktp', imgktp[0]);
@@ -570,7 +677,7 @@ function generateID(Koneksi $obj, $tglmasuk)
 
                                         var generateUniqKTP = "<?php echo uniqid("foto-ktp-", true) . "." . '"+getFileExtension(img_name_ktp)+"'; ?>";
 
-                                        query = "UPDATE pegawai SET nama = '" + $('#txt_nama').val() + "', gender = '" + $('#txt_gender').val() + "', `no.Telp` = '" + $('#txt_notelepon').val() + "', alamat = '" + $('#txt_alamat').val() + "', tgl_masuk = '" + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + "', email = '" + $('#txt_email').val() + "', foto_ktp = '<?= '"+generateUniqKTP+"'; ?>' WHERE id_pegawai = '" + selected_idpegawai + "'";
+                                        query = "UPDATE pegawai SET nama = '" + $('#txt_nama').val() + "', gender = '" + $('#txt_gender').val() + "', `no.Telp` = '" + $('#txt_notelepon').val() + "', alamat = '" + $('#txt_alamat').val() + "', tgl_masuk = '" + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + "', email = '" + $('#txt_email').val() + "', id_level = '" + convertNameRolestoId($('#txt_level').val()) + "', foto_ktp = '<?= '"+generateUniqKTP+"'; ?>' WHERE id_pegawai = '" + selected_idpegawai + "'";
                                         form_editdata.append('opsifoto', "fotoktp");
                                     }
                                 } else if (imgkk.length > 0) {
@@ -580,7 +687,7 @@ function generateID(Koneksi $obj, $tglmasuk)
 
                                     var generateUniqKK = "<?php echo uniqid("foto-kk-", true) . "." . '"+getFileExtension(img_name_kk)+"'; ?>";
 
-                                    query = "UPDATE pegawai SET nama = '" + $('#txt_nama').val() + "', gender = '" + $('#txt_gender').val() + "', `no.Telp` = '" + $('#txt_notelepon').val() + "', alamat = '" + $('#txt_alamat').val() + "', tgl_masuk = '" + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + "', email = '" + $('#txt_email').val() + "', foto_kk = '<?= '"+generateUniqKK+"'; ?>' WHERE id_pegawai = '" + selected_idpegawai + "'";
+                                    query = "UPDATE pegawai SET nama = '" + $('#txt_nama').val() + "', gender = '" + $('#txt_gender').val() + "', `no.Telp` = '" + $('#txt_notelepon').val() + "', alamat = '" + $('#txt_alamat').val() + "', tgl_masuk = '" + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + "', email = '" + $('#txt_email').val() + "', id_level = '" + convertNameRolestoId($('#txt_level').val()) + "', foto_kk = '<?= '"+generateUniqKK+"'; ?>' WHERE id_pegawai = '" + selected_idpegawai + "'";
                                     form_editdata.append('opsifoto', "fotokk");
                                 }
                             } else {
@@ -597,7 +704,7 @@ function generateID(Koneksi $obj, $tglmasuk)
                                 var generateUniqKTP = "<?php echo uniqid("foto-ktp-", true) . "." . '"+getFileExtension(img_name_ktp)+"'; ?>";
                                 var generateUniqKK = "<?php echo uniqid("foto-kk-", true) . "." . '"+getFileExtension(img_name_kk)+"'; ?>";
 
-                                query = "UPDATE pegawai SET nama = '" + $('#txt_nama').val() + "', gender = '" + $('#txt_gender').val() + "', `no.Telp` = '" + $('#txt_notelepon').val() + "', alamat = '" + $('#txt_alamat').val() + "', tgl_masuk = '" + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + "', email = '" + $('#txt_email').val() + "', foto_pegawai = '<?= '"+generateUniqPeg+"'; ?>', foto_ktp = '<?= '"+generateUniqKTP+"'; ?>', foto_kk = '<?= '"+generateUniqKK+"'; ?>' WHERE id_pegawai = '" + selected_idpegawai + "'";
+                                query = "UPDATE pegawai SET nama = '" + $('#txt_nama').val() + "', gender = '" + $('#txt_gender').val() + "', `no.Telp` = '" + $('#txt_notelepon').val() + "', alamat = '" + $('#txt_alamat').val() + "', tgl_masuk = '" + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + "', email = '" + $('#txt_email').val() + "', id_level = '" + convertNameRolestoId($('#txt_level').val()) + "', foto_pegawai = '<?= '"+generateUniqPeg+"'; ?>', foto_ktp = '<?= '"+generateUniqKTP+"'; ?>', foto_kk = '<?= '"+generateUniqKK+"'; ?>' WHERE id_pegawai = '" + selected_idpegawai + "'";
                                 form_editdata.append('opsifoto', "semua-foto");
                             }
 
@@ -627,13 +734,32 @@ function generateID(Koneksi $obj, $tglmasuk)
                                 text: "Email Tidak Boleh Kosong",
                             })
 
+                        } else if (!validasiEmail($('#txt_email').val())) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal',
+                                text: "Email tidak valid",
+                            })
+
+                        } else if ($('#txt_email').val().length > 30) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal',
+                                text: "Email tidak boleh lebih dari 30 huruf",
+                            })
                         } else if ($('#txt_nama').val() == "") {
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Gagal',
                                 text: "Nama Tidak Boleh Kosong",
                             })
-                        } else if ($('#txt_gender').val() == "") {
+                        } else if ($('#txt_nama').val().length > 40) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal',
+                                text: "Nama tidak boleh lebih dari 40 huruf",
+                            })
+                        } else if ($('#txt_gender').val() == null) {
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Gagal',
@@ -646,6 +772,12 @@ function generateID(Koneksi $obj, $tglmasuk)
                                 text: "No Telepon Tidak Boleh Kosong",
                             })
 
+                        } else if ($('#txt_notelepon').val().length > 13) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal',
+                                text: "No Telepon tidak boleh lebih dari 13 huruf",
+                            })
                         } else if ($('#txt_alamat').val() == "") {
                             Swal.fire({
                                 icon: 'error',
@@ -687,6 +819,18 @@ function generateID(Koneksi $obj, $tglmasuk)
 
                 });
 
+                function validasiEmail(email) {
+                    var rs = email;
+                    var atps = rs.indexOf("@");
+                    var dots = rs.lastIndexOf(".");
+                    if (atps < 1 || dots < atps + 2 || dots + 2 >= rs.length) {
+
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+
 
                 $('#submitformadd').on('click', function(e) {
                     e.preventDefault();
@@ -711,6 +855,19 @@ function generateID(Koneksi $obj, $tglmasuk)
                             text: "Email Tidak Boleh Kosong",
                         })
 
+                    } else if (!validasiEmail($('#txt_email').val())) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal',
+                            text: "Email tidak valid",
+                        })
+
+                    } else if ($('#txt_email').val().length > 30) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal',
+                            text: "Email tidak boleh lebih dari 30 huruf",
+                        })
                     } else if ($('#txt_password').val() == "") {
                         Swal.fire({
                             icon: 'error',
@@ -718,13 +875,25 @@ function generateID(Koneksi $obj, $tglmasuk)
                             text: "Password Tidak Boleh Kosong",
                         })
                         console.log($('#txt_password').val());
+                    } else if ($('#txt_password').val().length > 50) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal',
+                            text: "Password tidak boleh lebih dari 40 huruf",
+                        })
                     } else if ($('#txt_nama').val() == "") {
                         Swal.fire({
                             icon: 'error',
                             title: 'Gagal',
                             text: "Nama Tidak Boleh Kosong",
                         })
-                    } else if ($('#txt_gender').val() == "") {
+                    } else if ($('#txt_nama').val().length > 40) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal',
+                            text: "Nama tidak boleh lebih dari 40 huruf",
+                        })
+                    } else if ($('#txt_gender').val() == null) {
                         Swal.fire({
                             icon: 'error',
                             title: 'Gagal',
@@ -736,7 +905,13 @@ function generateID(Koneksi $obj, $tglmasuk)
                             title: 'Gagal',
                             text: "No Telepon Tidak Boleh Kosong",
                         })
-                        console.log($('#txt_password').val());
+
+                    } else if ($('#txt_notelepon').val().length > 13) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal',
+                            text: "No Telepon tidak boleh lebih dari 13 huruf",
+                        })
                     } else if ($('#txt_alamat').val() == "") {
                         Swal.fire({
                             icon: 'error',
@@ -758,10 +933,11 @@ function generateID(Koneksi $obj, $tglmasuk)
                             var generateUniqKTP = "<?php echo uniqid("foto-ktp-", true) . "." . '"+getFileExtension(img_name_ktp)+"'; ?>";
                             var generateUniqKK = "<?php echo uniqid("foto-kk-", true) . "." . '"+getFileExtension(img_name_kk)+"'; ?>";
 
-                            form_data.append('query', "INSERT INTO pegawai VALUES ('<?= generateID($crud, '"+ date.getDate() + + ( date.getMonth() + 1) + date.getFullYear()+"'); ?>', '" + $('#txt_nama').val() + "', '" + $('#txt_gender').val() + "', '" + $('#txt_notelepon').val() + "', '" + $('#txt_alamat').val() + "', '" + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + "', '<?= '"+generateUniqPeg+"'; ?>', '<?= '"+generateUniqKTP+"'; ?>', '<?= '"+generateUniqKK+"'; ?>', '" + $('#txt_email').val() + "', '" + CryptoJS.MD5($("#txt_password").val()).toString() + "', 2)");
+                            form_data.append('query', "INSERT INTO pegawai VALUES ('<?= generateID($crud, '"+ date.getDate() + + ( date.getMonth() + 1) + date.getFullYear()+"'); ?>', '" + $('#txt_nama').val() + "', '" + $('#txt_gender').val() + "', '" + $('#txt_notelepon').val() + "', '" + $('#txt_alamat').val() + "', '" + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + "', '<?= '"+generateUniqPeg+"'; ?>', '<?= '"+generateUniqKTP+"'; ?>', '<?= '"+generateUniqKK+"'; ?>', '" + $('#txt_email').val() + "', '" + CryptoJS.MD5($("#txt_password").val()).toString() + "', '" + convertNameRolestoId($('#txt_level').val()) + "')");
                             form_data.append('img_file_peg', generateUniqPeg);
                             form_data.append('img_file_ktp', generateUniqKTP);
                             form_data.append('img_file_kk', generateUniqKK);
+                            form_data.append('txt_email', $('#txt_email').val());
 
 
                             $.ajax({
@@ -771,7 +947,6 @@ function generateID(Koneksi $obj, $tglmasuk)
                                 contentType: false,
                                 processData: false,
                                 success: function(res) {
-
                                     const data = JSON.parse(res);
 
                                     if (data.status == 'error') {
