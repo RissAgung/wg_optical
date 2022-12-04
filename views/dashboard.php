@@ -53,7 +53,7 @@ if(!isset($_SESSION['statusLogin'])){
           </svg>
         </div>
 
-        <h1><?php echo isset($_SESSION["statusLogin"]) ? $_SESSION["email"] : "Dashboard"; ?></h1>
+        <h1>Dashboard</h1>
       </div>
       <div class="flex flex-row items-center">
         <div class="mr-4">
