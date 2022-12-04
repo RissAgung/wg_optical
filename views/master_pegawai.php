@@ -998,7 +998,7 @@ function getNameRoles($id)
                     lokasifotoktp_lama = '<?php echo $execute[$index]['foto_ktp']; ?>';
                     lokasifotokk_lama = '<?php echo $execute[$index]['foto_kk']; ?>';
 
-                    $('#title').html('Hapus Data Pegawai ini');
+                    $('#title_delete').html('Hapus Data Pegawai ini?');
 
                     $('#modalkontenhapus').toggleClass("scale-100");
                     $('#bgmodalhapus').addClass("effectmodal");
