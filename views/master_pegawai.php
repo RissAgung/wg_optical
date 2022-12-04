@@ -724,7 +724,7 @@ function generateID(Koneksi $obj, $tglmasuk)
                             title: 'Gagal',
                             text: "Nama Tidak Boleh Kosong",
                         })
-                    } else if ($('#txt_gender').val() == "") {
+                    } else if ($('#txt_gender').val() == null) {
                         Swal.fire({
                             icon: 'error',
                             title: 'Gagal',
