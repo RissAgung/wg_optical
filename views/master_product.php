@@ -763,7 +763,7 @@ function rupiah($angka)
           var id = '<?= $data[$i - 1]["kode_frame"] ?>';
           var img_path = '<?= $data[$i - 1]["gambar"] ?>';
 
-          $('#title_delete').html('Hapus Data Pegawai ini?');
+          $('#title_delete').html('Hapus Data Product ini?');
 
           $('#modalkontenhapus').toggleClass("scale-100");
           $('#bgmodalhapus').addClass("effectmodal");
