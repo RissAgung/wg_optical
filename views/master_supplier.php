@@ -10,59 +10,14 @@
 </head>
 
 <body class="bg-[#F0F0F0] font-ex-color box-border">
-    <!-- Modal -->
-    <!-- Background -->
-    <div id="bgmodal" class="w-full h-screen fixed hidden bg-black z-[51] opacity-0 transition duration-300"></div>
-    <!-- konten modal-->
-    <div id="modalkonten" class="w-[90%] md:w-[60%] lg:w-[40%] bg-white fixed z-[51] left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] shadow-xl rounded-lg scale-0  transition ease-in-out">
-        <div class="header relative">
-            <h1 class="py-4 font-bold text-sm text-center">Tambah Supplier</h1>
-            <div class="h-[1px] bg-[#C9C9C9]"></div>
-            <div id="closemodal" class="absolute right-2 top-4 cursor-pointer hover:bg-slate-700 flex text-center my-auto rounded-md transition">
-                <h1 class="text-black font-semibold h-full w-full transition px-3 hover:text-white">X</h1>
-            </div>
-        </div>
-        <div class="flex flex-col overflow-y-scroll h-[400px] pb-8">
-            <div class="h-12 flex mt-8 items-center px-14">
-                <h1 class="w-1/2 font-semibold text-sm">Nama</h1>
-                <div class="h-[50px] w-full border border-[#C9C9C9] rounded-lg ml-4 overflow-hidden">
-                    <input type="text" name="" class="h-full w-full  px-4" id="">
-                </div>
-            </div>
-            <div class="h-12 flex mt-8 items-center px-14">
-                <h1 class="w-1/2 font-semibold text-sm">No. Telp</h1>
-                <div class="h-[50px] w-full border border-[#C9C9C9] rounded-lg ml-4 overflow-hidden">
-                    <input type="text" name="" class="h-full w-full " id="">
-                </div>
-            </div>
-            <div class="h-12 flex mt-8 items-center px-14">
-                <h1 class="w-1/2 font-semibold text-sm">Alamat</h1>
-                <div class="h-[50px] w-full border border-[#C9C9C9] rounded-lg ml-4 overflow-hidden">
-                    <input type="text" name="" class="h-full w-full " id="">
-                </div>
-            </div>
-            <div class="h-12 flex mt-8 items-center px-14">
-                <h1 class="w-1/2 font-semibold text-sm">Keterangan</h1>
-                <div class="h-[50px] w-full border border-[#C9C9C9] rounded-lg ml-4 overflow-hidden">
-                    <input type="text" name="" class="h-full w-full " id="">
-                </div>
-            </div>
-        </div>
-        <div id="footer-modal">
-            <div class="h-[1px] bg-[#C9C9C9]"></div>
-            <div class="h-[100px] flex items-center justify-center">
-                <div class="flex flex-row justify-center gap-4">
-                    <div class="bg-[#F35E58] w-[70px] md:w-[80px] text-center rounded-md py-1 text-white text-sm sm:text-lg">
-                        <p>Batal</p>
-                    </div>
-                    <div class="bg-[#3DBD9E] w-[70px] md:w-[80px] text-center rounded-md py-1 text-white text-sm sm:text-lg">
-                        <p>Tambah</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- end modal -->
+    
+    <!-- modal input -->
+    <div id="modal_supplier" class=""></div>
+
+    <!-- modal delete -->
+    <div id="modal-delete" class=""></div>
+    <!-- end modal delete -->       
+
     <!-- Background hitam saat sidebar show -->
     <div id="bgbody" class="w-full h-screen bg-black fixed z-50 bg-opacity-50 hidden"></div>
     <!-- End Background hitam saat sidebar show -->
