@@ -39,6 +39,30 @@ function rupiah($angka)
 <body class="bg-[#F0F0F0] font-ex-color box-border">
 
 
+  <!-- Logout modal -->
+  <div id="bgmodal" class="w-full h-screen fixed hidden bg-black z-[51] opacity-0 transition duration-300"></div>
+  <div id="modalLogout" class="w-[90%] md:w-[60%] lg:w-[30%] bg-white fixed z-[51] left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] shadow-xl rounded-lg scale-0  transition ease-in-out">
+    <div class="flex flex-row justify-between px-8 pt-[20px]">
+      <h1 class="font-bold text-xl md:text-2xl">Keluar</h1>
+      <h1>X</h1>
+    </div>
+    <div class="px-8 pt-[20px]">
+
+      <p class="text-sm md:text-lg text-slate-600">Apakah anda yakin ingin keluar?</p>
+    </div>
+
+    <div class="flex flex-row justify-end px-8 gap-2 pt-8 pb-8">
+
+      <div class="bg-[#3DBD9E] w-[70px] md:w-[80px] text-center rounded-md py-1 text-white text-sm sm:text-lg">
+        <p>Cancel</p>
+      </div>
+      <div class="bg-[#F35E58] w-[70px] md:w-[80px] text-center rounded-md py-1 text-white text-sm sm:text-lg">
+        <p>Oke</p>
+      </div>
+
+    </div>
+  </div>
+  <!-- end modal logout -->
 
   <!-- modal -->
   <div id="modal">
@@ -301,7 +325,6 @@ function rupiah($angka)
     // load sidebar
     $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
       $('#master_data').addClass("hover-sidebar");
-
     });
 
     // reset 
@@ -871,7 +894,7 @@ function rupiah($angka)
           var id = '<?= $data[$i - 1]["kode_frame"] ?>';
           var img_path = '<?= $data[$i - 1]["gambar"] ?>';
 
-          $('#title_delete').html('Hapus Data Pegawai ini?');
+          $('#title_delete').html('Hapus Data Product ini?');
 
           $('#modalkontenhapus').toggleClass("scale-100");
           $('#bgmodalhapus').addClass("effectmodal");

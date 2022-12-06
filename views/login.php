@@ -1,3 +1,10 @@
+<?php
+session_start();
+if (isset($_SESSION['statusLogin'])) {
+    header('Location: dashboard.php');
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -89,6 +96,14 @@
                             icon: 'error',
                             title: 'Gagal',
                             text: data.msg,
+                        });
+                    } else if (data.status == 'success_roles') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil',
+                            text: data.msg,
+                        }).then(function() {
+                            window.location.replace("dashboard.php");
                         });
                     } else {
                         Swal.fire({
