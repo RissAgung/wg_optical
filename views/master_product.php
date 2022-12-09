@@ -24,7 +24,7 @@ function rupiah($angka)
 
 ?>
 
-<!DOCTYPE html>
+<!DOCTYPE html>  
 <html lang="en">
 
 <head>
