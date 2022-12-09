@@ -57,7 +57,6 @@ function getNameRoles($id)
             return "Sales";
             break;
         default:
-
             break;
     }
 }
@@ -490,8 +489,6 @@ function getNameRoles($id)
                 $('#form-password').toggleClass('flex');
 
                 $('#form-password').toggleClass('statusclick');
-
-
 
 
                 $('#form-modal').toggleClass('flex');
