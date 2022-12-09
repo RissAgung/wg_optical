@@ -291,7 +291,7 @@ function rupiah($angka)
           <!-- items -->
           <div class="max-[400px]:w-[163px] max-md:w-[149px] w-[163px] h-[273px]  shadow-md relative rounded-2xl overflow-hidden mt-4 mr-4">
             <div class="max-[400px]:w-[163px] max-md:w-[149px] max-[400px]:h-[163px] max-md:h-[149px] h-[163px] w-[163px] bg-red-100 rounded-2xl overflow-hidden">
-              <img class="max-[400px]:w-[163px] max-md:w-[149px] max-[400px]:h-[163px] max-md:h-[149px] h-[163px] w-[163px] object-cover" src="../../images/produk/<?= $index["gambar"] ?>" alt="product image">
+              <img class="max-[400px]:w-[163px] max-md:w-[149px] max-[400px]:h-[163px] max-md:h-[149px] h-[163px] w-[163px] object-cover" src="../images/produk/<?= $index["gambar"] ?>" alt="product image">
             </div>
             <div class="flex flex-col w-full h-full p-[13px]">
               <h3 class="uppercase text-[11px]"><?= $index["kode_frame"] ?></h3>
@@ -407,6 +407,7 @@ function rupiah($angka)
               contentType: false,
               processData: false,
               success: function(res) {
+          
                 const data = JSON.parse(res);
 
                 if (data.status == 'error') {
@@ -471,7 +472,7 @@ function rupiah($angka)
           $("#warna_txt").val('<?= $data[$i - 1]["warna"] ?>');
           $("#harga_txt").val('<?= rupiah($data[$i - 1]["harga_jual"]) ?>');
 
-          imgpreview_peg.src = "../../images/produk/<?= $data[$i - 1]["gambar"] ?>";
+          imgpreview_peg.src = "../images/produk/<?= $data[$i - 1]["gambar"] ?>";
           $('#imgpreview_peg').removeClass("hidden");
           $('#imgdefault_peg').addClass("hidden");
 
@@ -596,7 +597,7 @@ function rupiah($angka)
           $("#warna_txt").val('<?= $data[$i - 1]["warna"] ?>');
           $("#harga_txt").val('<?= rupiah($data[$i - 1]["harga_jual"]) ?>');
 
-          imgpreview_peg.src = "../../images/produk/<?= $data[$i - 1]["gambar"] ?>";
+          imgpreview_peg.src = "../images/produk/<?= $data[$i - 1]["gambar"] ?>";
           $('#imgpreview_peg').removeClass("hidden");
           $('#imgdefault_peg').addClass("hidden");
 
