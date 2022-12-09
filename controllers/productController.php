@@ -98,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               $crud->execute($_POST["query"]);
               $response = array(
                 'status' => 'success',
-                'msg' => 'Berhasil Menambahkan Data'
+                'msg' => 'Data Berhasil Dirubah'
               );
               echo json_encode($response);
               exit();
