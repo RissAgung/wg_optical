@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../css/output.css">
+  <link rel="stylesheet" href="../css/sweetalert2.min.css">
   <style>
     @media(min-width: 768px) {
       .main-content {
@@ -19,30 +20,6 @@
 <body class="bg-[#F0F0F0] font-ex-color box-border text-[#343948]">
 
 
-  <!-- Logout modal -->
-  <div id="bgmodal" class="w-full h-screen fixed hidden bg-black z-[51] opacity-0 transition duration-300"></div>
-  <div id="modalLogout" class="w-[90%] md:w-[60%] lg:w-[30%] bg-white fixed z-[51] left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] shadow-xl rounded-lg scale-0  transition ease-in-out">
-    <div class="flex flex-row justify-between px-8 pt-[20px]">
-      <h1 class="font-bold text-xl md:text-2xl">Keluar</h1>
-      <h1>X</h1>
-    </div>
-    <div class="px-8 pt-[20px]">
-
-      <p class="text-sm md:text-lg text-slate-600">Apakah anda yakin ingin keluar?</p>
-    </div>
-
-    <div class="flex flex-row justify-end px-8 gap-2 pt-8 pb-8">
-
-      <div class="bg-[#3DBD9E] w-[70px] md:w-[80px] text-center rounded-md py-1 text-white text-sm sm:text-lg">
-        <p>Cancel</p>
-      </div>
-      <div class="bg-[#F35E58] w-[70px] md:w-[80px] text-center rounded-md py-1 text-white text-sm sm:text-lg">
-        <p>Oke</p>
-      </div>
-
-    </div>
-  </div>
-  <!-- end modal logout -->
 
   <!-- modal edit pembayaran -->
   <div class="fixed z-[52] scale-0 transition ease-in-out" id="modal_edit_bayar">
@@ -343,16 +320,14 @@
   </div>
 
   <script src="../js/jquery-3.6.1.min.js"></script>
+  <script src="../js/sweetalert2.min.js"></script>
   <script>
     console.log($(document).width());
 
     // load sidebar
     $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
       $('#tab_invoice').addClass("hover-sidebar");
-      $('#button-logout').on('click', function() {
-        $('#modalLogout').toggleClass("scale-0");
-        $('#bgmodal').addClass("effectmodal");
-      });
+      
     });
 
     // tab bar
@@ -440,10 +415,6 @@
       }
     }
 
-    $('#bgmodal').on('click', function() {
-      $('#modalLogout').toggleClass("scale-0");
-      $('#bgmodal').removeClass("effectmodal");
-    });
 
     // modal edit pembayaran
     $("#modal_edit_bayar").load("../assets/components/modal_edit_invoice.html", function() {
