@@ -312,30 +312,30 @@ function getNameRoles($id)
 
 
     <script>
-        $(document).idle({
-            onIdle: function() {
-                $.ajax({
-                    url: '../controllers/loginController.php',
-                    type: 'post',
-                    data: {
-                        'type': 'logout',
-                    },
-                    success: function() {
+        // $(document).idle({
+        //     onIdle: function() {
+        //         $.ajax({
+        //             url: '../controllers/loginController.php',
+        //             type: 'post',
+        //             data: {
+        //                 'type': 'logout',
+        //             },
+        //             success: function() {
 
-                    }
-                });
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Informasi',
-                    text: 'Sesi anda telah habis, silahkan login kembali',
+        //             }
+        //         });
+        //         Swal.fire({
+        //             icon: 'warning',
+        //             title: 'Informasi',
+        //             text: 'Sesi anda telah habis, silahkan login kembali',
 
-                }).then(function() {
-                    window.location.replace('../views/login.php');
-                });
+        //         }).then(function() {
+        //             window.location.replace('../views/login.php');
+        //         });
 
-            },
-            idle: 50000
-        });
+        //     },
+        //     idle: 50000
+        // });
 
         // load sidebar
         $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
@@ -381,7 +381,7 @@ function getNameRoles($id)
 
             $('#click-modal').on('click', function() {
                 $('#title-modal').html('Tambah Pegawai');
-                $('#modalkonten').toggleClass("scale-100");
+                $('#modalkonten').toggleClass("scale-0");
                 $('#bgmodal').addClass("effectmodal");
 
                 $('#footer-add').removeClass('hidden');
@@ -451,7 +451,7 @@ function getNameRoles($id)
                     $('#field-password').addClass('hidden');
 
                     $('#title-modal').html('Ubah Pegawai');
-                    $('#modalkonten').toggleClass("scale-100");
+                    $('#modalkonten').toggleClass("scale-0");
                     $('#bgmodal').addClass("effectmodal");
 
 
@@ -536,7 +536,7 @@ function getNameRoles($id)
 
             function closeModal() {
                 $('#field-password').removeClass('hidden');
-                $('#modalkonten').toggleClass("scale-100");
+                $('#modalkonten').toggleClass("scale-0");
                 $('#bgmodal').removeClass("effectmodal");
 
 
@@ -997,7 +997,7 @@ function getNameRoles($id)
 
                     $('#title_delete').html('Hapus Data Pegawai ini?');
 
-                    $('#modalkontenhapus').toggleClass("scale-100");
+                    $('#modalkontenhapus').toggleClass("scale-0");
                     $('#bgmodalhapus').addClass("effectmodal");
                 });
             <?php
@@ -1016,7 +1016,7 @@ function getNameRoles($id)
                         'pathfotokk': lokasifotokk_lama
                     },
                     success: function(res) {
-                        $('#modalkontenhapus').toggleClass("scale-100");
+                        $('#modalkontenhapus').toggleClass("scale-0");
                         $('#bgmodalhapus').removeClass("effectmodal");
                         selected_idpegawai = "";
                         lokasifotopegawai_lama = "";
@@ -1036,7 +1036,7 @@ function getNameRoles($id)
             });
 
             $('#closemodalhapus, #cancelmodalhapus').on('click', function() {
-                $('#modalkontenhapus').toggleClass("scale-100");
+                $('#modalkontenhapus').toggleClass("scale-0");
                 $('#bgmodalhapus').removeClass("effectmodal");
                 selected_idpegawai = "";
             });
@@ -1060,13 +1060,6 @@ function getNameRoles($id)
 
         });
 
-
-
-        $('#closemodal').on('click', function() {
-
-            $('#modalkonten').toggleClass("scale-100");
-            $('#bgmodal').removeClass("effectmodal");
-        });
 
         // reset 
         var input = '<?= $input ?>';
