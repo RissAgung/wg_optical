@@ -436,6 +436,7 @@ function rupiah($angka)
               contentType: false,
               processData: false,
               success: function(res) {
+          
                 const data = JSON.parse(res);
 
                 if (data.status == 'error') {

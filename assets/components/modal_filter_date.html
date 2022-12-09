@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/output.css">
+    <link rel="stylesheet" href="../css/datePicker.css">
+
+    <title>Document</title>
+</head>
+
+<body class=" bg-slate-600 text-[#343948] font-ex-medium">
+    <!-- Background -->
+    <div id="bgmodal" class="w-full h-screen fixed bg-black z-[51] opacity-0 transition duration-300"></div>
+    <!-- konten modal-->
+    <div id="modalkonten" class="w-[90%] md:w-[55%] lg:w-[40%] xl:w-[35%] 2xl:w-[25%] bg-white fixed z-[51] left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] shadow-xl rounded-lg  transition ease-in-out">
+        <div class="flex flex-col md:flex-row justify-center overflow-hidden">
+            <div class="flex max-[767px]:h-20 drop-shadow-md z-[100] bg-white w-full md:w-[50%]">
+                <li class="flex flex-row px-3 ml-2 md:ml-0 w-full md:py-8 scrollbar-hide overflow-x-scroll overflow-y-hidden md:overflow-x-hidden md:flex-col justify-between md:justify-center md:mb-20 items-center">
+                    <ul name="harian" class="px-2 text-center bg-slate-700 cursor-pointer py-2 rounded-md text-white">Harian</ul>
+                    <ul class="px-2 text-center hover:bg-gray-200 cursor-pointer py-2 rounded-md">Mingguan</ul>
+                    <ul class="px-2 text-center hover:bg-gray-200 cursor-pointer py-2 rounded-md">Bulanan</ul>
+                    <ul class="px-2 text-center hover:bg-gray-200 cursor-pointer py-2 rounded-md">Tahunan</ul>
+                    <ul class="px-2 text-center hover:bg-gray-200 cursor-pointer py-2 rounded-md">Range</ul>
+                </li>
+            </div>
+            <div id="container-date" class="z-1 max-[767px]:h-[40vh]  justify-start items-start w-full relative flex overflow-y-scroll md:overflow-y-scroll  my-4">
+                <div id="foo" class="h-[120%] items-center scale-100 absolute -translate-y-10 w-full"></div>
+            </div>
+        </div>
+        <div id="footer-modal" class="mt-4 fixed bottom-0 z-[101] bg-white w-full">
+            <div class="h-[1px] bg-[#C9C9C9]"></div>
+            <div class="flex flex-row justify-end gap-4 px-4 py-2">
+                <div id="apply" class="bg-slate-600 cursor-pointer w-[70px] md:w-[80px] text-center rounded-md py-1 text-white text-sm sm:text-lg">
+                    <p>Apply</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- end modal -->
+    <script src="../js/jquery-3.6.1.min.js"></script>
+    <script src="../js/datePicker.js"></script>
+    <script>
+        const elem = document.getElementById('foo');
+
+        const datepicker = new Datepicker(elem, {
+
+            todayHighlight: true,
+            endDate: '+367d',
+            container: '#container-date',
+
+            // ...options
+        });
+
+        elem.addEventListener('changeDate', function(evt) {
+            testaaa = new Date(evt.detail.date);
+
+            alert(testaaa.getDate() + '-' + (testaaa.getMonth() + 1) + '-' + testaaa.getFullYear());
+
+        });
+
+        $('#apply').on('click', function() {
+            console.log('test');
+            console.log(datepicker.getDate());
+        });
+    </script>
+</body>
+
+</html>
