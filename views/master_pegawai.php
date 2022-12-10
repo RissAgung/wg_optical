@@ -381,7 +381,7 @@ function getNameRoles($id)
 
             $('#click-modal').on('click', function() {
                 $('#title-modal').html('Tambah Pegawai');
-                $('#modalkonten').toggleClass("scale-100");
+                $('#modalkonten').toggleClass("scale-0");
                 $('#bgmodal').addClass("effectmodal");
 
                 $('#footer-add').removeClass('hidden');
@@ -451,7 +451,7 @@ function getNameRoles($id)
                     $('#field-password').addClass('hidden');
 
                     $('#title-modal').html('Ubah Pegawai');
-                    $('#modalkonten').toggleClass("scale-100");
+                    $('#modalkonten').toggleClass("scale-0");
                     $('#bgmodal').addClass("effectmodal");
 
                     $('#div-tgl').addClass('hidden');
@@ -538,7 +538,7 @@ function getNameRoles($id)
 
             function closeModal() {
                 $('#field-password').removeClass('hidden');
-                $('#modalkonten').toggleClass("scale-100");
+                $('#modalkonten').toggleClass("scale-0");
                 $('#bgmodal').removeClass("effectmodal");
 
 
@@ -776,6 +776,7 @@ function getNameRoles($id)
                                 contentType: false,
                                 processData: false,
                                 success: function(res) {
+                                    
                                     const data = JSON.parse(res);
                                     if (data.status == 'error') {
                                         Swal.fire({
@@ -959,7 +960,7 @@ function getNameRoles($id)
 
                     $('#title_delete').html('Hapus Data Pegawai ini?');
 
-                    $('#modalkontenhapus').toggleClass("scale-100");
+                    $('#modalkontenhapus').toggleClass("scale-0");
                     $('#bgmodalhapus').addClass("effectmodal");
                 });
             <?php
@@ -978,7 +979,7 @@ function getNameRoles($id)
                         'pathfotokk': lokasifotokk_lama
                     },
                     success: function(res) {
-                        $('#modalkontenhapus').toggleClass("scale-100");
+                        $('#modalkontenhapus').toggleClass("scale-0");
                         $('#bgmodalhapus').removeClass("effectmodal");
                         selected_idpegawai = "";
                         lokasifotopegawai_lama = "";
@@ -1007,7 +1008,7 @@ function getNameRoles($id)
             });
 
             $('#closemodalhapus, #cancelmodalhapus').on('click', function() {
-                $('#modalkontenhapus').toggleClass("scale-100");
+                $('#modalkontenhapus').toggleClass("scale-0");
                 $('#bgmodalhapus').removeClass("effectmodal");
                 selected_idpegawai = "";
             });
@@ -1035,7 +1036,7 @@ function getNameRoles($id)
 
         $('#closemodal').on('click', function() {
 
-            $('#modalkonten').toggleClass("scale-100");
+            $('#modalkonten').toggleClass("scale-0");
             $('#bgmodal').removeClass("effectmodal");
         });
 
