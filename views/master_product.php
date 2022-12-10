@@ -305,6 +305,7 @@ function rupiah($angka)
   <script>
     // top_bar
     $('#top_bar').load("../assets/components/top_bar.php", function() {
+      $('#title-header').html('Master Data Product');
       $("#burger").on("click", function() {
         $('#bgbody').toggleClass("hidden");
 
@@ -343,7 +344,6 @@ function rupiah($angka)
 
     // load modal input
     $("#modal").load("../assets/components/modal_tambah_master_product.html", function() {
-
       // tambah
       $('#click-modal').on('click', function() {
 
