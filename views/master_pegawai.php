@@ -454,6 +454,8 @@ function getNameRoles($id)
                     $('#modalkonten').toggleClass("scale-100");
                     $('#bgmodal').addClass("effectmodal");
 
+                    $('#div-tgl').addClass('hidden');
+
 
                     $('#form-password').addClass('hidden');
                     $('#form-password').removeClass('flex');
@@ -560,6 +562,8 @@ function getNameRoles($id)
                 $('#imgpreview_ktp').addClass('hidden');
                 $('#imgdefault_ktp').removeClass('hidden');
                 $('#imgpreview_ktp').removeAttr("src");
+
+                $('#div-tgl').removeClass('hidden');
 
                 $('#imgpreview_kk').addClass('hidden');
                 $('#imgdefault_kk').removeClass('hidden');
