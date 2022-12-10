@@ -738,23 +738,11 @@ function getNameRoles($id)
                                 text: "Email tidak valid",
                             })
 
-                        } else if ($('#txt_email').val().length > 30) {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Gagal',
-                                text: "Email tidak boleh lebih dari 30 huruf",
-                            })
                         } else if ($('#txt_nama').val() == "") {
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Gagal',
                                 text: "Nama Tidak Boleh Kosong",
-                            })
-                        } else if ($('#txt_nama').val().length > 40) {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Gagal',
-                                text: "Nama tidak boleh lebih dari 40 huruf",
                             })
                         } else if ($('#txt_gender').val() == null) {
                             Swal.fire({
@@ -769,12 +757,6 @@ function getNameRoles($id)
                                 text: "No Telepon Tidak Boleh Kosong",
                             })
 
-                        } else if ($('#txt_notelepon').val().length > 13) {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Gagal',
-                                text: "No Telepon tidak boleh lebih dari 13 huruf",
-                            })
                         } else if ($('#txt_alamat').val() == "") {
                             Swal.fire({
                                 icon: 'error',
@@ -859,12 +841,6 @@ function getNameRoles($id)
                             text: "Email tidak valid",
                         })
 
-                    } else if ($('#txt_email').val().length > 30) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Gagal',
-                            text: "Email tidak boleh lebih dari 30 huruf",
-                        })
                     } else if ($('#txt_password').val() == "") {
                         Swal.fire({
                             icon: 'error',
@@ -872,23 +848,11 @@ function getNameRoles($id)
                             text: "Password Tidak Boleh Kosong",
                         })
                         console.log($('#txt_password').val());
-                    } else if ($('#txt_password').val().length > 50) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Gagal',
-                            text: "Password tidak boleh lebih dari 40 huruf",
-                        })
                     } else if ($('#txt_nama').val() == "") {
                         Swal.fire({
                             icon: 'error',
                             title: 'Gagal',
                             text: "Nama Tidak Boleh Kosong",
-                        })
-                    } else if ($('#txt_nama').val().length > 40) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Gagal',
-                            text: "Nama tidak boleh lebih dari 40 huruf",
                         })
                     } else if ($('#txt_gender').val() == null) {
                         Swal.fire({
@@ -903,12 +867,6 @@ function getNameRoles($id)
                             text: "No Telepon Tidak Boleh Kosong",
                         })
 
-                    } else if ($('#txt_notelepon').val().length > 13) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Gagal',
-                            text: "No Telepon tidak boleh lebih dari 13 huruf",
-                        })
                     } else if ($('#txt_alamat').val() == "") {
                         Swal.fire({
                             icon: 'error',
@@ -1023,14 +981,23 @@ function getNameRoles($id)
                         lokasifotoktp_lama = "";
                         lokasifotokk_lama = "";
 
-                        const data = JSON.parse(res);
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Berhasil',
-                            text: data.msg,
-                        }).then(function() {
-                            window.location.replace("master_pegawai.php");
-                        });
+                        try {
+                            const data = JSON.parse(res);
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil',
+                                text: data.msg,
+                            }).then(function() {
+                                window.location.replace("master_pegawai.php");
+                            });
+                            
+                        } catch (error) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal',
+                                text: 'Gagal Menambahkan Data',
+                            })
+                        }
                     }
                 });
             });
