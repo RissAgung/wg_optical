@@ -189,8 +189,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             $img_upload_path_ktp_old = "../images/pegawai/foto_ktp/" . $_POST['img_file_ktp_old'];
 
                             // hapus foto lama
-                            unlink($img_upload_path_peg_old);
-                            unlink($img_upload_path_ktp_old);
+                            if(file_exists($img_upload_path_peg_old)){
+                                unlink($img_upload_path_peg_old);
+                            }
+                            if(file_exists($img_upload_path_ktp_old)){
+                                unlink($img_upload_path_ktp_old);
+                            }
 
                             # move uploaded image to 'uploads' folder
                             move_uploaded_file($tmppeg_name, $img_upload_path_peg);
@@ -274,8 +278,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             $img_upload_path_kk_old = "../images/pegawai/foto_kk/" . $_POST['img_file_kk_old'];
 
                             // hapus foto lama
-                            unlink($img_upload_path_peg_old);
-                            unlink($img_upload_path_kk_old);
+                            if(file_exists($img_upload_path_peg_old)){
+                                unlink($img_upload_path_peg_old);
+                            }
+                            if(file_exists($img_upload_path_kk_old)){
+                                unlink($img_upload_path_kk_old);
+                            }
 
                             # move uploaded image to 'uploads' folder
                             move_uploaded_file($tmppeg_name, $img_upload_path_peg);
@@ -336,7 +344,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             $img_upload_path_peg_old = "../images/pegawai/foto_pegawai/" . $_POST['img_file_peg_old'];
 
                             // hapus foto lama
-                            unlink($img_upload_path_peg_old);
+                            if(file_exists($img_upload_path_peg_old)){
+                                unlink($img_upload_path_peg_old);
+                            }
 
                             # move uploaded image to 'uploads' folder
                             move_uploaded_file($tmppeg_name, $img_upload_path_peg);
@@ -413,8 +423,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             $img_upload_path_kk_old = "../images/pegawai/foto_kk/" . $_POST['img_file_kk_old'];
 
                             // hapus foto lama
-                            unlink($img_upload_path_ktp_old);
-                            unlink($img_upload_path_kk_old);
+                            if(file_exists($img_upload_path_ktp_old)){
+                                unlink($img_upload_path_ktp_old);
+                            }
+                            if(file_exists($img_upload_path_kk_old)){
+                                unlink($img_upload_path_kk_old);
+                            }
 
                             # move uploaded image to 'uploads' folder
                             move_uploaded_file($tmpktp_name, $img_upload_path_ktp);
@@ -468,7 +482,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             $img_upload_path_ktp_old = "../images/pegawai/foto_ktp/" . $_POST['img_file_ktp_old'];
 
                             // hapus foto lama
-                            unlink($img_upload_path_ktp_old);
+                            if(file_exists($img_upload_path_ktp_old)){
+                                unlink($img_upload_path_ktp_old);
+                            }
 
                             # move uploaded image to 'uploads' folder
                             move_uploaded_file($tmpktp_name, $img_upload_path_ktp);
@@ -523,7 +539,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             $img_upload_path_kk_old = "../images/pegawai/foto_kk/" . $_POST['img_file_kk_old'];
 
                             // hapus foto lama
-                            unlink($img_upload_path_kk_old);
+                            if(file_exists($img_upload_path_kk_old)){
+                                unlink($img_upload_path_kk_old);
+                            }
 
                             # move uploaded image to 'uploads' folder
                             move_uploaded_file($tmpkk_name, $img_upload_path_kk);
@@ -626,9 +644,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             $img_upload_path_kk_old = "../images/pegawai/foto_kk/" . $_POST['img_file_kk_old'];
 
                             // hapus foto lama
-                            unlink($img_upload_path_peg_old);
-                            unlink($img_upload_path_ktp_old);
-                            unlink($img_upload_path_kk_old);
+                            if(file_exists($img_upload_path_peg_old)){
+                                unlink($img_upload_path_peg_old);
+                            }
+                            if(file_exists($img_upload_path_ktp_old)){
+                                unlink($img_upload_path_ktp_old);
+                            }
+                            if(file_exists($img_upload_path_kk_old)){
+                                unlink($img_upload_path_kk_old);
+                            }
 
                             # move uploaded image to 'uploads' folder
                             move_uploaded_file($tmppeg_name, $img_upload_path_peg);
@@ -664,14 +688,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit();
         } else if ($_POST['type'] == 'hapus_pegawai') {
 
+
+
             $img_upload_path_peg_old = "../images/pegawai/foto_pegawai/" . $_POST['pathfotopegawai'];
             $img_upload_path_ktp_old = "../images/pegawai/foto_ktp/" . $_POST['pathfotoktp'];
             $img_upload_path_kk_old = "../images/pegawai/foto_kk/" . $_POST['pathfotokk'];
 
             // hapus foto lama
-            unlink($img_upload_path_peg_old);
-            unlink($img_upload_path_ktp_old);
-            unlink($img_upload_path_kk_old);
+
+            if(file_exists($img_upload_path_peg_old)){
+                unlink($img_upload_path_peg_old);
+            }
+            if(file_exists($img_upload_path_ktp_old)){
+                unlink($img_upload_path_ktp_old);
+            }
+            if(file_exists($img_upload_path_kk_old)){
+                unlink($img_upload_path_kk_old);
+            }
 
             $crud->execute($_POST['query']);
             $response = array(
