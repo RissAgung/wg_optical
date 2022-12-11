@@ -18,6 +18,7 @@ if (!isset($_SESSION['statusLogin'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../css/output.css">
   <link rel="stylesheet" href="../css/swiper-bundle.min.css">
+  <link rel="stylesheet" href="../css/sweetalert2.min.css">
   <title>Document</title>
 </head>
 
@@ -137,6 +138,7 @@ if (!isset($_SESSION['statusLogin'])) {
   <script src="../js/jquery-3.6.1.min.js"></script>
   <script src="../js/swiper-bundle.min.js"></script>
   <script src="../js/jquery.iddle.min.js"></script>
+  <script src="../js/sweetalert2.min.js"></script>
   <script>
     $(document).idle({
       onIdle: function() {
