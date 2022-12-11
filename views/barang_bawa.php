@@ -282,6 +282,31 @@ function generateID(Koneksi $obj, $tglmasuk)
 
 
     <script>
+        $(document).idle({
+            onIdle: function() {
+                $.ajax({
+                    url: '../controllers/loginController.php',
+                    type: 'post',
+                    data: {
+                        'type': 'logout',
+                    },
+                    success: function() {
+
+                    }
+                });
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Informasi',
+                    text: 'Sesi anda telah habis, silahkan login kembali',
+
+                }).then(function() {
+                    window.location.replace('../views/login.php');
+                });
+
+            },
+            idle: 50000
+        });
+
         $('#modal-addBarang').load("../assets/components/modal_pilih_barang.php", function() {
 
             $('#closemodal').on('click', function() {
@@ -312,7 +337,7 @@ function generateID(Koneksi $obj, $tglmasuk)
                 type: 'GET',
 
                 success: function(res) {
-                    
+
                     const value_utama = JSON.parse(res);
 
                     if (value_utama.length == 0) {
@@ -345,7 +370,7 @@ function generateID(Koneksi $obj, $tglmasuk)
                 }
             });
 
-            
+
 
 
 
