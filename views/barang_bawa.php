@@ -421,10 +421,12 @@ function generateID(Koneksi $obj, $tglmasuk)
 
         // load sidebar
         $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
-            $('#master_data').addClass("hover-sidebar");
+            $('#barang_bawa').addClass("hover-sidebar");
             $('#button-logout').on('click', function() {
                 // kosong
             });
+
+            
         });
 
 
