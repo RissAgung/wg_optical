@@ -1,7 +1,13 @@
 <?php
 require "../config/koneksi.php";
-
+session_start();
 $crud = new koneksi();
+
+if (!isset($_SESSION['statusLogin'])) {
+  header('Location: login.php');
+} else if($_SESSION['level'] == 3 ){
+  header('Location: ../sales/dashboard.php');
+}
 
 // pagination
 $jumlahDataPerHalaman = 6;

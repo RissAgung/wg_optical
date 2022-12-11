@@ -1,6 +1,12 @@
 <?php
 
 include "../config/koneksi.php";
+session_start();
+if (!isset($_SESSION['statusLogin'])) {
+  header('Location: login.php');
+} else if($_SESSION['level'] == 3 ){
+  header('Location: ../sales/dashboard.php');
+}
 
 $crud = new koneksi();
 

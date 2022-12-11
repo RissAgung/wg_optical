@@ -27,9 +27,12 @@ if (isset($_POST['type'])) {
                 if ($idlevelval == 3) {
                     $response = array(
                         'status' => 'success_roles',
-                        'msg' => 'Anda Login Sebagai Sales'
+                        'msg' => 'Login Berhasil'
                     );
                     echo json_encode($response);
+                    $_SESSION["statusLogin"] = "true";
+                    $_SESSION["email"] = $namaval;
+                    $_SESSION['level'] = $idlevelval;
                     exit();
                 } else {
 

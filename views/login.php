@@ -103,7 +103,7 @@ if (isset($_SESSION['statusLogin'])) {
                             title: 'Berhasil',
                             text: data.msg,
                         }).then(function() {
-                            window.location.replace("dashboard.php");
+                            window.location.replace("../sales/dashboard.php");
                         });
                     } else {
                         Swal.fire({
