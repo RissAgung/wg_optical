@@ -687,6 +687,22 @@ video {
   z-index: 101;
 }
 
+.z-auto {
+  z-index: auto;
+}
+
+.z-\[10\] {
+  z-index: 10;
+}
+
+.z-\[20\] {
+  z-index: 20;
+}
+
+.z-\[40\] {
+  z-index: 40;
+}
+
 .m-auto {
   margin: auto;
 }
@@ -1873,6 +1889,11 @@ video {
 .bg-\[\#ce7611\] {
   --tw-bg-opacity: 1;
   background-color: rgb(206 118 17 / var(--tw-bg-opacity));
+}
+
+.bg-red-300 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(252 165 165 / var(--tw-bg-opacity));
 }
 
 .bg-opacity-50 {

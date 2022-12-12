@@ -3,6 +3,12 @@ session_start();
 if (isset($_SESSION['statusLogin'])) {
     header('Location: dashboard.php');
 }
+
+echo '<script>Swal.fire({
+    icon: "error",
+    title: "Gagal",
+    text: "aa",
+});</script>';
 ?>
 
 <!DOCTYPE html>
