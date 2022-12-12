@@ -37,76 +37,16 @@ $dataLens = $con->showData("SELECT * FROM detail_bawa JOIN produk ON detail_bawa
         <h1>Kode Frame</h1>
         <select id="frame" class=" cursor-pointer outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden" name="cars" id="cars">
           <?php foreach ($dataLens as $index) : ?>
-            <option class="text-xs" value="<?= $index["harga_jual"] ?>"><?= $index["Id_Bawa"] ?></option>
+            <option class="text-xs" value="<?= $index["harga_jual"] ?>-<?= $index["Id_Bawa"] ?>"><?= $index["Id_Bawa"] ?></option>
           <?php endforeach ?>
         </select>
       </div>
-      <div class="hidden flex flex-col px-6 pt-2 pb-8 bg-white">
-        <h1>Varian Lensa</h1>
-        <select class=" cursor-pointer outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden" name="cars" id="cars">
-          <option class="text-xs" value="">Lensa Satu</option>
-          <option class="text-xs" value="">Lensa Dua</option>
-        </select>
-      </div>
 
-      <div class="hidden flex flex-col px-6 py-4 bg-white mt-[10px]">
-        <h1>Detail Lensa</h1>
-        <div class="border-2 rounded-lg mt-2">
-          <div class="p-6 overflow-hidden">
-            <h1>Kiri</h1>
-            <div class="flex flex-row justify-between text-sm pt-4">
-              <div class="flex w-1/3 gap-2">
-                <h1>SPH:</h1>
-                <div class="shadow-md px-4 overflow-hidden w-full">
-                  <input class="border-0 outline-0" type="text" name="" id="">
-                </div>
-              </div>
-              <div class="flex w-1/3 gap-2">
-                <h1>CYL:</h1>
-                <div class="shadow-md px-4 overflow-hidden w-full">
-                  <input class="border-0 outline-0" type="text" name="" id="">
-                </div>
-              </div>
-              <div class="flex w-1/3 gap-2">
-                <h1>AXIS:</h1>
-                <div class="shadow-md px-4 overflow-hidden w-full">
-                  <input class="border-0 outline-0" type="text" name="" id="">
-                </div>
-              </div>
-            </div>
-            <div class="h-4"></div>
-            <h1>Kanan</h1>
-            <div class="flex flex-row justify-between text-sm py-4">
-              <div class="flex w-1/3 gap-2">
-                <h1>SPH:</h1>
-                <div class="shadow-md px-4 overflow-hidden w-full">
-                  <input class="border-0 outline-0" type="text" name="" id="">
-                </div>
-              </div>
-              <div class="flex w-1/3 gap-2">
-                <h1>CYL:</h1>
-                <div class="shadow-md px-4 overflow-hidden w-full">
-                  <input class="border-0 outline-0" type="text" name="" id="">
-                </div>
-              </div>
-              <div class="flex w-1/3 gap-2">
-                <h1>AXIS:</h1>
-                <div class="shadow-md px-4 overflow-hidden w-full">
-                  <input class="border-0 outline-0" type="text" name="" id="">
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
       <div class="flex flex-col px-6 py-4 bg-white mt-[0.5px]">
         <h1>Harga Frame</h1>
         <input id="inputHarga" class="px-4 outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden" type="text" placeholder="Masukkan Harga" name="" id="">
       </div>
-      <div class="hidden flex flex-col px-6 pt-2 pb-8 bg-white">
-        <h1>Harga Lensa</h1>
-        <input class="px-4 outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden" type="text" placeholder="Masukkan Harga" name="" id="">
-      </div>
+
     </div>
   </section>
   <div class="fixed z-[9999] font-ex-medium flex flex-col w-full my-auto bg-white py-6 bottom-0">
@@ -129,15 +69,37 @@ $dataLens = $con->showData("SELECT * FROM detail_bawa JOIN produk ON detail_bawa
     var harga;
 
     function tambah() {
-      var harga = parseInt($("#inputHarga").val().replace("Rp. ", "").replace(".", "").replace(".", "").replace(" ", ""));
-      if (harga >= $('#frame').val()) {
+      var harga_input = parseInt($("#inputHarga").val().replace("Rp. ", "").replace(".", "").replace(".", "").replace(" ", ""));
+
+      var value = $('#frame').val();
+      var Vindex = value.indexOf("-");
+
+      var harga = value.substr(0, Vindex);
+      var kode = value.substr(Vindex + 1, 10);
+
+      if (harga_input >= harga) {
         console.log("Ok Cuk!");
-        
+
+        var idTR = '<?= strtoupper(str_replace(".", "", uniqid('TR', true))) ?>';
+
+        $.ajax({
+          url: "../../controllers/keranjangController.php",
+          type: "post",
+          data: {
+            type: "insert_frame",
+            query_keranjang: "INSERT INTO keranjang (`kode_pesanan`, `tanggal`, `id_pegawai`, `total`) VALUES ('" + idTR + "',NOW(),'<?= $idPegawai ?>','" + harga + "')",
+            query_Detail_keranjang: "INSERT INTO `detail_keranjang` (`kode_detail_lensa_keranjang`, `kode_pesanan`, `id_bawa`, `nominal`) VALUES ('', '" + idTR + "', '" + kode + "', '" + harga_input + "')",
+          },
+          success: function(res) {
+            alert(res);
+          }
+        })
+
       } else {
         Swal.fire({
           icon: 'warning',
           title: 'Informasi',
-          text: 'Minimal harga bayar '+formatRupiah($('#frame').val(), 'Rp. '),
+          text: 'Minimal harga bayar ' + formatRupiah($('#frame').val(), 'Rp. '),
         })
       }
     }
