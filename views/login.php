@@ -3,6 +3,12 @@ session_start();
 if (isset($_SESSION['statusLogin'])) {
     header('Location: dashboard.php');
 }
+
+echo '<script>Swal.fire({
+    icon: "error",
+    title: "Gagal",
+    text: "aa",
+});</script>';
 ?>
 
 <!DOCTYPE html>
@@ -89,6 +95,15 @@ if (isset($_SESSION['statusLogin'])) {
                     'txt_email': $('#txt_email').val(),
                     'txt_password': $('#txt_password').val(),
                 },
+                beforeSend: function() {
+                    Swal.fire({
+                        title: 'Loading',
+                        html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                        allowOutsideClick: false,
+                        showConfirmButton: false,
+
+                    });
+                },
                 success: function(res) {
                     const data = JSON.parse(res);
                     if (data.status == 'error') {
@@ -103,7 +118,7 @@ if (isset($_SESSION['statusLogin'])) {
                             title: 'Berhasil',
                             text: data.msg,
                         }).then(function() {
-                            window.location.replace("../sales/dashboard.html");
+                            window.location.replace("../sales/dashboard.php");
                         });
                     } else {
                         Swal.fire({

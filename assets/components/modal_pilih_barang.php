@@ -120,7 +120,7 @@ $data = $select->showData("SELECT produk.kode_frame, produk.merk, produk.stock, 
                 }));
 
             }
-    
+
 
             $.ajax({
                 url: "../controllers/detailbawaController.php",
@@ -203,7 +203,7 @@ $data = $select->showData("SELECT produk.kode_frame, produk.merk, produk.stock, 
         function setID(id_peg) {
             console.log(id_peg);
             peg = id_peg;
-            
+
         }
 
         let saveData = new FormData();
@@ -244,9 +244,15 @@ $data = $select->showData("SELECT produk.kode_frame, produk.merk, produk.stock, 
                 console.log(saveD);
 
             } else {
-                removeItemOnce(saveD, kode);
-
+                for (let index = 0; index < saveD.length; index++) {
+                    const element = saveD[index];
+                    if (element['kode'] == kode) {
+                        removeItemOnce(saveD, element);
+                    }
+                }
+                console.log(saveD);
             }
+            // console.log(saveD);
         }
 
         function removeItemOnce(arr, value) {

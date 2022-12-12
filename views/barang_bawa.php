@@ -6,7 +6,10 @@ session_start();
 
 if (!isset($_SESSION['statusLogin'])) {
     header('Location: login.php');
+} else if ($_SESSION['level'] == 3) {
+    header('Location: ../sales/dashboard.php');
 }
+
 // pagination
 $jumlahDataPerHalaman = 6;
 
@@ -61,9 +64,9 @@ function generateID(Koneksi $obj, $tglmasuk)
     <div id="modal-addBarang" class=""></div>
     <!-- end modal  -->
 
-    <!-- modal delete -->
-    <div id="modal-delete" class=""></div>
-    <!-- end modal delete -->
+    <!-- modal detail -->
+    <div id="modal-detail" class=""></div>
+    <!-- end modal detail -->
 
     <!-- Background hitam saat sidebar show -->
     <div id="bgbody" class="w-full h-screen bg-black fixed z-50 bg-opacity-50 hidden"></div>
@@ -168,7 +171,7 @@ function generateID(Koneksi $obj, $tglmasuk)
                                 </td>
                                 <td class="p-3 text-sm tracking-wide text-center"><?php echo $data['id_pegawai'] ?></td>
                                 <td class="p-3 text-sm tracking-wide text-center">
-                                    <button id="edit-button-<?php echo $i; ?>">
+                                    <button onclick="detailBarang('<?= $data['id_pegawai']; ?>', '<?= $data['nama']; ?>')">
                                         <svg width="38" height="37" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <rect width="25.36" height="25.36" rx="5" fill="#EDC683" />
                                             <path d="M11.7255 15.9349C11.7263 15.1391 11.9652 14.361 12.4124 13.6973C12.8596 13.0336 13.4954 12.5136 14.241 12.2017C14.9866 11.8899 15.809 11.8001 16.6061 11.9434C17.4032 12.0867 18.1398 12.4569 18.7246 13.0079V6.87375C18.7246 6.37654 18.5235 5.8997 18.1655 5.54812C17.8075 5.19654 17.322 4.99902 16.8157 4.99902H9.18041C8.33697 5.00002 7.52835 5.32953 6.93195 5.91528C6.33554 6.50103 6.00003 7.29519 5.99902 8.12357V16.8723C6.00003 17.7007 6.33554 18.4949 6.93195 19.0806C7.52835 19.6664 8.33697 19.9959 9.18041 19.9969H15.8613C14.7644 19.9969 13.7125 19.5689 12.9369 18.8071C12.1613 18.0454 11.7255 17.0122 11.7255 15.9349V15.9349ZM9.18041 9.37339C9.18041 9.20765 9.24745 9.04871 9.36677 8.93151C9.4861 8.81432 9.64794 8.74848 9.81669 8.74848H14.9069C15.0757 8.74848 15.2375 8.81432 15.3568 8.93151C15.4762 9.04871 15.5432 9.20765 15.5432 9.37339C15.5432 9.53913 15.4762 9.69808 15.3568 9.81527C15.2375 9.93246 15.0757 9.9983 14.9069 9.9983H9.81669C9.64794 9.9983 9.4861 9.93246 9.36677 9.81527C9.24745 9.69808 9.18041 9.53913 9.18041 9.37339ZM19.8107 19.8138C19.6914 19.9309 19.5296 19.9967 19.3609 19.9967C19.1921 19.9967 19.0303 19.9309 18.911 19.8138L17.3795 18.3096C16.9259 18.5939 16.3994 18.7456 15.8613 18.747C15.295 18.747 14.7415 18.5821 14.2706 18.2731C13.7997 17.9641 13.4327 17.5249 13.216 17.0111C12.9993 16.4972 12.9426 15.9318 13.0531 15.3863C13.1636 14.8408 13.4363 14.3398 13.8367 13.9465C14.2371 13.5532 14.7473 13.2854 15.3027 13.1769C15.8582 13.0684 16.4339 13.1241 16.957 13.3369C17.4802 13.5497 17.9274 13.9102 18.242 14.3726C18.5567 14.8351 18.7246 15.3788 18.7246 15.9349C18.7231 16.4634 18.5687 16.9805 18.2792 17.426L19.8107 18.9301C19.93 19.0473 19.997 19.2062 19.997 19.3719C19.997 19.5377 19.93 19.6966 19.8107 19.8138Z" fill="#51514F" />
@@ -282,13 +285,96 @@ function generateID(Koneksi $obj, $tglmasuk)
 
 
     <script>
+        $(document).idle({
+            onIdle: function() {
+                $.ajax({
+                    url: '../controllers/loginController.php',
+                    type: 'post',
+                    data: {
+                        'type': 'logout',
+                    },
+                    success: function() {
+
+                    }
+                });
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Informasi',
+                    text: 'Sesi anda telah habis, silahkan login kembali',
+
+                }).then(function() {
+                    window.location.replace('../views/login.php');
+                });
+
+            },
+            idle: 50000
+        });
+
         $('#modal-addBarang').load("../assets/components/modal_pilih_barang.php", function() {
-            
+
             $('#closemodal').on('click', function() {
                 $('#modalkonten').toggleClass("scale-0");
                 $('#bgmodal').removeClass("effectmodal");
             });
         });
+
+        $('#modal-detail').load("../assets/components/modal_detail_barang_bawa.html", function() {
+            $('#closemodaldetail, #okemodaldetali').on('click', function() {
+                $('#modalkontendetail').toggleClass("scale-0");
+                $('#bgmodaldetail').removeClass("effectmodal");
+
+                kontenhtml = "";
+                $('#no-data').removeClass('flex');
+                $('#no-data').addClass('hidden');
+            });
+
+
+        });
+
+        function detailBarang(id_pegawai, nama) {
+
+            var kontenhtml = '';
+
+            $.ajax({
+                url: '../controllers/tabelBarangBawaController.php?id=' + id_pegawai,
+                type: 'GET',
+                beforeSend: function() {
+                    $('#bodytabel').html("<div class='h-full w-full flex justify-center items-center'>Loading...</div>");
+                },
+                success: function(res) {
+                    const value_utama = JSON.parse(res);
+                    if (value_utama.length == 0) {
+                        $('#no-data').addClass('flex');
+                        $('#no-data').removeClass('hidden');
+                        $('#bodytabel').html('');
+                    } else {
+                        for (let index = 0; index < value_utama.length; index++) {
+                            const element = value_utama[index];
+                            kontenhtml += '<tr>';
+                            kontenhtml += '<td class="tracking-wide p-2 text-sm text-center">' + (index + 1) + '</td>';
+                            kontenhtml += '<td class="tracking-wide p-2 text-sm text-center">' + element.id_bawa + '</td>';
+                            kontenhtml += '<td class="tracking-wide p-2 text-sm text-center">' + element.merk + '</td>';
+                            kontenhtml += '<td class="px-4">';
+                            kontenhtml += '<button onClick="deleteDetailBawa(\'' + element.id_bawa + '\')">'
+                            kontenhtml += '<svg width="22" height="22" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">';
+                            kontenhtml += '<rect width="18" height="18" rx="5" fill="#F35E58" />';
+                            kontenhtml += '<path d="M11.1665 5.11079V4.2219C11.1665 3.98615 11.0752 3.76006 10.9127 3.59336C10.7501 3.42666 10.5297 3.33301 10.2998 3.33301H7.69984C7.46998 3.33301 7.24954 3.42666 7.08701 3.59336C6.92448 3.76006 6.83317 3.98615 6.83317 4.2219V5.11079H4.6665V5.99967H5.53317V12.6663C5.53317 13.02 5.67013 13.3591 5.91393 13.6092C6.15773 13.8592 6.48839 13.9997 6.83317 13.9997H11.1665C11.5113 13.9997 11.8419 13.8592 12.0857 13.6092C12.3295 13.3591 12.4665 13.02 12.4665 12.6663V5.99967H13.3332V5.11079H11.1665ZM8.5665 10.8886H7.69984V8.2219H8.5665V10.8886ZM10.2998 10.8886H9.43317V8.2219H10.2998V10.8886ZM10.2998 5.11079H7.69984V4.2219H10.2998V5.11079Z" fill="#501614" />';
+                            kontenhtml += '</svg>';
+                            kontenhtml += '</button>';
+                            kontenhtml += '</td>';
+                            kontenhtml += '</tr>';
+                        }
+                        $('#bodytabel').html(kontenhtml);
+                    }
+
+                }
+            });
+
+            $('#title-modal-detail').html(nama);
+            $('#modalkontendetail').toggleClass("scale-0");
+            $('#bgmodaldetail').addClass("effectmodal");
+
+        }
 
         function addBarangBarang(id_pegawai) {
             setID(id_pegawai);
@@ -299,37 +385,15 @@ function generateID(Koneksi $obj, $tglmasuk)
 
         }
 
-        // $(document).idle({
-        //     onIdle: function() {
-        //         $.ajax({
-        //             url: '../controllers/loginController.php',
-        //             type: 'post',
-        //             data: {
-        //                 'type': 'logout',
-        //             },
-        //             success: function() {
-
-        //             }
-        //         });
-        //         Swal.fire({
-        //             icon: 'warning',
-        //             title: 'Informasi',
-        //             text: 'Sesi anda telah habis, silahkan login kembali',
-
-        //         }).then(function() {
-        //             window.location.replace('../views/login.php');
-        //         });
-
-        //     },
-        //     idle: 50000
-        // });
 
         // load sidebar
         $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
-            $('#master_data').addClass("hover-sidebar");
+            $('#barang_bawa').addClass("hover-sidebar");
             $('#button-logout').on('click', function() {
                 // kosong
             });
+
+            
         });
 
 
