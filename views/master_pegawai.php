@@ -451,7 +451,7 @@ function getNameRoles($id)
                     $('#field-password').addClass('hidden');
 
                     $('#title-modal').html('Ubah Pegawai');
-                    $('#modalkonten').toggleClass("scale-100");
+                    $('#modalkonten').toggleClass("scale-0");
                     $('#bgmodal').addClass("effectmodal");
 
 
