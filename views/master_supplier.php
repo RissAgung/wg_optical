@@ -30,7 +30,7 @@
     
    
     <!-- modal  -->
-    <div id="modal" class="fixed left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] z-[51] scale-0 transition ease-in-out"></div>
+    <div id="modal" class=""></div>
     <!-- end modal  -->
 
     <!-- modal delete -->
@@ -100,6 +100,7 @@
             <!-- Button Add -->
             <div class="flex flex-col md:flex-row items-center mt-3 md:mt-0">
                 <div class="md:my-auto h-10 w-24 font-ex-semibold text-white mt-3 md:mt-0" id="click-add">
+
                     <button class="bg-[#3DBD9E] h-full w-full rounded-md">Tambah</button>
                 </div>
                 <!-- End Button Add -->
@@ -284,7 +285,7 @@
     $("#modal").load("../assets/components/modal_supplier.html", function() {
         //button close modal
         function closeModal() {
-                $('#modalkonten').toggleClass("scale-100");
+                $('#modalkonten').toggleClass("scale-0");
                 $('#bgmodal').removeClass("effectmodal");
 
                 $('#name').val("");
@@ -312,8 +313,8 @@
 
         change("tambah");
 
-        $('#modal').removeClass("scale-0");
         $('#bgmodal').addClass("effectmodal");
+        $('#modalkonten').toggleClass("scale-0");
         $('#title').html('Tambah Data');
         
         //start query add
@@ -390,7 +391,7 @@
             $('#edit-button-<?php echo $index; ?>').on('click', function() {
                 change("edit");
                 
-                $('#modal').removeClass("scale-0");
+                $('#modalkonten').toggleClass("scale-0");
                 $('#bgmodal').addClass("effectmodal");
                 $('#title').html('Edit Data'); 
                 
@@ -475,13 +476,13 @@
     //close modal 
     $("#btn_out").on("click", function() {
         closeModal();
-        $('#modal').addClass("scale-0");
+       
         $('#bgmodal').removeClass("effectmodal");
       });
     
     $("#btn_batal").on("click", function() {
         closeModal();
-        $('#modal').addClass("scale-0");
+
         $('#bgmodal').removeClass("effectmodal");
       });   
     
@@ -502,7 +503,7 @@ for ($index = 0; $index < count($execute); $index++) {
         console.log("tes");
         $('#title_delete').html('Hapus Data ini?');
 
-        $('#modalkontenhapus').toggleClass("scale-100");
+        $('#modalkontenhapus').removeClass("scale-0");
         $('#bgmodalhapus').addClass("effectmodal");
     });
 <?php
@@ -535,7 +536,7 @@ $('#submithapus').on('click', function() {
 });
 
 $('#closemodalhapus, #cancelmodalhapus').on('click', function() {
-    $('#modalkontenhapus').toggleClass("scale-100");
+    $('#modalkontenhapus').addClass("scale-0");
     $('#bgmodalhapus').removeClass("effectmodal");
     selected_idsupplier = "";
 });

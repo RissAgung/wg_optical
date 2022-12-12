@@ -10,7 +10,8 @@
 </head>
 
 <body class=" bg-slate-600 text-[#343948]">
-  <div class="flex flex-col justify-center size-modal-add items-center w-[380px] shadow-xl bg-white rounded-xl">
+  <div id="bgmodal" class="w-full h-screen fixed hidden bg-black z-[51] opacity-0 transition duration-300"></div>
+  <div id="modalkonten" class="flex flex-col fixed z-[51] left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] justify-center size-modal-add items-center scale-0 transition ease-in-out w-[380px] shadow-xl bg-white rounded-xl overflow-hidden">
 
     <!-- header -->
     <div class="flex flex-col items-center w-full">
@@ -32,22 +33,22 @@
     <div class="w-full h-[60vh] px-3 text-sm overflow-y-auto scrollbar-hide">
       <div class="flex flex-row w-full items-center justify-between px-5 mt-7">
         <p class="font-ex-semibold">Nama</p>
-        <input type="text" id="name" class="border-[1px] h-11 w-52 px-3 rounded-md border-[#C9C9C9] outline-none">
+        <input type="text" id="name" class="border-[1px] h-11 w-52 px-3 rounded-md border-[#C9C9C9] outline-none" maxlength="50">
       </div>
 
       <div class="flex flex-row w-full items-center justify-between px-5 mt-7">
         <p class="font-ex-semibold">No. Telepon</p>
-        <input type="text" id="nohp" class="border-[1px] h-11 w-52 px-3 rounded-md border-[#C9C9C9] outline-none">
+        <input type="text" id="nohp" class="border-[1px] h-11 w-52 px-3 rounded-md border-[#C9C9C9] outline-none" maxlength="12">
       </div>
 
       <div class="flex flex-row w-full items-center justify-between px-5 mt-7">
         <p class="font-ex-semibold">Keterangan</p>
-        <input type="text" id="ket" class="border-[1px] h-11 w-52 px-3 rounded-md border-[#C9C9C9] outline-none">
+        <input type="text" id="ket" class="border-[1px] h-11 w-52 px-3 rounded-md border-[#C9C9C9] outline-none" maxlength="50">
       </div>
 
       <div class="flex flex-row w-full items-center justify-between px-5 mt-7">
         <p class="font-ex-semibold">Alamat</p>
-        <textarea id="addres" rows="3" class="border-[1px] w-52 px-3 py-3 rounded-md border-[#C9C9C9] outline-none "></textarea>
+        <textarea id="addres" rows="3" class="border-[1px] w-52 px-3 py-3 rounded-md border-[#C9C9C9] outline-none " maxlength="50"></textarea>
       </div>
     </div>
     <!-- end input -->
