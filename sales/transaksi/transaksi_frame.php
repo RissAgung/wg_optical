@@ -87,11 +87,20 @@ $dataLens = $con->showData("SELECT * FROM detail_bawa JOIN produk ON detail_bawa
           type: "post",
           data: {
             type: "insert_frame",
-            query_keranjang: "INSERT INTO keranjang (`kode_pesanan`, `tanggal`, `id_pegawai`, `total`) VALUES ('" + idTR + "',NOW(),'<?= $idPegawai ?>','" + harga + "')",
-            query_Detail_keranjang: "INSERT INTO `detail_keranjang` (`kode_detail_lensa_keranjang`, `kode_pesanan`, `id_bawa`, `nominal`) VALUES ('', '" + idTR + "', '" + kode + "', '" + harga_input + "')",
+            query_keranjang: "INSERT INTO keranjang VALUES ('" + idTR + "',NOW(),'<?= $idPegawai ?>','" + harga_input + "')",
+            keranjang_frame: "INSERT INTO keranjang_frame VALUES ('" + idTR + "','" + kode + "','" + harga_input + "')",
           },
           success: function(res) {
-            alert(res);
+            const data = JSON.parse(res);
+            if (data.status == 'success') {
+              Swal.fire({
+                icon: 'success',
+                title: 'Berhasil',
+                text: data.msg,
+              }).then(function() {
+                window.location.replace("../dashboard.html");
+              });
+            }
           }
         })
 
@@ -99,7 +108,7 @@ $dataLens = $con->showData("SELECT * FROM detail_bawa JOIN produk ON detail_bawa
         Swal.fire({
           icon: 'warning',
           title: 'Informasi',
-          text: 'Minimal harga bayar ' + formatRupiah($('#frame').val(), 'Rp. '),
+          text: 'Minimal harga bayar ' + formatRupiah(harga, 'Rp. '),
         })
       }
     }

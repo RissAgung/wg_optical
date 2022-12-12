@@ -4,18 +4,18 @@ include "../config/koneksi.php";
 
 $crud = new koneksi();
 
-$dataCart = $crud->showData("SELECT * FROM keranjang JOIN detail_keranjang ON keranjang.kode_pesanan = detail_keranjang.kode_pesanan");
+$dataCart = $crud->showData("SELECT keranjang.kode_pesanan, keranjang.total, keranjang_frame.harga AS harga_frame, keranjang_lensa.harga AS harga_lensa FROM keranjang_frame RIGHT JOIN keranjang ON keranjang_frame.kode_pesanan = keranjang.kode_pesanan LEFT JOIN keranjang_lensa ON keranjang.kode_pesanan = keranjang_lensa.kode_pesanan");
 
 function jenis($lensa, $frame)
 {
 
   $status = "";
 
-  if ($lensa !== "" && $frame  !== "") {
+  if ($lensa !== null && $frame  !== null) {
     $status = "Frame & Lensa";
-  } elseif ($lensa == "" && $frame  !== "") {
+  } elseif ($lensa == null && $frame  !== null) {
     $status = "Frame";
-  } elseif ($lensa !== "" && $frame  == "") {
+  } elseif ($lensa !== null && $frame  == null) {
     $status = "Lensa";
   }
 
@@ -69,7 +69,7 @@ function rupiah($angka)
             </div>
             <img class="w-[109px] h-[109px] object-cover p-2 rounded-2xl overflow-hidden" src="../assets/images/heroimg.png" alt="">
             <div class="flex flex-col items-start my-auto text-sm gap-2 pl-2">
-              <h1 class="font-ex-semibold"><?= jenis($index["kode_detail_lensa_keranjang"], $index["id_bawa"]) ?></h1>
+              <h1 class="font-ex-semibold"><?= jenis($index["harga_lensa"], $index["harga_frame"]) ?></h1>
               <h1><?= rupiah($index["total"]) ?></h1>
             </div>
             <div class="flex flex-row h-full w-full absolute justify-end gap-3 p-3">

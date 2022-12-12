@@ -6,7 +6,7 @@ include "../../config/koneksi.php";
 $con = new koneksi();
 
 $idPegawai = $_SESSION["idPeg"];
-$dataLens = $con->showData("SELECT * FROM detail_bawa JOIN produk ON detail_bawa.Kode_Frame = produk.kode_frame WHERE detail_bawa.Id_pegawai = '$idPegawai'");
+// $dataLens = $con->showData("SELECT * FROM detail_bawa JOIN produk ON detail_bawa.Kode_Frame = produk.kode_frame WHERE detail_bawa.Id_pegawai = '$idPegawai'");
 $lens = $con->showData("SELECT * FROM lensa");
 
 ?>
@@ -34,14 +34,6 @@ $lens = $con->showData("SELECT * FROM lensa");
   </section>
   <section class="text-[#373F47] font-ex-medium mt-[73px] mb-24" id="konten">
     <div class="flex flex-col overflow-y-auto scrollbar-hide">
-      <div class="flex flex-col px-6 py-4 bg-white mt-[0.5px]">
-        <h1>Kode Frame</h1>
-        <select id="frame" class=" cursor-pointer outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden" name="cars" id="cars">
-          <?php foreach ($dataLens as $index) : ?>
-            <option class="text-xs" value="<?= $index["harga_jual"] ?>-<?= $index["Id_Bawa"] ?>"><?= $index["Id_Bawa"] ?></option>
-          <?php endforeach ?>
-        </select>
-      </div>
       <div class="flex flex-col px-6 pt-2 pb-8 bg-white">
         <h1 class="">Jenis Lensa</h1>
         <select id="jenis_lensa" class="cursor-pointer outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden">
@@ -151,10 +143,6 @@ $lens = $con->showData("SELECT * FROM lensa");
           </div>
         </div>
       </div>
-      <div class="flex flex-col px-6 py-4 bg-white mt-[0.5px]">
-        <h1>Harga Frame</h1>
-        <input id="inputHargaFrame" class="px-4 outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden" type="text" placeholder="Masukkan Harga" name="" id="">
-      </div>
       <div class="flex flex-col px-6 pt-2 pb-8 bg-white">
         <h1>Harga Lensa</h1>
         <input id="inputHargaLensa" class="px-4 outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden" type="text" placeholder="Masukkan Harga" name="" id="">
@@ -186,9 +174,9 @@ $lens = $con->showData("SELECT * FROM lensa");
           kode: kode,
         });
         console.log(variant);
+
       } else {
         removeItemOnce(variant, kode);
-        console.log(variant);
 
       }
     }
@@ -197,12 +185,7 @@ $lens = $con->showData("SELECT * FROM lensa");
 
     function tambah() {
 
-      var value = $('#frame').val();
-      var Vindex = value.indexOf("-");
-
       var jenis_lensa = $('#jenis_lensa').val()
-      var harga = value.substr(0, Vindex);
-      var kode = value.substr(Vindex + 1, 10);
 
       // resep
 
@@ -225,10 +208,8 @@ $lens = $con->showData("SELECT * FROM lensa");
       var kode_detail_lens = '<?= strtoupper(str_replace(".", "", uniqid('KDLK', true))) ?>';
       var kode_varian_lensa = '<?= strtoupper(str_replace(".", "", uniqid('KVLK', true))) ?>';
 
-
-      var hargaFrame = parseInt($("#inputHargaFrame").val().replace("Rp. ", "").replace(".", "").replace(".", "").replace(" ", ""));
       var hargaLensa = parseInt($('#inputHargaLensa').val().replace("Rp. ", "").replace(".", "").replace(".", "").replace(" ", ""));
-      var totalHarga = hargaFrame + hargaLensa;
+      var totalHarga = hargaLensa;
 
       if (variant.length == 0) {
         Swal.fire({
@@ -242,13 +223,6 @@ $lens = $con->showData("SELECT * FROM lensa");
           title: 'Informasi',
           text: 'Lengkapi resep terlebih dahulu',
         })
-      } else if (hargaFrame < harga) {
-        Swal.fire({
-          icon: 'warning',
-          title: 'Informasi',
-          text: 'Minimal harga bayar ' + formatRupiah(harga, 'Rp. '),
-        })
-
       } else if ($('#inputHargaLensa').val() == "") {
         Swal.fire({
           icon: 'warning',
@@ -262,9 +236,8 @@ $lens = $con->showData("SELECT * FROM lensa");
           url: "../../controllers/keranjangController.php",
           type: "post",
           data: {
-            type: "insert",
-            query_keranjang: "INSERT INTO keranjang VALUES ('" + idTR + "',NOW(),'<?= $idPegawai ?>','" + totalHarga + "')",
-            keranjang_frame: "INSERT INTO keranjang_frame VALUES ('" + idTR + "','"+kode+"','"+hargaFrame+"')",
+            type: "insert_lensa",
+            query_keranjang: "INSERT INTO keranjang (`kode_pesanan`, `tanggal`, `id_pegawai`, `total`) VALUES ('" + idTR + "',NOW(),'<?= $idPegawai ?>','" + totalHarga + "')",
             query_Keranjang_Lensa: "INSERT INTO `keranjang_lensa`(`kode_varian_lensa_keranjang`, `kode_pesanan`, `id_jenis_lensa`, `harga`) VALUES ('" + kode_varian_lensa + "','" + idTR + "','" + jenis_lensa + "','"+hargaLensa+"')",
             query_keranjang_resep: "INSERT INTO `keranjang_resep`(`kode_varian_lensa_keranjang`, `KN_SPH`, `KN_CYL`, `KN_AXIS`, `KR_SPH`, `KR_CYL`, `KR_AXIS`, `KN_ADD+`, `KN_PD`, `KN_SEG`, `KR_ADD+`, `KR_PD`, `KR_SEG`) VALUES ('" + kode_varian_lensa + "','" + kn_sph + "','" + kn_cyl + "','" + kn_axis + "','" + kr_sph + "','" + kr_cyl + "','" + kr_axis + "','" + kn_add + "','" + kn_pp + "','" + kn_seg + "','" + kr_add + "','" + kr_pp + "','" + kr_seg + "')",
           },
@@ -291,8 +264,12 @@ $lens = $con->showData("SELECT * FROM lensa");
                   icon: 'success',
                   title: 'Berhasil',
                   text: data.msg,
-                }).then(function(){
-                  window.location.replace("../dashboard.html");
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Gagal',
+                  text: data.msg,
                 });
               }
             }
@@ -316,11 +293,7 @@ $lens = $con->showData("SELECT * FROM lensa");
     }
 
     /* Dengan Rupiah */
-    var dengan_rupiah_Frame = document.getElementById('inputHargaFrame');
     var dengan_rupiah_Lensa = document.getElementById('inputHargaLensa');
-    dengan_rupiah_Frame.addEventListener('keyup', function(e) {
-      dengan_rupiah_Frame.value = formatRupiah(this.value, 'Rp. ');
-    });
     dengan_rupiah_Lensa.addEventListener('keyup', function(e) {
       dengan_rupiah_Lensa.value = formatRupiah(this.value, 'Rp. ');
     });
