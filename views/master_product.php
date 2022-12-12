@@ -929,7 +929,7 @@ function rupiah($angka)
 
           $('#title_delete').html('Hapus Data Product ini?');
 
-          $('#modalkontenhapus').toggleClass("scale-100");
+          $('#modalkontenhapus').toggleClass("scale-0");
           $('#bgmodalhapus').addClass("effectmodal");
 
           $('#submithapus').on('click', function() {
@@ -965,13 +965,13 @@ function rupiah($angka)
 
           $('#closemodalhapus').on('click', function() {
 
-            $('#modalkontenhapus').removeClass("scale-100");
+            $('#modalkontenhapus').addClass("scale-0");
             $('#bgmodalhapus').removeClass("effectmodal");
           });
 
-          $('#batal').on('click', function() {
+          $('#cancelmodalhapus').on('click', function() {
 
-            $('#modalkontenhapus').removeClass("scale-100");
+            $('#modalkontenhapus').addClass("scale-0");
             $('#bgmodalhapus').removeClass("effectmodal");
           });
 
@@ -986,7 +986,7 @@ function rupiah($angka)
 
           $('#title_delete').html('Hapus Data Pegawai ini?');
 
-          $('#modalkontenhapus').toggleClass("scale-100");
+          $('#modalkontenhapus').toggleClass("scale-0");
           $('#bgmodalhapus').addClass("effectmodal");
 
           $('#submithapus').on('click', function() {
@@ -1020,13 +1020,13 @@ function rupiah($angka)
 
           $('#closemodalhapus').on('click', function() {
 
-            $('#modalkontenhapus').removeClass("scale-100");
+            $('#modalkontenhapus').removeClass("scale-0");
             $('#bgmodalhapus').removeClass("effectmodal");
           });
 
           $('#cancelmodalhapus').on('click', function() {
 
-            $('#modalkontenhapus').removeClass("scale-100");
+            $('#modalkontenhapus').removeClass("scale-0");
             $('#bgmodalhapus').removeClass("effectmodal");
           });
 
