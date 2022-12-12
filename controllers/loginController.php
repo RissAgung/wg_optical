@@ -4,6 +4,7 @@ session_start();
 
 $kon = new Koneksi();
 
+
 if (isset($_POST['type'])) {
     if ($_POST['type'] == 'login') {
 

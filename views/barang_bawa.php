@@ -338,24 +338,22 @@ function generateID(Koneksi $obj, $tglmasuk)
             $.ajax({
                 url: '../controllers/tabelBarangBawaController.php?id=' + id_pegawai,
                 type: 'GET',
-
+                beforeSend: function() {
+                    $('#bodytabel').html("<div class='h-full w-full flex justify-center items-center'>Loading...</div>");
+                },
                 success: function(res) {
-
                     const value_utama = JSON.parse(res);
-
                     if (value_utama.length == 0) {
                         $('#no-data').addClass('flex');
                         $('#no-data').removeClass('hidden');
                         $('#bodytabel').html('');
-
                     } else {
                         for (let index = 0; index < value_utama.length; index++) {
                             const element = value_utama[index];
-
                             kontenhtml += '<tr>';
-                            kontenhtml += '<td class="tracking-wide p-4 text-sm text-center">' + (index + 1) + '</td>';
-                            kontenhtml += '<td class="tracking-wide p-4 text-sm text-center">' + element.id_bawa + '</td>';
-                            kontenhtml += '<td class="tracking-wide p-4 text-sm text-center">' + element.merk + '</td>';
+                            kontenhtml += '<td class="tracking-wide p-2 text-sm text-center">' + (index + 1) + '</td>';
+                            kontenhtml += '<td class="tracking-wide p-2 text-sm text-center">' + element.id_bawa + '</td>';
+                            kontenhtml += '<td class="tracking-wide p-2 text-sm text-center">' + element.merk + '</td>';
                             kontenhtml += '<td class="px-4">';
                             kontenhtml += '<button onClick="deleteDetailBawa(\'' + element.id_bawa + '\')">'
                             kontenhtml += '<svg width="22" height="22" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">';
@@ -365,7 +363,6 @@ function generateID(Koneksi $obj, $tglmasuk)
                             kontenhtml += '</button>';
                             kontenhtml += '</td>';
                             kontenhtml += '</tr>';
-
                         }
                         $('#bodytabel').html(kontenhtml);
                     }
@@ -373,13 +370,7 @@ function generateID(Koneksi $obj, $tglmasuk)
                 }
             });
 
-
-
-
-
             $('#title-modal-detail').html(nama);
-
-
             $('#modalkontendetail').toggleClass("scale-0");
             $('#bgmodaldetail').addClass("effectmodal");
 
@@ -394,30 +385,6 @@ function generateID(Koneksi $obj, $tglmasuk)
 
         }
 
-        // $(document).idle({
-        //     onIdle: function() {
-        //         $.ajax({
-        //             url: '../controllers/loginController.php',
-        //             type: 'post',
-        //             data: {
-        //                 'type': 'logout',
-        //             },
-        //             success: function() {
-
-        //             }
-        //         });
-        //         Swal.fire({
-        //             icon: 'warning',
-        //             title: 'Informasi',
-        //             text: 'Sesi anda telah habis, silahkan login kembali',
-
-        //         }).then(function() {
-        //             window.location.replace('../views/login.php');
-        //         });
-
-        //     },
-        //     idle: 50000
-        // });
 
         // load sidebar
         $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
