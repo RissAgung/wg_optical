@@ -1,3 +1,19 @@
+<?php
+
+include "../config/koneksi.php";
+session_start();
+if (!isset($_SESSION['statusLogin'])) {
+  header('Location: login.php');
+} else if($_SESSION['level'] == 3 ){
+  header('Location: ../sales/dashboard.php');
+}
+
+$crud = new koneksi();
+
+$dataPembelian = $crud->showData("SELECT transaksi.tanggal, transaksi.kode_pesanan, pegawai.nama FROM transaksi JOIN pegawai ON transaksi.id_pegawai = pegawai.id_pegawai WHERE transaksi.Status_transaksi = 'proses'")
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,7 +34,6 @@
 </head>
 
 <body class="bg-[#F0F0F0] font-ex-color box-border text-[#343948]">
-
 
 
   <!-- modal edit pembayaran -->
@@ -132,16 +147,16 @@
               </tr>
             </thead>
             <tbody>
-              <?php for ($i = 0; $i < 3; $i++) : ?>
+              <?php foreach ($dataPembelian as $index) : ?>
                 <tr>
                   <td class="p-3 text-sm tracking-wide text-center">
-                    01-20-2022
+                    <?= $index["tanggal"] ?>
                   </td>
                   <td class="p-3 text-sm tracking-wide text-center">
-                    TR0000043
+                    <?= $index["kode_pesanan"] ?>
                   </td>
                   <td class="p-3 text-sm tracking-wide text-center">
-                    Rizal Maulana
+                    <?= $index["nama"] ?>
                   </td>
                   <td class="p-3 text-sm tracking-wide text-center">
                     Fathur Maulana
@@ -173,7 +188,7 @@
                     </button>
                   </td>
                 </tr>
-              <?php endfor ?>
+              <?php endforeach ?>
             </tbody>
           </table>
         </div>
@@ -321,13 +336,38 @@
 
   <script src="../js/jquery-3.6.1.min.js"></script>
   <script src="../js/sweetalert2.min.js"></script>
+  <script src="../js/jquery.iddle.min.js"></script>
   <script>
+    $(document).idle({
+      onIdle: function() {
+        $.ajax({
+          url: '../controllers/loginController.php',
+          type: 'post',
+          data: {
+            'type': 'logout',
+          },
+          success: function() {
+
+          }
+        });
+        Swal.fire({
+          icon: 'warning',
+          title: 'Informasi',
+          text: 'Sesi anda telah habis, silahkan login kembali',
+
+        }).then(function() {
+          window.location.replace('../views/login.php');
+        });
+
+      },
+      idle: 50000
+    });
     console.log($(document).width());
 
     // load sidebar
     $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
       $('#tab_invoice').addClass("hover-sidebar");
-      
+
     });
 
     // tab bar
@@ -461,7 +501,6 @@
       $('#bgbody').removeClass('scale-0');
       $('#modal_detail_invoice').removeClass('scale-0');
     }
-
   </script>
 
 </body>
