@@ -2574,6 +2574,11 @@ tr:hover {
   transition: ease-in-out 0.4s;
 }
 
+.ex-hover-filter:hover {
+  background-color: #bcc0c9;
+  transition: ease-in-out 0.4s;
+}
+
 .transitionsidebar {
   transition: ease-in-out 0.4s;
 }
@@ -3606,11 +3611,40 @@ select {
     padding-left: 11rem;
     padding-right: 11rem;
   }
+}
+
 
   .xl\:pl-4 {
     padding-left: 1rem;
   }
+
+
+
+@media (min-width: 1536px) {
+  .\32xl\:w-\[25\%\] {
+    width: 25%;
+  }
 }
+    .xl\:px-44 {
+        padding-left: 11rem;
+        padding-right: 11rem;
+    }
+
+    .xl\:pl-4 {
+        padding-left: 1rem;
+    }
+
+
+@media (min-width: 1536px) {
+    .\32xl\:w-\[25\%\] {
+        width: 25%;
+    }
+}
+
+  .xl\:pl-4 {
+    padding-left: 1rem;
+  }
+
 
 @media (min-width: 1536px) {
   .\32xl\:w-\[25\%\] {
