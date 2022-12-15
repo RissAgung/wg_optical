@@ -189,10 +189,22 @@ $lens = $con->showData("SELECT * FROM lensa");
         });
         console.log(variant);
       } else {
-        removeItemOnce(variant, kode);
+        for (let index = 0; index < variant.length; index++) {
+          const element = variant[index];
+          if (element['kode'] == kode) {
+            removeItemOnce(variant, element);
+          }
+        }
         console.log(variant);
-
       }
+    }
+
+    function removeItemOnce(arr, value) {
+      var index = arr.indexOf(value);
+      if (index > -1) {
+        arr.splice(index, 1);
+      }
+      return arr;
     }
 
 

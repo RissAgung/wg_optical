@@ -47,6 +47,7 @@ if (isset($_POST['type'])) {
                     $_SESSION["statusLogin"] = "true";
                     $_SESSION["email"] = $namaval;
                     $_SESSION['level'] = $idlevelval;
+                    $_SESSION['idPeg'] = $idPeg;
                     exit();
                 }
             } else {
