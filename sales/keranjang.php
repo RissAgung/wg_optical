@@ -1,10 +1,13 @@
 <?php
 
+session_start();
+
 include "../config/koneksi.php";
 
 $crud = new koneksi();
+$idPeg = $_SESSION["idPeg"];
 
-$dataCart = $crud->showData("SELECT keranjang.kode_pesanan, keranjang.total, keranjang_frame.harga AS harga_frame, keranjang_lensa.harga AS harga_lensa FROM keranjang_frame RIGHT JOIN keranjang ON keranjang_frame.kode_pesanan = keranjang.kode_pesanan LEFT JOIN keranjang_lensa ON keranjang.kode_pesanan = keranjang_lensa.kode_pesanan");
+$dataCart = $crud->showData("SELECT keranjang.kode_pesanan, keranjang_frame.harga AS harga_frame, keranjang_lensa.harga AS harga_lensa, keranjang.total FROM keranjang_frame RIGHT JOIN keranjang ON keranjang_frame.kode_pesanan = keranjang.kode_pesanan LEFT JOIN keranjang_lensa ON keranjang_lensa.kode_pesanan = keranjang.kode_pesanan WHERE keranjang.id_pegawai = '" . $idPeg . "'");
 
 function jenis($lensa, $frame)
 {
@@ -39,10 +42,15 @@ function rupiah($angka)
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Keranjang</title>
   <link rel="stylesheet" href="../css/output.css">
+  <link rel="stylesheet" href="../css/sweetalert2.min.css">
 </head>
 
 <body class="bg-[#ECECEC] scrollbar-hide">
-  <section id="header" class="fixed z-[9999] w-full top-0">
+
+  <!-- modal deail -->
+  <div id="modal_detail"></div>
+
+  <section id="header" class="fixed z-50 w-full top-0">
     <div class="flex flex-row px-8 py-6 justify-between shadow-sm bg-white">
       <a href="dashboard.php">
         <svg class="my-[2px]" width="9" height="19" viewBox="0 0 9 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -67,24 +75,28 @@ function rupiah($angka)
         <div class="bg-white my-4 mx-6 rounded-lg shadow-sm">
           <div class="flex flex-row relative">
             <div class="flex items-center px-2">
-              <input type="checkbox" id="" class="z-40" value="pppp">
+              <input onclick="choise_transaction('<?= $index['kode_pesanan'] ?>', '<?= $index['total'] ?>')" type="checkbox" id="TR-<?= $index['kode_pesanan'] ?>" class="z-40">
             </div>
             <img class="w-[109px] h-[109px] object-cover p-2 rounded-2xl overflow-hidden" src="../assets/images/heroimg.png" alt="">
             <div class="flex flex-col items-start my-auto text-sm gap-2 pl-2">
               <h1 class="font-ex-semibold"><?= jenis($index["harga_lensa"], $index["harga_frame"]) ?></h1>
-              <h1><?= rupiah($index["total"]) ?></h1>
+              <h1 id="total-<?= $index['kode_pesanan'] ?>"><?= rupiah($index["total"]) ?></h1>
             </div>
             <div class="flex flex-row h-full w-full absolute justify-end gap-3 p-3">
 
-              <svg width="15" height="17" viewBox="0 0 15 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M9.54555 4.25C9.72638 4.25 9.8998 4.32463 10.0277 4.45747C10.1555 4.5903 10.2274 4.77047 10.2274 4.95833C10.2274 5.14619 10.1555 5.32636 10.0277 5.4592C9.8998 5.59204 9.72638 5.66667 9.54555 5.66667H4.09095C3.91012 5.66667 3.73669 5.59204 3.60883 5.4592C3.48096 5.32636 3.40912 5.14619 3.40912 4.95833C3.40912 4.77047 3.48096 4.5903 3.60883 4.45747C3.73669 4.32463 3.91012 4.25 4.09095 4.25H9.54555ZM14.8004 16.7925C14.6725 16.9253 14.4991 16.9998 14.3183 16.9998C14.1375 16.9998 13.9641 16.9253 13.8363 16.7925L12.1951 15.0875C11.7091 15.4098 11.1449 15.5817 10.5683 15.5833C9.96145 15.5833 9.36824 15.3964 8.86368 15.0461C8.35911 14.6959 7.96585 14.1981 7.73363 13.6156C7.5014 13.0332 7.44064 12.3923 7.55903 11.774C7.67741 11.1557 7.96963 10.5877 8.39873 10.1419C8.82783 9.69615 9.37453 9.39257 9.96971 9.26958C10.5649 9.14659 11.1818 9.20971 11.7424 9.45097C12.3031 9.69222 12.7823 10.1008 13.1194 10.625C13.4565 11.1491 13.6365 11.7654 13.6365 12.3958C13.635 12.9948 13.4694 13.581 13.1592 14.0859L14.8004 15.7909C14.9282 15.9237 15 16.1038 15 16.2917C15 16.4795 14.9282 16.6596 14.8004 16.7925ZM10.5683 14.1667C10.9054 14.1667 11.235 14.0628 11.5153 13.8682C11.7956 13.6736 12.0141 13.3971 12.1431 13.0735C12.2721 12.7499 12.3059 12.3939 12.2401 12.0504C12.1743 11.7069 12.012 11.3913 11.7736 11.1437C11.5352 10.896 11.2315 10.7274 10.9008 10.659C10.5702 10.5907 10.2274 10.6258 9.91598 10.7598C9.60451 10.8938 9.33829 11.1208 9.15099 11.412C8.96369 11.7032 8.86372 12.0456 8.86372 12.3958C8.86372 12.8655 9.04331 13.3159 9.36298 13.648C9.68264 13.9801 10.1162 14.1667 10.5683 14.1667ZM7.50007 15.5833H3.40912C2.86663 15.5833 2.34636 15.3595 1.96276 14.9609C1.57915 14.5624 1.36365 14.0219 1.36365 13.4583V3.54167C1.36365 2.97808 1.57915 2.43758 1.96276 2.03906C2.34636 1.64055 2.86663 1.41667 3.40912 1.41667H11.591C11.7719 1.41667 11.9453 1.49129 12.0731 1.62413C12.201 1.75697 12.2728 1.93714 12.2728 2.125V7.79167C12.2728 7.97953 12.3447 8.1597 12.4725 8.29253C12.6004 8.42537 12.7738 8.5 12.9547 8.5C13.1355 8.5 13.3089 8.42537 13.4368 8.29253C13.5647 8.1597 13.6365 7.97953 13.6365 7.79167V2.125C13.6365 1.56141 13.421 1.02091 13.0374 0.622398C12.6538 0.223883 12.1335 0 11.591 0L3.40912 0C2.5053 0.00112473 1.63881 0.374625 0.999705 1.03857C0.360605 1.70252 0.00108264 2.6027 0 3.54167V13.4583C0.00108264 14.3973 0.360605 15.2975 0.999705 15.9614C1.63881 16.6254 2.5053 16.9989 3.40912 17H7.50007C7.6809 17 7.85433 16.9254 7.9822 16.7925C8.11006 16.6597 8.1819 16.4795 8.1819 16.2917C8.1819 16.1038 8.11006 15.9236 7.9822 15.7908C7.85433 15.658 7.6809 15.5833 7.50007 15.5833Z" fill="#575E65" />
-              </svg>
+              <div class="cursor-pointer pt-[1px]" onclick="showDetail('<?= $index['kode_pesanan'] ?>')">
+                <svg width="15" height="17" viewBox="0 0 15 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9.54555 4.25C9.72638 4.25 9.8998 4.32463 10.0277 4.45747C10.1555 4.5903 10.2274 4.77047 10.2274 4.95833C10.2274 5.14619 10.1555 5.32636 10.0277 5.4592C9.8998 5.59204 9.72638 5.66667 9.54555 5.66667H4.09095C3.91012 5.66667 3.73669 5.59204 3.60883 5.4592C3.48096 5.32636 3.40912 5.14619 3.40912 4.95833C3.40912 4.77047 3.48096 4.5903 3.60883 4.45747C3.73669 4.32463 3.91012 4.25 4.09095 4.25H9.54555ZM14.8004 16.7925C14.6725 16.9253 14.4991 16.9998 14.3183 16.9998C14.1375 16.9998 13.9641 16.9253 13.8363 16.7925L12.1951 15.0875C11.7091 15.4098 11.1449 15.5817 10.5683 15.5833C9.96145 15.5833 9.36824 15.3964 8.86368 15.0461C8.35911 14.6959 7.96585 14.1981 7.73363 13.6156C7.5014 13.0332 7.44064 12.3923 7.55903 11.774C7.67741 11.1557 7.96963 10.5877 8.39873 10.1419C8.82783 9.69615 9.37453 9.39257 9.96971 9.26958C10.5649 9.14659 11.1818 9.20971 11.7424 9.45097C12.3031 9.69222 12.7823 10.1008 13.1194 10.625C13.4565 11.1491 13.6365 11.7654 13.6365 12.3958C13.635 12.9948 13.4694 13.581 13.1592 14.0859L14.8004 15.7909C14.9282 15.9237 15 16.1038 15 16.2917C15 16.4795 14.9282 16.6596 14.8004 16.7925ZM10.5683 14.1667C10.9054 14.1667 11.235 14.0628 11.5153 13.8682C11.7956 13.6736 12.0141 13.3971 12.1431 13.0735C12.2721 12.7499 12.3059 12.3939 12.2401 12.0504C12.1743 11.7069 12.012 11.3913 11.7736 11.1437C11.5352 10.896 11.2315 10.7274 10.9008 10.659C10.5702 10.5907 10.2274 10.6258 9.91598 10.7598C9.60451 10.8938 9.33829 11.1208 9.15099 11.412C8.96369 11.7032 8.86372 12.0456 8.86372 12.3958C8.86372 12.8655 9.04331 13.3159 9.36298 13.648C9.68264 13.9801 10.1162 14.1667 10.5683 14.1667ZM7.50007 15.5833H3.40912C2.86663 15.5833 2.34636 15.3595 1.96276 14.9609C1.57915 14.5624 1.36365 14.0219 1.36365 13.4583V3.54167C1.36365 2.97808 1.57915 2.43758 1.96276 2.03906C2.34636 1.64055 2.86663 1.41667 3.40912 1.41667H11.591C11.7719 1.41667 11.9453 1.49129 12.0731 1.62413C12.201 1.75697 12.2728 1.93714 12.2728 2.125V7.79167C12.2728 7.97953 12.3447 8.1597 12.4725 8.29253C12.6004 8.42537 12.7738 8.5 12.9547 8.5C13.1355 8.5 13.3089 8.42537 13.4368 8.29253C13.5647 8.1597 13.6365 7.97953 13.6365 7.79167V2.125C13.6365 1.56141 13.421 1.02091 13.0374 0.622398C12.6538 0.223883 12.1335 0 11.591 0L3.40912 0C2.5053 0.00112473 1.63881 0.374625 0.999705 1.03857C0.360605 1.70252 0.00108264 2.6027 0 3.54167V13.4583C0.00108264 14.3973 0.360605 15.2975 0.999705 15.9614C1.63881 16.6254 2.5053 16.9989 3.40912 17H7.50007C7.6809 17 7.85433 16.9254 7.9822 16.7925C8.11006 16.6597 8.1819 16.4795 8.1819 16.2917C8.1819 16.1038 8.11006 15.9236 7.9822 15.7908C7.85433 15.658 7.6809 15.5833 7.50007 15.5833Z" fill="#575E65" />
+                </svg>
+              </div>
 
-              <svg width="15" height="18" viewBox="0 0 15 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M14.25 3H11.925C11.7509 2.15356 11.2904 1.39301 10.6209 0.846539C9.95151 0.300068 9.11415 0.00109089 8.25 0L6.75 0C5.88585 0.00109089 5.04849 0.300068 4.37906 0.846539C3.70964 1.39301 3.24907 2.15356 3.075 3H0.75C0.551088 3 0.360322 3.07902 0.21967 3.21967C0.0790176 3.36032 0 3.55109 0 3.75C0 3.94891 0.0790176 4.13968 0.21967 4.28033C0.360322 4.42098 0.551088 4.5 0.75 4.5H1.5V14.25C1.50119 15.2442 1.89666 16.1973 2.59967 16.9003C3.30267 17.6033 4.2558 17.9988 5.25 18H9.75C10.7442 17.9988 11.6973 17.6033 12.4003 16.9003C13.1033 16.1973 13.4988 15.2442 13.5 14.25V4.5H14.25C14.4489 4.5 14.6397 4.42098 14.7803 4.28033C14.921 4.13968 15 3.94891 15 3.75C15 3.55109 14.921 3.36032 14.7803 3.21967C14.6397 3.07902 14.4489 3 14.25 3ZM6.75 1.5H8.25C8.71521 1.50057 9.16885 1.64503 9.54871 1.91358C9.92857 2.18213 10.2161 2.56162 10.3717 3H4.62825C4.78394 2.56162 5.07143 2.18213 5.45129 1.91358C5.83116 1.64503 6.28479 1.50057 6.75 1.5ZM12 14.25C12 14.8467 11.7629 15.419 11.341 15.841C10.919 16.2629 10.3467 16.5 9.75 16.5H5.25C4.65326 16.5 4.08097 16.2629 3.65901 15.841C3.23705 15.419 3 14.8467 3 14.25V4.5H12V14.25Z" fill="#5F676F" />
-                <path d="M5.99999 13.5C6.1989 13.5 6.38967 13.421 6.53032 13.2803C6.67097 13.1397 6.74999 12.9489 6.74999 12.75V8.25C6.74999 8.05109 6.67097 7.86032 6.53032 7.71967C6.38967 7.57902 6.1989 7.5 5.99999 7.5C5.80108 7.5 5.61031 7.57902 5.46966 7.71967C5.32901 7.86032 5.24999 8.05109 5.24999 8.25V12.75C5.24999 12.9489 5.32901 13.1397 5.46966 13.2803C5.61031 13.421 5.80108 13.5 5.99999 13.5Z" fill="#5F676F" />
-                <path d="M8.99998 13.5C9.19889 13.5 9.38966 13.421 9.53031 13.2803C9.67096 13.1397 9.74998 12.9489 9.74998 12.75V8.25C9.74998 8.05109 9.67096 7.86032 9.53031 7.71967C9.38966 7.57902 9.19889 7.5 8.99998 7.5C8.80106 7.5 8.6103 7.57902 8.46965 7.71967C8.32899 7.86032 8.24998 8.05109 8.24998 8.25V12.75C8.24998 12.9489 8.32899 13.1397 8.46965 13.2803C8.6103 13.421 8.80106 13.5 8.99998 13.5Z" fill="#5F676F" />
-              </svg>
+              <div class="cursor-pointer">
+                <svg width="15" height="18" viewBox="0 0 15 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M14.25 3H11.925C11.7509 2.15356 11.2904 1.39301 10.6209 0.846539C9.95151 0.300068 9.11415 0.00109089 8.25 0L6.75 0C5.88585 0.00109089 5.04849 0.300068 4.37906 0.846539C3.70964 1.39301 3.24907 2.15356 3.075 3H0.75C0.551088 3 0.360322 3.07902 0.21967 3.21967C0.0790176 3.36032 0 3.55109 0 3.75C0 3.94891 0.0790176 4.13968 0.21967 4.28033C0.360322 4.42098 0.551088 4.5 0.75 4.5H1.5V14.25C1.50119 15.2442 1.89666 16.1973 2.59967 16.9003C3.30267 17.6033 4.2558 17.9988 5.25 18H9.75C10.7442 17.9988 11.6973 17.6033 12.4003 16.9003C13.1033 16.1973 13.4988 15.2442 13.5 14.25V4.5H14.25C14.4489 4.5 14.6397 4.42098 14.7803 4.28033C14.921 4.13968 15 3.94891 15 3.75C15 3.55109 14.921 3.36032 14.7803 3.21967C14.6397 3.07902 14.4489 3 14.25 3ZM6.75 1.5H8.25C8.71521 1.50057 9.16885 1.64503 9.54871 1.91358C9.92857 2.18213 10.2161 2.56162 10.3717 3H4.62825C4.78394 2.56162 5.07143 2.18213 5.45129 1.91358C5.83116 1.64503 6.28479 1.50057 6.75 1.5ZM12 14.25C12 14.8467 11.7629 15.419 11.341 15.841C10.919 16.2629 10.3467 16.5 9.75 16.5H5.25C4.65326 16.5 4.08097 16.2629 3.65901 15.841C3.23705 15.419 3 14.8467 3 14.25V4.5H12V14.25Z" fill="#5F676F" />
+                  <path d="M5.99999 13.5C6.1989 13.5 6.38967 13.421 6.53032 13.2803C6.67097 13.1397 6.74999 12.9489 6.74999 12.75V8.25C6.74999 8.05109 6.67097 7.86032 6.53032 7.71967C6.38967 7.57902 6.1989 7.5 5.99999 7.5C5.80108 7.5 5.61031 7.57902 5.46966 7.71967C5.32901 7.86032 5.24999 8.05109 5.24999 8.25V12.75C5.24999 12.9489 5.32901 13.1397 5.46966 13.2803C5.61031 13.421 5.80108 13.5 5.99999 13.5Z" fill="#5F676F" />
+                  <path d="M8.99998 13.5C9.19889 13.5 9.38966 13.421 9.53031 13.2803C9.67096 13.1397 9.74998 12.9489 9.74998 12.75V8.25C9.74998 8.05109 9.67096 7.86032 9.53031 7.71967C9.38966 7.57902 9.19889 7.5 8.99998 7.5C8.80106 7.5 8.6103 7.57902 8.46965 7.71967C8.32899 7.86032 8.24998 8.05109 8.24998 8.25V12.75C8.24998 12.9489 8.32899 13.1397 8.46965 13.2803C8.6103 13.421 8.80106 13.5 8.99998 13.5Z" fill="#5F676F" />
+                </svg>
+              </div>
 
             </div>
 
@@ -93,17 +105,16 @@ function rupiah($angka)
       <?php endforeach ?>
     </div>
   </section>
-  <div class="fixed z-[9999] font-ex-medium flex flex-col w-full my-auto bg-white py-6 items-center bottom-0">
+  <div class="fixed z-50 font-ex-medium flex flex-col w-full my-auto bg-white py-6 items-center bottom-0">
     <div class="h-[1px] -translate-y-[24px] w-full bg-[#C9C9C9]"></div>
 
     <div class="flex flex-row justify-between gap-4 w-full h-full px-8 items-center">
-
       <div class="flex flex-col">
         <h1>Total</h1>
-        <h1 class="font-ex-semibold">Rp. 60.000</h1>
+        <h1 id="total_harga_keranjang" class="font-ex-semibold">Rp. 0</h1>
       </div>
 
-      <div class="bg-[#444D68] h-12 w-1/2 text-center rounded-[50px] text-white font-ex-semibold flex justify-center items-center">
+      <div onclick="next_page()" class="bg-[#444D68] h-12 w-1/2 text-center rounded-[50px] text-white font-ex-semibold flex justify-center items-center">
         <p>Lanjutkan</p>
       </div>
 
@@ -112,8 +123,239 @@ function rupiah($angka)
   </div>
 
   <script src="../js/jquery-3.6.1.min.js"></script>
+  <script src="../js/sweetalert2.min.js"></script>
   <script>
+    $('#modal_detail').load('../assets/components/modal_detail_keranjang.html', function() {
+      $('#button_x').on('click', function() {
+        $('#container').addClass("scale-0");
+        $('#bgmodal').removeClass("effectmodal");
+        reset();
+      })
 
+      $('#btn_ok').on('click', function() {
+        $('#container').addClass("scale-0");
+        $('#bgmodal').removeClass("effectmodal");
+        reset();
+      })
+    })
+
+    function showDetail(idtransaksi) {
+      $('#container').removeClass("scale-0");
+      $('#bgmodal').addClass("effectmodal");
+      // $('#main_content').html("awkoawkoakwokwaok")
+
+      var kontenhtml = "";
+
+      $.ajax({
+        url: '../controllers/detailTransaksiController.php?id_transaksi=' + idtransaksi,
+        type: 'GET',
+        success: function(res) {
+          const data = JSON.parse(res);
+          const finalData = data[0];
+          console.log(finalData);
+
+          // kontenhtml += '<tr>';
+          if (finalData.merk !== null) {
+            kontenhtml += '<div class="flex flex-row mb-2">'
+            kontenhtml += '<p class="w-[50%] font-ex-semibold">Frame</p>'
+            kontenhtml += '<p class="w-[5%]">:</p>'
+            kontenhtml += '<p>' + finalData.merk + '</p>'
+            kontenhtml += '</div>'
+          }
+          if (finalData.nama_lensa.length !== 0) {
+            kontenhtml += '<div class="flex flex-row mb-2">'
+            kontenhtml += '<p class="w-[50%] font-ex-semibold">Jenis Lensa</p>'
+            kontenhtml += '<p class="w-[5%]">:</p>'
+            kontenhtml += '<p>' + finalData.nama_jenis_lensa + '</p>'
+            kontenhtml += '</div>'
+            kontenhtml += '<div class="flex flex-row mb-2">'
+            kontenhtml += '<p class="w-[50%] font-ex-semibold">Variant Lensa</p>'
+            kontenhtml += '<p class="w-[5%]">:</p>'
+            kontenhtml += '<div class="flex flex-col">'
+            for (var index = 0; index < finalData.nama_lensa.length; index++) {
+              kontenhtml += '<p class="mb-2">' + finalData.nama_lensa[index] + '</p>'
+            }
+            kontenhtml += '</div>'
+            kontenhtml += '</div>'
+            kontenhtml += '<div class="flex flex-row mb-2">'
+            kontenhtml += '<p class="font-ex-semibold">Resep</p>'
+            kontenhtml += '</div>'
+            kontenhtml += '<div class="flex flex-row mb-2">'
+            kontenhtml += '<p class="w-[50%] font-ex-semibold">Kanan</p>'
+            kontenhtml += '<p class="w-[5%]">:</p>'
+            kontenhtml += '<div class="flex flex-col">'
+            kontenhtml += '<div class="flex flex-row gap-3 mb-2">'
+            kontenhtml += '<p class="w-[50%]">SPH</p>'
+            kontenhtml += '<p>:</p>'
+            kontenhtml += '<p>' + finalData.kn_sph + '</p>'
+            kontenhtml += '</div>'
+            kontenhtml += '<div class="flex flex-row gap-3 mb-2">'
+            kontenhtml += '<p class="w-[50%]">CYL</p>'
+            kontenhtml += '<p>:</p>'
+            kontenhtml += '<p>' + finalData.kn_cyl + '</p>'
+            kontenhtml += '</div>'
+            kontenhtml += '<div class="flex flex-row gap-3 mb-2">'
+            kontenhtml += '<p class="w-[50%]">AXIS</p>'
+            kontenhtml += '<p>:</p>'
+            kontenhtml += '<p>' + finalData.kn_axis + '</p>'
+            kontenhtml += '</div>'
+            kontenhtml += '<div class="flex flex-row gap-3 mb-2">'
+            kontenhtml += '<p class="w-[50%]">ADD+</p>'
+            kontenhtml += '<p>:</p>'
+            kontenhtml += '<p>' + finalData.kn_add + '</p>'
+            kontenhtml += '</div>'
+            kontenhtml += '<div class="flex flex-row gap-3 mb-2">'
+            kontenhtml += '<p class="w-[50%]">PD</p>'
+            kontenhtml += '<p>:</p>'
+            kontenhtml += '<p>' + finalData.kn_pd + '</p>'
+            kontenhtml += '</div>'
+            kontenhtml += '<div class="flex flex-row gap-3 mb-2">'
+            kontenhtml += '<p class="w-[50%]">SEG.</p>'
+            kontenhtml += '<p>:</p>'
+            kontenhtml += '<p>' + finalData.kn_seg + '</p>'
+            kontenhtml += '</div>'
+            kontenhtml += '</div>'
+            kontenhtml += '</div>'
+            kontenhtml += '<div class="flex flex-row mb-2">'
+            kontenhtml += '<p class="w-[50%] font-ex-semibold">Kiri</p>'
+            kontenhtml += '<p class="w-[5%]">:</p>'
+            kontenhtml += '<div class="flex flex-col">'
+            kontenhtml += '<div class="flex flex-row gap-3 mb-2">'
+            kontenhtml += '<p class="w-[50%]">SPH</p>'
+            kontenhtml += '<p>:</p>'
+            kontenhtml += '<p>' + finalData.kr_sph + '</p>'
+            kontenhtml += '</div>'
+            kontenhtml += '<div class="flex flex-row gap-3 mb-2">'
+            kontenhtml += '<p class="w-[50%]">CYL</p>'
+            kontenhtml += '<p>:</p>'
+            kontenhtml += '<p>' + finalData.kr_cyl + '</p>'
+            kontenhtml += '</div>'
+            kontenhtml += '<div class="flex flex-row gap-3 mb-2">'
+            kontenhtml += '<p class="w-[50%]">AXIS</p>'
+            kontenhtml += '<p>:</p>'
+            kontenhtml += '<p>' + finalData.kr_axis + '</p>'
+            kontenhtml += '</div>'
+            kontenhtml += '<div class="flex flex-row gap-3 mb-2">'
+            kontenhtml += '<p class="w-[50%]">ADD+</p>'
+            kontenhtml += '<p>:</p>'
+            kontenhtml += '<p>' + finalData.kr_add + '</p>'
+            kontenhtml += '</div>'
+            kontenhtml += '<div class="flex flex-row gap-3 mb-2">'
+            kontenhtml += '<p class="w-[50%]">PD</p>'
+            kontenhtml += '<p>:</p>'
+            kontenhtml += '<p>' + finalData.kr_pd + '</p>'
+            kontenhtml += '</div>'
+            kontenhtml += '<div class="flex flex-row gap-3 mb-2">'
+            kontenhtml += '<p class="w-[50%]">SEG.</p>'
+            kontenhtml += '<p>:</p>'
+            kontenhtml += '<p>' + finalData.kr_seg + '</p>'
+            kontenhtml += '</div>'
+            kontenhtml += '</div>'
+            kontenhtml += '</div>'
+          }
+          if (finalData.harga_frame !== null) {
+            kontenhtml += '<div class="flex flex-row mb-2 mt-2">'
+            kontenhtml += '<p class="w-[50%] font-ex-semibold">Harga Frame</p>'
+            kontenhtml += '<p class="w-[5%]">:</p>'
+            kontenhtml += '<p>' + formatRupiah(finalData.harga_frame, 'Rp. ') + '</p>'
+            kontenhtml += '</div>'
+          }
+          if (finalData.harga_lensa !== null) {
+            kontenhtml += '<div class="flex flex-row mb-2">'
+            kontenhtml += '<p class="w-[50%] font-ex-semibold">Harga Lensa</p>'
+            kontenhtml += '<p class="w-[5%]">:</p>'
+            kontenhtml += '<p>' + formatRupiah(finalData.harga_lensa, 'Rp. ') + '</p>'
+            kontenhtml += '</div>'
+          }
+          kontenhtml += '<div class="flex flex-row mb-2">'
+          kontenhtml += '<p class="w-[50%] font-ex-semibold">Total</p>'
+          kontenhtml += '<p class="w-[5%]">:</p>'
+          kontenhtml += '<p>' + formatRupiah(finalData.total, 'Rp. ') + '</p>'
+          kontenhtml += '</div>'
+
+          $('#main_content').html(kontenhtml);
+        }
+      })
+    }
+
+    // checkbox
+    let kodeTR = [];
+    var total = 0;
+
+    function choise_transaction(kode, harga) {
+
+      if ($('#TR-' + kode).is(":checked")) {
+        kodeTR.push({
+          kode: kode,
+        });
+
+        total = total + parseInt(harga);
+        $('#total_harga_keranjang').html(formatRupiah('' + total, 'Rp. '));
+
+        console.log(kodeTR);
+
+      } else {
+        for (let index = 0; index < kodeTR.length; index++) {
+          const element = kodeTR[index];
+          if (element['kode'] == kode) {
+            removeItemOnce(kodeTR, element);
+          }
+        }
+        total = total - parseInt(harga);
+        $('#total_harga_keranjang').html(formatRupiah('' + total, 'Rp. '));
+        console.log(kodeTR);
+      }
+    }
+
+    function removeItemOnce(arr, value) {
+      var index = arr.indexOf(value);
+      if (index > -1) {
+        arr.splice(index, 1);
+      }
+      return arr;
+    }
+
+    // next page
+    function next_page() {
+
+      if (kodeTR.length !== 0) {
+        var p = "";
+
+        for (var i = 0; i < kodeTR.length; i++) {
+          p = p + " " + kodeTR[i]["kode"];
+        }
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Berhasil',
+          text: p,
+        })
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'gagal',
+          text: "pilih pesanan yang ingin di checkout",
+        })
+      }
+
+    }
+
+    // curency
+    function formatRupiah(angka, prefix) {
+      var number_string = angka.replace(/[^,\d]/g, '').toString(),
+        split = number_string.split(','),
+        sisa = split[0].length % 3,
+        rupiah = split[0].substr(0, sisa),
+        ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+      if (ribuan) {
+        separator = sisa ? '.' : '';
+        rupiah += separator + ribuan.join('.');
+      }
+
+      rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+      return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+    }
   </script>
 </body>
 

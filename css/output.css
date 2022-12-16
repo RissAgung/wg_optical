@@ -611,14 +611,6 @@ video {
   top: 50px;
 }
 
-.right-2 {
-  right: 0.5rem;
-}
-
-.top-4 {
-  top: 1rem;
-}
-
 .right-5 {
   right: 1.25rem;
 }
@@ -627,16 +619,24 @@ video {
   bottom: 1rem;
 }
 
+.right-2 {
+  right: 0.5rem;
+}
+
+.top-4 {
+  top: 1rem;
+}
+
 .left-32 {
   left: 8rem;
 }
 
-.top-\[2px\] {
-  top: 2px;
-}
-
 .right-0 {
   right: 0px;
+}
+
+.top-\[2px\] {
+  top: 2px;
 }
 
 .left-5 {
@@ -659,12 +659,12 @@ video {
   z-index: 50;
 }
 
-.z-\[9999\] {
-  z-index: 9999;
-}
-
 .z-40 {
   z-index: 40;
+}
+
+.z-\[9999\] {
+  z-index: 9999;
 }
 
 .z-\[51\] {
@@ -855,6 +855,14 @@ video {
 
 .mr-\[11px\] {
   margin-right: 11px;
+}
+
+.mb-auto {
+  margin-bottom: auto;
+}
+
+.mt-8 {
+  margin-top: 2rem;
 }
 
 .ml-4 {
@@ -1145,6 +1153,10 @@ video {
   height: 400px;
 }
 
+.h-20 {
+  height: 5rem;
+}
+
 .h-1 {
   height: 0.25rem;
 }
@@ -1239,6 +1251,8 @@ video {
 
 .h-\[20vh\] {
   height: 20vh;
+.max-h-\[500px\] {
+  max-height: 500px;
 }
 
 .max-h-\[230px\] {
@@ -1271,6 +1285,14 @@ video {
 
 .w-\[109px\] {
   width: 109px;
+}
+
+.w-\[50\%\] {
+  width: 50%;
+}
+
+.w-\[5\%\] {
+  width: 5%;
 }
 
 .w-12 {
@@ -1365,6 +1387,10 @@ video {
   width: 2rem;
 }
 
+.w-\[200px\] {
+  width: 200px;
+}
+
 .w-\[480px\] {
   width: 480px;
 }
@@ -1377,12 +1403,16 @@ video {
   width: 10%;
 }
 
-.w-\[50\%\] {
-  width: 50%;
-}
-
 .w-\[120px\] {
   width: 120px;
+}
+
+.w-\[445px\] {
+  width: 445px;
+}
+
+.w-\[110px\] {
+  width: 110px;
 }
 
 .w-32 {
@@ -1965,6 +1995,11 @@ video {
   background-color: rgb(238 238 238 / var(--tw-bg-opacity));
 }
 
+.bg-slate-400 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(148 163 184 / var(--tw-bg-opacity));
+}
+
 .bg-\[\#EEF1F9\] {
   --tw-bg-opacity: 1;
   background-color: rgb(238 241 249 / var(--tw-bg-opacity));
@@ -2014,18 +2049,22 @@ video {
   fill: #797E8D;
 }
 
+.fill-none {
+  fill: none;
+}
+
 .fill-black {
   fill: #000;
 }
 
 .object-cover {
   -o-object-fit: cover;
-     object-fit: cover;
+    object-fit: cover;
 }
 
 .object-center {
   -o-object-position: center;
-     object-position: center;
+    object-position: center;
 }
 
 .p-4 {
@@ -2308,6 +2347,50 @@ video {
   padding-bottom: 3rem;
 }
 
+.pt-\[1px\] {
+  padding-top: 1px;
+}
+
+.pt-\[7px\] {
+  padding-top: 7px;
+}
+
+.pt-\[9px\] {
+  padding-top: 9px;
+}
+
+.pt-\[9\] {
+  padding-top: 9;
+}
+
+.pt-\[10px\] {
+  padding-top: 10px;
+}
+
+.pt-\[14px\] {
+  padding-top: 14px;
+}
+
+.pt-1 {
+  padding-top: 0.25rem;
+}
+
+.pt-\[100px\] {
+  padding-top: 100px;
+}
+
+.pt-\[1x\] {
+  padding-top: 1x;
+}
+
+.pt-\[0\.8px\] {
+  padding-top: 0.8px;
+}
+
+.pt-\[0\.9px\] {
+  padding-top: 0.9px;
+}
+
 .text-center {
   text-align: center;
 }
@@ -2488,6 +2571,10 @@ video {
   opacity: 0;
 }
 
+.opacity-50 {
+  opacity: 0.5;
+}
+
 .shadow {
   --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
@@ -2573,15 +2660,6 @@ video {
 
 .ease-in-out {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
 }
 
 @font-face {
@@ -3047,6 +3125,11 @@ select {
   background-color: rgb(92 97 113 / var(--tw-bg-opacity));
 }
 
+.hover\:bg-\[\#373942\]:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(55 57 66 / var(--tw-bg-opacity));
+}
+
 .hover\:bg-gray-200:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(229 231 235 / var(--tw-bg-opacity));
@@ -3213,6 +3296,10 @@ select {
     height: 13px;
   }
 
+  .max-md\:max-h-\[70vh\] {
+    max-height: 70vh;
+  }
+
   .max-md\:w-full {
     width: 100%;
   }
@@ -3227,6 +3314,10 @@ select {
 
   .max-md\:w-\[13px\] {
     width: 13px;
+  }
+
+  .max-md\:w-\[95vw\] {
+    width: 95vw;
   }
 
   .max-md\:rounded-md {
@@ -3275,6 +3366,10 @@ select {
 @media (max-width: 400px) {
   .max-\[400px\]\:h-\[163px\] {
     height: 163px;
+  }
+
+  .max-\[400px\]\:h-16 {
+    height: 4rem;
   }
 
   .max-\[400px\]\:w-\[163px\] {
@@ -3336,6 +3431,16 @@ select {
 
   .max-\[374px\]\:text-\[13px\] {
     font-size: 13px;
+  }
+}
+
+@media (max-width: 359px) {
+  .max-\[359px\]\:h-14 {
+    height: 3.5rem;
+  }
+
+  .max-\[359px\]\:p-4 {
+    padding: 1rem;
   }
 }
 
@@ -3680,12 +3785,12 @@ select {
     width: 30%;
   }
 
-  .lg\:w-\[40\%\] {
-    width: 40%;
-  }
-
   .lg\:w-\[45\%\] {
     width: 45%;
+  }
+
+  .lg\:w-\[40\%\] {
+    width: 40%;
   }
 
   .lg\:w-\[40vw\] {
