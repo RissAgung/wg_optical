@@ -537,8 +537,19 @@ function rupiah($angka)
           'total': bayar,
           'data': JSON.stringify(kodeTR),
         },
-        success: function(res){
-          alert(res);
+        success: function(res) {
+          //alert(res);
+
+          const data = JSON.parse(res);
+          if (data.status == 'success') {
+            Swal.fire({
+              icon: 'success',
+              title: 'Berhasil',
+              text: data.msg,
+            }).then(function() {
+              window.location.replace("dashboard.php");
+            });
+          }
         },
       });
     }
