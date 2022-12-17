@@ -50,6 +50,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $crud->execute("DELETE FROM keranjang WHERE kode_pesanan = '" . $data[$i]["kode"] . "'");
 
             }
+
+            $response = array(
+                'status' => 'success',
+                'msg' => 'Transaksi Berhasil'
+            );
+            echo json_encode($response);
+            exit();
         }
     }
 }
