@@ -12,14 +12,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $idCus = generateCustomerID($crud);
             // insert customer
-            $crud->execute("INSERT INTO customer VALUES ('" . $idCus . "', '" . $_POST['txt_nama'] . "', '" . $_POST['txt_kecamatan'] . "', '" . $_POST['txt_alamat'] . "', '" . $_POST['txt_pekerjaan'] . "', '" . $_POST['txt_instansi'] . "')");
+            $crud->execute("INSERT INTO customer VALUES ('" . $idCus . "', '" . $_POST['txt_nama'] . "', '" . $_POST['txt_kecamatan'] . "', '" . $_POST['txt_desa'] . "', '" . $_POST['txt_alamat'] . "', '" . $_POST['txt_pekerjaan'] . "', '" . $_POST['txt_instansi'] . "')");
 
             foreach (json_decode($_POST['data']) as $value) {
                 array_push($data, (array) $value);
             }
 
             // insert transaksi
-            $crud->execute("INSERT INTO transaksi VALUES ('" . generateTransaksiID($data) . "', NOW(), '" . $_SESSION["idPeg"] . "', '" . $_POST['total'] . "', '" . $idCus . "', 'proses')");
+            $crud->execute("INSERT INTO transaksi VALUES ('" . generateTransaksiID($data) . "', NOW(), '" . $_SESSION["idPeg"] . "', '" . $_POST['total'] . "', '" . $_POST['total_harga'] . "', '" . $_POST['kembalian'] . "', '" . $idCus . "', '" . $_POST['proses_pembayaran'] . "', '" . $_POST['tgljatuhtempo'] . "', 'proses')");
 
             // insert transaksi
             for ($i = 0; $i < count($data); $i++) {
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // }
 
                 // move to frame transaksi
-                $crud->execute("INSERT INTO frame_transaksi (kode_detail_pesanan, harga, kode_frame) SELECT keranjang_frame.kode_pesanan, keranjang_frame.harga, detail_bawa.Kode_Frame FROM keranjang_frame JOIN detail_bawa ON keranjang_frame.id_bawa = detail_bawa.Id_Bawa JOIN produk ON detail_bawa.Kode_Frame = produk.kode_frame WHERE kode_pesanan = '" . $data[$i]["kode"] . "'");
+                $crud->execute("INSERT INTO frame_transaksi (kode_detail_pesanan, harga, kode_frame, id_detail_bawa) SELECT keranjang_frame.kode_pesanan, keranjang_frame.harga, detail_bawa.Kode_Frame, detail_bawa.Id_Bawa FROM keranjang_frame JOIN detail_bawa ON keranjang_frame.id_bawa = detail_bawa.Id_Bawa JOIN produk ON detail_bawa.Kode_Frame = produk.kode_frame WHERE kode_pesanan = '" . $data[$i]["kode"] . "'");
 
                 // move to lensa transaksi
                 $crud->execute("INSERT INTO lensa_transaksi (kode_detail_pesanan, kode_varian_lensa_transaksi, id_jenis_lensa, harga) SELECT kode_pesanan, kode_varian_lensa_keranjang, id_jenis_lensa, harga FROM keranjang_lensa WHERE kode_pesanan = '" . $data[$i]["kode"] . "'");
@@ -48,7 +48,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 // hapus keranjang
                 $crud->execute("DELETE FROM keranjang WHERE kode_pesanan = '" . $data[$i]["kode"] . "'");
-
             }
 
             $response = array(

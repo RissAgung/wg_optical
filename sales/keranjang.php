@@ -108,12 +108,7 @@ function rupiah($angka)
         </div>
         <h1 class="font-ex-semibold px-6 pt-8">Detail Alamat</h1>
         <div class="flex flex-col px-6 py-4 bg-white mt-[0.5px] font-ex-medium">
-          <h1 class="pt-6">Provinsi / Kota</h1>
-          <div class="px-4 flex flex-row justify-between items-center outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden">
-            <input class="cursor-pointer h-full w-full pr-4 outline-0" type="text" placeholder="" name="" id="txt_provinsi">
-            <h1 class="h-full flex items-center justify-center font-ex-semibold w-12 text-center">/</h1>
-            <input class="cursor-pointer h-full w-full pl-4 outline-0" type="text" placeholder="" name="" id="txt_kota">
-          </div>
+
           <h1 class="pt-6">Kecamatan / Desa</h1>
           <div class="px-4 flex flex-row justify-between items-center outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden">
             <input class="cursor-pointer h-full w-full pr-4 outline-0" type="text" placeholder="" name="" id="txt_kecamatan">
@@ -138,7 +133,7 @@ function rupiah($angka)
           <div id="field-jatuh-tgl-tempo" class="hidden">
             <h1 class="pt-6">Tanggal Jatuh Tempo</h1>
             <div class="h-16 w-full border border-[#C9C9C9] rounded-lg mt-3 overflow-hidden">
-              <input type="date" name="" class="h-full w-full" id="">
+              <input type="date" id="tgljatuhtempo" class="h-full w-full">
             </div>
           </div>
           <h1 class="pt-6">Depan Bayar</h1>
@@ -243,6 +238,15 @@ function rupiah($angka)
   <script src="../js/jquery-3.6.1.min.js"></script>
   <script src="../js/sweetalert2.min.js"></script>
   <script>
+    
+    function getDateNow() {
+      var date = new Date();
+      var strdate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+      return strdate;
+    }
+
+    $('#tgljatuhtempo').val(getDateNow());
+
     $('#modal_detail').load('../assets/components/modal_detail_keranjang.html', function() {
       $('#button_x').on('click', function() {
         $('#container').addClass("scale-0");
@@ -514,6 +518,19 @@ function rupiah($angka)
       return "TR" + kodeTR.length + "" + date.getDate() + "" + (date.getMonth() + 1) + "" + date.getFullYear() + "" + date.getHours() + "" + date.getMinutes() + "" + date.getSeconds();
     }
 
+    function convertProsesPembayaran() {
+      switch ($('#opsi-pembayaran').val()) {
+        case 'Lunas':
+          return 1;
+          break;
+        case 'Cicilan':
+          return 2;
+          break;
+        default:
+          break;
+      }
+    }
+
     function submitTransaksi() {
       var nama = $('#txt_nama').val();
       var nohp = $('#txt_nohp').val();
@@ -522,6 +539,16 @@ function rupiah($angka)
       var kecamatan = $('#txt_kecamatan').val();
       var alamat = $('#txt_alamat').val();
       var bayar = $('#txt_bayar').val();
+      var tgljatuhtempo = new Date($('#tgljatuhtempo').val());
+      var desa = $('#txt_desa').val();
+
+      var kembalian = 0;
+
+      if ($('#opsi-pembayaran').val() == 'Lunas') {
+        kembalian = bayar - total;
+      } else {
+        kembalian = 0;
+      }
 
       $.ajax({
         url: "../controllers/transaksiController.php",
@@ -533,13 +560,16 @@ function rupiah($angka)
           'txt_pekerjaan': pekerjaan,
           'txt_instansi': instansi,
           'txt_kecamatan': kecamatan,
+          'txt_desa': desa,
           'txt_alamat': alamat,
           'total': bayar,
+          'total_harga': total,
           'data': JSON.stringify(kodeTR),
+          'proses_pembayaran': convertProsesPembayaran(),
+          'kembalian': kembalian,
+          'tgljatuhtempo': tgljatuhtempo.getFullYear() + '-' + (tgljatuhtempo.getMonth() + 1) + '-' + tgljatuhtempo.getDate(),
         },
         success: function(res) {
-          //alert(res);
-
           const data = JSON.parse(res);
           if (data.status == 'success') {
             Swal.fire({
