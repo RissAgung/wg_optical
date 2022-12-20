@@ -129,12 +129,14 @@ function rupiah($angka)
       $('#button_x').on('click', function() {
         $('#container').addClass("scale-0");
         $('#bgmodal').removeClass("effectmodal");
+        $('#main_content').html("");
         reset();
       })
 
       $('#btn_ok').on('click', function() {
         $('#container').addClass("scale-0");
         $('#bgmodal').removeClass("effectmodal");
+        $('#main_content').html("");
         reset();
       })
     })
@@ -142,13 +144,15 @@ function rupiah($angka)
     function showDetail(idtransaksi) {
       $('#container').removeClass("scale-0");
       $('#bgmodal').addClass("effectmodal");
-      // $('#main_content').html("awkoawkoakwokwaok")
 
       var kontenhtml = "";
 
       $.ajax({
         url: '../controllers/detailTransaksiController.php?id_transaksi=' + idtransaksi,
         type: 'GET',
+        beforeSend: function() {
+          $('#main_content').html("<div class='h-[500px] w-full flex justify-center items-center'>Loading...</div>");
+        },
         success: function(res) {
           const data = JSON.parse(res);
           const finalData = data[0];
