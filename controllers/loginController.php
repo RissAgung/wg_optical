@@ -4,6 +4,7 @@ session_start();
 
 $kon = new Koneksi();
 
+
 if (isset($_POST['type'])) {
     if ($_POST['type'] == 'login') {
 
@@ -19,6 +20,7 @@ if (isset($_POST['type'])) {
             $emailval = $row['email'];
             $passwordval = $row['password'];
             $idlevelval = $row['id_level'];
+            $idPeg = $row['id_pegawai'];
         }
 
         if ($num != 0) {
@@ -27,9 +29,13 @@ if (isset($_POST['type'])) {
                 if ($idlevelval == 3) {
                     $response = array(
                         'status' => 'success_roles',
-                        'msg' => 'Anda Login Sebagai Sales'
+                        'msg' => 'Login Berhasil'
                     );
                     echo json_encode($response);
+                    $_SESSION["statusLogin"] = "true";
+                    $_SESSION["email"] = $namaval;
+                    $_SESSION['level'] = $idlevelval;
+                    $_SESSION['idPeg'] = $idPeg;
                     exit();
                 } else {
 
@@ -41,6 +47,7 @@ if (isset($_POST['type'])) {
                     $_SESSION["statusLogin"] = "true";
                     $_SESSION["email"] = $namaval;
                     $_SESSION['level'] = $idlevelval;
+                    $_SESSION['idPeg'] = $idPeg;
                     exit();
                 }
             } else {

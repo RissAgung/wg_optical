@@ -1,7 +1,13 @@
 <?php
 require "../config/koneksi.php";
-
+session_start();
 $crud = new koneksi();
+
+if (!isset($_SESSION['statusLogin'])) {
+  header('Location: login.php');
+} else if($_SESSION['level'] == 3 ){
+  header('Location: ../sales/dashboard.php');
+}
 
 // pagination
 $jumlahDataPerHalaman = 6;
@@ -24,7 +30,7 @@ function rupiah($angka)
 
 ?>
 
-<!DOCTYPE html>  
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -302,9 +308,36 @@ function rupiah($angka)
 
   <script src="../js/jquery-3.6.1.min.js"></script>
   <script src="../js/sweetalert2.min.js"></script>
+  <script src="../js/jquery.iddle.min.js"></script>
   <script>
+    $(document).idle({
+      onIdle: function() {
+        $.ajax({
+          url: '../controllers/loginController.php',
+          type: 'post',
+          data: {
+            'type': 'logout',
+          },
+          success: function() {
+
+          }
+        });
+        Swal.fire({
+          icon: 'warning',
+          title: 'Informasi',
+          text: 'Sesi anda telah habis, silahkan login kembali',
+
+        }).then(function() {
+          window.location.replace('../views/login.php');
+        });
+
+      },
+      idle: 50000
+    });
+
     // top_bar
     $('#top_bar').load("../assets/components/top_bar.php", function() {
+      $('#title-header').html('Master Data Product');
       $("#burger").on("click", function() {
         $('#bgbody').toggleClass("hidden");
 
@@ -343,7 +376,6 @@ function rupiah($angka)
 
     // load modal input
     $("#modal").load("../assets/components/modal_tambah_master_product.html", function() {
-
       // tambah
       $('#click-modal').on('click', function() {
 
@@ -436,7 +468,7 @@ function rupiah($angka)
               contentType: false,
               processData: false,
               success: function(res) {
-          
+
                 const data = JSON.parse(res);
 
                 if (data.status == 'error') {
@@ -897,7 +929,7 @@ function rupiah($angka)
 
           $('#title_delete').html('Hapus Data Product ini?');
 
-          $('#modalkontenhapus').toggleClass("scale-100");
+          $('#modalkontenhapus').toggleClass("scale-0");
           $('#bgmodalhapus').addClass("effectmodal");
 
           $('#submithapus').on('click', function() {
@@ -938,6 +970,19 @@ function rupiah($angka)
               $('#bgmodalhapus').removeClass("effectmodal");
               });
           })
+
+          $('#closemodalhapus').on('click', function() {
+
+            $('#modalkontenhapus').addClass("scale-0");
+            $('#bgmodalhapus').removeClass("effectmodal");
+          });
+
+          $('#cancelmodalhapus').on('click', function() {
+
+            $('#modalkontenhapus').addClass("scale-0");
+            $('#bgmodalhapus').removeClass("effectmodal");
+          });
+
         });
       <?php endfor ?>
 
@@ -949,7 +994,7 @@ function rupiah($angka)
 
           $('#title_delete').html('Hapus Data Pegawai ini?');
 
-          $('#modalkontenhapus').toggleClass("scale-100");
+          $('#modalkontenhapus').toggleClass("scale-0");
           $('#bgmodalhapus').addClass("effectmodal");
 
           $('#submithapus').on('click', function() {
@@ -983,13 +1028,13 @@ function rupiah($angka)
 
           $('#closemodalhapus').on('click', function() {
 
-            $('#modalkontenhapus').removeClass("scale-100");
+            $('#modalkontenhapus').removeClass("scale-0");
             $('#bgmodalhapus').removeClass("effectmodal");
           });
 
           $('#cancelmodalhapus').on('click', function() {
 
-            $('#modalkontenhapus').removeClass("scale-100");
+            $('#modalkontenhapus').removeClass("scale-0");
             $('#bgmodalhapus').removeClass("effectmodal");
           });
 

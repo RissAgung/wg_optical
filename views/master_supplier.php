@@ -1,47 +1,17 @@
 <?php
-include '../controllers/pegawaiController.php';
-
-session_start();
-
-
-if (!isset($_SESSION['statusLogin'])) {
-    header('Location: login.php');
-} else if ($_SESSION['level'] == 3) {
-    header('Location: ../sales/dashboard.php');
-}
-
-// pagination
-$jumlahDataPerHalaman = 6;
-
-$roles;
-
-$jumlahData = (isset($_GET["search"])) ? count($crud->showData("SELECT * FROM pegawai WHERE nama LIKE'%" . $_GET["search"] . "%' AND id_level = '3' LIMIT 0, $jumlahDataPerHalaman")) : count($crud->showData("SELECT * FROM pegawai WHERE id_level = '3'"));
-$halamanAktif = (isset($_GET["halaman"])) ? $_GET["halaman"] : 1;
-$roles = 2;
-
-$jumlahHalaman = ceil($jumlahData / $jumlahDataPerHalaman);
-
-$awalData = ($jumlahDataPerHalaman * $halamanAktif) - $jumlahDataPerHalaman;
-if ($roles == 1) {
-    $execute = (isset($_GET["search"])) ? $crud->showData("SELECT * FROM pegawai WHERE nama LIKE'%" . $_GET["search"] . "%' ORDER BY SUBSTRING(id_pegawai, -1, 5) DESC LIMIT $awalData, $jumlahDataPerHalaman") : $crud->showData("SELECT * FROM pegawai ORDER BY SUBSTRING(id_pegawai, -1, 5) DESC LIMIT $awalData, $jumlahDataPerHalaman");
-} else {
-    $execute = (isset($_GET["search"])) ? $crud->showData("SELECT * FROM pegawai WHERE nama LIKE'%" . $_GET["search"] . "%' AND id_level = '3' ORDER BY SUBSTRING(id_pegawai, -1, 5) DESC LIMIT $awalData, $jumlahDataPerHalaman") : $crud->showData("SELECT * FROM pegawai WHERE id_level = '3' ORDER BY SUBSTRING(id_pegawai, -1, 5) DESC LIMIT $awalData, $jumlahDataPerHalaman");
-}
+    include '../controllers/supplier.php';
+    session_start();
 
 
-
-function generateID(Koneksi $obj, $tglmasuk)
-{
-    $data = $obj->showData('SELECT COUNT(*) AS jumlah FROM pegawai');
-    if (empty($data)) {
-        return $tglmasuk . '' . 1;
-    } else {
-        foreach ($data as $value) {
-            return $tglmasuk . "" . ($value['jumlah'] + 1);
-        }
+    if (!isset($_SESSION['statusLogin'])) {
+        header('Location: login.php');
     }
-}
-
+    // pagination
+    $jumlahDataPerHalaman = 6; $jumlahData = (isset($_GET["search"])) ? count($crud->showData("SELECT * FROM supplier WHERE  Nama_Supplier LIKE'%" . $_GET["search"] . "%' LIMIT 0, $jumlahDataPerHalaman")) : count($crud->showData("SELECT * FROM supplier"));
+    $halamanAktif = (isset($_GET["halaman"])) ? $_GET["halaman"] : 1;
+    $jumlahHalaman = ceil($jumlahData / $jumlahDataPerHalaman);
+    $awalData = ($jumlahDataPerHalaman * $halamanAktif) - $jumlahDataPerHalaman;
+    $execute = (isset($_GET["search"])) ? $crud->showData("SELECT * FROM supplier WHERE Nama_Supplier LIKE'%" . $_GET["search"] . "%' ORDER BY SUBSTRING(Nama_Supplier, -1, 5) DESC LIMIT $awalData, $jumlahDataPerHalaman") : $crud->showData("SELECT * FROM supplier  ORDER BY SUBSTRING(Nama_Supplier, -1, 5) DESC LIMIT $awalData, $jumlahDataPerHalaman");
 ?>
 
 <!DOCTYPE html>
@@ -51,22 +21,21 @@ function generateID(Koneksi $obj, $tglmasuk)
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Master Data Pegawai | WG Optical</title>
-    <link rel="stylesheet" href="../css/output.css">
-    <link rel="stylesheet" href="../css/apexcharts.css">
+    <title>Master Data Supplier | WG Optical</title>
+    <link rel="stylesheet" href="../css/output.css">    
     <link rel="stylesheet" href="../css/sweetalert2.min.css">
 </head>
 
 <body class="bg-[#F0F0F0] font-ex-color box-border">
-
-
+    
+   
     <!-- modal  -->
-    <div id="modal-addBarang" class=""></div>
+    <div id="modal" class=""></div>
     <!-- end modal  -->
 
-    <!-- modal detail -->
-    <div id="modal-detail" class=""></div>
-    <!-- end modal detail -->
+    <!-- modal delete -->
+    <div id="modal-delete" class=""></div>
+    <!-- end modal delete -->
 
     <!-- Background hitam saat sidebar show -->
     <div id="bgbody" class="w-full h-screen bg-black fixed z-50 bg-opacity-50 hidden"></div>
@@ -94,7 +63,8 @@ function generateID(Koneksi $obj, $tglmasuk)
                     </svg>
                 </div>
 
-                <h1>Barang Bawa</h1>
+
+                <h1>Master Data Supplier</h1>
             </div>
             <div class="flex flex-row items-center">
                 <div class="mr-4">
@@ -105,8 +75,6 @@ function generateID(Koneksi $obj, $tglmasuk)
                 </div>
                 <img class="w-10 h-10 rounded-full" src="https://upload.wikimedia.org/wikipedia/id/d/d5/Aang_.jpg" alt="Rounded avatar">
             </div>
-
-
         </div>
 
         <div class="mx-auto w-[90%] md:w-[90%] md:mx-auto rounded-md py-0 px-0">
@@ -118,7 +86,7 @@ function generateID(Koneksi $obj, $tglmasuk)
                             <path d="M19.2502 19.25L15.138 15.1305M17.4168 9.62501C17.4168 11.6915 16.5959 13.6733 15.1347 15.1346C13.6735 16.5958 11.6916 17.4167 9.62516 17.4167C7.55868 17.4167 5.57684 16.5958 4.11562 15.1346C2.6544 13.6733 1.8335 11.6915 1.8335 9.62501C1.8335 7.55853 2.6544 5.57669 4.11562 4.11547C5.57684 2.65425 7.55868 1.83334 9.62516 1.83334C11.6916 1.83334 13.6735 2.65425 15.1347 4.11547C16.5959 5.57669 17.4168 7.55853 17.4168 9.62501V9.62501Z" stroke="#797E8D" stroke-width="2" stroke-linecap="round" />
                         </svg>
                         <?php $input = (isset($_GET["search"])) ? $_GET["search"] : null ?>
-                        <input id="search" value="<?= $input ?>" type="text" placeholder="Type here" class="h-11 bg-transparent ml-2 outline-none" />
+                        <input id="search" value="<?= $input ?>" type="text" placeholder="Cari Supplier" class="h-11 bg-transparent ml-2 outline-none" />
                     </div>
                     <div id="btn_reset" class="cursor-pointer hidden justify-center items-center">
                         <svg class="cursor-pointer fill-[#535A6D]" width="10" height="10" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -129,19 +97,19 @@ function generateID(Koneksi $obj, $tglmasuk)
                 </div>
                 <!-- End Search -->
 
-                <!-- Search and Button Add -->
-                <div class="flex flex-col md:flex-row items-center mt-6">
-                    <!-- Button Add -->
-                    <div class="md:my-auto h-10 w-24 font-ex-semibold text-white" id="click-modal">
-                        <button class="bg-[#3DBD9E] h-full w-full rounded-md">Tambah</button>
-                    </div>
-                    <!-- End Button Add -->
+            <!-- Button Add -->
+            <div class="flex flex-col md:flex-row items-center mt-3 md:mt-0">
+                <div class="md:my-auto h-10 w-24 font-ex-semibold text-white mt-3 md:mt-0" id="click-add">
+
+                    <button class="bg-[#3DBD9E] h-full w-full rounded-md">Tambah</button>
                 </div>
-                <!-- End Search and Button Add -->
+                <!-- End Button Add -->
             </div>
         </div>
+        </div>
+         <!-- End Search and Button Add -->
 
-
+        
         <!-- konten table -->
         <div class="" id="table">
             <!-- Table -->
@@ -150,8 +118,10 @@ function generateID(Koneksi $obj, $tglmasuk)
                     <thead class="border-b-2 border-gray-100">
                         <tr>
                             <th class="p-3 text-sm tracking-wide text-center">No</th>
-                            <th class="p-3 text-sm tracking-wide text-start">Nama</th>
-                            <th class="p-3 text-sm tracking-wide text-center">ID Pegawai</th>
+                            <th class="p-3 text-sm tracking-wide text-center">Nama</th>
+                            <th class="p-3 text-sm tracking-wide text-center">No Telepon</th>
+                            <th class="p-3 text-sm tracking-wide text-center">Keterangan</th>
+                            <th class="p-3 text-sm tracking-wide text-center">Alamat</th>
                             <th class="p-3 text-sm tracking-wide text-center">Aksi</th>
                         </tr>
                     </thead>
@@ -163,43 +133,44 @@ function generateID(Koneksi $obj, $tglmasuk)
                         ?>
                             <tr>
                                 <td class="p-3 text-sm tracking-wide text-center"><?php echo $nomor; ?></td>
-                                <td class="p-3 text-sm tracking-wide justify-center">
-                                    <div class="flex flex-row items-center  content-center">
-                                        <img class="w-6 h-6 rounded-full" src="../images/pegawai/foto_pegawai/<?php echo $data['foto_pegawai'] ?>" alt="Rounded avatar">
-                                        <p class="px-2"><?php echo $data['nama'] ?></p>
-                                    </div>
-                                </td>
-                                <td class="p-3 text-sm tracking-wide text-center"><?php echo $data['id_pegawai'] ?></td>
+                                <td class="p-3 text-sm tracking-wide text-center"><?php echo $data['Nama_Supplier'] ?></td>
+                                <td class="p-3 text-sm tracking-wide text-center"><?php echo $data['No_Telp_Supplier'] ?></td>
+                                <td class="p-3 text-sm tracking-wide text-center"><?php echo $data['Keterangan'] ?></td>                                
+                                <td class="p-3 text-sm tracking-wide text-center"><?php echo $data['Alamat'] ?></td>
                                 <td class="p-3 text-sm tracking-wide text-center">
-                                    <button onclick="detailBarang('<?= $data['id_pegawai']; ?>', '<?= $data['nama']; ?>')">
-                                        <svg width="38" height="37" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <rect width="25.36" height="25.36" rx="5" fill="#EDC683" />
-                                            <path d="M11.7255 15.9349C11.7263 15.1391 11.9652 14.361 12.4124 13.6973C12.8596 13.0336 13.4954 12.5136 14.241 12.2017C14.9866 11.8899 15.809 11.8001 16.6061 11.9434C17.4032 12.0867 18.1398 12.4569 18.7246 13.0079V6.87375C18.7246 6.37654 18.5235 5.8997 18.1655 5.54812C17.8075 5.19654 17.322 4.99902 16.8157 4.99902H9.18041C8.33697 5.00002 7.52835 5.32953 6.93195 5.91528C6.33554 6.50103 6.00003 7.29519 5.99902 8.12357V16.8723C6.00003 17.7007 6.33554 18.4949 6.93195 19.0806C7.52835 19.6664 8.33697 19.9959 9.18041 19.9969H15.8613C14.7644 19.9969 13.7125 19.5689 12.9369 18.8071C12.1613 18.0454 11.7255 17.0122 11.7255 15.9349V15.9349ZM9.18041 9.37339C9.18041 9.20765 9.24745 9.04871 9.36677 8.93151C9.4861 8.81432 9.64794 8.74848 9.81669 8.74848H14.9069C15.0757 8.74848 15.2375 8.81432 15.3568 8.93151C15.4762 9.04871 15.5432 9.20765 15.5432 9.37339C15.5432 9.53913 15.4762 9.69808 15.3568 9.81527C15.2375 9.93246 15.0757 9.9983 14.9069 9.9983H9.81669C9.64794 9.9983 9.4861 9.93246 9.36677 9.81527C9.24745 9.69808 9.18041 9.53913 9.18041 9.37339ZM19.8107 19.8138C19.6914 19.9309 19.5296 19.9967 19.3609 19.9967C19.1921 19.9967 19.0303 19.9309 18.911 19.8138L17.3795 18.3096C16.9259 18.5939 16.3994 18.7456 15.8613 18.747C15.295 18.747 14.7415 18.5821 14.2706 18.2731C13.7997 17.9641 13.4327 17.5249 13.216 17.0111C12.9993 16.4972 12.9426 15.9318 13.0531 15.3863C13.1636 14.8408 13.4363 14.3398 13.8367 13.9465C14.2371 13.5532 14.7473 13.2854 15.3027 13.1769C15.8582 13.0684 16.4339 13.1241 16.957 13.3369C17.4802 13.5497 17.9274 13.9102 18.242 14.3726C18.5567 14.8351 18.7246 15.3788 18.7246 15.9349C18.7231 16.4634 18.5687 16.9805 18.2792 17.426L19.8107 18.9301C19.93 19.0473 19.997 19.2062 19.997 19.3719C19.997 19.5377 19.93 19.6966 19.8107 19.8138Z" fill="#51514F" />
+                                    <button id="edit-button-<?php echo $i; ?>">
+                                        <svg width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect width="37" height="37" rx="5" fill="#EDC683" />
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M27.4782 8.38256C27.7335 8.48841 27.9655 8.64355 28.1609 8.83911C28.3564 9.03447 28.5116 9.26646 28.6174 9.52181C28.7233 9.77717 28.7777 10.0509 28.7777 10.3273C28.7777 10.6037 28.7233 10.8774 28.6174 11.1328C28.5116 11.3881 28.3564 11.6201 28.1609 11.8155L25.3473 14.6282L22.3717 11.6526L25.1845 8.83911C25.3798 8.64355 25.6118 8.48841 25.8672 8.38256C26.1225 8.27671 26.3962 8.22223 26.6727 8.22223C26.9491 8.22223 27.2228 8.27671 27.4782 8.38256ZM9.59277 25.7604C9.59295 24.9094 9.93117 24.0933 10.533 23.4916L21.2376 12.787L24.2132 15.7626L13.5086 26.4672C12.9069 27.069 12.0908 27.4072 11.2398 27.4074H9.59277V25.7604Z" fill="#3F2C0D" />
                                         </svg>
-
                                     </button>
-                                    <button onclick="addBarangBarang('<?php echo $data['id_pegawai']; ?>')">
-                                        <svg width="39" height="37" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <rect width="25.36" height="25.36" rx="5" fill="#82DCC6" />
-                                            <path d="M12.5 5C11.0166 5 9.56659 5.43987 8.33323 6.26398C7.09986 7.08809 6.13856 8.25943 5.57091 9.62987C5.00325 11.0003 4.85472 12.5083 5.14411 13.9632C5.4335 15.418 6.14781 16.7544 7.1967 17.8033C8.2456 18.8522 9.58197 19.5665 11.0368 19.8559C12.4917 20.1453 13.9997 19.9968 15.3701 19.4291C16.7406 18.8614 17.9119 17.9001 18.736 16.6668C19.5601 15.4334 20 13.9834 20 12.5C19.9979 10.5115 19.207 8.60513 17.8009 7.19907C16.3949 5.79302 14.4885 5.00215 12.5 5V5ZM15 13.125H13.125V15C13.125 15.1658 13.0592 15.3247 12.9419 15.4419C12.8247 15.5592 12.6658 15.625 12.5 15.625C12.3342 15.625 12.1753 15.5592 12.0581 15.4419C11.9409 15.3247 11.875 15.1658 11.875 15V13.125H10C9.83424 13.125 9.67527 13.0592 9.55806 12.9419C9.44085 12.8247 9.375 12.6658 9.375 12.5C9.375 12.3342 9.44085 12.1753 9.55806 12.0581C9.67527 11.9408 9.83424 11.875 10 11.875H11.875V10C11.875 9.83424 11.9409 9.67527 12.0581 9.55806C12.1753 9.44085 12.3342 9.375 12.5 9.375C12.6658 9.375 12.8247 9.44085 12.9419 9.55806C13.0592 9.67527 13.125 9.83424 13.125 10V11.875H15C15.1658 11.875 15.3247 11.9408 15.4419 12.0581C15.5592 12.1753 15.625 12.3342 15.625 12.5C15.625 12.6658 15.5592 12.8247 15.4419 12.9419C15.3247 13.0592 15.1658 13.125 15 13.125Z" fill="#073D2F" />
+                                    <button id="delete-button-<?php echo $i; ?>">
+                                        <svg width="38" height="37" viewBox="0 0 38 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="0.444336" width="37" height="37" rx="5" fill="#F35E58" />
+                                            <path d="M23.3982 10.5062V8.67903C23.3982 8.19444 23.2105 7.72969 22.8764 7.38703C22.5423 7.04437 22.0892 6.85187 21.6167 6.85187H16.2723C15.7998 6.85187 15.3467 7.04437 15.0126 7.38703C14.6785 7.72969 14.4908 8.19444 14.4908 8.67903V10.5062H10.0371V12.3333H11.8186V26.0371C11.8186 26.7639 12.1001 27.4611 12.6013 27.975C13.1024 28.489 13.7821 28.7778 14.4908 28.7778H23.3982C24.1069 28.7778 24.7866 28.489 25.2878 27.975C25.7889 27.4611 26.0704 26.7639 26.0704 26.0371V12.3333H27.8519V10.5062H23.3982ZM18.0538 22.3827H16.2723V16.9012H18.0538V22.3827ZM21.6167 22.3827H19.8353V16.9012H21.6167V22.3827ZM21.6167 10.5062H16.2723V8.67903H21.6167V10.5062Z" fill="#501614" />
                                         </svg>
-
 
                                     </button>
                                 </td>
                             </tr>
+                            <script>
 
+                            </script>
                         <?php
                             $nomor++;
                             $i++;
                         }
                         ?>
+
+
                     </tbody>
 
                 </table>
             </div>
             <!-- End Table -->
 
+
+                
             <!-- Pagination And Info Data -->
             <div class="mx-auto w-[90%] md:w-[90%] md:mx-autorounded-md py-2 px-0">
                 <div class="flex flex-col md:flex-row justify-between  items-center mt-3 text-sm">
@@ -274,131 +245,24 @@ function generateID(Koneksi $obj, $tglmasuk)
             </div>
 
         </div>
+            </div>
         <!-- end konten table -->
     </div>
+
+
+
     <script src="../js/jquery-3.6.1.min.js"></script>
     <script src="../js/sweetalert2.min.js"></script>
     <script src="../js/jquery.iddle.min.js"></script>
 
-
-
-
-
     <script>
-        $(document).idle({
-            onIdle: function() {
-                $.ajax({
-                    url: '../controllers/loginController.php',
-                    type: 'post',
-                    data: {
-                        'type': 'logout',
-                    },
-                    success: function() {
-
-                    }
-                });
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Informasi',
-                    text: 'Sesi anda telah habis, silahkan login kembali',
-
-                }).then(function() {
-                    window.location.replace('../views/login.php');
-                });
-
-            },
-            idle: 50000
-        });
-
-        $('#modal-addBarang').load("../assets/components/modal_pilih_barang.php", function() {
-
-            $('#closemodal').on('click', function() {
-                $('#modalkonten').toggleClass("scale-0");
-                $('#bgmodal').removeClass("effectmodal");
-            });
-        });
-
-        $('#modal-detail').load("../assets/components/modal_detail_barang_bawa.html", function() {
-            $('#closemodaldetail, #okemodaldetali').on('click', function() {
-                $('#modalkontendetail').toggleClass("scale-0");
-                $('#bgmodaldetail').removeClass("effectmodal");
-
-                kontenhtml = "";
-                $('#no-data').removeClass('flex');
-                $('#no-data').addClass('hidden');
-            });
-
-
-        });
-
-        function detailBarang(id_pegawai, nama) {
-
-            var kontenhtml = '';
-
-            $.ajax({
-                url: '../controllers/tabelBarangBawaController.php?id=' + id_pegawai,
-                type: 'GET',
-                beforeSend: function() {
-                    $('#bodytabel').html("<div class='h-full w-full flex justify-center items-center'>Loading...</div>");
-                },
-                success: function(res) {
-                    const value_utama = JSON.parse(res);
-                    if (value_utama.length == 0) {
-                        $('#no-data').addClass('flex');
-                        $('#no-data').removeClass('hidden');
-                        $('#bodytabel').html('');
-                    } else {
-                        for (let index = 0; index < value_utama.length; index++) {
-                            const element = value_utama[index];
-                            kontenhtml += '<tr>';
-                            kontenhtml += '<td class="tracking-wide p-2 text-sm text-center">' + (index + 1) + '</td>';
-                            kontenhtml += '<td class="tracking-wide p-2 text-sm text-center">' + element.id_bawa + '</td>';
-                            kontenhtml += '<td class="tracking-wide p-2 text-sm text-center">' + element.merk + '</td>';
-                            kontenhtml += '<td class="px-4">';
-                            kontenhtml += '<button onClick="deleteDetailBawa(\'' + element.id_bawa + '\')">'
-                            kontenhtml += '<svg width="22" height="22" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">';
-                            kontenhtml += '<rect width="18" height="18" rx="5" fill="#F35E58" />';
-                            kontenhtml += '<path d="M11.1665 5.11079V4.2219C11.1665 3.98615 11.0752 3.76006 10.9127 3.59336C10.7501 3.42666 10.5297 3.33301 10.2998 3.33301H7.69984C7.46998 3.33301 7.24954 3.42666 7.08701 3.59336C6.92448 3.76006 6.83317 3.98615 6.83317 4.2219V5.11079H4.6665V5.99967H5.53317V12.6663C5.53317 13.02 5.67013 13.3591 5.91393 13.6092C6.15773 13.8592 6.48839 13.9997 6.83317 13.9997H11.1665C11.5113 13.9997 11.8419 13.8592 12.0857 13.6092C12.3295 13.3591 12.4665 13.02 12.4665 12.6663V5.99967H13.3332V5.11079H11.1665ZM8.5665 10.8886H7.69984V8.2219H8.5665V10.8886ZM10.2998 10.8886H9.43317V8.2219H10.2998V10.8886ZM10.2998 5.11079H7.69984V4.2219H10.2998V5.11079Z" fill="#501614" />';
-                            kontenhtml += '</svg>';
-                            kontenhtml += '</button>';
-                            kontenhtml += '</td>';
-                            kontenhtml += '</tr>';
-                        }
-                        $('#bodytabel').html(kontenhtml);
-                    }
-
-                }
-            });
-
-            $('#title-modal-detail').html(nama);
-            $('#modalkontendetail').toggleClass("scale-0");
-            $('#bgmodaldetail').addClass("effectmodal");
-
-        }
-
-        function addBarangBarang(id_pegawai) {
-            setID(id_pegawai);
-
-            $('#modalkonten').toggleClass("scale-0");
-            $('#bgmodal').addClass("effectmodal");
-
-
-        }
-
-
         // load sidebar
         $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
-            $('#barang_bawa').addClass("hover-sidebar");
+            $('#master_data').addClass("hover-sidebar");
             $('#button-logout').on('click', function() {
                 // kosong
             });
-
-            
         });
-
-
-
-        // auto hide sidebar
 
         $("#burger").on("click", function() {
             $('#bgbody').toggleClass("hidden");
@@ -415,31 +279,291 @@ function generateID(Koneksi $obj, $tglmasuk)
 
         });
 
+    </script>
+    <script>
+    // load modal input
+    $("#modal").load("../assets/components/modal_supplier.html", function() {
+        //button close modal
+        function closeModal() {
+                $('#modalkonten').toggleClass("scale-0");
+                $('#bgmodal').removeClass("effectmodal");
+
+                $('#name').val("");
+                $('#nohp').val("");
+                $('#ket').val("");
+                $('#addres').val("");
+        }
+        //end close modal
+
+        var id = "SP"+ Math.random().toString(9).slice(2,5);
+        var name;
+        var nohp;
+        var ket;
+        var alamat;
+
+        function getData() {
+            name = $("#name").val();
+            nohp = $("#nohp").val();
+            ket = $("#ket").val();
+            alamat = $("#addres").val();
+        }
+        
+        //start add data
+        $('#click-add').on('click', function() {
+
+        change("tambah");
+
+        $('#bgmodal').addClass("effectmodal");
+        $('#modalkonten').toggleClass("scale-0");
+        $('#title').html('Tambah Data');
+        
+        //start query add
+        $("#btn_tambah").on("click", function(e) {
+            e.preventDefault();
+            getData();
+            let formData = new FormData();
+            let query;
+            formData.append('type', "insert");
+            formData.append('query', "INSERT INTO supplier VALUES ('" + id + "' ,'" + name + "','" + nohp + "','" + ket + "','" + alamat + "')");
+
+            if ($('#name').val() == "") {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal',
+                                text: "Nama Tidak Boleh Kosong",
+                            })
+                    } else if ($('#nohp').val() == "") {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal',
+                                text: "Nomor Telepon Tidak Boleh Kosong",
+                            })
+                    } else if ($('#ket').val() == "") {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal',
+                                text: "Keterangan Tidak Boleh Kosong",
+                            })
+                    } else if ($('#addres').val() == "") {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal',
+                                text: "Alamat Tidak Boleh Kosong",
+                            })
+                    }                               
+                    else {
+            
+            
+            $.ajax({
+              type: "POST",
+              url: "../controllers/supplier.php",
+              data: formData,
+              contentType: false,
+              processData: false,
+              success: function(res) {
+                const data = JSON.parse(res);
+
+                if (data.status == 'error') {
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal',
+                    text: data.msg,
+                  })
+                } else {
+                  Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: data.msg,
+
+                  }).then(function() {
+                    closeModal();
+                    window.location.replace("master_supplier.php?halaman=<?= $halamanAktif ?>");
+                  });
+                }
+              }              
+            });    }       
+        }); //end query add        
+    }); //end code add    
+
+    //start code edit
+    <?php
+        for ($index = 0; $index < count($execute); $index++) { ?>
+            $('#edit-button-<?php echo $index; ?>').on('click', function() {
+                change("edit");
+                
+                $('#modalkonten').toggleClass("scale-0");
+                $('#bgmodal').addClass("effectmodal");
+                $('#title').html('Edit Data'); 
+                
+                
+                IdS = '<?php echo $execute[$index]['Id_Supplier']; ?>';
+                $('#name').val('<?php echo $execute[$index]['Nama_Supplier']; ?>');
+                $('#nohp').val('<?php echo $execute[$index]['No_Telp_Supplier']; ?>');
+                $('#ket').val('<?php echo $execute[$index]['Keterangan']; ?>');
+                $('#addres').val('<?php echo $execute[$index]['Alamat']; ?>');
+                
+
+                //start query edit
+                $("#btn_edit").on("click", function(e) {
+                    e.preventDefault();
+                    getData();
+
+                    let formData = new FormData();
+                    formData.append('type', "update");
+                    formData.append('query', "UPDATE supplier SET Nama_Supplier='" + name + "', No_Telp_Supplier='" + nohp + "', Keterangan='" + ket + "', Alamat='" + alamat + "' WHERE Id_Supplier = '" + IdS + "'");
+
+                    if ($('#name').val() == "") {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal',
+                                text: "Nama Tidak Boleh Kosong",
+                            })
+                    } else if ($('#nohp').val() == "") {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal',
+                                text: "Nomor Telepon Tidak Boleh Kosong",
+                            })
+                    } else if ($('#ket').val() == "") {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal',
+                                text: "Keterangan Tidak Boleh Kosong",
+                            })
+                    } else if ($('#addres').val() == "") {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal',
+                                text: "Alamat Tidak Boleh Kosong",
+                            })
+                    }                               
+                    else {
+                            $.ajax({
+                type: "post",
+                url: "../controllers/supplier.php",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(res) {
+                  const data = JSON.parse(res);
+
+                  if (data.status == 'error') {
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Gagal',
+                      text: data.msg,
+                    })
+                  } else {
+                    Swal.fire({
+                      icon: 'success',
+                      title: 'Berhasil',
+                      text: data.msg,
+
+                    }).then(function() {
+                      closeModal();
+                      window.location.replace("master_supplier.php?halaman=<?= $halamanAktif ?>");
+                    });
+                  }
+                }
+              });
+                        }
+                });
+                   
+    });
+    <?php } ?>
 
 
-        // reset 
-        var input = '<?= $input ?>';
+    //close modal 
+    $("#btn_out").on("click", function() {
+        closeModal();
+       
+        $('#bgmodal').removeClass("effectmodal");
+      });
+    
+    $("#btn_batal").on("click", function() {
+        closeModal();
+
+        $('#bgmodal').removeClass("effectmodal");
+      });   
+    
+    }); //end load modal add + edit
+
+    </script>
+
+    <script>
+// load modal
+$("#modal-delete").load("../assets/components/modal_hapus.html", function() {
+
+<?php
+for ($index = 0; $index < count($execute); $index++) {
+?>
+    $('#delete-button-<?php echo $index; ?>').on('click', function() {
+        selected_idsupplier = '<?php echo $execute[$index]['Id_Supplier']; ?>';
+
+        console.log("tes");
+        $('#title_delete').html('Hapus Data ini?');
+
+        $('#modalkontenhapus').removeClass("scale-0");
+        $('#bgmodalhapus').addClass("effectmodal");
+    });
+<?php
+}
+?>
+
+$('#submithapus').on('click', function() {
+    $.ajax({
+        url: '../controllers/supplier.php',
+        type: 'post',
+        data: {
+            'type': 'delete',
+            'query': "DELETE FROM supplier WHERE Id_Supplier = '" + selected_idsupplier + "'",
+        },
+        success: function(res) {
+            $('#modalkontenhapus').toggleClass("scale-100");
+            $('#bgmodalhapus').removeClass("effectmodal");
+            selected_idsupplier = "";
+
+            const data = JSON.parse(res);
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil',
+                text: data.msg,
+            }).then(function() {
+                window.location.replace("master_supplier.php");
+            });
+        }
+    });
+});
+
+$('#closemodalhapus, #cancelmodalhapus').on('click', function() {
+    $('#modalkontenhapus').addClass("scale-0");
+    $('#bgmodalhapus').removeClass("effectmodal");
+    selected_idsupplier = "";
+});
+});
+
+
+    // reset search
+    var input = '<?= $input ?>';
         if (input !== "") {
             $('#btn_reset').removeClass('hidden');
             $('#btn_reset').addClass('flex');
             $('#btn_reset').on('click', function() {
-                window.location.replace("master_pegawai.php");
+                window.location.replace("master_supplier.php");
             })
         }
-
+    //search
         $('#search').keypress(function(e) {
             if (e.which == 13) {
                 if ($('#search').val() == "") {
-                    window.location.replace("master_pegawai.php");
+                    window.location.replace("master_supplier.php");
                 } else {
 
-                    window.location.replace("master_pegawai.php?search=" + $('#search').val());
+                    window.location.replace("master_supplier.php?search=" + $('#search').val());
                 }
             }
         });
+
     </script>
-
-
 </body>
-
 </html>

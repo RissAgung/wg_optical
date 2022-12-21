@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>document</title>
+    <link rel="stylesheet" href="../../css/output.css">
+</head>
+
+<body class=" bg-slate-600 text-[#343948] font-ex-medium">
+    <!-- Modal -->
+    <!-- Background -->
+    <div id="bgmodaldetail" class="hidden w-full h-screen fixed bg-black z-[51] opacity-0 transition duration-300"></div>
+    <!-- konten modal-->
+    <div id="modalkontendetail" class="scale-0 w-[90%] md:w-[60%] lg:w-[40%] bg-white fixed z-[51] left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] shadow-xl rounded-lg transition ease-in-out">
+        <div class="header relative pt-4">
+            <h1 id="title-modal-detail" class=" font-ex-semibold py-4 text-lg text-[#343948] text-start pl-8">Mphstar</h1>
+
+            <div id="closemodaldetail" class="absolute right-5 top-0 items-center h-full cursor-pointer flex text-center  rounded-md transition">
+                <svg id="btn_out" class="cursor-pointer" width="15" height="15" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M7.3289 5.47926L10.6264 2.18142C10.8405 1.93831 10.9539 1.62288 10.9436 1.29924C10.9332 0.975599 10.7999 0.668037 10.5707 0.439072C10.3415 0.210106 10.0337 0.0769213 9.70976 0.0665883C9.38581 0.0562553 9.07009 0.16955 8.82676 0.383443L5.52586 3.67789L2.21901 0.373252C2.10056 0.254916 1.95995 0.161048 1.80519 0.097005C1.65044 0.0329623 1.48457 1.24687e-09 1.31706 0C1.14956 -1.24687e-09 0.983689 0.0329623 0.828933 0.097005C0.674177 0.161048 0.533562 0.254916 0.415117 0.373252C0.296672 0.491587 0.202716 0.632072 0.138614 0.786685C0.0745119 0.941298 0.041519 1.10701 0.041519 1.27436C0.041519 1.44171 0.0745119 1.60743 0.138614 1.76204C0.202716 1.91665 0.296672 2.05714 0.415117 2.17547L3.72282 5.47926L0.425318 8.77625C0.295996 8.89175 0.19162 9.03239 0.118574 9.18957C0.0455293 9.34676 0.00535166 9.51718 0.000499102 9.69041C-0.00435345 9.86364 0.0262212 10.036 0.0903528 10.1971C0.154484 10.3581 0.250824 10.5043 0.373478 10.6269C0.496133 10.7494 0.642522 10.8457 0.80369 10.9097C0.964858 10.9738 1.13742 11.0043 1.31081 10.9995C1.4842 10.9947 1.65478 10.9545 1.81211 10.8815C1.96944 10.8086 2.11021 10.7043 2.22581 10.5751L5.52586 7.28063L8.82251 10.5751C9.06172 10.8141 9.38616 10.9483 9.72446 10.9483C10.0628 10.9483 10.3872 10.8141 10.6264 10.5751C10.8656 10.3361 11 10.0119 11 9.67396C11 9.33598 10.8656 9.01184 10.6264 8.77286L7.3289 5.47926Z" fill="#343948" />
+                </svg>
+            </div>
+        </div>
+
+
+        <div id="form-modal" class="flex flex-col overflow-y-scroll h-[60vh] py-4 px-8 scrollbar-hide">
+            <div class="border-[#DDDDDD] border-[2px] h-full w-full p-2 overflow-y-scroll scrollbar-hide">
+                <div id="no-data" class="hidden justify-center items-center h-full w-full">
+                    <h1>No Data</h1>
+                </div>
+                <table class="w-full h-full">
+                    <tbody id="bodytabel" class="h-full">
+                        <tr>
+                            <td class="tracking-wide p-4 text-sm text-center">1</td>
+                            <td class="tracking-wide p-4 text-sm text-center">DLGH1</td>
+                            <td class="tracking-wide p-4 text-sm text-center">Deasel</td>
+                            <td class="px-4">
+                                <svg width="22" height="22" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect width="18" height="18" rx="5" fill="#F35E58" />
+                                    <path d="M11.1665 5.11079V4.2219C11.1665 3.98615 11.0752 3.76006 10.9127 3.59336C10.7501 3.42666 10.5297 3.33301 10.2998 3.33301H7.69984C7.46998 3.33301 7.24954 3.42666 7.08701 3.59336C6.92448 3.76006 6.83317 3.98615 6.83317 4.2219V5.11079H4.6665V5.99967H5.53317V12.6663C5.53317 13.02 5.67013 13.3591 5.91393 13.6092C6.15773 13.8592 6.48839 13.9997 6.83317 13.9997H11.1665C11.5113 13.9997 11.8419 13.8592 12.0857 13.6092C12.3295 13.3591 12.4665 13.02 12.4665 12.6663V5.99967H13.3332V5.11079H11.1665ZM8.5665 10.8886H7.69984V8.2219H8.5665V10.8886ZM10.2998 10.8886H9.43317V8.2219H10.2998V10.8886ZM10.2998 5.11079H7.69984V4.2219H10.2998V5.11079Z" fill="#501614" />
+                                </svg>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <div id="footer-modal" class="mt-4">
+            <div id="footer-add" class="flex flex-row gap-4 justify-center py-4 text-center items-center">
+                <div id="okemodaldetali" class="cursor-pointer bg-[#1C8066] text-center rounded-md py-2 px-8 text-white text-sm sm:text-lg">
+                    <p class="cursor-pointer">OK</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end modal -->
+
+    <script>
+        function deleteDetailBawa(id) {
+            $.ajax({
+                url: '../controllers/tabelBarangBawaController.php',
+                type: 'POST',
+                data: {
+                    'id': id,
+                },
+                success: function(res) {
+                    const data = JSON.parse(res);
+                    if (data.status == 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil',
+                            text: data.msg,
+                        }).then(function() {
+                            window.location.reload();
+                        });
+                    }
+                }
+            });
+        }
+    </script>
+
+</body>
+
+</html>

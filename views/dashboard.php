@@ -2,8 +2,10 @@
 session_start();
 
 
-if(!isset($_SESSION['statusLogin'])){
+if (!isset($_SESSION['statusLogin'])) {
   header('Location: login.php');
+} else if($_SESSION['level'] == 3 ){
+  header('Location: ../sales/dashboard.php');
 }
 
 ?>
@@ -184,26 +186,27 @@ if(!isset($_SESSION['statusLogin'])){
   <script>
     $(document).idle({
       onIdle: function() {
+        $.ajax({
+          url: '../controllers/loginController.php',
+          type: 'post',
+          data: {
+            'type': 'logout',
+          },
+          success: function() {
+
+          }
+        });
         Swal.fire({
           icon: 'warning',
           title: 'Informasi',
           text: 'Sesi anda telah habis, silahkan login kembali',
 
         }).then(function() {
-          $.ajax({
-            url: '../controllers/loginController.php',
-            type: 'post',
-            data: {
-              'type': 'logout',
-            },
-            success: function() {
-              window.location.replace('../views/login.php');
-            }
-          });
+          window.location.replace('../views/login.php');
         });
 
       },
-      idle: 20000
+      idle: 50000
     });
 
     $(document).ready(function() {

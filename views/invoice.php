@@ -1,6 +1,12 @@
 <?php
 
 include "../config/koneksi.php";
+session_start();
+if (!isset($_SESSION['statusLogin'])) {
+  header('Location: login.php');
+} else if($_SESSION['level'] == 3 ){
+  header('Location: ../sales/dashboard.php');
+}
 
 $crud = new koneksi();
 
@@ -330,7 +336,32 @@ $dataPembelian = $crud->showData("SELECT transaksi.tanggal, transaksi.kode_pesan
 
   <script src="../js/jquery-3.6.1.min.js"></script>
   <script src="../js/sweetalert2.min.js"></script>
+  <script src="../js/jquery.iddle.min.js"></script>
   <script>
+    $(document).idle({
+      onIdle: function() {
+        $.ajax({
+          url: '../controllers/loginController.php',
+          type: 'post',
+          data: {
+            'type': 'logout',
+          },
+          success: function() {
+
+          }
+        });
+        Swal.fire({
+          icon: 'warning',
+          title: 'Informasi',
+          text: 'Sesi anda telah habis, silahkan login kembali',
+
+        }).then(function() {
+          window.location.replace('../views/login.php');
+        });
+
+      },
+      idle: 50000
+    });
     console.log($(document).width());
 
     // load sidebar
