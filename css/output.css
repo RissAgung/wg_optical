@@ -611,14 +611,6 @@ video {
   top: 50px;
 }
 
-.right-5 {
-  right: 1.25rem;
-}
-
-.bottom-4 {
-  bottom: 1rem;
-}
-
 .right-2 {
   right: 0.5rem;
 }
@@ -627,8 +619,17 @@ video {
   top: 1rem;
 }
 
+
 .bottom-3 {
   bottom: 0.75rem;
+}
+
+.right-5 {
+  right: 1.25rem;
+}
+
+.bottom-4 {
+  bottom: 1rem;
 }
 
 .left-32 {
@@ -689,6 +690,18 @@ video {
 
 .z-\[101\] {
   z-index: 101;
+}
+
+.z-\[50\] {
+  z-index: 50;
+}
+
+.z-\[59\] {
+  z-index: 59;
+}
+
+.z-\[60\] {
+  z-index: 60;
 }
 
 .m-auto {
@@ -857,16 +870,16 @@ video {
   margin-right: 11px;
 }
 
-.mb-auto {
-  margin-bottom: auto;
+.ml-4 {
+  margin-left: 1rem;
 }
 
 .mt-8 {
   margin-top: 2rem;
 }
 
-.ml-4 {
-  margin-left: 1rem;
+.mb-auto {
+  margin-bottom: auto;
 }
 
 .mt-7 {
@@ -935,6 +948,14 @@ video {
 
 .ml-\[9px\] {
   margin-left: 9px;
+}
+
+.mt-\[80px\] {
+  margin-top: 80px;
+}
+
+.mt-\[70px\] {
+  margin-top: 70px;
 }
 
 .box-border {
@@ -1355,6 +1376,10 @@ video {
 
 .w-\[115px\] {
   width: 115px;
+}
+
+.w-\[200px\] {
+  width: 200px;
 }
 
 .w-\[85\%\] {
@@ -1989,6 +2014,21 @@ video {
   background-color: rgb(206 118 17 / var(--tw-bg-opacity));
 }
 
+.bg-red-300 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(252 165 165 / var(--tw-bg-opacity));
+}
+
+.bg-\[\#d61a1a\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(214 26 26 / var(--tw-bg-opacity));
+}
+
+.bg-\[\#8b4c4c\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(139 76 76 / var(--tw-bg-opacity));
+}
+
 .bg-opacity-50 {
   --tw-bg-opacity: 0.5;
 }
@@ -2005,12 +2045,12 @@ video {
   fill: #fff;
 }
 
-.fill-\[\#797E8D\] {
-  fill: #797E8D;
-}
-
 .fill-none {
   fill: none;
+}
+
+.fill-\[\#797E8D\] {
+  fill: #797E8D;
 }
 
 .fill-black {
@@ -2311,6 +2351,10 @@ video {
   padding-bottom: 3rem;
 }
 
+.pt-\[100px\] {
+  padding-top: 100px;
+}
+
 .text-center {
   text-align: center;
 }
@@ -2580,6 +2624,15 @@ video {
 
 .ease-in-out {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
 
 @font-face {
@@ -3705,12 +3758,12 @@ select {
     width: 30%;
   }
 
-  .lg\:w-\[45\%\] {
-    width: 45%;
-  }
-
   .lg\:w-\[40\%\] {
     width: 40%;
+  }
+
+  .lg\:w-\[45\%\] {
+    width: 45%;
   }
 
   .lg\:w-\[40vw\] {
