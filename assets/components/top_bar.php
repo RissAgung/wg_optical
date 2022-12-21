@@ -30,7 +30,7 @@
         </svg>
       </div>
 
-      <h1>Riwayat</h1>
+      <h1>Barang</h1>
     </div>
 
     <div class="flex flex-row items-center">
