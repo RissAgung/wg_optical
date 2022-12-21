@@ -210,6 +210,7 @@ $data = (isset($_GET["search"])) ? $crud->showData("SELECT * FROM tambahan WHERE
 
   <script src="../js/jquery-3.6.1.min.js"></script>
   <script src="../js/sweetalert2.min.js"></script>
+  <script src="../js/jquery.iddle.min.js"></script>
   <script>
     $(document).idle({
       onIdle: function() {
@@ -279,12 +280,13 @@ $data = (isset($_GET["search"])) ? $crud->showData("SELECT * FROM tambahan WHERE
       //tambah
       $('#click-modal').on('click', function() {
         chenge("tambah");
+        reset();
 
         $('#bgmodalinput').addClass("effectmodal");
         $('#modalkonten').toggleClass("scale-0");
 
          //chenge("tambah");
-        reset();
+   
         
         $('#title').html('Tambah Data');
         $('#btn_tambah').html('Tambah');
