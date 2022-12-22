@@ -374,7 +374,7 @@ function rupiah($angka)
       $('#btn_reset').removeClass('hidden');
       $('#btn_reset').addClass('flex');
       $('#btn_reset').on('click', function() {
-        window.location.replace("master_product.php");
+        window.location.replace("master_product_tambahan.php");
       })
     }
 
@@ -1035,7 +1035,15 @@ function rupiah($angka)
                 }
               }
             });
+            $('#closemodalhapus').on('click', function() {
+            $('#modalkontenhapus').removeClass("scale-100");
+            $('#bgmodalhapus').removeClass("effectmodal");
+              });
 
+              $('#batal').on('click', function() {
+              $('#modalkontenhapus').removeClass("scale-100");
+              $('#bgmodalhapus').removeClass("effectmodal");
+              });
           })
 
           $('#closemodalhapus').on('click', function() {
