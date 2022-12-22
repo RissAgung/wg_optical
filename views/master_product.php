@@ -5,7 +5,7 @@ $crud = new koneksi();
 
 if (!isset($_SESSION['statusLogin'])) {
   header('Location: login.php');
-} else if($_SESSION['level'] == 3 ){
+} else if ($_SESSION['level'] == 3) {
   header('Location: ../sales/dashboard.php');
 }
 
@@ -17,7 +17,7 @@ $halamanAktif = (isset($_GET["halaman"])) ? $_GET["halaman"] : 1;
 $awalData = ($jumlahDataPerHalaman * $halamanAktif) - $jumlahDataPerHalaman;
 
 $data = (isset($_GET["search"])) ? $crud->showData("SELECT * FROM produk WHERE kode_frame LIKE'%" . $_GET["search"] . "%' LIMIT $awalData, $jumlahDataPerHalaman") : $crud->showData("SELECT * FROM produk LIMIT $awalData, $jumlahDataPerHalaman");
-
+$dataCatalog = $crud->showData("SELECT * FROM produk");
 // $data = $crud->showData("SELECT * FROM produk LIMIT $awalData, $jumlahDataPerHalaman");
 
 function rupiah($angka)
@@ -39,11 +39,17 @@ function rupiah($angka)
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../css/output.css">
   <link rel="stylesheet" href="../css/sweetalert2.min.css">
+  <style>
+  </style>
   <title>Master Data | WG Optical</title>
 </head>
 
+
 <body class="bg-[#F0F0F0] font-ex-color box-border">
 
+  <div id="loading" class="fixed w-full h-full top-0 left-0 flex flex-col justify-center items-center bg-slate-50 z-[99]">
+    <div class="loadingspinner"></div>
+  </div>
 
   <!-- Logout modal -->
   <div id="bgmodal" class="w-full h-screen fixed hidden bg-black z-[51] opacity-0 transition duration-300"></div>
@@ -85,7 +91,7 @@ function rupiah($angka)
   <!-- End Background hitam saat sidebar show -->
 
   <!-- sidebar -->
-  <div id="ex-sidebar" class="ex-sidebar ex-hide-sidebar fixed z-50 max-lg:transition max-lg:duration-[1s]"></div>
+  <div id="ex-sidebar" class="ex-sidebar ex-hide-sidebar fixed z-[52] max-lg:transition max-lg:duration-[1s]"></div>
   <!-- end sidebar -->
 
 
@@ -189,7 +195,7 @@ function rupiah($angka)
       <!-- End Table -->
 
       <!-- Pagination And Info Data -->
-      <div class="flex flex-col-reverse md:flex-row lg:flex-row lg:justify-between md:justify-around lg:px-16 lg:mt-5 items-center mt-3 text-sm">
+      <div class="flex flex-col-reverse md:flex-row lg:flex-row lg:justify-between md:justify-between md:px-14 lg:px-16 lg:mt-5 items-center mt-3 text-sm">
         <div class="flex flex-row mb-3 font-ex-semibold">
           <?php if ($halamanAktif > 4 && $jumlahHalaman > 4) : ?>
             <a class="no-underline" href="?halaman=<?= $halamanAktif - 1 ?>">
@@ -266,10 +272,10 @@ function rupiah($angka)
       <div class="container-catalog flex flex-row flex-wrap overflow-y-scroll scrollbar-hide text-sm mx-auto w-[90%] md:w-[90%] md:mx-auto bg-white rounded-md mt-4 ex-catalog pl-6 pr-[8px] pt-[8pxb ] justify-between max-[391px]:justify-center">
 
         <?php $idx = 1 ?>
-        <?php foreach ($data as $index) : ?>
+        <?php foreach ($dataCatalog as $index) : ?>
           <!-- items -->
-          <div class="max-[400px]:w-[163px] max-md:w-[149px] w-[163px] h-[273px]  shadow-md relative rounded-2xl overflow-hidden mt-4 mr-4">
-            <div class="max-[400px]:w-[163px] max-md:w-[149px] max-[400px]:h-[163px] max-md:h-[149px] h-[163px] w-[163px] bg-red-100 rounded-2xl overflow-hidden">
+          <div class="max-[391px]:w-[163px] max-md:w-[139px] w-[163px] max-md:h-[263px] h-[273px]  shadow-md relative rounded-2xl overflow-hidden mt-4 mr-4">
+            <div class="max-[391px]:w-[163px] max-md:w-[139px] max-[391px]:h-[163px] max-md:h-[139px] h-[163px] w-[163px] bg-red-100 rounded-2xl overflow-hidden">
               <img class="max-[400px]:w-[163px] max-md:w-[149px] max-[400px]:h-[163px] max-md:h-[149px] h-[163px] w-[163px] object-cover" src="../images/produk/<?= $index["gambar"] ?>" alt="product image">
             </div>
             <div class="flex flex-col w-full h-full p-[13px]">
@@ -310,30 +316,30 @@ function rupiah($angka)
   <script src="../js/sweetalert2.min.js"></script>
   <script src="../js/jquery.iddle.min.js"></script>
   <script>
-    $(document).idle({
-      onIdle: function() {
-        $.ajax({
-          url: '../controllers/loginController.php',
-          type: 'post',
-          data: {
-            'type': 'logout',
-          },
-          success: function() {
+    // $(document).idle({
+    //   onIdle: function() {
+    //     $.ajax({
+    //       url: '../controllers/loginController.php',
+    //       type: 'post',
+    //       data: {
+    //         'type': 'logout',
+    //       },
+    //       success: function() {
 
-          }
-        });
-        Swal.fire({
-          icon: 'warning',
-          title: 'Informasi',
-          text: 'Sesi anda telah habis, silahkan login kembali',
+    //       }
+    //     });
+    //     Swal.fire({
+    //       icon: 'warning',
+    //       title: 'Informasi',
+    //       text: 'Sesi anda telah habis, silahkan login kembali',
 
-        }).then(function() {
-          window.location.replace('../views/login.php');
-        });
+    //     }).then(function() {
+    //       window.location.replace('../views/login.php');
+    //     });
 
-      },
-      idle: 50000
-    });
+    //   },
+    //   idle: 50000
+    // });
 
     // top_bar
     $('#top_bar').load("../assets/components/top_bar.php", function() {
@@ -352,6 +358,8 @@ function rupiah($angka)
         $('#bgbody').toggleClass("hidden");
 
       });
+
+      $('#loading').hide();
 
     });
 
@@ -374,17 +382,30 @@ function rupiah($angka)
       return fstring.slice((Math.max(0, fstring.lastIndexOf(".")) || Infinity) + 1);
     }
 
+    function resetField() {
+      $('#imgInp').val(null);
+      console.log("Reset field");
+      $('#kode_txt').val(null);
+      $('#merk_txt').val(null);
+      $('#warna_txt').val(null);
+      $('#harga_txt').val(null);
+      imgpreview_peg.src = "#";
+      $('#imgpreview_peg').addClass("hidden");
+      $('#imgdefault_peg').removeClass("hidden");
+    }
+
     // load modal input
     $("#modal").load("../assets/components/modal_tambah_master_product.html", function() {
       // tambah
       $('#click-modal').on('click', function() {
 
+        chenge("tambah");
+        $("#kode_txt").attr('readonly', false);
+        resetField();
+
         $('#bgmodalinput').addClass("effectmodal");
         $('#modalkonten').removeClass("scale-0");
 
-        chenge("tambah");
-
-        reset();
 
 
         console.log("tambah click");
@@ -467,6 +488,15 @@ function rupiah($angka)
               data: formData,
               contentType: false,
               processData: false,
+              beforeSend: function() {
+                Swal.fire({
+                  title: 'Loading',
+                  html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                  allowOutsideClick: false,
+                  showConfirmButton: false,
+
+                });
+              },
               success: function(res) {
 
                 const data = JSON.parse(res);
@@ -583,6 +613,15 @@ function rupiah($angka)
                   data: formData,
                   contentType: false,
                   processData: false,
+                  beforeSend: function() {
+                    Swal.fire({
+                      title: 'Loading',
+                      html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                      allowOutsideClick: false,
+                      showConfirmButton: false,
+
+                    });
+                  },
                   success: function(res) {
                     const data = JSON.parse(res);
 
@@ -657,6 +696,15 @@ function rupiah($angka)
                   data: formData,
                   contentType: false,
                   processData: false,
+                  beforeSend: function() {
+                    Swal.fire({
+                      title: 'Loading',
+                      html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                      allowOutsideClick: false,
+                      showConfirmButton: false,
+
+                    });
+                  },
                   success: function(res) {
                     const data = JSON.parse(res);
 
@@ -685,7 +733,7 @@ function rupiah($angka)
       <?php endfor ?>
 
       // edit catalog
-      <?php for ($i = 1; $i <= count($data); $i++) : ?>
+      <?php for ($i = 1; $i <= count($dataCatalog); $i++) : ?>
         $('#edit-button-catalog-<?= $i ?>').on('click', function() {
 
           chenge("edit");
@@ -711,13 +759,13 @@ function rupiah($angka)
 
 
           // load data
-          $("#kode_txt").val('<?= $data[$i - 1]["kode_frame"] ?>');
+          $("#kode_txt").val('<?= $dataCatalog[$i - 1]["kode_frame"] ?>');
           $("#kode_txt").attr('readonly', true);
-          $("#merk_txt").val('<?= $data[$i - 1]["merk"] ?>');
-          $("#warna_txt").val('<?= $data[$i - 1]["warna"] ?>');
-          $("#harga_txt").val('<?= rupiah($data[$i - 1]["harga_jual"]) ?>');
+          $("#merk_txt").val('<?= $dataCatalog[$i - 1]["merk"] ?>');
+          $("#warna_txt").val('<?= $dataCatalog[$i - 1]["warna"] ?>');
+          $("#harga_txt").val('<?= rupiah($dataCatalog[$i - 1]["harga_jual"]) ?>');
 
-          imgpreview_peg.src = "../images/produk/<?= $data[$i - 1]["gambar"] ?>";
+          imgpreview_peg.src = "../images/produk/<?= $dataCatalog[$i - 1]["gambar"] ?>";
           $('#imgpreview_peg').removeClass("hidden");
           $('#imgdefault_peg').addClass("hidden");
 
@@ -773,6 +821,15 @@ function rupiah($angka)
                   data: formData,
                   contentType: false,
                   processData: false,
+                  beforeSend: function() {
+                    Swal.fire({
+                      title: 'Loading',
+                      html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                      allowOutsideClick: false,
+                      showConfirmButton: false,
+
+                    });
+                  },
                   success: function(res) {
                     const data = JSON.parse(res);
 
@@ -834,7 +891,7 @@ function rupiah($angka)
 
                 var img_name_produk = formData.get('image_produk')['name'];
                 var generateUniqProduk = "<?php echo uniqid('produk-lensa-', true) . '.' . '"+getFileExtension(img_name_produk).toLowerCase()+"' ?>";
-                var img_name_produk_lama = '<?= $data[$i - 1]["gambar"] ?>';
+                var img_name_produk_lama = '<?= $dataCatalog[$i - 1]["gambar"] ?>';
 
                 formData.append('img_file_produk_baru', generateUniqProduk);
                 formData.append('img_file_produk_lama', img_name_produk_lama);
@@ -847,6 +904,15 @@ function rupiah($angka)
                   data: formData,
                   contentType: false,
                   processData: false,
+                  beforeSend: function() {
+                    Swal.fire({
+                      title: 'Loading',
+                      html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                      allowOutsideClick: false,
+                      showConfirmButton: false,
+
+                    });
+                  },
                   success: function(res) {
                     const data = JSON.parse(res);
 
@@ -944,6 +1010,15 @@ function rupiah($angka)
                 imgPath: img_path,
               },
               cache: false,
+              beforeSend: function() {
+                Swal.fire({
+                  title: 'Loading',
+                  html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                  allowOutsideClick: false,
+                  showConfirmButton: false,
+
+                });
+              },
               success: function(res) {
                 const data = JSON.parse(res);
 
@@ -987,10 +1062,10 @@ function rupiah($angka)
       <?php endfor ?>
 
       // delete catalog
-      <?php for ($i = 1; $i <= count($data); $i++) : ?>
+      <?php for ($i = 1; $i <= count($dataCatalog); $i++) : ?>
         $('#delete-button-catalog-<?= $i ?>').on('click', function() {
-          var id = '<?= $data[$i - 1]["kode_frame"] ?>';
-          var img_path = '<?= $data[$i - 1]["gambar"] ?>';
+          var id = '<?= $dataCatalog[$i - 1]["kode_frame"] ?>';
+          var img_path = '<?= $dataCatalog[$i - 1]["gambar"] ?>';
 
           $('#title_delete').html('Hapus Data Pegawai ini?');
 
@@ -1009,6 +1084,15 @@ function rupiah($angka)
                 imgPath: img_path,
               },
               cache: false,
+              beforeSend: function() {
+                Swal.fire({
+                  title: 'Loading',
+                  html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                  allowOutsideClick: false,
+                  showConfirmButton: false,
+
+                });
+              },
               success: function(res) {
                 const data = JSON.parse(res);
 
@@ -1028,13 +1112,13 @@ function rupiah($angka)
 
           $('#closemodalhapus').on('click', function() {
 
-            $('#modalkontenhapus').removeClass("scale-0");
+            $('#modalkontenhapus').addClass("scale-0");
             $('#bgmodalhapus').removeClass("effectmodal");
           });
 
           $('#cancelmodalhapus').on('click', function() {
 
-            $('#modalkontenhapus').removeClass("scale-0");
+            $('#modalkontenhapus').addClass("scale-0");
             $('#bgmodalhapus').removeClass("effectmodal");
           });
 
