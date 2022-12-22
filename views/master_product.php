@@ -383,6 +383,7 @@ function rupiah($angka)
     }
 
     function resetField() {
+      $('#imgInp').val(null);
       console.log("Reset field");
       $('#kode_txt').val(null);
       $('#merk_txt').val(null);
