@@ -13,6 +13,7 @@ function jenis($lensa, $frame)
 {
 
   $status = "";
+  $harga = 0;
 
   if ($lensa !== null && $frame  !== null) {
     $status = "Frame & Lensa";
@@ -181,6 +182,7 @@ function rupiah($angka)
       <div class=" overflow-y-scroll scrollbar-hide">
 
         <?php foreach ($dataCart as $index) : ?>
+          
           <div class="bg-white my-4 mx-6 rounded-lg shadow-sm">
             <div class="flex flex-row relative">
               <div class="flex items-center px-2">

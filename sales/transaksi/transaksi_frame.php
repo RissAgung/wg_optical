@@ -6,7 +6,7 @@ include "../../config/koneksi.php";
 $con = new koneksi();
 
 $idPegawai = $_SESSION["idPeg"];
-$dataLens = $con->showData("SELECT * FROM detail_bawa JOIN produk ON detail_bawa.Kode_Frame = produk.kode_frame WHERE detail_bawa.Id_pegawai = '$idPegawai'");
+$dataLens = $con->showData("SELECT * FROM detail_bawa JOIN produk ON detail_bawa.Kode_Frame = produk.kode_frame LEFT JOIN keranjang_frame ON detail_bawa.Id_Bawa = keranjang_frame.id_bawa WHERE kode_pesanan IS NULL AND detail_bawa.Id_pegawai = '$idPegawai'");
 
 ?>
 
