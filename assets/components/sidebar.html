@@ -138,7 +138,7 @@
                 <!-- end salary -->
 
                 <!-- grafik -->
-                <a href="../views/grafik_keuangan.html">
+                <a href="../views/grafik_keuangan.php">
                     <div id="grafik_keuangan" class="ex-hover-sidebar h-14 flex flex-row items-center justify-start rounded-lg px-5">
                         <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12.6455 11.3457L18.5548 17.255C19.9665 15.5886 20.8215 13.5224 21 11.3457H12.6455Z" fill="white" />
@@ -161,17 +161,7 @@
                     </div>
                 </a> -->
                 <!-- end pengeluaran -->
-                <!-- barang bawa -->
-                <a href="../views/barang_bawa.php">
-                    <div id="barang_bawa" class="ex-hover-sidebar h-14 flex flex-row items-center justify-start rounded-lg px-5">
-                        <svg width="21" height="21" viewBox="0 0 21 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M10.5 11.7C4.61212 11.7 0 9.1305 0 5.85C0 2.5695 4.61212 0 10.5 0C16.3879 0 21 2.5695 21 5.85C21 9.1305 16.3879 11.7 10.5 11.7ZM14 17.6724C14.9476 17.4915 15.8287 17.2395 16.625 16.9245V12.5325C15.8112 12.8151 14.9292 13.0356 14 13.1976V17.6715V17.6724ZM4.375 16.9245C5.17125 17.2386 6.05237 17.4906 7 17.6724V13.1985C6.07075 13.0365 5.18875 12.816 4.375 12.5334V16.9254V16.9245ZM12.25 13.4262C11.6804 13.473 11.0976 13.5 10.5 13.5C9.90238 13.5 9.31962 13.473 8.75 13.4262V17.9154C9.31962 17.9667 9.90063 18 10.5 18C11.0994 18 11.6804 17.9667 12.25 17.9154V13.4262ZM18.375 11.7738V16.0488C20.0104 15.0201 21 13.6629 21 12.15V9.8883C20.3053 10.6137 19.4093 11.2428 18.375 11.7747V11.7738ZM2.625 11.7738C1.59075 11.2419 0.69475 10.6128 0 9.8874V12.1491C0 13.662 0.989625 15.0201 2.625 16.0479V11.7729V11.7738Z" fill="white" />
-                        </svg>
 
-                        <h2 class="ml-3">Barang Bawa</h2>
-                    </div>
-                </a>
-                <!-- end barang bawa -->
 
 
 
@@ -219,6 +209,7 @@
         $('#button-logout').on('click', function() {
             console.log('aawas');
             Swal.fire({
+                icon: 'question',
                 title: 'Apakah anda yakin keluar?',
                 showDenyButton: true,
                 confirmButtonText: 'Ya',
