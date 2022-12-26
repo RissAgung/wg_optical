@@ -81,7 +81,7 @@
             <div class="flex flex-col md:flex-row items-center mt-3 md:mt-0">
                 <!-- Button Add -->
                 <div class="md:my-auto h-10 w-24 font-ex-semibold text-white mt-3 md:mt-0" id="click-modal">
-                    <button class="bg-[#ffffff] drop-shadow-sm text-[#343948] text-sm h-full w-full rounded-md">Filter</button>
+                    <button onclick="filter()" class="bg-[#ffffff] drop-shadow-sm text-[#343948] text-sm h-full w-full rounded-md">Filter</button>
                 </div>
                 <!-- End Button Add -->
 
@@ -119,31 +119,10 @@
     <script src="../js/sweetalert2.min.js"></script>
     <script src="../js/jquery.iddle.min.js"></script>
     <script>
-        $(document).idle({
-            onIdle: function() {
-                $.ajax({
-                    url: '../controllers/loginController.php',
-                    type: 'post',
-                    data: {
-                        'type': 'logout',
-                    },
-                    success: function() {
-
-                    }
-                });
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Informasi',
-                    text: 'Sesi anda telah habis, silahkan login kembali',
-
-                }).then(function() {
-                    window.location.replace('../views/login.php');
-                });
-
-            },
-            idle: 50000
-        });
-
+        var dataframe = [];
+        var datalensa = [];
+        var datafullset = [];
+        var categories = [];
         // chart
         var sizeChart;
         if ($(document).width() >= 720 && $(document).width() < 1080) {
@@ -224,27 +203,33 @@
                     color: '#263238'
                 },
             },
+            noData: {
+                text: "No Data",
+                align: 'center',
+                verticalAlign: 'middle',
+                offsetX: 0,
+                offsetY: 0,
+                style: {
+                    color: undefined,
+                    fontSize: '14px',
+                    fontFamily: undefined
+                }
+            },
 
-
-            series: [{
-                    name: 'Pemasukkan',
-                    data: [30, 20, 45, 50, 32, 60, 42],
-                },
-                {
-                    name: 'Pengeluaran',
-                    data: [34, 40, 33, 25, 49, 42, 70]
-                },
-
-            ],
+            series: getSeries(),
             stroke: {
                 colors: ["transparent"],
                 width: 2
             },
 
-            colors: ['#ED30A2', '#0782C8'],
+            colors: ['#ED30A2', '#0782C8', '#00ff00'],
 
             xaxis: {
-                categories: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu']
+                type: 'category',
+                categories: [],
+                labels: {
+                    show: true,
+                },
             }
 
         }
@@ -252,6 +237,161 @@
         var chart = new ApexCharts(document.querySelector("#chart"), options);
 
         chart.render();
+
+        loadSeries();
+        getCategories();
+
+        function loadSeries() {
+            getSeriesLensa();
+            getSeriesFrame();
+            getSeriesFullset();
+        }
+
+
+        function filter() {
+            // getCategories();
+            // getSeriesLensa();
+            // data.push(4);
+            // console.log(data);
+
+        }
+
+        function getSeries() {
+
+            return [{
+                name: 'Frame',
+                data: dataframe,
+                borderWidth: 1
+            }, {
+                name: 'Lensa',
+                data: datalensa,
+                borderWidth: 1
+            }, {
+                name: 'Fullset',
+                data: datafullset,
+                borderWidth: 1
+            }]
+        }
+
+        function getSeriesLensa() {
+            $.ajax({
+                url: '../controllers/laporanController.php?type=getLensa',
+                type: 'GET',
+                success: function(res) {
+                    //alert(res);
+                    const data = JSON.parse(res);
+                    categories = [];
+                    for (let index = 0; index < data.length; index++) {
+                        const element = data[index];
+                        // categories = element.kecamatan;
+                        //dataframe.push(20);
+                        datalensa.push(element.jumlah);
+                        // datafullset.push(5);
+                        // options.series[1].data.push(element.jumlah);
+                        //alert(element.jumlah);
+                    }
+                    chart.update();
+                }
+            });
+        }
+
+        function getSeriesFullset() {
+            $.ajax({
+                url: '../controllers/laporanController.php?type=getFullset',
+                type: 'GET',
+                success: function(res) {
+                    //alert(res);
+                    const data = JSON.parse(res);
+                    categories = [];
+                    for (let index = 0; index < data.length; index++) {
+                        const element = data[index];
+                        // categories = element.kecamatan;
+                        //dataframe.push(20);
+                        // datalensa.push(element.jumlah);
+                        datafullset.push(element.jumlah);
+                        // options.series[1].data.push(element.jumlah);
+                        //alert(element.jumlah);
+                    }
+                    chart.update();
+                }
+            });
+        }
+
+        function getSeriesFrame() {
+            $.ajax({
+                url: '../controllers/laporanController.php?type=getFrame',
+                type: 'GET',
+                success: function(res) {
+                    //alert(res);
+                    const data = JSON.parse(res);
+                    categories = [];
+                    for (let index = 0; index < data.length; index++) {
+                        const element = data[index];
+                        // categories = element.kecamatan;
+                        dataframe.push(element.jumlah);
+
+                        //datafullset.push(5);
+                        // options.series[1].data.push(element.jumlah);
+                        //alert(element.jumlah);
+                    }
+                    chart.update();
+                }
+            });
+        }
+
+        function getCategories() {
+            $.ajax({
+                url: '../controllers/laporanController.php?type=getWilayah',
+                type: 'GET',
+                success: function(res) {
+                    //alert(res);
+                    const data = JSON.parse(res);
+                    categories = [];
+                    for (let index = 0; index < data.length; index++) {
+                        const element = data[index];
+                        // categories = element.kecamatan;
+                        //options.series[0].data.push(10);
+                        // options.series[1].data.push(20);
+                        //options.series[2].data.push(5);
+
+                        options.xaxis.categories.push(element.kecamatan);
+
+                    }
+                    //alert(categories);
+
+                    chart.update();
+
+                }
+            });
+        }
+
+
+        // $(document).idle({
+        //     onIdle: function() {
+        //         $.ajax({
+        //             url: '../controllers/loginController.php',
+        //             type: 'post',
+        //             data: {
+        //                 'type': 'logout',
+        //             },
+        //             success: function() {
+
+        //             }
+        //         });
+        //         Swal.fire({
+        //             icon: 'warning',
+        //             title: 'Informasi',
+        //             text: 'Sesi anda telah habis, silahkan login kembali',
+
+        //         }).then(function() {
+        //             window.location.replace('../views/login.php');
+        //         });
+
+        //     },
+        //     idle: 50000
+        // });
+
+
 
         // load sidebar
         $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
@@ -321,11 +461,10 @@
             $('#tablaporan').removeClass("tab-focus");
             $('#tabgatau').removeClass("tab-focus");
 
-            function reload_js(src) {
-                $('script[src="' + src + '"]').remove();
-                $('<script>').attr('src', src).appendTo('head');
-            }
-            reload_js('../js/app.js');
+
+            // chart.update();
+            chart.updateSeries(getSeries(), true);
+
 
         });
 
