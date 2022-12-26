@@ -9,17 +9,15 @@
     <link rel="stylesheet" href="../css/output.css">
     <link rel="stylesheet" href="../css/apexcharts.css">
     <link rel="stylesheet" href="../css/sweetalert2.min.css">
+    <link rel="stylesheet" href="../css/datePicker.css">
+    <link rel="stylesheet" href="../css/daterangepicker.css">
 </head>
 
 <body class="bg-[#F0F0F0] font-ex-color box-border">
 
-
-
-    <!-- modal -->
-    <div class="fixed left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] z-[51] scale-0 transition ease-in-out" id="modal">
-
-    </div>
-    <!-- end modal -->
+    <!-- modal detail -->
+    <div id="modal_filter_date" class=""></div>
+    <!-- end modal detail -->
 
     <!-- Background hitam saat sidebar show -->
     <div id="bgbody" class="w-full h-screen bg-black fixed z-50 bg-opacity-50 hidden"></div>
@@ -34,38 +32,8 @@
     <div class="lg:ml-72">
 
 
-        <div class="w-full h-16 bg-white flex items-center md:justify-between md:px-5 justify-around">
-            <div class="flex flex-row uppercase font-ex-bold text-sm items-center">
+        <div id="top_bar">
 
-                <!-- hamburger -->
-                <div class="ex-burger mr-2 lg:hidden absolute" id="burger">
-                    <?xml version="1.0" encoding="UTF-8"?>
-                    <svg xmlns="http://www.w3.org/2000/svg" id="Isolation_Mode" data-name="Isolation Mode" viewBox="0 0 24 24" width="20" height="20">
-                        <rect y="10.5" width="24" height="3" />
-                        <rect y="3.5" width="24" height="3" />
-                        <rect y="17.5" width="24" height="3" />
-                    </svg>
-                </div>
-                <div class="ex-burger mr-2 lg:hidden">
-                    <?xml version="1.0" encoding="UTF-8"?>
-                    <svg xmlns="http://www.w3.org/2000/svg" id="Isolation_Mode" data-name="Isolation Mode" viewBox="0 0 24 24" width="20" height="20">
-                        <rect y="10.5" width="24" height="3" />
-                        <rect y="3.5" width="24" height="3" />
-                        <rect y="17.5" width="24" height="3" />
-                    </svg>
-                </div>
-
-                <h1>Grafik Keuangan</h1>
-            </div>
-            <div class="flex flex-row items-center">
-                <div class="mr-4">
-                    <svg width="24" height="26" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M23.8313 21.0763L23.5594 20.8364C22.788 20.1491 22.1129 19.361 21.5521 18.4933C20.9397 17.2957 20.5727 15.9879 20.4725 14.6467V10.6961C20.4778 8.58936 19.7136 6.55319 18.3235 4.97017C16.9334 3.38714 15.013 2.36623 12.9233 2.09923V1.06761C12.9233 0.784463 12.8108 0.512912 12.6106 0.312696C12.4104 0.11248 12.1388 0 11.8557 0C11.5725 0 11.301 0.11248 11.1008 0.312696C10.9005 0.512912 10.7881 0.784463 10.7881 1.06761V2.11523C8.71703 2.40147 6.81989 3.42855 5.44804 5.00626C4.07618 6.58396 3.32257 8.60538 3.32679 10.6961V14.6467C3.22663 15.9879 2.85958 17.2957 2.24718 18.4933C1.69609 19.3588 1.03178 20.1468 0.271901 20.8364L0 21.0763V23.3315H23.8313V21.0763Z" fill="#444D68" />
-                        <path d="M9.81348 24.1712C9.8836 24.6781 10.1348 25.1425 10.5206 25.4787C10.9065 25.8148 11.401 26 11.9127 26C12.4245 26 12.9189 25.8148 13.3048 25.4787C13.6906 25.1425 13.9418 24.6781 14.0119 24.1712H9.81348Z" fill="#444D68" />
-                    </svg>
-                </div>
-                <img class="w-10 h-10 rounded-full" src="https://upload.wikimedia.org/wikipedia/id/d/d5/Aang_.jpg" alt="Rounded avatar">
-            </div>
         </div>
 
         <div class="mt-3 flex items-center flex-col md:flex-row md:justify-around lg:justify-between lg:px-16 md:py-[3px]">
@@ -114,15 +82,29 @@
 
 
     </div>
-    <script src="../js/apexcharts.js"></script>
     <script src="../js/jquery-3.6.1.min.js"></script>
+    <script src="../js/apexcharts.js"></script>
     <script src="../js/sweetalert2.min.js"></script>
     <script src="../js/jquery.iddle.min.js"></script>
+    <script src="../js/moment.js"></script>
+    <script src="../js/DateRangePicker.js"></script>
+    <script src="../js/datePicker.js"></script>
     <script>
         var dataframe = [];
         var datalensa = [];
         var datafullset = [];
         var categories = [];
+
+        // load modal filter date
+        $("#modal_filter_date").load("../assets/components/modal_filter_date.php", function() {
+            $("#closefilterdate").on("click", function() {
+                $('#modalkontendate').addClass("scale-0");
+                $('#bgmodaldate').removeClass("effectmodal");
+            });
+
+        });
+
+
         // chart
         var sizeChart;
         if ($(document).width() >= 720 && $(document).width() < 1080) {
@@ -249,11 +231,9 @@
 
 
         function filter() {
-            // getCategories();
-            // getSeriesLensa();
-            // data.push(4);
-            // console.log(data);
-
+            console.log('dwad');
+            $('#modalkontendate').removeClass("scale-0");
+            $('#bgmodaldate').addClass("effectmodal");
         }
 
         function getSeries() {
@@ -395,35 +375,12 @@
 
         // load sidebar
         $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
-
             $('#grafik_keuangan').addClass("hover-sidebar");
-
         });
 
-        // load modal input
-        $("#modal").load("../assets/components/modal_tambah_master_product.html", function() {
-
-            $("#btn_out").on("click", function() {
-                $('#modal').addClass("scale-0");
-                $('#bgmodal').removeClass("effectmodal");
-            });
-
-            $("#btn_batal").on("click", function() {
-                $('#modal').addClass("scale-0");
-                $('#bgmodal').removeClass("effectmodal");
-            });
-
-            $("#btn_tambah").on("click", function() {
-                $('#modal').addClass("scale-0");
-                $('#bgmodal').removeClass("effectmodal");
-            });
-
-        });
-
-        // auto hide sidebar
-        if ($(document).width() >= 1024) {
-            $('#ex-sidebar').removeClass("ex-hide-sidebar");
-        } else {
+        // top_bar
+        $('#top_bar').load("../assets/components/top_bar.php", function() {
+            $('#title-header').html('Master Data Pegawai');
             $("#burger").on("click", function() {
                 $('#bgbody').toggleClass("hidden");
 
@@ -436,9 +393,27 @@
                 $('#burger').toggleClass("show");
 
                 $('#bgbody').toggleClass("hidden");
-
             });
-        }
+        });
+
+
+
+        // auto hide sidebar
+
+        $("#burger").on("click", function() {
+            $('#bgbody').toggleClass("hidden");
+
+            $('#ex-sidebar').toggleClass("ex-hide-sidebar");
+            $('#burger').toggleClass("show");
+        });
+
+        $("#bgbody").on("click", function() {
+            $('#ex-sidebar').toggleClass("ex-hide-sidebar");
+            $('#burger').toggleClass("show");
+
+            $('#bgbody').toggleClass("hidden");
+
+        });
 
         $('#click-modal').on('click', function() {
             console.log("modal click");

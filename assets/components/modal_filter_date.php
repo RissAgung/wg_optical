@@ -1,3 +1,10 @@
+<?php
+date_default_timezone_set("Asia/Bangkok");
+
+$date = getdate();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,17 +13,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../css/output.css">
-    <link rel="stylesheet" href="../../css/datePicker.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-
     <title>Document</title>
 </head>
 
 <body id="bodynya" class=" bg-slate-600 text-[#343948] font-ex-medium">
     <!-- Background -->
-    <div id="bgmodal" class="w-full h-screen fixed bg-black z-[51] opacity-0 transition duration-300"></div>
+    <div id="bgmodaldate" class="hidden w-full h-screen fixed bg-black z-[51] opacity-0 transition duration-300"></div>
     <!-- konten modal-->
-    <div id="modalkonten" class="w-[90%] md:w-[55%] lg:w-[40%] xl:w-[35%] 2xl:w-[25%] bg-white fixed z-[51] left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] shadow-xl rounded-lg  transition ease-in-out">
+    <div id="modalkontendate" class="scale-0 w-[90%] md:w-[55%] lg:w-[40%] xl:w-[35%] 2xl:w-[25%] bg-white fixed z-[51] left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] shadow-xl rounded-lg  transition ease-in-out">
         <div class="flex flex-col md:flex-row justify-center overflow-hidden">
             <div class="flex max-[767px]:h-20 drop-shadow-md z-[100] bg-white w-full md:w-[50%]">
                 <li class="flex flex-row px-3 ml-2 md:ml-0 w-full md:py-8 scrollbar-hide overflow-x-scroll overflow-y-hidden md:overflow-x-hidden md:flex-col justify-between md:justify-center md:mb-20 items-center">
@@ -53,7 +57,11 @@
                     <div class="flex flex-col items-start w-full gap-2">
                         <h1 class="w-1/2 font-semibold text-sm text-start">Tahun</h1>
                         <div class="h-[50px] w-full border border-[#C9C9C9] rounded-lg overflow-hidden">
-                            <input type="text" name="" class="h-full w-full border-0 outline-none px-4" id="txt_nama">
+                            <select name="txt_level" id="txt_level" class="h-full w-full outline-0 border-0 px-4">
+                                <?php for ($i = ($date['year'] - 10); $i < ($date['year'] + 10); $i++) : ?>
+                                    <option <?php echo $i == $date['year'] ? "selected" : ""; ?> value="<?= $i; ?>"><?= $i; ?></option>
+                                <?php endfor ?>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -61,7 +69,11 @@
                     <div class="flex flex-col items-start w-full gap-2">
                         <h1 class="w-1/2 font-semibold text-sm text-start">Tahun</h1>
                         <div class="h-[50px] w-full border border-[#C9C9C9] rounded-lg overflow-hidden">
-                            <input type="text" name="" class="h-full w-full border-0 outline-none px-4" id="txt_nama">
+                            <select name="txt_level" id="txt_level" class="h-full w-full outline-0 border-0 px-4">
+                                <?php for ($i = ($date['year'] - 10); $i < ($date['year'] + 10); $i++) : ?>
+                                    <option <?php echo $i == $date['year'] ? "selected" : ""; ?> value="<?= $i; ?>"><?= $i; ?></option>
+                                <?php endfor ?>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -75,21 +87,20 @@
                 </div>
             </div>
         </div>
-        <div id="footer-modal" class="mt-4 fixed bottom-0 z-[9999] bg-white w-full">
+        <div id="footer-modaldate" class="mt-4 fixed bottom-0 z-[9999] bg-white w-full">
             <div class="h-[1px] bg-[#C9C9C9]"></div>
             <div class="flex flex-row justify-end gap-4 px-4 py-2">
-                <div id="apply" class="bg-slate-600 cursor-pointer w-[70px] md:w-[80px] text-center rounded-md py-1 text-white text-sm sm:text-lg">
-                    <p>Submit Filter</p>
+                <div id="closefilterdate" class="bg-slate-600 cursor-pointer w-[70px] md:w-[80px] text-center rounded-md py-1 text-white text-sm sm:text-lg">
+                    <p>Cancel</p>
                 </div>
-
+                <div id="apply" class="bg-slate-600 cursor-pointer w-[70px] md:w-[80px] text-center rounded-md py-1 text-white text-sm sm:text-lg">
+                    <p>Apply</p>
+                </div>
             </div>
         </div>
     </div>
     <!-- end modal -->
-    <script src="../../js/jquery-3.6.1.min.js"></script>
-    <script src="../../js/datePicker.js"></script>
-    <script src="../../js/moment.js"></script>
-    <script src="../../js/DateRangePicker.js"></script>
+ 
     <script>
         var selectedTab = 'Harian';
         const pilihan = ['harian', 'mingguan', 'bulanan', 'tahunan', 'range'];
