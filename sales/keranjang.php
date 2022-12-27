@@ -238,7 +238,6 @@ function rupiah($angka)
   <script src="../js/jquery-3.6.1.min.js"></script>
   <script src="../js/sweetalert2.min.js"></script>
   <script>
-    
     function getDateNow() {
       var date = new Date();
       var strdate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
@@ -550,42 +549,91 @@ function rupiah($angka)
 
       if ($('#opsi-pembayaran').val() == 'Lunas') {
         kembalian = bayar - total;
-      } else {
-        kembalian = 0;
-      }
 
-      $.ajax({
-        url: "../controllers/transaksiController.php",
-        type: 'POST',
-        data: {
-          'type': 'insert',
-          'txt_nama': nama,
-          'txt_nohp': nohp,
-          'txt_pekerjaan': pekerjaan,
-          'txt_instansi': instansi,
-          'txt_kecamatan': kecamatan,
-          'txt_desa': desa,
-          'txt_alamat': alamat,
-          'total': bayar,
-          'total_harga': total,
-          'data': JSON.stringify(kodeTR),
-          'proses_pembayaran': convertProsesPembayaran(),
-          'kembalian': kembalian,
-          'tgljatuhtempo': tgljatuhtempo.getFullYear() + '-' + (tgljatuhtempo.getMonth() + 1) + '-' + tgljatuhtempo.getDate(),
-        },
-        success: function(res) {
-          const data = JSON.parse(res);
-          if (data.status == 'success') {
-            Swal.fire({
-              icon: 'success',
-              title: 'Berhasil',
-              text: data.msg,
-            }).then(function() {
-              window.location.replace("dashboard.php");
-            });
-          }
-        },
-      });
+        if (bayar < total) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Gagal',
+            text: 'Jumlah bayar kurang dari total pesanan',
+          });
+        } else {
+          $.ajax({
+            url: "../controllers/transaksiController.php",
+            type: 'POST',
+            data: {
+              'type': 'insert_lunas',
+              'txt_nama': nama,
+              'txt_nohp': nohp,
+              'txt_pekerjaan': pekerjaan,
+              'txt_instansi': instansi,
+              'txt_kecamatan': kecamatan,
+              'txt_desa': desa,
+              'txt_alamat': alamat,
+              'total': bayar,
+              'total_harga': total,
+              'data': JSON.stringify(kodeTR),
+              'proses_pembayaran': convertProsesPembayaran(),
+              'kembalian': kembalian,
+              'tgljatuhtempo': getDateNow(),
+              // 'tgljatuhtempo': tgljatuhtempo.getFullYear() + '-' + (tgljatuhtempo.getMonth() + 1) + '-' + tgljatuhtempo.getDate(),
+            },
+            success: function(res) {
+              const data = JSON.parse(res);
+              if (data.status == 'success') {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Berhasil',
+                  text: data.msg,
+                }).then(function() {
+                  window.location.replace("dashboard.php");
+                });
+              }
+            },
+          });
+        }
+      } else if($('#opsi-pembayaran').val() == 'Cicilan') {
+        kembalian = 0;
+        if (bayar >= total) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Gagal',
+            text: 'Jumlah bayar tidak sesuai dengan jenis pembayaran',
+          });
+        } else {
+          $.ajax({
+            url: "../controllers/transaksiController.php",
+            type: 'POST',
+            data: {
+              'type': 'insert_cicilan',
+              'txt_nama': nama,
+              'txt_nohp': nohp,
+              'txt_pekerjaan': pekerjaan,
+              'txt_instansi': instansi,
+              'txt_kecamatan': kecamatan,
+              'txt_desa': desa,
+              'txt_alamat': alamat,
+              'total': bayar,
+              'total_harga': total,
+              'data': JSON.stringify(kodeTR),
+              'proses_pembayaran': convertProsesPembayaran(),
+              'kembalian': kembalian,
+              'tgljatuhtempo': tgljatuhtempo.getFullYear() + '-' + (tgljatuhtempo.getMonth() + 1) + '-' + tgljatuhtempo.getDate(),
+            },
+            success: function(res) {
+              const data = JSON.parse(res);
+              if (data.status == 'success') {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Berhasil',
+                  text: data.msg,
+                }).then(function() {
+                  window.location.replace("dashboard.php");
+                });
+              }
+            },
+          });
+        }
+      }
     }
   </script>
 
