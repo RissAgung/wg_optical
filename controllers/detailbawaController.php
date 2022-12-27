@@ -18,8 +18,14 @@ for ($i = 0; $i < count($_POST); $i++) {
         for ($z = 1; $z <= $data[$i]['jumlah']; $z++) {
             $detailbawa = $data[$i]['kode'] . '-' . $z;
             $kodeframe = $data[$i]['kode'];
-            $exec->execute("INSERT INTO detail_bawa VALUES ('" . $detailbawa . "', '" . $data[$i]['pegawai'] . "' ,'" . $kodeframe . "')");
+            $exec->execute("INSERT INTO detail_bawa VALUES ('" . $detailbawa . "', '" . $data[$i]['pegawai'] . "' ,'" . $kodeframe . "', 'ready')");
         }
+        $response = array(
+            'status' => 'success',
+            'msg' => 'Berhasil Menambahkan Barang'
+        );
+        echo json_encode($response);
+        exit();
     } else {
 
         for ($g = 0; $g < $data[$i]['jumlah']; $g++) {
@@ -41,7 +47,7 @@ for ($i = 0; $i < count($_POST); $i++) {
                 $detailbawa = $data[$i]['kode'] . '-' . min($missing);
                 $kodeframe = $data[$i]['kode'];
 
-                $exec->execute("INSERT INTO detail_bawa VALUES ('" . $detailbawa . "', '" . $data[$i]['pegawai'] . "' ,'" . $kodeframe . "')");
+                $exec->execute("INSERT INTO detail_bawa VALUES ('" . $detailbawa . "', '" . $data[$i]['pegawai'] . "' ,'" . $kodeframe . "', 'ready')");
 
                 //var_dump($missing);
             } else {
@@ -50,13 +56,17 @@ for ($i = 0; $i < count($_POST); $i++) {
                     $detailbawa = $data[$i]['kode'] . '-' . $z;
                     $kodeframe = $data[$i]['kode'];
 
-                    $exec->execute("INSERT INTO detail_bawa VALUES ('" . $detailbawa . "', '" . $data[$i]['pegawai'] . "' ,'" . $kodeframe . "')");
-                    echo $detailbawa;
+                    $exec->execute("INSERT INTO detail_bawa VALUES ('" . $detailbawa . "', '" . $data[$i]['pegawai'] . "' ,'" . $kodeframe . "', 'ready')");
+                    // echo $detailbawa;
                 }
             }
         }
-
-
+        $response = array(
+            'status' => 'success',
+            'msg' => 'Berhasil Menambahkan Barang'
+        );
+        echo json_encode($response);
+        exit();
         //   var_dump($tempDataMissing);
     }
 }

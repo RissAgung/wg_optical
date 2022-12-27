@@ -5,7 +5,7 @@ $con = new koneksi();
 if (isset($_GET['id'])) {
 
 
-    $data = $con->showData("SELECT * FROM detail_bawa JOIN produk ON detail_bawa.Kode_Frame = produk.Kode_frame WHERE detail_bawa.id_pegawai = '" . $_GET['id'] . "'");
+    $data = $con->showData("SELECT * FROM detail_bawa JOIN produk ON detail_bawa.Kode_Frame = produk.Kode_frame WHERE detail_bawa.id_pegawai = '" . $_GET['id'] . "' AND status_frame = 'ready'");
     $arr = [];
     foreach ($data as $value) {
         array_push($arr, array(
