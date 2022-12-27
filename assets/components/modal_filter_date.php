@@ -100,10 +100,13 @@ $date = getdate();
         </div>
     </div>
     <!-- end modal -->
- 
+
     <script>
+        datenow = new Date();
+        
         var selectedTab = 'Harian';
         const pilihan = ['harian', 'mingguan', 'bulanan', 'tahunan', 'range'];
+        var selectedFilterHarian = datenow.getFullYear() + '-' + (datenow.getMonth() + 1) + '-' + datenow.getDate();
 
         function clickTab(name) {
             for (let index = 0; index < pilihan.length; index++) {
@@ -121,7 +124,7 @@ $date = getdate();
             $('#div-' + name).removeClass('hidden');
             $('#div-' + name).addClass('flex');
             selectedTab = name;
-            console.log('#' + name);
+            // console.log('#' + name);
         }
 
         $('#inputDateRange').on('keydown', function(e) {
@@ -134,6 +137,14 @@ $date = getdate();
             todayHighlight: true,
             endDate: '+367d',
             // ...options
+        });
+
+        hari.addEventListener('changeDate', function(evt) {
+            dateharian = new Date(evt.detail.date);
+            selectedFilterHarian = dateharian.getFullYear() + '-' + (dateharian.getMonth() + 1) + '-' + dateharian.getDate();
+
+            // alert(ateharian.getFullYear() + '-' + (dateharian.getMonth() + 1) + '-' + dateharian.getDate());
+
         });
 
         const minggu = document.getElementById('div-mingguan');
@@ -154,7 +165,7 @@ $date = getdate();
             }, function(start, end, label) {
                 getDateRange = start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD');
                 $('button[name="daterange"]').html('<p>' + getDateRange + '</p>')
-                console.log(getDateRange);
+                // console.log(getDateRange);
             });
         });
 

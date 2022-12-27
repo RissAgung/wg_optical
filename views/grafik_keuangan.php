@@ -14,7 +14,9 @@
 </head>
 
 <body class="bg-[#F0F0F0] font-ex-color box-border">
-
+    <div id="loading" class="fixed w-full h-full top-0 left-0 flex flex-col justify-center items-center bg-slate-50 z-[99]">
+        <div class="loadingspinner"></div>
+    </div>
     <!-- modal detail -->
     <div id="modal_filter_date" class=""></div>
     <!-- end modal detail -->
@@ -102,7 +104,158 @@
                 $('#bgmodaldate').removeClass("effectmodal");
             });
 
+            $('#apply').on('click', function() {
+
+
+                dataframe = [];
+                datafullset = [];
+                datalensa = [];
+                categories = [];
+                if (selectedTab == 'Harian') {
+                    console.log(selectedFilterHarian);
+                    getSeriesFilterHarian();
+
+                } else if (selectedTab == 'Mingguan') {
+                    console.log(selectedFilterHarian);
+                    getSeriesFilterHarian();
+
+                } else {
+                    console.log('bukan harian');
+                }
+
+                // chart.updateOptions(options);
+
+                // chart.updateOptions(options);
+
+
+
+                // chart.updateOptions(categories);
+
+                $('#modalkontendate').addClass("scale-0");
+                $('#bgmodaldate').removeClass("effectmodal");
+
+            });
+
+            // filter 
+
         });
+
+        async function getSeriesFilterHarian() {
+
+            await $.ajax({
+                url: '../controllers/laporanController.php?type=getLensa&filter=harian',
+                type: 'POST',
+                data: {
+                    'tanggal': selectedFilterHarian,
+                },
+                success: function(res) {
+                    // alert(res);
+                    //alert(res);
+                    const data = JSON.parse(res);
+                    //categories = [];
+                    for (let index = 0; index < data.length; index++) {
+                        const element = data[index];
+                        // categories = element.kecamatan;
+                        //dataframe.push(20);
+                        datalensa.push(element.jumlah);
+                        // datafullset.push(5);
+                        // options.series[1].data.push(element.jumlah);
+                        //alert(element.jumlah);
+                    }
+
+                    // chart.update();
+                }
+            });
+
+            await $.ajax({
+                url: '../controllers/laporanController.php?type=getFullset&filter=harian',
+                type: 'POST',
+                data: {
+                    'tanggal': selectedFilterHarian,
+                },
+                success: function(res) {
+                    //alert(res);
+                    const data = JSON.parse(res);
+                    //categories = [];
+                    for (let index = 0; index < data.length; index++) {
+                        const element = data[index];
+                        // categories = element.kecamatan;
+                        //dataframe.push(20);
+                        // datalensa.push(element.jumlah);
+                        datafullset.push(element.jumlah);
+                        // options.series[1].data.push(element.jumlah);
+                        //alert(element.jumlah);
+                    }
+                    // chart.updateSeries(getSeries(), true);
+                    // chart.update();
+                }
+            });
+
+            await $.ajax({
+                url: '../controllers/laporanController.php?type=getFrame&filter=harian',
+                type: 'POST',
+                data: {
+                    'tanggal': selectedFilterHarian,
+                },
+                success: function(res) {
+
+                    const data = JSON.parse(res);
+                    //categories = [];
+                    for (let index = 0; index < data.length; index++) {
+                        const element = data[index];
+                        // categories = element.kecamatan;
+                        dataframe.push(element.jumlah);
+
+                        //datafullset.push(5);
+                        // options.series[1].data.push(element.jumlah);
+                        //alert(element.jumlah);
+                    }
+                    console.log(dataframe.length);
+                    // chart.updateSeries(getSeries(), true);
+                    // chart.update();
+                }
+            });
+
+
+            await $.ajax({
+                url: '../controllers/laporanController.php?type=getWilayah&filter=harian',
+                type: 'POST',
+                data: {
+                    'tanggal': selectedFilterHarian,
+                },
+                success: function(res) {
+                    options.xaxis.categories = [];
+                    // alert(res);
+                    const data = JSON.parse(res);
+
+                    for (let index = 0; index < data.length; index++) {
+                        const element = data[index];
+                        // categories = element.kecamatan;
+                        //options.series[0].data.push(10);
+                        // options.series[1].data.push(20);
+                        //options.series[2].data.push(5);
+
+                        options.xaxis.categories.push(element.kecamatan);
+                        // console.log(element.kecamatan);
+
+                    }
+                    //alert(categories);
+                    // chart.update();
+                }
+            });
+            chart.updateOptions(options);
+            chart.updateSeries(getSeries(), true);
+
+        }
+
+
+
+        function prosesFilter(option) {
+            if (option == 'harian') {
+
+            }
+        }
+
 
 
         // chart
@@ -195,6 +348,13 @@
                     color: undefined,
                     fontSize: '14px',
                     fontFamily: undefined
+                },
+                xaxis: {
+                    type: 'category',
+                    categories: [],
+                    labels: {
+                        show: true,
+                    },
                 }
             },
 
@@ -229,29 +389,36 @@
             getSeriesFullset();
         }
 
+        function refreshChart() {
+            dataframe = [];
+            datafullset = [];
+            datalensa = [];
+            loadSeries();
+        }
+
 
         function filter() {
+
             console.log('dwad');
             $('#modalkontendate').removeClass("scale-0");
             $('#bgmodaldate').addClass("effectmodal");
         }
 
         function getSeries() {
-
             return [{
                 name: 'Frame',
                 data: dataframe,
-                borderWidth: 1
+
             }, {
                 name: 'Lensa',
                 data: datalensa,
-                borderWidth: 1
+
             }, {
                 name: 'Fullset',
                 data: datafullset,
-                borderWidth: 1
             }]
         }
+
 
         function getSeriesLensa() {
             $.ajax({
@@ -260,7 +427,7 @@
                 success: function(res) {
                     //alert(res);
                     const data = JSON.parse(res);
-                    categories = [];
+                    //categories = [];
                     for (let index = 0; index < data.length; index++) {
                         const element = data[index];
                         // categories = element.kecamatan;
@@ -270,19 +437,20 @@
                         // options.series[1].data.push(element.jumlah);
                         //alert(element.jumlah);
                     }
-                    chart.update();
+                    // chart.update();
                 }
             });
         }
 
         function getSeriesFullset() {
+
             $.ajax({
                 url: '../controllers/laporanController.php?type=getFullset',
                 type: 'GET',
                 success: function(res) {
                     //alert(res);
                     const data = JSON.parse(res);
-                    categories = [];
+                    //categories = [];
                     for (let index = 0; index < data.length; index++) {
                         const element = data[index];
                         // categories = element.kecamatan;
@@ -304,7 +472,7 @@
                 success: function(res) {
                     //alert(res);
                     const data = JSON.parse(res);
-                    categories = [];
+                    //categories = [];
                     for (let index = 0; index < data.length; index++) {
                         const element = data[index];
                         // categories = element.kecamatan;
@@ -324,9 +492,10 @@
                 url: '../controllers/laporanController.php?type=getWilayah',
                 type: 'GET',
                 success: function(res) {
+                    // alert(res);
                     //alert(res);
                     const data = JSON.parse(res);
-                    categories = [];
+                    // categories = [];
                     for (let index = 0; index < data.length; index++) {
                         const element = data[index];
                         // categories = element.kecamatan;
@@ -394,6 +563,8 @@
 
                 $('#bgbody').toggleClass("hidden");
             });
+
+            $('#loading').hide();
         });
 
 
