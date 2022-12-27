@@ -471,12 +471,12 @@ function getNameRoles($id)
         $(document).ready(function() {
 
             $('#click-modal').on('click', function() {
-                $('#title-modal').html('Tambah Pegawai');
+                $('#title-modalpeg').html('Tambah Pegawai');
                 $('#modalkonten').toggleClass("scale-0");
                 $('#bgmodal').addClass("effectmodal");
 
-                $('#footer-add').removeClass('hidden');
-                $('#footer-add').addClass('flex');
+                $('#footer-addpeg').removeClass('hidden');
+                $('#footer-addpeg').addClass('flex');
 
                 $('#footer-edit').removeClass('flex');
                 $('#footer-edit').addClass('hidden');
@@ -498,8 +498,9 @@ function getNameRoles($id)
             for ($index = 0; $index < count($execute); $index++) {
             ?>
                 $('#edit-button-<?php echo $index; ?>').on('click', function() {
-                    $('#footer-add').removeClass('flex');
-                    $('#footer-add').addClass('hidden');
+                    console.log('mphstt');
+                    $('#footer-addpeg').removeClass('flex');
+                    $('#footer-addpeg').addClass('hidden');
 
                     $('#footer-edit').removeClass('hidden');
                     $('#footer-edit').addClass('flex');
@@ -540,8 +541,8 @@ function getNameRoles($id)
                     selected_idpegawai = '<?php echo $execute[$index]['id_pegawai']; ?>';
 
                     $('#field-password').addClass('hidden');
+                    $('#title-modalpeg').html('Ubah Pegawai');
 
-                    $('#title-modal').html('Ubah Pegawai');
                     $('#modalkonten').toggleClass("scale-0");
                     $('#bgmodal').addClass("effectmodal");
 
