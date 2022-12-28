@@ -8,6 +8,7 @@ if (isset($_GET["detail"])) {
   $arr1 = [];
   $arr2 = [];
   $arr3 = [];
+  $arr4 = [];
 
   $data1 = $crud->showData("SELECT transaksi.status_pengiriman, transaksi.kode_pesanan, transaksi.tanggal, pegawai.nama AS nama_sales, customer.nama AS nama_cus, customer.kecamatan, customer.desa, customer.alamat_jalan, customer.pekerjaan, customer.instansi FROM pegawai JOIN transaksi ON pegawai.id_pegawai = transaksi.id_pegawai JOIN customer ON transaksi.id_customer = customer.id_customer WHERE transaksi.kode_pesanan = '" . $_GET['detail'] . "'");
 
@@ -15,7 +16,9 @@ if (isset($_GET["detail"])) {
 
   $data3 = $crud->showData("SELECT detail_transaksi.kode_detail_pesanan, frame_transaksi.id_detail_bawa, lensa.nama_lensa, frame_transaksi.harga AS harga_frame, lensa_transaksi.harga AS harga_lensa, resep.* FROM frame_transaksi RIGHT JOIN detail_transaksi ON frame_transaksi.kode_detail_pesanan = detail_transaksi.kode_detail_pesanan JOIN transaksi ON detail_transaksi.kode_pesanan = transaksi.kode_pesanan LEFT JOIN lensa_transaksi ON detail_transaksi.kode_detail_pesanan = lensa_transaksi.kode_detail_pesanan LEFT JOIN resep ON resep.kode_varian_lensa_transaksi = lensa_transaksi.kode_varian_lensa_transaksi LEFT JOIN detail_varian_lensa_transaksi ON lensa_transaksi.kode_varian_lensa_transaksi = detail_varian_lensa_transaksi.kode_varian_lensa_transaksi LEFT JOIN lensa ON detail_varian_lensa_transaksi.kode_lensa = lensa.kode_lensa WHERE transaksi.kode_pesanan = '" . $_GET['detail'] . "'");
 
-  $data4 = $crud->showData("SELECT transaksi.total_harga, transaksi.total_bayar, transaksi.tanggal_jatuh_tempo, cicilan.kode_cicilan, cicilan.depan_pembayaran FROM transaksi LEFT JOIN cicilan ON transaksi.kode_pesanan = cicilan.kode_pesanan WHERE transaksi.kode_pesanan = '" . $_GET['detail'] . "'");
+  $data4 = $crud->showData("SELECT transaksi.total_harga, transaksi.total_bayar, transaksi.kembalian, transaksi.tanggal_jatuh_tempo, cicilan.kode_cicilan, cicilan.depan_pembayaran FROM transaksi LEFT JOIN cicilan ON transaksi.kode_pesanan = cicilan.kode_pesanan WHERE transaksi.kode_pesanan = '" . $_GET['detail'] . "'");
+
+  $data5 = $crud->showData("SELECT detail_cicilan.kode_cicilan, detail_cicilan.total_bayar FROM detail_cicilan RIGHT JOIN cicilan ON detail_cicilan.kode_cicilan = cicilan.kode_cicilan RIGHT JOIN transaksi ON cicilan.kode_pesanan = transaksi.kode_pesanan WHERE transaksi.kode_pesanan = '" . $_GET['detail'] . "'");
 
   foreach ($data2 as $index) {
     array_push($arr2, array(
@@ -56,9 +59,16 @@ if (isset($_GET["detail"])) {
     array_push($arr3, array(
       "total_harga" => $index["total_harga"],
       "total_bayar" => $index["total_bayar"],
+      "kembalian" => $index["kembalian"],
       "tanggal_jatuh_tempo" => $index["tanggal_jatuh_tempo"],
       "kode_cicilan" => $index["kode_cicilan"],
       "depan_pembayaran" => $index["depan_pembayaran"],
+    ));
+  }
+
+  foreach ($data5 as $index){
+    array_push($arr4, array(
+      "total_bayar" => $index["total_bayar"],
     ));
   }
 
@@ -76,6 +86,7 @@ if (isset($_GET["detail"])) {
       "instansi" => $index["instansi"],
       "data_pesanan" => $arr2,
       "data_pembayaran" => $arr3,
+      "data_cicilan" => $arr4,
     ));
   }
 

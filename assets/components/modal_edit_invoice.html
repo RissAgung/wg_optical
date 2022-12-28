@@ -14,10 +14,10 @@
 
     <!-- container edit -->
     <div
-      class="flex flex-col max-md:w-[90%] mx-auto max-[392px]:p-[15px] p-[29px] bg-white max-[375px]:text-sm text-lg rounded-xl shadow-lg">
+      class="flex flex-col max-md:w-[90%] mx-auto max-[392px]:p-[20px] p-[29px] bg-white max-[375px]:text-sm text-lg rounded-xl shadow-lg">
 
       <div class="flex flex-row justify-between">
-        <h1 class="font-ex-bold">Edit Status</h1>
+        <h1 class="font-ex-semibold text-sm">Input Cicilan</h1>
         <div id="close_pembayaran" class="cursor-pointer">
           <svg width="15" height="15" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -27,44 +27,21 @@
         </div>
       </div>
 
-      <!-- tab bar -->
-      <div class="flex flex-row max-[375px]:text-[11px] max-md:text-[13px] md:text-[15px] pt-7">
-        <p id="tab_bayar1" class="cursor-pointer font-ex-semibold max-[375px]:mr-[9px] max-md:mr-[12px] mr-[20px]"
-          onclick="tab_pointer('bayar1')">Pembayaran 1</p>
-        <p id="tab_bayar2" class="cursor-pointer max-[375px]:mr-[9px] max-md:mr-[12px] mr-[20px]"
-          onclick="tab_pointer('bayar2')">Pembayaran 2</p>
-        <p id="tab_bayar3" class="cursor-pointer " onclick="tab_pointer('bayar3')">Pembayaran 3</p>
-      </div>
-      <div class="flex flex-col mt-2 h-3 justify-center">
-        <div>
-          <div id="tab_pointer" class="relative top-[2px] h-1 w-[80px] rounded-lg bg-[#209F80] transition ease-in-out">
-          </div>
-          <hr>
-        </div>
-      </div>
-      <!-- end tab bar -->
-
       <!-- input -->
       <div class="flex flex-col max-[375px]:text-[11px] text-[14px] mt-5">
-        <h2 class="pl-2 font-ex-semibold">Bukti Nota</h2>
-
-        <div
-          class="flex mt-2 md:w-[400px] max-[375px]:h-[160px] md:h-[260px] h-[168px] border-[1px] border-[#D9D9D9] rounded-md">
-        </div>
-
-        <select
-          class=" cursor-pointer mt-3 md:mt-6 max-[375px]:h-[42px] h-[50px] md:h-[62px] border-[1px] border-[#D9D9D9] rounded-md pl-6"
-          name="cars" id="cars">
-          <option class="bg-red-400" value="Belum lunas">Belum lunas</option>
-          <option class="" value="Lunas">Lunas</option>
-        </select>
+        <input type="text" id="nominal"
+          class="md:w-[400px] mt-3 md:mt-6 max-[375px]:h-[42px] h-[50px] md:h-[62px] border-[1px] border-[#D9D9D9] rounded-md pl-6">
       </div>
+      <div id="kurang_bayar">
+        <p class="text-red-500 text-sm mt-5"></p>
+      </div>
+
       <!-- end input -->
 
       <!-- footer -->
-      <div class="flex flex-row justify-end mt-3 md:mt-7 text-[11px] md:text-[15px] font-ex-semibold text-white">
-        <div
-          class="cursor-pointer flex justify-center items-center w-[100px] max-[375px]:h-[30px] h-[38px] rounded-md bg-[#3DBD9E]">
+      <div class="flex flex-row justify-end mt-3 md:mt-5 text-[11px] md:text-[15px] font-ex-semibold text-white">
+        <div id="confirm_cicilan"
+          class="cursor-pointer flex justify-center items-center w-[100px] max-[375px]:h-[30px] h-[38px] rounded-md transition ease-in-out bg-[#3DBD9E] hover:bg-[#2c8d74]">
           Konfirmasi</div>
       </div>
       <!-- end footer -->
@@ -73,37 +50,13 @@
 
   <script src="../../js/jquery-3.6.1.min.js"></script>
   <script>
-    function tab_pointer(nama_tab) {
 
-      if (nama_tab == "bayar1") {
-        console.log("bayar1");
-        $('#tab_pointer').addClass("pointer-bayar1");
-        $('#tab_pointer').removeClass("pointer-bayar2");
-        $('#tab_pointer').removeClass("pointer-bayar3");
+    /* Dengan Rupiah */
+    var dengan_rupiah = document.getElementById('nominal');
+    dengan_rupiah.addEventListener('keyup', function (e) {
+      dengan_rupiah.value = formatRupiah(this.value, 'Rp. ');
+    });
 
-        $('#tab_bayar1').addClass("font-ex-semibold");
-        $('#tab_bayar2').removeClass("font-ex-semibold");
-        $('#tab_bayar3').removeClass("font-ex-semibold");
-      } else if (nama_tab == "bayar2") {
-        console.log("bayar1");
-        $('#tab_pointer').removeClass("pointer-bayar1");
-        $('#tab_pointer').addClass("pointer-bayar2");
-        $('#tab_pointer').removeClass("pointer-bayar3");
-
-        $('#tab_bayar1').removeClass("font-ex-semibold");
-        $('#tab_bayar2').addClass("font-ex-semibold");
-        $('#tab_bayar3').removeClass("font-ex-semibold");
-      } else if (nama_tab == "bayar3") {
-        console.log("bayar1");
-        $('#tab_pointer').removeClass("pointer-bayar1");
-        $('#tab_pointer').removeClass("pointer-bayar2");
-        $('#tab_pointer').addClass("pointer-bayar3");
-
-        $('#tab_bayar1').removeClass("font-ex-semibold");
-        $('#tab_bayar2').removeClass("font-ex-semibold");
-        $('#tab_bayar3').addClass("font-ex-semibold");
-      }
-    }
   </script>
 </body>
 
