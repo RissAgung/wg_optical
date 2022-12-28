@@ -105,23 +105,44 @@
             });
 
             $('#apply').on('click', function() {
-
-
                 dataframe = [];
                 datafullset = [];
                 datalensa = [];
-                categories = [];
-                if (selectedTab == 'Harian') {
+                // categories = [];
+                if (selectedTab == 'harian') {
                     console.log(selectedFilterHarian);
                     getSeriesFilterHarian();
+                    $('#modalkontendate').addClass("scale-0");
+                    $('#bgmodaldate').removeClass("effectmodal");
 
-                } else if (selectedTab == 'Mingguan') {
-                    console.log(selectedFilterHarian);
-                    getSeriesFilterHarian();
+                } else if (selectedTab == 'mingguan') {
+                    console.log(selectedFilterMingguan);
+                    getSeriesFilterMingguan();
+                    $('#modalkontendate').addClass("scale-0");
+                    $('#bgmodaldate').removeClass("effectmodal");
+
+                } else if (selectedTab == 'bulanan') {
+                    // console.log(selectedFilterBu);
+                    getSeriesFilterBulanan();
+                    $('#modalkontendate').addClass("scale-0");
+                    $('#bgmodaldate').removeClass("effectmodal");
+
+                } else if (selectedTab == 'tahunan') {
+                    // console.log(selectedFilterBu);
+                    getSeriesFilterTahunan();
+                    $('#modalkontendate').addClass("scale-0");
+                    $('#bgmodaldate').removeClass("effectmodal");
 
                 } else {
                     console.log('bukan harian');
+                    if(range_start == '' && range_end == ''){
+                    } else {
+                        getSeriesFilterRange();
+                        $('#modalkontendate').addClass("scale-0");
+                        $('#bgmodaldate').removeClass("effectmodal");
+                    }
                 }
+                
 
                 // chart.updateOptions(options);
 
@@ -131,8 +152,7 @@
 
                 // chart.updateOptions(categories);
 
-                $('#modalkontendate').addClass("scale-0");
-                $('#bgmodaldate').removeClass("effectmodal");
+                
 
             });
 
@@ -250,12 +270,438 @@
 
 
 
-        function prosesFilter(option) {
-            if (option == 'harian') {
+        async function getSeriesFilterMingguan() {
+            await $.ajax({
+                url: '../controllers/laporanController.php?type=getLensa&filter=mingguan',
+                type: 'POST',
+                data: {
+                    'tanggal': selectedFilterMingguan,
+                },
+                success: function(res) {
+                    // alert(res);
+                    //alert(res);
+                    const data = JSON.parse(res);
+                    //categories = [];
+                    for (let index = 0; index < data.length; index++) {
+                        const element = data[index];
+                        // categories = element.kecamatan;
+                        //dataframe.push(20);
+                        datalensa.push(element.jumlah);
+                        // datafullset.push(5);
+                        // options.series[1].data.push(element.jumlah);
+                        //alert(element.jumlah);
+                    }
 
-            }
+                    // chart.update();
+                }
+            });
+
+            await $.ajax({
+                url: '../controllers/laporanController.php?type=getFullset&filter=mingguan',
+                type: 'POST',
+                data: {
+                    'tanggal': selectedFilterMingguan,
+                },
+                success: function(res) {
+                    //alert(res);
+                    const data = JSON.parse(res);
+                    //categories = [];
+                    for (let index = 0; index < data.length; index++) {
+                        const element = data[index];
+                        // categories = element.kecamatan;
+                        //dataframe.push(20);
+                        // datalensa.push(element.jumlah);
+                        datafullset.push(element.jumlah);
+                        // options.series[1].data.push(element.jumlah);
+                        //alert(element.jumlah);
+                    }
+                    // chart.updateSeries(getSeries(), true);
+                    // chart.update();
+                }
+            });
+
+            await $.ajax({
+                url: '../controllers/laporanController.php?type=getFrame&filter=mingguan',
+                type: 'POST',
+                data: {
+                    'tanggal': selectedFilterMingguan,
+                },
+                success: function(res) {
+                    const data = JSON.parse(res);
+                    //categories = [];
+                    for (let index = 0; index < data.length; index++) {
+                        const element = data[index];
+                        // categories = element.kecamatan;
+                        dataframe.push(element.jumlah);
+
+                        //datafullset.push(5);
+                        // options.series[1].data.push(element.jumlah);
+                        //alert(element.jumlah);
+                    }
+                    console.log(dataframe.length);
+                    // chart.updateSeries(getSeries(), true);
+                    // chart.update();
+                }
+            });
+
+
+            await $.ajax({
+                url: '../controllers/laporanController.php?type=getWilayah&filter=mingguan',
+                type: 'POST',
+                data: {
+                    'tanggal': selectedFilterMingguan,
+                },
+                success: function(res) {
+                    options.xaxis.categories = [];
+                    // alert(res);
+                    const data = JSON.parse(res);
+
+                    for (let index = 0; index < data.length; index++) {
+                        const element = data[index];
+                        // categories = element.kecamatan;
+                        //options.series[0].data.push(10);
+                        // options.series[1].data.push(20);
+                        //options.series[2].data.push(5);
+
+                        options.xaxis.categories.push(element.kecamatan);
+                        // console.log(element.kecamatan);
+
+                    }
+                    //alert(categories);
+                    // chart.update();
+                }
+            });
+            chart.updateOptions(options);
+            chart.updateSeries(getSeries(), true);
         }
 
+
+        async function getSeriesFilterBulanan() {
+            await $.ajax({
+                url: '../controllers/laporanController.php?type=getLensa&filter=bulanan',
+                type: 'POST',
+                data: {
+                    'bulan': $('#filterbulanan_bulan').val(),
+                    'tahun': $('#filterbulanan_tahun').val(),
+                },
+                success: function(res) {
+
+                    // alert(res);
+                    //alert(res);
+                    const data = JSON.parse(res);
+                    //categories = [];
+                    for (let index = 0; index < data.length; index++) {
+                        const element = data[index];
+                        // categories = element.kecamatan;
+                        //dataframe.push(20);
+                        datalensa.push(element.jumlah);
+                        // datafullset.push(5);
+                        // options.series[1].data.push(element.jumlah);
+                        //alert(element.jumlah);
+                    }
+
+                    // chart.update();
+                }
+            });
+
+            await $.ajax({
+                url: '../controllers/laporanController.php?type=getFullset&filter=bulanan',
+                type: 'POST',
+                data: {
+                    'bulan': $('#filterbulanan_bulan').val(),
+                    'tahun': $('#filterbulanan_tahun').val(),
+                },
+                success: function(res) {
+                    //alert(res);
+                    const data = JSON.parse(res);
+                    //categories = [];
+                    for (let index = 0; index < data.length; index++) {
+                        const element = data[index];
+                        // categories = element.kecamatan;
+                        //dataframe.push(20);
+                        // datalensa.push(element.jumlah);
+                        datafullset.push(element.jumlah);
+                        // options.series[1].data.push(element.jumlah);
+                        //alert(element.jumlah);
+                    }
+                    // chart.updateSeries(getSeries(), true);
+                    // chart.update();
+                }
+            });
+
+            await $.ajax({
+                url: '../controllers/laporanController.php?type=getFrame&filter=bulanan',
+                type: 'POST',
+                data: {
+                    'bulan': $('#filterbulanan_bulan').val(),
+                    'tahun': $('#filterbulanan_tahun').val(),
+                },
+                success: function(res) {
+                    const data = JSON.parse(res);
+                    //categories = [];
+                    for (let index = 0; index < data.length; index++) {
+                        const element = data[index];
+                        // categories = element.kecamatan;
+                        dataframe.push(element.jumlah);
+
+                        //datafullset.push(5);
+                        // options.series[1].data.push(element.jumlah);
+                        //alert(element.jumlah);
+                    }
+                    console.log(dataframe.length);
+                    // chart.updateSeries(getSeries(), true);
+                    // chart.update();
+                }
+            });
+
+
+            await $.ajax({
+                url: '../controllers/laporanController.php?type=getWilayah&filter=bulanan',
+                type: 'POST',
+                data: {
+                    'bulan': $('#filterbulanan_bulan').val(),
+                    'tahun': $('#filterbulanan_tahun').val(),
+                },
+                success: function(res) {
+                    options.xaxis.categories = [];
+                    // alert(res);
+                    const data = JSON.parse(res);
+
+                    for (let index = 0; index < data.length; index++) {
+                        const element = data[index];
+                        // categories = element.kecamatan;
+                        //options.series[0].data.push(10);
+                        // options.series[1].data.push(20);
+                        //options.series[2].data.push(5);
+
+                        options.xaxis.categories.push(element.kecamatan);
+                        // console.log(element.kecamatan);
+
+                    }
+                    //alert(categories);
+                    // chart.update();
+                }
+            });
+            chart.updateOptions(options);
+            chart.updateSeries(getSeries(), true);
+        }
+
+        async function getSeriesFilterTahunan() {
+            await $.ajax({
+                url: '../controllers/laporanController.php?type=getLensa&filter=tahunan',
+                type: 'POST',
+                data: {
+                    'tahun': $('#filtertahunan_tahun').val(),
+                },
+                success: function(res) {
+
+                    // alert(res);
+                    //alert(res);
+                    const data = JSON.parse(res);
+                    //categories = [];
+                    for (let index = 0; index < data.length; index++) {
+                        const element = data[index];
+                        // categories = element.kecamatan;
+                        //dataframe.push(20);
+                        datalensa.push(element.jumlah);
+                        // datafullset.push(5);
+                        // options.series[1].data.push(element.jumlah);
+                        //alert(element.jumlah);
+                    }
+
+                    // chart.update();
+                }
+            });
+
+            await $.ajax({
+                url: '../controllers/laporanController.php?type=getFullset&filter=tahunan',
+                type: 'POST',
+                data: {
+                    'tahun': $('#filtertahunan_tahun').val(),
+                },
+                success: function(res) {
+                    //alert(res);
+                    const data = JSON.parse(res);
+                    //categories = [];
+                    for (let index = 0; index < data.length; index++) {
+                        const element = data[index];
+                        // categories = element.kecamatan;
+                        //dataframe.push(20);
+                        // datalensa.push(element.jumlah);
+                        datafullset.push(element.jumlah);
+                        // options.series[1].data.push(element.jumlah);
+                        //alert(element.jumlah);
+                    }
+                    // chart.updateSeries(getSeries(), true);
+                    // chart.update();
+                }
+            });
+
+            await $.ajax({
+                url: '../controllers/laporanController.php?type=getFrame&filter=tahunan',
+                type: 'POST',
+                data: {
+                    'tahun': $('#filtertahunan_tahun').val(),
+                },
+                success: function(res) {
+                    const data = JSON.parse(res);
+                    //categories = [];
+                    for (let index = 0; index < data.length; index++) {
+                        const element = data[index];
+                        // categories = element.kecamatan;
+                        dataframe.push(element.jumlah);
+
+                        //datafullset.push(5);
+                        // options.series[1].data.push(element.jumlah);
+                        //alert(element.jumlah);
+                    }
+                    console.log(dataframe.length);
+                    // chart.updateSeries(getSeries(), true);
+                    // chart.update();
+                }
+            });
+
+
+            await $.ajax({
+                url: '../controllers/laporanController.php?type=getWilayah&filter=tahunan',
+                type: 'POST',
+                data: {
+                    'tahun': $('#filtertahunan_tahun').val(),
+                },
+                success: function(res) {
+                    options.xaxis.categories = [];
+                    // alert(res);
+                    const data = JSON.parse(res);
+
+                    for (let index = 0; index < data.length; index++) {
+                        const element = data[index];
+                        // categories = element.kecamatan;
+                        //options.series[0].data.push(10);
+                        // options.series[1].data.push(20);
+                        //options.series[2].data.push(5);
+
+                        options.xaxis.categories.push(element.kecamatan);
+                        // console.log(element.kecamatan);
+
+                    }
+                    //alert(categories);
+                    // chart.update();
+                }
+            });
+            
+            chart.updateOptions(options);
+            chart.updateSeries(getSeries());
+        }
+
+        async function getSeriesFilterRange() {
+            await $.ajax({
+                url: '../controllers/laporanController.php?type=getLensa&filter=range',
+                type: 'POST',
+                data: {
+                    'start': range_start,
+                    'end': range_end,
+                },
+                success: function(res) {
+
+                    // alert(res);
+                    //alert(res);
+                    const data = JSON.parse(res);
+                    //categories = [];
+                    for (let index = 0; index < data.length; index++) {
+                        const element = data[index];
+                        // categories = element.kecamatan;
+                        //dataframe.push(20);
+                        datalensa.push(element.jumlah);
+                        // datafullset.push(5);
+                        // options.series[1].data.push(element.jumlah);
+                        //alert(element.jumlah);
+                    }
+
+                    // chart.update();
+                }
+            });
+
+            await $.ajax({
+                url: '../controllers/laporanController.php?type=getFullset&filter=range',
+                type: 'POST',
+                data: {
+                    'start': range_start,
+                    'end': range_end,
+                },
+                success: function(res) {
+                    //alert(res);
+                    const data = JSON.parse(res);
+                    //categories = [];
+                    for (let index = 0; index < data.length; index++) {
+                        const element = data[index];
+                        // categories = element.kecamatan;
+                        //dataframe.push(20);
+                        // datalensa.push(element.jumlah);
+                        datafullset.push(element.jumlah);
+                        // options.series[1].data.push(element.jumlah);
+                        //alert(element.jumlah);
+                    }
+                    // chart.updateSeries(getSeries(), true);
+                    // chart.update();
+                }
+            });
+
+            await $.ajax({
+                url: '../controllers/laporanController.php?type=getFrame&filter=range',
+                type: 'POST',
+                data: {
+                    'start': range_start,
+                    'end': range_end,
+                },
+                success: function(res) {
+                    const data = JSON.parse(res);
+                    //categories = [];
+                    for (let index = 0; index < data.length; index++) {
+                        const element = data[index];
+                        // categories = element.kecamatan;
+                        dataframe.push(element.jumlah);
+
+                        //datafullset.push(5);
+                        // options.series[1].data.push(element.jumlah);
+                        //alert(element.jumlah);
+                    }
+                    console.log(dataframe.length);
+                    // chart.updateSeries(getSeries(), true);
+                    // chart.update();
+                }
+            });
+
+
+            await $.ajax({
+                url: '../controllers/laporanController.php?type=getWilayah&filter=range',
+                type: 'POST',
+                data: {
+                    'start': range_start,
+                    'end': range_end,
+                },
+                success: function(res) {
+                    options.xaxis.categories = [];
+                    // alert(res);
+                    const data = JSON.parse(res);
+
+                    for (let index = 0; index < data.length; index++) {
+                        const element = data[index];
+                        // categories = element.kecamatan;
+                        //options.series[0].data.push(10);
+                        // options.series[1].data.push(20);
+                        //options.series[2].data.push(5);
+
+                        options.xaxis.categories.push(element.kecamatan);
+                        // console.log(element.kecamatan);
+
+                    }
+                    //alert(categories);
+                    // chart.update();
+                }
+            });
+            chart.updateOptions(options);
+            chart.updateSeries(getSeries(), true);
+        }
 
 
         // chart
@@ -437,7 +883,7 @@
                         // options.series[1].data.push(element.jumlah);
                         //alert(element.jumlah);
                     }
-                    // chart.update();
+                    chart.update();
                 }
             });
         }
