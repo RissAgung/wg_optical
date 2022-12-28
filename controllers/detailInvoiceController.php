@@ -9,7 +9,7 @@ if (isset($_GET["detail"])) {
   $arr2 = [];
   $arr3 = [];
 
-  $data1 = $crud->showData("SELECT transaksi.kode_pesanan, transaksi.tanggal, pegawai.nama AS nama_sales, customer.nama AS nama_cus, customer.kecamatan, customer.desa, customer.alamat_jalan, customer.pekerjaan, customer.instansi FROM pegawai JOIN transaksi ON pegawai.id_pegawai = transaksi.id_pegawai JOIN customer ON transaksi.id_customer = customer.id_customer WHERE transaksi.kode_pesanan = '" . $_GET['detail'] . "'");
+  $data1 = $crud->showData("SELECT transaksi.status_pengiriman, transaksi.kode_pesanan, transaksi.tanggal, pegawai.nama AS nama_sales, customer.nama AS nama_cus, customer.kecamatan, customer.desa, customer.alamat_jalan, customer.pekerjaan, customer.instansi FROM pegawai JOIN transaksi ON pegawai.id_pegawai = transaksi.id_pegawai JOIN customer ON transaksi.id_customer = customer.id_customer WHERE transaksi.kode_pesanan = '" . $_GET['detail'] . "'");
 
   $data2 = $crud->showData("SELECT kode_detail_pesanan FROM detail_transaksi WHERE kode_pesanan = '" . $_GET['detail'] . "'");
 
@@ -65,6 +65,7 @@ if (isset($_GET["detail"])) {
   foreach ($data1 as $index) {
     array_push($arr1, array(
       "kode_pesanan" => $index["kode_pesanan"],
+      "status_pengiriman" => $index["status_pengiriman"],
       "tanggal" => $index["tanggal"],
       "nama_sales" => $index["nama_sales"],
       "nama_cus" => $index["nama_cus"],
