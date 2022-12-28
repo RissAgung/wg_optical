@@ -82,6 +82,9 @@ function getNameRoles($id)
 </head>
 
 <body class="bg-[#F0F0F0] font-ex-color box-border">
+    <div id="loading" class="fixed w-full h-full top-0 left-0 flex flex-col justify-center items-center bg-slate-50 z-[99]">
+        <div class="loadingspinner"></div>
+    </div>
 
     <!-- modal detail -->
     <div id="modal-detail" class=""></div>
@@ -94,10 +97,6 @@ function getNameRoles($id)
     <!-- modal  -->
     <div id="modal-form" class=""></div>
     <!-- end modal  -->
-
-    <!-- modal delete -->
-    <div id="modal-delete" class=""></div>
-    <!-- end modal delete -->
 
     <!-- Background hitam saat sidebar show -->
     <div id="bgbody" class="w-full h-screen bg-black fixed z-50 bg-opacity-50 hidden"></div>
@@ -194,7 +193,7 @@ function getNameRoles($id)
                                             <path fill-rule="evenodd" clip-rule="evenodd" d="M27.4782 8.38256C27.7335 8.48841 27.9655 8.64355 28.1609 8.83911C28.3564 9.03447 28.5116 9.26646 28.6174 9.52181C28.7233 9.77717 28.7777 10.0509 28.7777 10.3273C28.7777 10.6037 28.7233 10.8774 28.6174 11.1328C28.5116 11.3881 28.3564 11.6201 28.1609 11.8155L25.3473 14.6282L22.3717 11.6526L25.1845 8.83911C25.3798 8.64355 25.6118 8.48841 25.8672 8.38256C26.1225 8.27671 26.3962 8.22223 26.6727 8.22223C26.9491 8.22223 27.2228 8.27671 27.4782 8.38256ZM9.59277 25.7604C9.59295 24.9094 9.93117 24.0933 10.533 23.4916L21.2376 12.787L24.2132 15.7626L13.5086 26.4672C12.9069 27.069 12.0908 27.4072 11.2398 27.4074H9.59277V25.7604Z" fill="#3F2C0D" />
                                         </svg>
                                     </button>
-                                    <button id="delete-button-<?php echo $i; ?>">
+                                    <button onclick="hapusPegawai('-<?php echo $i; ?>')" id="delete-button-<?php echo $i; ?>">
                                         <svg width="38" height="37" viewBox="0 0 38 37" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <rect x="0.444336" width="37" height="37" rx="5" fill="#F35E58" />
                                             <path d="M23.3982 10.5062V8.67903C23.3982 8.19444 23.2105 7.72969 22.8764 7.38703C22.5423 7.04437 22.0892 6.85187 21.6167 6.85187H16.2723C15.7998 6.85187 15.3467 7.04437 15.0126 7.38703C14.6785 7.72969 14.4908 8.19444 14.4908 8.67903V10.5062H10.0371V12.3333H11.8186V26.0371C11.8186 26.7639 12.1001 27.4611 12.6013 27.975C13.1024 28.489 13.7821 28.7778 14.4908 28.7778H23.3982C24.1069 28.7778 24.7866 28.489 25.2878 27.975C25.7889 27.4611 26.0704 26.7639 26.0704 26.0371V12.3333H27.8519V10.5062H23.3982ZM18.0538 22.3827H16.2723V16.9012H18.0538V22.3827ZM21.6167 22.3827H19.8353V16.9012H21.6167V22.3827ZM21.6167 10.5062H16.2723V8.67903H21.6167V10.5062Z" fill="#501614" />
@@ -302,6 +301,9 @@ function getNameRoles($id)
 
 
     <script>
+        $(window).on('load', function(){
+            $('#loading').hide();
+        });
         // $(document).idle({
         //     onIdle: function() {
         //         $.ajax({
@@ -363,7 +365,7 @@ function getNameRoles($id)
                 $('#no-data').removeClass('flex');
                 $('#no-data').addClass('hidden');
 
-                
+
 
             });
 
@@ -378,9 +380,12 @@ function getNameRoles($id)
                 url: '../controllers/tabelBarangBawaController.php?id=' + id_pegawai,
                 type: 'GET',
                 beforeSend: function() {
-                    $('#bodytabel').html("<div class='h-full w-full flex justify-center items-center'>Loading...</div>");
+                    $('#tabledetail').addClass('h-full');
+                    $('#bodytabel').html('<div id="loadingchart" class=" h-full w-full flex flex-col justify-center items-center bg-slate-50 z-[20]"><div class="loadingspinner"></div></div>');
                 },
                 success: function(res) {
+                    $('#tabledetail').removeClass('h-full');
+                    $('#loadingchart').hide();
                     const value_utama = JSON.parse(res);
                     if (value_utama.length == 0) {
                         $('#no-data').addClass('flex');
@@ -585,8 +590,8 @@ function getNameRoles($id)
                 $('#form-password').toggleClass('statusclick');
 
 
-                $('#form-modal').toggleClass('flex');
-                $('#form-modal').toggleClass('hidden');
+                $('#form-modalpeg').toggleClass('flex');
+                $('#form-modalpeg').toggleClass('hidden');
 
                 console.log('awkoawk');
             });
@@ -680,6 +685,15 @@ function getNameRoles($id)
                                 data: {
                                     'type': 'ubah_password_pegawai',
                                     'query': "UPDATE pegawai SET password = '" + CryptoJS.MD5($("#txt_newpassword").val()).toString() + "' WHERE id_pegawai = '" + selected_idpegawai + "'"
+                                },
+                                beforeSend: function() {
+                                    Swal.fire({
+                                        title: 'Loading',
+                                        html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                                        allowOutsideClick: false,
+                                        showConfirmButton: false,
+
+                                    });
                                 },
                                 success: function(res) {
 
@@ -867,6 +881,15 @@ function getNameRoles($id)
 
                                 contentType: false,
                                 processData: false,
+                                beforeSend: function() {
+                                    Swal.fire({
+                                        title: 'Loading',
+                                        html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                                        allowOutsideClick: false,
+                                        showConfirmButton: false,
+
+                                    });
+                                },
                                 success: function(res) {
 
                                     const data = JSON.parse(res);
@@ -998,6 +1021,15 @@ function getNameRoles($id)
                                 data: form_data,
                                 contentType: false,
                                 processData: false,
+                                beforeSend: function() {
+                                    Swal.fire({
+                                        title: 'Loading',
+                                        html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                                        allowOutsideClick: false,
+                                        showConfirmButton: false,
+
+                                    });
+                                },
                                 success: function(res) {
                                     const data = JSON.parse(res);
 
@@ -1036,49 +1068,39 @@ function getNameRoles($id)
             });
         });
 
+        function hapusPegawai(id) {
+            Swal.fire({
+                title: 'Hapus Data',
+                text: "Apakah anda yakin ingin menghapus?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya',
+                cancelButtonText: 'Batal',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '../controllers/pegawaiController.php',
+                        type: 'post',
+                        beforeSend: function() {
+                            Swal.fire({
+                                title: 'Loading',
+                                html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                                allowOutsideClick: false,
+                                showConfirmButton: false,
 
-        // load modal
-        $("#modal-delete").load("../assets/components/modal_hapus.html", function() {
-
-            <?php
-            for ($index = 0; $index < count($execute); $index++) {
-            ?>
-                $('#delete-button-<?php echo $index; ?>').on('click', function() {
-
-                    selected_idpegawai = '<?php echo $execute[$index]['id_pegawai']; ?>';
-                    lokasifotopegawai_lama = '<?php echo $execute[$index]['foto_pegawai']; ?>';
-                    lokasifotoktp_lama = '<?php echo $execute[$index]['foto_ktp']; ?>';
-                    lokasifotokk_lama = '<?php echo $execute[$index]['foto_kk']; ?>';
-
-                    $('#title_delete').html('Hapus Data Pegawai ini?');
-
-                    $('#modalkontenhapus').toggleClass("scale-0");
-                    $('#bgmodalhapus').addClass("effectmodal");
-                });
-            <?php
-            }
-            ?>
-
-            $('#submithapus').on('click', function() {
-                $.ajax({
-                    url: '../controllers/pegawaiController.php',
-                    type: 'post',
-                    data: {
-                        'type': 'hapus_pegawai',
-                        'query': "DELETE FROM pegawai WHERE id_pegawai = '" + selected_idpegawai + "'",
-                        'pathfotopegawai': lokasifotopegawai_lama,
-                        'pathfotoktp': lokasifotoktp_lama,
-                        'pathfotokk': lokasifotokk_lama
-                    },
-                    success: function(res) {
-                        $('#modalkontenhapus').toggleClass("scale-0");
-                        $('#bgmodalhapus').removeClass("effectmodal");
-                        selected_idpegawai = "";
-                        lokasifotopegawai_lama = "";
-                        lokasifotoktp_lama = "";
-                        lokasifotokk_lama = "";
-
-                        try {
+                            });
+                        },
+                        data: {
+                            'type': 'hapus_pegawai',
+                            'query': "DELETE FROM pegawai WHERE id_pegawai = '" + selected_idpegawai + "'",
+                            'pathfotopegawai': lokasifotopegawai_lama,
+                            'pathfotoktp': lokasifotoktp_lama,
+                            'pathfotokk': lokasifotokk_lama
+                        },
+                        success: function(res) {
+                            alert(res);
                             const data = JSON.parse(res);
                             Swal.fire({
                                 icon: 'success',
@@ -1088,29 +1110,11 @@ function getNameRoles($id)
                                 window.location.replace("master_pegawai.php");
                             });
 
-                        } catch (error) {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Gagal',
-                                text: 'Gagal Menambahkan Data',
-                            })
                         }
-                    }
-                });
-            });
-
-            $('#closemodalhapus, #cancelmodalhapus').on('click', function() {
-                $('#modalkontenhapus').toggleClass("scale-0");
-                $('#bgmodalhapus').removeClass("effectmodal");
-                selected_idpegawai = "";
-            });
-        });
-
-        $('#closemodal').on('click', function() {
-
-            $('#modalkonten').toggleClass("scale-0");
-            $('#bgmodal').removeClass("effectmodal");
-        });
+                    });
+                }
+            })
+        }
 
 
         // reset 
