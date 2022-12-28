@@ -489,8 +489,8 @@ function getNameRoles($id)
                 $('#form-password').addClass('hidden');
                 $('#form-password').removeClass('flex');
 
-                $('#form-modal').addClass('flex');
-                $('#form-modal').removeClass('hidden');
+                $('#form-modalpeg').addClass('flex');
+                $('#form-modalpeg').removeClass('hidden');
 
                 $("#txt_level").val("Sales");
 
@@ -557,8 +557,8 @@ function getNameRoles($id)
                     $('#form-password').addClass('hidden');
                     $('#form-password').removeClass('flex');
 
-                    $('#form-modal').addClass('flex');
-                    $('#form-modal').removeClass('hidden');
+                    $('#form-modalpeg').addClass('flex');
+                    $('#form-modalpeg').removeClass('hidden');
 
                 });
             <?php
