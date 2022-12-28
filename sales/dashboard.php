@@ -138,30 +138,30 @@ if (!isset($_SESSION['statusLogin'])) {
   <script src="../js/jquery.iddle.min.js"></script>
   <script src="../js/sweetalert2.min.js"></script>
   <script>
-    $(document).idle({
-      onIdle: function() {
-        $.ajax({
-          url: '../controllers/loginController.php',
-          type: 'post',
-          data: {
-            'type': 'logout',
-          },
-          success: function() {
+    // $(document).idle({
+    //   onIdle: function() {
+    //     $.ajax({
+    //       url: '../controllers/loginController.php',
+    //       type: 'post',
+    //       data: {
+    //         'type': 'logout',
+    //       },
+    //       success: function() {
 
-          }
-        });
-        Swal.fire({
-          icon: 'warning',
-          title: 'Informasi',
-          text: 'Sesi anda telah habis, silahkan login kembali',
+    //       }
+    //     });
+    //     Swal.fire({
+    //       icon: 'warning',
+    //       title: 'Informasi',
+    //       text: 'Sesi anda telah habis, silahkan login kembali',
 
-        }).then(function() {
-          window.location.replace('../views/login.php');
-        });
+    //     }).then(function() {
+    //       window.location.replace('../views/login.php');
+    //     });
 
-      },
-      idle: 50000
-    });
+    //   },
+    //   idle: 50000
+    // });
 
     var swiperhero = new Swiper(".swiper", {
       slidesPerView: 1,
