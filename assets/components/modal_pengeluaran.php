@@ -5,9 +5,7 @@ session_start();
 
 $select = new Koneksi();
 
-$frame = $select->showData("SELECT kode_frame FROM produk");
-$additional = $select->showData("SELECT kode_barang, nama_barang FROM tambahan");
-$perkap = $select->showData("SELECT kode_perlengkapan, nama_perlengkapan FROM perlengkapan");
+$supplier = $select->showData("SELECT * FROM supplier");
 
 
 ?> -->
@@ -77,9 +75,9 @@ $perkap = $select->showData("SELECT kode_perlengkapan, nama_perlengkapan FROM pe
         <div class="h-[50px] w-full border border-[#C9C9C9] rounded-lg ml-4 overflow-hidden">
           <select name="jns" id="jns" class="h-full w-full outline-0 border-0 px-4 bg-white">
               <option selected disabled  value="">Pilih Jenis Barang</option>
-              <option value="1">Produk</option>
-              <option value="2">Tambahan</option>
-              <option value="3">Perlengkapan</option>
+              <option value="produk">Produk</option>
+              <option value="tambahan">Tambahan</option>
+              <option value="perlengkapan">Perlengkapan</option>
           </select>
       </div>
       </div>      
@@ -87,29 +85,27 @@ $perkap = $select->showData("SELECT kode_perlengkapan, nama_perlengkapan FROM pe
         <p class="font-ex-semibold w-1/2">Barang</p>
         <div class="h-[50px] w-full border border-[#C9C9C9] rounded-lg ml-4 overflow-hidden">
           <select name="brg" id="brg" class="h-full w-full outline-0 border-0 px-4 bg-white">
-              <option selected disabled value="">Pilih Barang</option>
-              <?php 
-                  require_once "../../config/koneksi.php";
-                  $crud = new koneksi();
-                  $frame = $crud->showData("SELECT kode_frame FROM produk;"); 
-                  $tambahan = $crud->showData("SELECT kode_barang FROM tambahan;"); 
-                  $perkap = $crud->showData("SELECT kode_perlengkapan FROM perlengkapan;"); 
-                  $sup = $crud->showData("SELECT id_supplier FROM supplier;"); 
-                  foreach($frame as $isi){
-              ?>              
-              <option value="1"><?=$isi['kode_frame'] ?></option>
-              <?php } ;?>
-              <?php  foreach($tambahan as $isi2){ ?>
-              <option value="2"><?=$isi2['kode_barang']?></option>
-              <?php }; ?>
-              <?php  foreach($perkap as $isi3){ ?>
-              <option value="3"><?=$isi3['kode_perlengkapan']?></option>
-              <?php } ;?>
-          </select>
+              <option selected disabled value="">Pilih Barang</option>             
+              <option></option>
+              </select>
       </div>
       </div>  
       
      <div class=" flex w-full items-center  px-5 mt-7">
+        <p class="font-ex-semibold w-1/2">Supplier</p>
+        <div class=" h-[50px] w-full border border-[#C9C9C9] rounded-lg ml-4 overflow-hidden">
+        <select name="brg" id="brg" class="h-full w-full outline-0 border-0 px-4 bg-white">
+              <option selected disabled value="">Pilih Supplier</option>
+              <?php 
+                 foreach ($supplier as $data) {
+              ?>            
+              <option value="<?php echo $data['Id_Supplier']?>"><?php echo $data['Nama_Supplier'] ?></option>
+              <?php } ?>
+              </select>
+        </div>
+      </div>
+
+      <div class=" flex w-full items-center  px-5 mt-7">
         <p class="font-ex-semibold w-1/2">Jumlah</p>
         <div class=" h-[50px] w-full border border-[#C9C9C9] rounded-lg ml-4 overflow-hidden">
         <input type="text" id="jml" class="border-0 h-12  w-full px-3  outline-none" maxlength="5" onkeypress="return inputNumber(event)">
@@ -190,62 +186,71 @@ $perkap = $select->showData("SELECT kode_perlengkapan, nama_perlengkapan FROM pe
   </script>
 
 
-  <!-- <script>
-    
-    function changeFunc() {
-    var selectBox = document.getElementById("jns");
-    var selectedValue = selectBox.options[selectBox.selectedIndex].value;
-    if (selectedValue == "Produk"){
-      console.log("list frame");
-    }else if (selectedValue == "Tambahan"){
-      console.log("list tmbhaan");
-    }else if(selectedValue == "Perlengkapan"){
-      console.log("list perkap");
-    }else{
-      console.log("list none");
-    }
-    
-   }
-</script> -->
-
-
-<?php 
-
-require_once "../../config/koneksi.php";
-$crud = new koneksi();
-$data = $crud->showData("SELECT kode_frame,kode_perlengkapan,kode_barang FROM produk JOIN perlengkapan JOIN tambahan;"); 
-
-?>
-
 <script>
   $("#jns").change(function(){
     var jenis = $("#jns").val();
-    if (jenis == "Produk"){
+    if (jenis == "produk"){
       console.log("list frame"); 
-               
-    }else if (jenis == "Tambahan"){
-      console.log("list tmbhaan");
-      $('#brg').html("<option>Pilih Kode Barang</option>"); 
-    }else if(jenis == "Perlengkapan"){
-      console.log("list perkap");
-      $('#brg').html("<option>Pilih Perkap</option>"); 
-    }else{
-      console.log("list none");
-    }
-  });
-</script>
+        $.ajax({
+          url:'../controllers/modal_pengeluaran.php?type=frame',
+          type : 'GET',
+          success : function(res){
+            var isi = '';
+            const data = JSON.parse(res);
 
+            // console.log(data[0].kode_frame);
+            for(let index = 0; index < data.length; index++){
+              //console.log(data);
+              isi += '<option value='+data[index].kode_frame+'>'+data[index].kode_frame+'</option>';
+            }            
+            
+             $('#brg').html(isi);
 
+            }
+          })      
+        }else if (jenis == "tambahan"){
+          console.log("list tmbhaan");
+          $.ajax({
+          url:'../controllers/modal_pengeluaran.php?type=tambahan',
+          type : 'GET',
+          success : function(res){
+            var isi = '';
+            const data = JSON.parse(res);
 
+            // console.log(data[0].kode_frame);
+            for(let index = 0; index < data.length; index++){
+              //console.log(data);
+              isi += '<option value='+data[index].kode_barang+'>'+data[index].kode_barang+'</option>';
+            }            
+            
+             $('#brg').html(isi);
 
-<script>
-  var $select1 = $( '#jns' ),
-		$select2 = $( '#brg' ),
-    $options = $select2.find( 'option' );
-    
-$select1.on( 'change', function() {
-	$select2.html( $options.filter( '[value="' + this.value + '"]' ) );
-} ).trigger( 'change' );
-</script>
+            }
+          })  
+        }else if(jenis == "perlengkapan"){
+          console.log("list perkap");
+          $.ajax({
+          url:'../controllers/modal_pengeluaran.php?type=perlengkapan',
+          type : 'GET',
+          success : function(res){
+            var isi = '';
+            const data = JSON.parse(res);
+
+            // console.log(data[0].kode_frame);
+            for(let index = 0; index < data.length; index++){
+              //console.log(data);
+              isi += '<option value='+data[index].kode_perlengkapan+'>'+data[index].kode_perlengkapan+'</option>';
+            }            
+            
+             $('#brg').html(isi);
+
+            }
+          })  
+        }else{
+          console.log("list none");
+        }
+        console.log($('#brg').val());
+      });
+    </script>
 </body>
 </html>
