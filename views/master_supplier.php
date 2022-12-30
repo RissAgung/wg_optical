@@ -7,7 +7,8 @@
         header('Location: login.php');
     }
     // pagination
-    $jumlahDataPerHalaman = 6; $jumlahData = (isset($_GET["search"])) ? count($crud->showData("SELECT * FROM supplier WHERE  Nama_Supplier LIKE'%" . $_GET["search"] . "%' LIMIT 0, $jumlahDataPerHalaman")) : count($crud->showData("SELECT * FROM supplier"));
+    $jumlahDataPerHalaman = 6; 
+    $jumlahData = (isset($_GET["search"])) ? count($crud->showData("SELECT * FROM supplier WHERE  Nama_Supplier LIKE'%" . $_GET["search"] . "%' LIMIT 0, $jumlahDataPerHalaman")) : count($crud->showData("SELECT * FROM supplier"));
     $halamanAktif = (isset($_GET["halaman"])) ? $_GET["halaman"] : 1;
     $jumlahHalaman = ceil($jumlahData / $jumlahDataPerHalaman);
     $awalData = ($jumlahDataPerHalaman * $halamanAktif) - $jumlahDataPerHalaman;

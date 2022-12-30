@@ -20,7 +20,7 @@ if (isset($_POST['type'])) {
             $emailval = $row['email'];
             $passwordval = $row['password'];
             $idlevelval = $row['id_level'];
-            $idPeg = $row['id_pegawai'];
+            $idPegawai = $row['id_pegawai'];
         }
 
         if ($num != 0) {
@@ -35,7 +35,7 @@ if (isset($_POST['type'])) {
                     $_SESSION["statusLogin"] = "true";
                     $_SESSION["email"] = $namaval;
                     $_SESSION['level'] = $idlevelval;
-                    $_SESSION['idPeg'] = $idPeg;
+                    $_SESSION["id_pegawai"] = $idPegawai;
                     exit();
                 } else {
 
@@ -47,7 +47,7 @@ if (isset($_POST['type'])) {
                     $_SESSION["statusLogin"] = "true";
                     $_SESSION["email"] = $namaval;
                     $_SESSION['level'] = $idlevelval;
-                    $_SESSION['idPeg'] = $idPeg;
+                    $_SESSION["id_pegawai"] = $idPegawai;
                     exit();
                 }
             } else {
