@@ -670,8 +670,9 @@ function getStatusPembayaran($kode)
 
           // status pesanan
           kontenHtml += '<div class="flex flex-col w-full max-md:p-5 p-9 bg-white mb-1">'
+          console.log(finalData.status_pengiriman);
 
-          let status_pengiriman = finalData.status_pengiriman != "" ? "Di " + finalData.status_pengiriman : "Menunggu Konfirmasi";
+          let status_pengiriman = finalData.status_confirm != '1' ? "Di " + finalData.status_pengiriman : "Menunggu Konfirmasi";
           kontenHtml += '<h1 class="pb-4 font-ex-semibold">' + status_pengiriman + '</h1>'
 
           kontenHtml += '<div class="flex flex-row w-full">'
