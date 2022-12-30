@@ -113,7 +113,7 @@ function getNameRoles($id)
         <div class="mx-auto w-[90%] md:w-[90%] md:mx-auto rounded-md py-0 px-0">
             <div class="mt-0 flex items-center content-center flex-wrap justify-between max-[450px]:justify-center">
                 <!-- Search -->
-                <div class="flex flex-row shadow-sm rounded-md items-center justify-around bg-white w-72 box-border px-2 md:mr-6 mt-6">
+                <div class="flex flex-row shadow-sm rounded-md items-center justify-around bg-white w-72 max-[450px]:w-full box-border px-2 md:mr-6 mt-6">
                     <div class="w-full flex flex-row items-center">
                         <svg width="19" height="19" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" class="ml-3">
                             <path d="M19.2502 19.25L15.138 15.1305M17.4168 9.62501C17.4168 11.6915 16.5959 13.6733 15.1347 15.1346C13.6735 16.5958 11.6916 17.4167 9.62516 17.4167C7.55868 17.4167 5.57684 16.5958 4.11562 15.1346C2.6544 13.6733 1.8335 11.6915 1.8335 9.62501C1.8335 7.55853 2.6544 5.57669 4.11562 4.11547C5.57684 2.65425 7.55868 1.83334 9.62516 1.83334C11.6916 1.83334 13.6735 2.65425 15.1347 4.11547C16.5959 5.57669 17.4168 7.55853 17.4168 9.62501V9.62501Z" stroke="#797E8D" stroke-width="2" stroke-linecap="round" />
@@ -131,10 +131,10 @@ function getNameRoles($id)
                 <!-- End Search -->
 
                 <!-- Search and Button Add -->
-                <div class="flex flex-col md:flex-row items-center mt-6">
+                <div class="flex flex-col md:flex-row min-[450px]:w-fit items-center mt-6 rounded-lg w-full">
                     <!-- Button Add -->
-                    <div class="md:my-auto h-10 w-24 font-ex-semibold text-white" id="click-modal">
-                        <button class="bg-[#3DBD9E] h-full w-full rounded-md">Tambah</button>
+                    <div class="md:my-auto h-10 w-full font-ex-semibold text-white mx-4" id="click-modal">
+                        <button class="bg-[#3DBD9E] h-full w-full rounded-lg">Tambah</button>
                     </div>
                     <!-- End Button Add -->
                 </div>
@@ -193,7 +193,7 @@ function getNameRoles($id)
                                             <path fill-rule="evenodd" clip-rule="evenodd" d="M27.4782 8.38256C27.7335 8.48841 27.9655 8.64355 28.1609 8.83911C28.3564 9.03447 28.5116 9.26646 28.6174 9.52181C28.7233 9.77717 28.7777 10.0509 28.7777 10.3273C28.7777 10.6037 28.7233 10.8774 28.6174 11.1328C28.5116 11.3881 28.3564 11.6201 28.1609 11.8155L25.3473 14.6282L22.3717 11.6526L25.1845 8.83911C25.3798 8.64355 25.6118 8.48841 25.8672 8.38256C26.1225 8.27671 26.3962 8.22223 26.6727 8.22223C26.9491 8.22223 27.2228 8.27671 27.4782 8.38256ZM9.59277 25.7604C9.59295 24.9094 9.93117 24.0933 10.533 23.4916L21.2376 12.787L24.2132 15.7626L13.5086 26.4672C12.9069 27.069 12.0908 27.4072 11.2398 27.4074H9.59277V25.7604Z" fill="#3F2C0D" />
                                         </svg>
                                     </button>
-                                    <button onclick="hapusPegawai('-<?php echo $i; ?>')" id="delete-button-<?php echo $i; ?>">
+                                    <button onclick="hapusPegawai('<?php echo $data['id_pegawai']; ?>', '<?php echo $data['foto_pegawai']; ?>', '<?php echo $data['foto_ktp']; ?>', '<?php echo $data['foto_kk']; ?>')" id="delete-button-<?php echo $i; ?>">
                                         <svg width="38" height="37" viewBox="0 0 38 37" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <rect x="0.444336" width="37" height="37" rx="5" fill="#F35E58" />
                                             <path d="M23.3982 10.5062V8.67903C23.3982 8.19444 23.2105 7.72969 22.8764 7.38703C22.5423 7.04437 22.0892 6.85187 21.6167 6.85187H16.2723C15.7998 6.85187 15.3467 7.04437 15.0126 7.38703C14.6785 7.72969 14.4908 8.19444 14.4908 8.67903V10.5062H10.0371V12.3333H11.8186V26.0371C11.8186 26.7639 12.1001 27.4611 12.6013 27.975C13.1024 28.489 13.7821 28.7778 14.4908 28.7778H23.3982C24.1069 28.7778 24.7866 28.489 25.2878 27.975C25.7889 27.4611 26.0704 26.7639 26.0704 26.0371V12.3333H27.8519V10.5062H23.3982ZM18.0538 22.3827H16.2723V16.9012H18.0538V22.3827ZM21.6167 22.3827H19.8353V16.9012H21.6167V22.3827ZM21.6167 10.5062H16.2723V8.67903H21.6167V10.5062Z" fill="#501614" />
@@ -1068,7 +1068,13 @@ function getNameRoles($id)
             });
         });
 
-        function hapusPegawai(id) {
+        function hapusPegawai(id, foto_pegawai, foto_ktp, foto_kk) {
+            lokasifotopegawai_lama = foto_pegawai;
+            lokasifotoktp_lama = foto_ktp;
+            lokasifotokk_lama = foto_kk;
+
+            console.log(id + foto_pegawai);
+
             Swal.fire({
                 title: 'Hapus Data',
                 text: "Apakah anda yakin ingin menghapus?",
@@ -1094,7 +1100,7 @@ function getNameRoles($id)
                         },
                         data: {
                             'type': 'hapus_pegawai',
-                            'query': "DELETE FROM pegawai WHERE id_pegawai = '" + selected_idpegawai + "'",
+                            'query': "DELETE FROM pegawai WHERE id_pegawai = '" + id + "'",
                             'pathfotopegawai': lokasifotopegawai_lama,
                             'pathfotoktp': lokasifotoktp_lama,
                             'pathfotokk': lokasifotokk_lama

@@ -2,59 +2,53 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../../css/output.css">
-  <title>Document</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../css/output.css">
+    <title>Document</title>
 </head>
 
 <body class="bg-slate-400">
 
-  <!-- background -->
-  <div id="bgmodal" class="hidden w-full h-screen fixed bg-black z-[51] opacity-50 transition duration-300 top-0"></div>
+    <!-- background -->
+    <div id="bgmodal" class="hidden w-full h-screen fixed bg-black z-[51] opacity-50 transition duration-300 top-0"></div>
 
-  <!-- container -->
-  <div id="container"
-    class="scale-0 transition ease-in-out fixed z-[52] flex flex-col justify-between max-md:w-[95vw] w-[445px] bg-white rounded-md left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%]">
+    <!-- container -->
+    <div id="container" class="scale-0 transition ease-in-out fixed z-[52] flex flex-col justify-between max-md:w-[95vw] w-[445px] bg-white rounded-md left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%]">
 
-    <!-- header -->
-    <div class=" flex flex-row justify-center items-center max-[359px]:h-14 max-[400px]:h-16 h-20 shadow-md">
-      <h1 class="font-ex-semibold">Deail</h1>
+        <!-- header -->
+        <div class=" flex flex-row justify-center items-center max-[359px]:h-14 max-[400px]:h-16 h-20 shadow-md">
+            <h1 class="font-ex-semibold">Detail</h1>
 
-      <!-- X button -->
-      <div id="button_x" class="absolute right-0 pr-4 cursor-pointer">
-        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M11.1044 8.30191L16.1006 3.30518C16.425 2.93684 16.5968 2.45891 16.5811 1.96855C16.5655 1.47818 16.3635 1.01218 16.0162 0.66526C15.669 0.318343 15.2026 0.116547 14.7118 0.100891C14.2209 0.0852353 13.7426 0.256894 13.3739 0.580975L8.37251 5.57256L3.36213 0.565533C3.18267 0.386237 2.96962 0.244012 2.73514 0.146977C2.50066 0.049943 2.24935 1.88919e-09 1.99555 0C1.74175 -1.88919e-09 1.49044 0.049943 1.25596 0.146977C1.02148 0.244012 0.808427 0.386237 0.628965 0.565533C0.449503 0.744829 0.307146 0.957685 0.210021 1.19195C0.112897 1.42621 0.0629075 1.67729 0.0629075 1.93085C0.0629075 2.18441 0.112897 2.43549 0.210021 2.66976C0.307146 2.90402 0.449503 3.11687 0.628965 3.29617L5.64063 8.30191L0.644421 13.2974C0.448479 13.4723 0.290333 13.6854 0.179658 13.9236C0.0689838 14.1618 0.00810857 14.42 0.000756215 14.6824C-0.00659614 14.9449 0.0397291 15.2061 0.136898 15.4501C0.234067 15.694 0.380037 15.9156 0.565876 16.1013C0.751716 16.287 0.973518 16.4328 1.21771 16.5299C1.46191 16.627 1.72336 16.6733 1.98607 16.6659C2.24879 16.6586 2.50724 16.5977 2.74562 16.4872C2.98399 16.3766 3.19728 16.2186 3.37244 16.0228L8.37251 11.0313L13.3674 16.0228C13.7299 16.3849 14.2215 16.5884 14.734 16.5884C15.2466 16.5884 15.7382 16.3849 16.1006 16.0228C16.463 15.6607 16.6667 15.1696 16.6667 14.6575C16.6667 14.1454 16.463 13.6543 16.1006 13.2922L11.1044 8.30191Z"
-            fill="#535A6D" />
-        </svg>
-      </div>
+            <!-- X button -->
+            <div id="button_x" class="absolute right-0 pr-4 cursor-pointer">
+                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11.1044 8.30191L16.1006 3.30518C16.425 2.93684 16.5968 2.45891 16.5811 1.96855C16.5655 1.47818 16.3635 1.01218 16.0162 0.66526C15.669 0.318343 15.2026 0.116547 14.7118 0.100891C14.2209 0.0852353 13.7426 0.256894 13.3739 0.580975L8.37251 5.57256L3.36213 0.565533C3.18267 0.386237 2.96962 0.244012 2.73514 0.146977C2.50066 0.049943 2.24935 1.88919e-09 1.99555 0C1.74175 -1.88919e-09 1.49044 0.049943 1.25596 0.146977C1.02148 0.244012 0.808427 0.386237 0.628965 0.565533C0.449503 0.744829 0.307146 0.957685 0.210021 1.19195C0.112897 1.42621 0.0629075 1.67729 0.0629075 1.93085C0.0629075 2.18441 0.112897 2.43549 0.210021 2.66976C0.307146 2.90402 0.449503 3.11687 0.628965 3.29617L5.64063 8.30191L0.644421 13.2974C0.448479 13.4723 0.290333 13.6854 0.179658 13.9236C0.0689838 14.1618 0.00810857 14.42 0.000756215 14.6824C-0.00659614 14.9449 0.0397291 15.2061 0.136898 15.4501C0.234067 15.694 0.380037 15.9156 0.565876 16.1013C0.751716 16.287 0.973518 16.4328 1.21771 16.5299C1.46191 16.627 1.72336 16.6733 1.98607 16.6659C2.24879 16.6586 2.50724 16.5977 2.74562 16.4872C2.98399 16.3766 3.19728 16.2186 3.37244 16.0228L8.37251 11.0313L13.3674 16.0228C13.7299 16.3849 14.2215 16.5884 14.734 16.5884C15.2466 16.5884 15.7382 16.3849 16.1006 16.0228C16.463 15.6607 16.6667 15.1696 16.6667 14.6575C16.6667 14.1454 16.463 13.6543 16.1006 13.2922L11.1044 8.30191Z" fill="#535A6D" />
+                </svg>
+            </div>
+        </div>
+
+        <!-- main content -->
+        <div id="main_content" class="flex flex-col w-full h-full max-[359px]:p-4 p-6 max-md:max-h-[70vh] max-h-[400px] overflow-x-auto">
+        </div>
+
+        <!-- footer -->
+        <div class="flex flex-row justify-center items-center max-[400px]:h-16 h-20 border-t-2">
+            <div id="btn_ok" class="cursor-pointer flex justify-center items-center w-[110px] h-[35px] rounded-md bg-[#5C6171] hover:bg-[#373942] font-ex-semibold text-white">
+                OK
+            </div>
+        </div>
+
+
     </div>
 
-    <!-- main content -->
-    <div id="main_content" class="flex flex-col w-full h-full max-[359px]:p-4 p-6 max-md:max-h-[70vh] max-h-[500px] overflow-x-auto">
-    </div>
-
-    <!-- footer -->
-    <div class="flex flex-row justify-center items-center max-[400px]:h-16 h-20 border-t-2">
-      <div id="btn_ok"
-        class="cursor-pointer flex justify-center items-center w-[110px] h-[35px] rounded-md bg-[#5C6171] hover:bg-[#373942] font-ex-semibold text-white">
-        OK
-      </div>
-    </div>
-
-
-  </div>
-
-  <script src="../../js/jquery-3.6.1.min.js"></script>
-  <script>
-
-    function reset(){
-      $('#main_content').scrollTop(0);
-    }
-
-  </script>
+    <script src="../../js/jquery-3.6.1.min.js"></script>
+    <script>
+        function reset() {
+            $('#main_content').scrollTop(0);
+        }
+    </script>
 </body>
 
 </html>

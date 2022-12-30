@@ -552,7 +552,14 @@ function rupiah($angka)
       var instansi = $('#txt_instansi').val();
       var kecamatan = $('#txt_kecamatan').val();
       var alamat = $('#txt_alamat').val();
-      var bayar = parseInt($("#txt_bayar").val().replace("Rp. ", "").replace(".", "").replace(".", "").replace(" ", ""));
+      var bayar;
+      console.log($('#txt_bayar').val());
+      if($('#txt_bayar').val() == ""){
+        console.log('ahaaaa');
+        bayar = 0;
+      } else {  
+        bayar = parseInt($("#txt_bayar").val().replace("Rp. ", "").replace(".", "").replace(".", "").replace(" ", ""))
+      }
       var tgljatuhtempo = new Date($('#tgljatuhtempo').val());
       var desa = $('#txt_desa').val();
 
@@ -612,6 +619,7 @@ function rupiah($angka)
             text: 'Jumlah bayar tidak sesuai dengan jenis pembayaran',
           });
         } else {
+          console.log(bayar);
           $.ajax({
             url: "../controllers/transaksiController.php",
             type: 'POST',
@@ -632,7 +640,7 @@ function rupiah($angka)
               'tgljatuhtempo': tgljatuhtempo.getFullYear() + '-' + (tgljatuhtempo.getMonth() + 1) + '-' + tgljatuhtempo.getDate(),
             },
             success: function(res) {
-              // alert(res);
+              alert(res);
               const data = JSON.parse(res);
               if (data.status == 'success') {
                 Swal.fire({
