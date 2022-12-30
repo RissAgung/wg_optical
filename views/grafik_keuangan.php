@@ -38,7 +38,7 @@
 
         </div>
 
-        <div class="px-14">
+        <div class="px-4 md:px-14">
 
             <div class="mt-3 flex items-center flex-wrap justify-between max-[450px]:justify-center max-[450px]:flex-col max-[450px]:gap-2">
                 <!-- Tab Bar -->
@@ -46,7 +46,6 @@
                     <div id="hovertab" class="transition translate-x-[0px] ease-in-out h-[35px] rounded-lg w-[80px] absolute bg-[#343948]"></div>
                     <div id="tabgrafik" class="flex cursor-pointer justify-center py-1.5 px-4 rounded-md tab-focus">Grafik</div>
                     <div id="tablaporan" class="flex cursor-pointer justify-center py-1.5 px-4 rounded-md">Laporan</div>
-                    <div id="tabgatau" class="flex cursor-pointer justify-center py-1.5 pr-4 rounded-md">Belum Tau</div>
                 </div>
 
                 <div class="flex flex-row items-center gap-2">
@@ -69,7 +68,7 @@
                 <!-- End Search and Button Add -->
             </div>
 
-            <div id="pagegrafik">
+            <div id="pagegrafik" class="">
                 <div class="text-sm mx-auto md:mx-auto relative bg-white rounded-md mt-4">
                     <div id="loadingchart" class="absolute h-full w-full flex flex-col justify-center items-center bg-slate-50 z-[20]">
                         <div class="loadingspinner"></div>
@@ -80,9 +79,27 @@
             </div>
 
             <div id="pagelaporan" class="hidden">
-                <div class="text-sm h-[500px] mx-auto md:mx-auto bg-white rounded-md mt-4 mb-32">
-                    <div class="flex justify-center h-full my-[50px]">
-                        <p class="text-center my-auto">laporan</p>
+                <div class="flex flex-col lg:flex-row w-full h-full gap-2 justify-start items-start mb-12">
+                    <div class="text-sm  mx-auto md:mx-auto bg-white rounded-md mt-4 w-full">
+                        <div class="px-4 py-4" id="chartpenjualan">
+                        </div>
+
+                    </div>
+                    <div class="flex flex-col w-full gap-2 mt-4 lg:w-[40%]">
+                        <div class="relative text-sm py-4 mx-auto md:mx-auto bg-white rounded-md w-full">
+                            <div id="loadingchartpieframe" class="absolute h-[90%] w-full flex flex-col justify-center items-center bg-white z-[20] py-4">
+                                <div class="loadingspinner"></div>
+                            </div>
+                            <div class="flex flex-row justify-center font-ex-bold text-[15px] w-full">Frame Terlaris</div>
+                            <div class="h-full" id="pie_chartframe"></div>
+                        </div>
+                        <div class="text-sm relative py-4 mx-auto md:mx-auto bg-white rounded-md w-full">
+                            <div id="loadingchartpielensa" class="absolute h-[90%] w-full flex flex-col justify-center items-center bg-white z-[20] py-4">
+                                <div class="loadingspinner"></div>
+                            </div>
+                            <div class="flex flex-row justify-center font-ex-bold text-[15px] w-full">Lensa Terlaris</div>
+                            <div class="h-full" id="pie_chartlensa"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -779,15 +796,66 @@
         // console.log(container.height() * 2.6);
         // sizeChart = ($(document).height() * 0.7);
 
+        console.log('width: ' + $(window).width());
+        console.log('height: ' + $(window).height());
+
         window.addEventListener('resize', function() {
-            chart.updateOptions({
-                chart: {
-                    height: $(window).height() * 0.7
-                }
-            });
+            if ($(window).width() <= 450) {
+                // chartpenjualan.updateOptions({
+                //     chart: {
+                //         height: $(window).height() * 0.4
+                //     }
+                // });
+
+                chart.updateOptions({
+                    chart: {
+                        height: $(window).height() * 0.4
+                    }
+                });
+
+                // chartpieframe.updateOptions({
+                //     chart: {
+                //         height: $(window).height() * 0.35
+                //     }
+                // });
+
+                // chartpielensa.updateOptions({
+                //     chart: {
+                //         height: $(window).height() * 0.35
+                //     }
+                // });
+
+
+            } else {
+                // chartpenjualan.updateOptions({
+                //     chart: {
+                //         height: $(window).height() * 0.75
+                //     }
+                // });
+                chart.updateOptions({
+                    chart: {
+                        height: $(window).height() * 0.7
+                    }
+                });
+
+                // chartpieframe.updateOptions({
+                //     chart: {
+                //         height: $(window).height() * 0.35
+                //     }
+                // });
+
+                // chartpielensa.updateOptions({
+                //     chart: {
+                //         height: $(window).height() * 0.35
+                //     }
+                // });
+            }
             // options.chart.height = ;
 
             chart.update();
+            // chartpenjualan.update();
+            // chartpieframe.update();
+            // chartpielensa.update();
             // console.log($(document).outerHeight());
             // console.log(options.chart.height);
 
@@ -798,7 +866,7 @@
             chart: {
                 redrawOnWindowResize: true,
                 type: 'bar',
-                height: $(document).height() * 0.7,
+                height: $(document).height() * ($(window).width() <= 450 ? 0.4 : 0.7),
                 // width: undefined,
                 toolbar: {
                     show: true,
@@ -851,7 +919,7 @@
             },
 
             title: {
-                text: 'Grafik Wilayah Bulanan',
+                text: 'Grafik Wilayah',
                 align: 'left',
                 margin: 60,
                 offsetX: 0,
@@ -909,7 +977,7 @@
         chart.render();
 
         // loadSeries();
-        getCategories();
+        // getCategories();
 
         console.log(dataframe);
 
@@ -921,6 +989,9 @@
 
         $(document).ready(function() {
             loadDefaultSeries();
+            // chartpieframe.updateSeries([0]);
+            // loadChartPenjualan();
+
             // refreshChart();
             // chart.updateSeries(getSeries());
             // chart.update();
@@ -931,19 +1002,26 @@
             dataframe = [];
             datafullset = [];
             datalensa = [];
+            options.xaxis.categories = [];
+            // chart.updateSeries(getSeries());
             options.title.text = 'Grafik Wilayah';
             chart.updateOptions(options.title.text)
             loadSeries();
+
         }
 
         function refresh() {
 
             $('#loadingchart').show();
             refreshChart();
-            getCategories();
+            // getCategories();
             console.log('ahaaa');
 
-
+            // chartpieframe.updateSeries([48, 22, 18, 43]);
+            $('#loadingchartpieframe').show();
+            $('#loadingchartpielensa').show();
+            console.log(getSeriesPie());
+            refreshChartPie();
             // chart.updateSeries(getSeries());
         }
 
@@ -987,7 +1065,7 @@
                         // options.series[1].data.push(element.jumlah);
                         //alert(element.jumlah);
                     }
-                    chart.update();
+                    // chart.update();
                 }
             });
 
@@ -1031,15 +1109,6 @@
                 }
             });
 
-            chart.updateSeries(getSeries(), true);
-            $('#loadingchart').hide();
-        }
-
-
-
-
-
-        async function getCategories() {
             await $.ajax({
                 url: '../controllers/laporanController.php?type=getWilayah',
                 type: 'GET',
@@ -1064,7 +1133,11 @@
                 }
             });
             chart.updateOptions(options);
+
+            chart.updateSeries(getSeries(), true);
+            $('#loadingchart').hide();
         }
+
 
 
         // $(document).idle({
@@ -1137,18 +1210,13 @@
 
             $('#pagegrafik').removeClass("hidden");
             $('#pagelaporan').addClass("hidden");
-            $('#pagegatau').addClass("hidden");
 
             $('#hovertab').addClass("translate-x-[0px]");
             $('#hovertab').removeClass("translate-x-[80px]");
-            $('#hovertab').removeClass("translate-x-[165px]");
 
             // change theme tab
             $('#tabgrafik').addClass("tab-focus");
             $('#tablaporan').removeClass("tab-focus");
-            $('#tabgatau').removeClass("tab-focus");
-
-
             // chart.update();
             chart.updateSeries(getSeries(), true);
 
@@ -1158,36 +1226,259 @@
         $('#tablaporan').on('click', function() {
 
             $('#pagegrafik').addClass("hidden");
-            $('#pagegatau').addClass("hidden");
             $('#pagelaporan').removeClass("hidden");
 
             $('#hovertab').addClass("translate-x-[80px]");
             $('#hovertab').removeClass("translate-x-[0px]");
-            $('#hovertab').removeClass("translate-x-[165px]");
 
             // change theme tab
             $('#tabgrafik').removeClass("tab-focus");
-            $('#tabgatau').removeClass("tab-focus");
-
             $('#tablaporan').addClass("tab-focus");
+
+            chartpieframe.updateSeries(getSeriesPie(), true);
+            chartpielensa.updateSeries(getSeriesPieLensa(), true);
+            // chartpieframe.update();
+            // refreshChartPie();
         });
 
-        $('#tabgatau').on('click', function() {
 
-            $('#pagegrafik').addClass("hidden");
-            $('#pagelaporan').addClass("hidden");
-            $('#pagegatau').removeClass("hidden");
+        var heightPenjualan = $(window).height() * 0.7;
 
-            $('#hovertab').removeClass("translate-x-[80px]");
-            $('#hovertab').removeClass("translate-x-[0px]");
-            $('#hovertab').addClass("translate-x-[165px]");
+        var seriesPie = [];
 
-            // change theme tab
-            $('#tabgrafik').removeClass("tab-focus");
-            $('#tablaporan').removeClass("tab-focus");
-            $('#tabgatau').addClass("tab-focus");
+        function getSeriesPie() {
+            return seriesPie;
+        }
 
+        var seriesPieLensa = [];
+
+        function getSeriesPieLensa() {
+            return seriesPieLensa;
+        }
+
+
+
+
+
+        async function loadChartPenjualan() {
+
+            optionspieframe.labels = [];
+            optionspielensa.labels = [];
+            await $.ajax({
+                url: '../controllers/laporanPenjualanController.php?getDataPieChart=frame',
+                type: 'GET',
+                success: function(res) {
+                    const data = JSON.parse(res);
+                    for (let index = 0; index < data.length; index++) {
+                        const element = data[index];
+
+                        seriesPie.push(element.jumlah);
+                        optionspieframe.labels.push(element.merk);
+
+                    }
+                    // chartpieframe.update();
+                    // alert(seriesPie);
+                    // chartpieframe.update();
+                }
+            });
+
+            await $.ajax({
+                url: '../controllers/laporanPenjualanController.php?getDataPieChart=lensa',
+                type: 'GET',
+                success: function(res) {
+                    //alert(res);
+                    const data = JSON.parse(res);
+                    for (let index = 0; index < data.length; index++) {
+                        const element = data[index];
+
+                        seriesPieLensa.push(element.jumlah);
+                        optionspielensa.labels.push(element.nama);
+
+                    }
+                    // chartpieframe.update();
+                    // alert(seriesPie);
+                    // chartpieframe.update();
+                }
+            });
+            chartpieframe.updateSeries(getSeriesPie(), true);
+            chartpieframe.updateOptions(optionspieframe);
+
+            chartpielensa.updateSeries(getSeriesPieLensa(), true);
+            chartpielensa.updateOptions(optionspielensa);
+
+            $('#loadingchartpieframe').hide();
+            $('#loadingchartpielensa').hide();
+        }
+
+        function refreshChartPie() {
+            seriesPie = [];
+            seriesPieLensa = [];
+            loadChartPenjualan();
+        }
+
+        // chart penjualan
+        var optionspenjualan = {
+            chart: {
+
+                redrawOnWindowResize: true,
+                type: 'bar',
+                height: heightPenjualan,
+                // width: undefined,
+                toolbar: {
+                    show: true,
+                    offsetX: 0,
+                    offsetY: 0,
+
+                    export: {
+                        csv: {
+                            filename: undefined,
+                            columnDelimiter: ',',
+                            headerCategory: 'category',
+                            headerValue: 'value',
+                            dateFormatter(timestamp) {
+                                return new Date(timestamp).toDateString()
+                            }
+                        },
+                        svg: {
+                            filename: undefined,
+                        },
+                        png: {
+                            filename: undefined,
+                        }
+                    },
+                    autoSelected: 'zoom'
+                },
+            },
+            dataLabels: {
+                enabled: false,
+
+            },
+            legend: {
+                show: true,
+
+                position: 'bottom',
+                horizontalAlign: 'center',
+
+                floating: false,
+                fontSize: '14px',
+                fontFamily: 'Helvetica, Arial',
+                fontWeight: 400,
+
+
+
+                offsetX: 0,
+                offsetY: 0,
+                labels: {
+                    colors: ['#ED30A2', '#0782C8'],
+                    useSeriesColors: false
+                },
+            },
+
+            title: {
+                text: 'Grafik Penjualan',
+                align: 'left',
+                margin: 60,
+                offsetX: 0,
+                offsetY: -20,
+                floating: true,
+                style: {
+                    fontSize: '24px',
+                    fontWeight: 'bold',
+                    fontFamily: undefined,
+                    color: '#263238'
+                },
+            },
+            noData: {
+                text: "No Data",
+                align: 'center',
+                verticalAlign: 'middle',
+                offsetX: 0,
+                offsetY: 0,
+                style: {
+                    color: undefined,
+                    fontSize: '14px',
+                    fontFamily: undefined
+                },
+            },
+
+            series: [{
+                name: 'Pemasukan',
+                data: [20, 32, 12, 31, 41, 22, 31],
+
+            }, {
+                name: 'Pengeluaran',
+                data: [23, 12, 31, 21, 41, 22, 32],
+
+            }],
+            stroke: {
+                colors: ["transparent"],
+                width: 2
+            },
+
+            colors: ['#ED30A2', '#0782C8'],
+
+            xaxis: {
+                type: 'category',
+                categories: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'],
+                labels: {
+                    show: true,
+                },
+                rotateLabels: 0,
+            }
+
+        }
+
+
+        var chartpenjualan = new ApexCharts(document.querySelector("#chartpenjualan"), optionspenjualan);
+
+        chartpenjualan.render();
+
+
+
+
+        // pie chart
+        var optionspieframe = {
+            redrawOnWindowResize: true,
+            chart: {
+                height: (heightPenjualan / 2) - 5,
+                type: 'pie',
+
+            },
+            legend: {
+                position: 'bottom',
+                horizontalAlign: 'center',
+
+            },
+            labels: [],
+            series: getSeriesPie(),
+
+        }
+
+        var chartpieframe = new ApexCharts(document.querySelector("#pie_chartframe"), optionspieframe);
+
+        $(document).ready(function() {
+            loadChartPenjualan();
         });
+        chartpieframe.render();
+
+        // pie chart
+        var optionspielensa = {
+            chart: {
+                height: (heightPenjualan / 2) - 5,
+                type: 'pie'
+            },
+            legend: {
+                position: 'bottom',
+                horizontalAlign: 'center',
+
+            },
+            labels: [],
+            series: getSeriesPieLensa(),
+        }
+
+        var chartpielensa = new ApexCharts(document.querySelector("#pie_chartlensa"), optionspielensa);
+
+        chartpielensa.render();
     </script>
 
 </body>
