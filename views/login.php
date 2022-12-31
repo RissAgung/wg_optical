@@ -39,7 +39,7 @@ echo '<script>Swal.fire({
                     <nav id="showmenu" class="absolute top-14 right-8 px-4 py-5 bg-[#171A23] border-2 rounded-lg shadow-lg md:shadow-none max-w-[250px] w-full hidden md:py-0 md:w-3/4 md:block md:max-w-full md:static md:border-none md:bg-transparent">
                         <ul class="block md:flex md:gap-4 md:justify-end">
                             <li class="group">
-                                <a href="login.html"><button class="text-white font-semibold px-4 py-2 bg-transparent md:bg-white md:text-black md:rounded-lg">Login</button></a>
+                                <a href="login.php"><button class="text-white font-semibold px-4 py-2 bg-transparent md:bg-white md:text-black md:rounded-lg">Login</button></a>
                             </li>
                             <li class="group">
                                 <a href="tracking.html"><button class="text-white font-semibold px-4 py-2 hover:bg-slate-700 hover:rounded-lg">Cari</button></a>
@@ -82,6 +82,7 @@ echo '<script>Swal.fire({
             </div>
         </div>
     </div>
+    <script src="../js/script.js"></script>
     <script src="../js/sweetalert2.min.js"></script>
     <script src="../js/jquery-3.6.1.min.js"></script>
 

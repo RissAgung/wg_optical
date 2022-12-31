@@ -128,6 +128,16 @@ $data = $select->showData("SELECT produk.kode_frame, produk.merk, produk.stock, 
                 data: app,
                 contentType: false,
                 processData: false,
+                beforeSend: function() {
+                    Swal.fire({
+                        title: 'Loading',
+                        html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                        allowOutsideClick: false,
+                        showConfirmButton: false,
+
+                    });
+                },
+                
                 success: function(res) {
                     const data = JSON.parse(res);
                     if (data.status == 'success') {

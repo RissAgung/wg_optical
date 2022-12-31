@@ -24,7 +24,7 @@ $lens = $con->showData("SELECT * FROM lensa");
 </head>
 
 <body class="bg-[#ECECEC] scrollbar-hide">
-  <section id="header" class="fixed z-[9999] w-full top-0">
+  <section id="header" class="fixed z-50 w-full top-0">
     <div class="flex flex-row px-8 py-6 shadow-lg bg-white">
       <a href="../dashboard.php">
         <svg class="my-[2px]" width="9" height="19" viewBox="0 0 9 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -151,13 +151,13 @@ $lens = $con->showData("SELECT * FROM lensa");
       </div>
     </div>
   </section>
-  <div class="fixed z-[9999] font-ex-medium flex flex-col w-full my-auto bg-white py-6 bottom-0">
+  <div class="fixed z-50 font-ex-medium flex flex-col w-full my-auto bg-white py-6 bottom-0">
     <div class="h-[1px] -translate-y-[24px] w-full bg-[#C9C9C9]"></div>
 
     <div class="flex flex-row justify-center w-full gap-4 h-full px-6 items-center">
-      <div class="bg-white border-[1px] h-12 border-[#444D68] w-1/2 text-center rounded-md text-[#444D68] font-ex-semibold flex justify-center items-center">
+      <a href="../dashboard.php" class="bg-white border-[1px] h-12 border-[#444D68] w-1/2 text-center rounded-md text-[#444D68] font-ex-semibold flex justify-center items-center">
         <p>Batal</p>
-      </div>
+      </a>
       <div onclick="tambah()" class="bg-[#444D68] w-1/2 h-12 text-center rounded-md py-1 text-white font-ex-semibold flex justify-center items-center">
         <p>Tambah</p>
       </div>
