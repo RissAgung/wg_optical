@@ -93,11 +93,9 @@ if (!isset($_SESSION['statusLogin'])) {
           <!-- <div class="flex w-1/2 bg-white">
             ssss
           </div> -->
-          <div class="flex flex-col max-md:h-[231px] xl:h-full md:w-1/2 md:mr-5 mt-5 rounded-lg bg-white items-start xl:mx-0 xl:my-auto p-5">
+          <!-- <div class="flex flex-col max-md:h-[231px] xl:h-full md:w-1/2 md:mr-5 mt-5 rounded-lg bg-white items-start xl:mx-0 xl:my-auto p-5">
             <p class="font-ex-semibold text-[16px] mb-3">Event Terdekat</p>
             <div class="flex flex-col justify-between w-full h-full overflow-auto scrollbar-hide text-[9px] font-ex-semibold">
-
-              <!-- item -->
               <div class="flex flex-row items-center w-full h-[32%] py-1">
                 <div class="flex flex-row w-[40%] h-full justify-between items-center pl-2">
                   <div class="w-[16px] h-[16px] rounded-full bg-[#7CBBAC]"></div>
@@ -129,9 +127,9 @@ if (!isset($_SESSION['statusLogin'])) {
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
 
-          <div class="flex flex-col w-full md:w-1/2 xl:justify-between xl:pl-4 xl:h-full">
+          <div class="flex flex-col w-full xl:justify-between xl:pl-4 xl:h-full">
             <div class="flex flex-row w-full h-[66px] xl:h-[30%] mt-5 xl:mt-0 rounded-lg bg-white justify-start items-center pl-5">
               <svg width="40" height="40" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M0 5C0 2.23858 2.23858 0 5 0H29C31.7614 0 34 2.23858 34 5V29C34 31.7614 31.7614 34 29 34H5C2.23858 34 0 31.7614 0 29V5Z" fill="#82DCC6" />

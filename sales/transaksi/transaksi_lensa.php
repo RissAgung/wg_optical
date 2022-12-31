@@ -3,9 +3,15 @@
 session_start();
 include "../../config/koneksi.php";
 
+if (!isset($_SESSION['statusLogin'])) {
+  header('Location: ../views/login.php');
+} else if ($_SESSION['level'] != 3) {
+  header('Location: ../views/dashboard.php');
+}
+
 $con = new koneksi();
 
-$idPegawai = $_SESSION["idPeg"];
+$idPegawai = $_SESSION["id_pegawai"];
 // $dataLens = $con->showData("SELECT * FROM detail_bawa JOIN produk ON detail_bawa.Kode_Frame = produk.kode_frame WHERE detail_bawa.Id_pegawai = '$idPegawai'");
 $lens = $con->showData("SELECT * FROM lensa");
 
@@ -272,6 +278,24 @@ $lens = $con->showData("SELECT * FROM lensa");
             data: variant_sent,
             contentType: false,
             processData: false,
+            beforeSend: function() {
+              Swal.fire({
+                title: 'Loading',
+                html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                allowOutsideClick: false,
+                showConfirmButton: false,
+
+              });
+            },
+            beforeSend: function() {
+              Swal.fire({
+                title: 'Loading',
+                html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                allowOutsideClick: false,
+                showConfirmButton: false,
+
+              });
+            },
             success: function(res) {
               const data = JSON.parse(res);
               if (data.status == 'success') {

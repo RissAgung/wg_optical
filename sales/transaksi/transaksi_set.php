@@ -3,10 +3,16 @@
 session_start();
 include "../../config/koneksi.php";
 
+if (!isset($_SESSION['statusLogin'])) {
+  header('Location: ../views/login.php');
+} else if ($_SESSION['level'] != 3) {
+  header('Location: ../views/dashboard.php');
+}
+
 $con = new koneksi();
 
-$idPegawai = $_SESSION["idPeg"];
-$dataLens = $con->showData("SELECT * FROM detail_bawa JOIN produk ON detail_bawa.Kode_Frame = produk.kode_frame LEFT JOIN keranjang_frame ON detail_bawa.Id_Bawa = keranjang_frame.id_bawa WHERE kode_pesanan IS NULL AND detail_bawa.Id_pegawai = '$idPegawai'");
+$idPegawai = $_SESSION["id_pegawai"];
+$dataLens = $con->showData("SELECT detail_bawa.Id_Bawa, produk.harga_jual FROM detail_bawa JOIN produk ON detail_bawa.Kode_Frame = produk.Kode_Frame WHERE detail_bawa.Id_pegawai = '$idPegawai' AND detail_bawa.status_frame = 'ready'");
 $lens = $con->showData("SELECT * FROM lensa");
 
 ?>
@@ -279,6 +285,7 @@ $lens = $con->showData("SELECT * FROM lensa");
             type: "insert",
             query_keranjang: "INSERT INTO keranjang VALUES ('" + idTR + "',NOW(),'<?= $idPegawai ?>','" + totalHarga + "')",
             keranjang_frame: "INSERT INTO keranjang_frame VALUES ('" + idTR + "','" + kode + "','" + hargaFrame + "')",
+            update_status: "UPDATE `detail_bawa` SET `status_frame` = 'unready' WHERE `detail_bawa`.`Id_Bawa` = '" + kode + "';",
             query_Keranjang_Lensa: "INSERT INTO `keranjang_lensa`(`kode_varian_lensa_keranjang`, `kode_pesanan`, `id_jenis_lensa`, `harga`) VALUES ('" + kode_varian_lensa + "','" + idTR + "','" + jenis_lensa + "','" + hargaLensa + "')",
             query_keranjang_resep: "INSERT INTO `keranjang_resep`(`kode_varian_lensa_keranjang`, `KN_SPH`, `KN_CYL`, `KN_AXIS`, `KR_SPH`, `KR_CYL`, `KR_AXIS`, `KN_ADD+`, `KN_PD`, `KN_SEG`, `KR_ADD+`, `KR_PD`, `KR_SEG`) VALUES ('" + kode_varian_lensa + "','" + kn_sph + "','" + kn_cyl + "','" + kn_axis + "','" + kr_sph + "','" + kr_cyl + "','" + kr_axis + "','" + kn_add + "','" + kn_pp + "','" + kn_seg + "','" + kr_add + "','" + kr_pp + "','" + kr_seg + "')",
           },
@@ -298,6 +305,15 @@ $lens = $con->showData("SELECT * FROM lensa");
             data: variant_sent,
             contentType: false,
             processData: false,
+            beforeSend: function() {
+              Swal.fire({
+                title: 'Loading',
+                html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                allowOutsideClick: false,
+                showConfirmButton: false,
+
+              });
+            },
             success: function(res) {
               const data = JSON.parse(res);
               if (data.status == 'success') {

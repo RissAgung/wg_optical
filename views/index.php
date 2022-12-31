@@ -1,3 +1,12 @@
+<?php
+
+include "../config/koneksi.php";
+$crud = new koneksi();
+
+$dataDb = $crud->showData("SELECT * FROM content_landing");
+$imbDb = $crud->showData("SELECT * FROM image_landing");
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,7 +43,7 @@
                                     <a href="tracking.html"><button class="text-white font-semibold px-4 py-2 hover:bg-slate-700 hover:rounded-lg">Cari</button></a>
                                 </li>
                                 <li class="group">
-                                    <a href="index.html"><button class="py-2 font-semibold px-4 bg-transparent text-white md:bg-white md:text-black md:rounded-lg">Home</button></a>
+                                    <a href="index.php"><button class="py-2 font-semibold px-4 bg-transparent text-white md:bg-white md:text-black md:rounded-lg">Home</button></a>
                                 </li>
                             </ul>
 
@@ -49,11 +58,8 @@
             <div class="mx-auto bg-[#171A23] w-full">
                 <div class="flex flex-wrap">
                     <div class="w-full pt-40 px-12 md:w-1/2 md:pb-44 lg:mb-32 md:pl-12 lg:pl-28">
-                        <p class="text-6xl md:text-4xl lg:text-6xl text-white font-bold">Waluyo Group</p>
-                        <p class="text-6xl md:text-4xl lg:text-6xl text-white font-bold">Optical</p>
-                        <p class="text-sm lg:text-xl pt-6 font-semibold text-white font-base">Cinta mungkin buta, tapi
-                            kadang, untuk bisa melihatnya dengan lebih
-                            jelas, kita hanya butuh kacamata yang pas</p>
+                        <p class="text-6xl md:text-4xl lg:text-6xl text-white font-bold"><?= $dataDb[0]["header"] ?></p>
+                        <p class="text-sm lg:text-xl pt-6 font-semibold text-white font-base"><?= $dataDb[0]["description"] ?></p>
 
 
                         <div class="flex flex-wrap py-6 gap-3">
@@ -62,32 +68,22 @@
                                     <p class="text-slate-900 text-sm lg:text-xl font-semibold">Masuk</p>
                                 </button>
                             </a>
-
                             <a href="tracking.html">
                                 <button class="px-4 py-2 bg-slate-800 rounded-lg border-2 hover:bg-slate-600">
                                     <p class="text-white text-sm lg:text-xl font-semibold">Lacak</p>
                                 </button>
                             </a>
-
                         </div>
                     </div>
                     <div class="w-full pt-12 px-12 md:pl-6 pb-32 md:w-1/2 md:pt-40 lg:pt-40 lg:pl-16">
 
-                        <div class="w-[87%] md:w-[80%] lg:w-[80%] rounded-xl overflow-hidden shadow-xl swiper one">
+                        <div class="w-[87%] md:w-[80%] lg:w-[80%] h-[300px] rounded-xl overflow-hidden shadow-xl swiper one">
                             <div class="swiper-wrapper">
-                                <img class="w-full object-cover swiper-slide  z-[22]" src="../assets/images/heroimg.png" alt="image_hero">
-                                <img class="w-full object-cover swiper-slide  z-[22]" src="../assets/images/heroimg2.png" alt="image_hero">
-                                <img class="w-full object-cover swiper-slide  z-[22]" src="../assets/images/heroimg3.png" alt="image_hero">
+                                <?php foreach ($imbDb as $index) : ?>
+                                    <img class="w-full object-cover swiper-slide z-[22]" src="../images/landing/<?= $index['img'] ?>" alt="image_hero">
+                                <?php endforeach ?>
                             </div>
-
-
-
                         </div>
-
-
-
-
-
 
                     </div>
                 </div>
@@ -109,8 +105,10 @@
                                     <img class="" src="../assets/images/catalog.png" alt="catalog">
                                 </div>
                                 <h2 class="text-center text-3xl font-bold py-4">Product 1</h2>
-                                <p class="text-center font-semibold text-md text-slate-600">Lorem Ipsum is simply dummy text
-                                    of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+                                <p class="text-center font-semibold text-md text-slate-600">Lorem Ipsum is simply dummy
+                                    text
+                                    of the printing and typesetting industry. Lorem Ipsum has been the industry's
+                                    standard
                                     dummy text ever since the 1500s,</p>
 
                                 <span class="bg-[#171A23] px-8 py-2 rounded-lg">
@@ -126,8 +124,10 @@
                                     <img class="" src="../assets/images/catalog.png" alt="catalog">
                                 </div>
                                 <h2 class="text-center text-3xl font-bold py-4">Product 2</h2>
-                                <p class="text-center font-semibold text-md text-slate-600">Lorem Ipsum is simply dummy text
-                                    of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+                                <p class="text-center font-semibold text-md text-slate-600">Lorem Ipsum is simply dummy
+                                    text
+                                    of the printing and typesetting industry. Lorem Ipsum has been the industry's
+                                    standard
                                     dummy text ever since the 1500s,</p>
 
                                 <span class="bg-[#171A23] px-8 py-2 rounded-lg">
@@ -143,8 +143,10 @@
                                     <img class="" src="../assets/images/catalog.png" alt="catalog">
                                 </div>
                                 <h2 class="text-center text-3xl font-bold py-4">Product 3</h2>
-                                <p class="text-center font-semibold text-md text-slate-600">Lorem Ipsum is simply dummy text
-                                    of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+                                <p class="text-center font-semibold text-md text-slate-600">Lorem Ipsum is simply dummy
+                                    text
+                                    of the printing and typesetting industry. Lorem Ipsum has been the industry's
+                                    standard
                                     dummy text ever since the 1500s,</p>
 
                                 <span class="bg-[#171A23] px-8 py-2 rounded-lg">
@@ -160,8 +162,10 @@
                                     <img class="" src="../assets/images/catalog.png" alt="catalog">
                                 </div>
                                 <h2 class="text-center text-3xl font-bold py-4">Product 4</h2>
-                                <p class="text-center font-semibold text-md text-slate-600">Lorem Ipsum is simply dummy text
-                                    of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+                                <p class="text-center font-semibold text-md text-slate-600">Lorem Ipsum is simply dummy
+                                    text
+                                    of the printing and typesetting industry. Lorem Ipsum has been the industry's
+                                    standard
                                     dummy text ever since the 1500s,</p>
 
                                 <span class="bg-[#171A23] px-8 py-2 rounded-lg">
@@ -177,8 +181,10 @@
                                     <img class="" src="../assets/images/catalog.png" alt="catalog">
                                 </div>
                                 <h2 class="text-center text-3xl font-bold py-4">Product 5</h2>
-                                <p class="text-center font-semibold text-md text-slate-600">Lorem Ipsum is simply dummy text
-                                    of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+                                <p class="text-center font-semibold text-md text-slate-600">Lorem Ipsum is simply dummy
+                                    text
+                                    of the printing and typesetting industry. Lorem Ipsum has been the industry's
+                                    standard
                                     dummy text ever since the 1500s,</p>
 
                                 <span class="bg-[#171A23] px-8 py-2 rounded-lg">
@@ -194,8 +200,10 @@
                                     <img class="" src="../assets/images/catalog.png" alt="catalog">
                                 </div>
                                 <h2 class="text-center text-3xl font-bold py-4">Product 6</h2>
-                                <p class="text-center font-semibold text-md text-slate-600">Lorem Ipsum is simply dummy text
-                                    of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+                                <p class="text-center font-semibold text-md text-slate-600">Lorem Ipsum is simply dummy
+                                    text
+                                    of the printing and typesetting industry. Lorem Ipsum has been the industry's
+                                    standard
                                     dummy text ever since the 1500s,</p>
                                 <span class="bg-[#171A23] px-8 py-2 rounded-lg">
                                     <a href="#" class="text-white font-semibold">Detail</a>
@@ -208,8 +216,10 @@
                                     <img class="" src="../assets/images/catalog.png" alt="catalog">
                                 </div>
                                 <h2 class="text-center text-3xl font-bold py-4">Product 7</h2>
-                                <p class="text-center font-semibold text-md text-slate-600">Lorem Ipsum is simply dummy text
-                                    of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+                                <p class="text-center font-semibold text-md text-slate-600">Lorem Ipsum is simply dummy
+                                    text
+                                    of the printing and typesetting industry. Lorem Ipsum has been the industry's
+                                    standard
                                     dummy text ever since the 1500s,</p>
                                 <span class="bg-[#171A23] px-8 py-2 rounded-lg">
                                     <a href="#" class="text-white font-semibold">Detail</a>
@@ -249,7 +259,12 @@
                                     <h1 class="text-white font-bold text-2xl">PROGRESSIVE LENS</h1>
                                 </div>
                                 <div class="flex items-center justify-center py-4 px-[30px]">
-                                    <h1 class="text-white font-bold text-center">Lensa ini juga memiliki dua titik fokus, bedanya lensa progresif tidak memiliki jarak atau garis pembatas pada titik fokus untuk melihat jarak jauh dan titik fokus untuk melihat jarak dekat. Selain itu, lensa ini dilengkapi dengan titik fokus yang berkemampun untuk melihat jarak sedang sehingga lebih nyaman. Lensa Progresif bisa dibilang lensa trifokal.</h1>
+                                    <h1 class="text-white font-bold text-center">Lensa ini juga memiliki dua titik
+                                        fokus, bedanya lensa progresif tidak memiliki jarak atau garis pembatas pada
+                                        titik fokus untuk melihat jarak jauh dan titik fokus untuk melihat jarak dekat.
+                                        Selain itu, lensa ini dilengkapi dengan titik fokus yang berkemampun untuk
+                                        melihat jarak sedang sehingga lebih nyaman. Lensa Progresif bisa
+                                        dibilang lensa trifokal.</h1>
                                 </div>
                             </div>
                         </div>
@@ -263,7 +278,12 @@
                                     <h1 class="text-white font-bold text-2xl">SINGLE VISION</h1>
                                 </div>
                                 <div class="flex items-center justify-center py-4 px-[30px]">
-                                    <h1 class="text-white font-bold text-center">Lensa ini juga memiliki dua titik fokus, bedanya lensa progresif tidak memiliki jarak atau garis pembatas pada titik fokus untuk melihat jarak jauh dan titik fokus untuk melihat jarak dekat. Selain itu, lensa ini dilengkapi dengan titik fokus yang berkemampun untuk melihat jarak sedang sehingga lebih nyaman. Lensa Progresif bisa dibilang lensa trifokal.</h1>
+                                    <h1 class="text-white font-bold text-center">Lensa ini juga memiliki dua titik
+                                        fokus, bedanya lensa progresif tidak memiliki jarak atau garis pembatas pada
+                                        titik fokus untuk melihat jarak jauh dan titik fokus untuk melihat jarak dekat.
+                                        Selain itu, lensa ini dilengkapi dengan titik fokus yang berkemampun untuk
+                                        melihat jarak sedang sehingga lebih nyaman. Lensa Progresif bisa
+                                        dibilang lensa trifokal.</h1>
                                 </div>
                             </div>
 
@@ -275,8 +295,10 @@
                 </div>
 
                 <!-- If we need navigation buttons -->
-                <div class="swiper-button-prev lens paksa-putih pl-6 btn-prev md:-translate-x-20 lg:-translate-x-24"></div>
-                <div class="swiper-button-next lens paksa-putih pr-6 btn-next md:translate-x-28 lg:translate-x-24"></div>
+                <div class="swiper-button-prev lens paksa-putih pl-6 btn-prev md:-translate-x-20 lg:-translate-x-24">
+                </div>
+                <div class="swiper-button-next lens paksa-putih pr-6 btn-next md:translate-x-28 lg:translate-x-24">
+                </div>
             </div>
 
         </section>

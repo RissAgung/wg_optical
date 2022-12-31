@@ -116,7 +116,7 @@ function rupiah($angka)
       <div class="flex flex-col md:flex-row items-center mt-3 md:mt-0">
 
         <!-- Search -->
-        <div class="flex flex-row shadow-sm rounded-md items-center justify-around bg-white w-72 box-border px-2 md:mr-6">
+        <div id="container_search" class="flex flex-row shadow-sm rounded-md items-center justify-around bg-white w-72 box-border px-2 md:mr-6">
           <div class=" flex flex-row items-center">
             <svg width="19" height="19" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" class="ml-3">
               <path d="M19.2502 19.25L15.138 15.1305M17.4168 9.62501C17.4168 11.6915 16.5959 13.6733 15.1347 15.1346C13.6735 16.5958 11.6916 17.4167 9.62516 17.4167C7.55868 17.4167 5.57684 16.5958 4.11562 15.1346C2.6544 13.6733 1.8335 11.6915 1.8335 9.62501C1.8335 7.55853 2.6544 5.57669 4.11562 4.11547C5.57684 2.65425 7.55868 1.83334 9.62516 1.83334C11.6916 1.83334 13.6735 2.65425 15.1347 4.11547C16.5959 5.57669 17.4168 7.55853 17.4168 9.62501V9.62501Z" stroke="#797E8D" stroke-width="2" stroke-linecap="round" />
@@ -374,7 +374,7 @@ function rupiah($angka)
       $('#btn_reset').removeClass('hidden');
       $('#btn_reset').addClass('flex');
       $('#btn_reset').on('click', function() {
-        window.location.replace("master_product_tambahan.php");
+        window.location.replace("master_product.php");
       })
     }
 
@@ -973,6 +973,7 @@ function rupiah($angka)
       $('#tab_table').removeClass("tab-focus");
       $('#table').addClass("hidden");
       $('#catalog').removeClass("hidden");
+      $('#container_search').addClass('hidden');
     });
 
     $('#tab_table').on("click", function() {
@@ -982,6 +983,8 @@ function rupiah($angka)
       $('#tab_table').addClass("tab-focus");
       $('#table').removeClass("hidden");
       $('#catalog').addClass("hidden");
+      $('#container_search').removeClass('hidden');
+
     });
 
     // delete modal

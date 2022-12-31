@@ -8,8 +8,6 @@ if (!isset($_SESSION['statusLogin'])) {
   header('Location: ../sales/dashboard.php');
 }
 
-// pppppp
-
 $crud = new koneksi();
 $jumlahDataPerHalaman = 6;
 $jumlahData = (isset($_GET["search"])) ? count( $crud -> showData("SELECT transaksi.kode_pesanan, transaksi.status_confirm, transaksi.tanggal, pegawai.nama AS nama_pegawai , transaksi.total_bayar, transaksi.total_harga, transaksi.kembalian, customer.nama AS nama_customer, transaksi.tanggal_jatuh_tempo, transaksi.status_pengiriman FROM transaksi JOIN pegawai ON transaksi.id_pegawai = pegawai.id_pegawai JOIN customer ON transaksi.id_customer = customer.id_customer LIKE'%" . $_GET["search"] . "%' LIMIT 0, $jumlahDataPerHalaman")) : count($crud -> showData("SELECT transaksi.kode_pesanan, transaksi.status_confirm, transaksi.tanggal, pegawai.nama AS nama_pegawai , transaksi.total_bayar, transaksi.total_harga, transaksi.kembalian, customer.nama AS nama_customer, transaksi.tanggal_jatuh_tempo, transaksi.status_pengiriman FROM transaksi JOIN pegawai ON transaksi.id_pegawai = pegawai.id_pegawai JOIN customer ON transaksi.id_customer = customer.id_customer"));
@@ -19,6 +17,7 @@ $awalData = ($jumlahDataPerHalaman * $halamanAktif) - $jumlahDataPerHalaman;
 
 $datariwayat = (isset($_GET["search"])) ? $crud->showData("SELECT transaksi.kode_pesanan, transaksi.status_confirm, transaksi.tanggal, pegawai.nama AS nama_pegawai , transaksi.total_bayar, transaksi.total_harga, transaksi.kembalian, customer.nama AS nama_customer, transaksi.tanggal_jatuh_tempo, transaksi.status_pengiriman FROM transaksi JOIN pegawai ON transaksi.id_pegawai = pegawai.id_pegawai JOIN customer ON transaksi.id_customer = customer.id_customer LIKE'%" . $_GET["search"] . "%' LIMIT $awalData, $jumlahDataPerHalaman") : $crud -> showData("SELECT transaksi.kode_pesanan, transaksi.status_confirm, transaksi.tanggal, pegawai.nama AS nama_pegawai , transaksi.total_bayar, transaksi.total_harga, transaksi.kembalian, customer.nama AS nama_customer, transaksi.tanggal_jatuh_tempo, transaksi.status_pengiriman FROM transaksi JOIN pegawai ON transaksi.id_pegawai = pegawai.id_pegawai JOIN customer ON transaksi.id_customer = customer.id_customer LIMIT $awalData, $jumlahDataPerHalaman")
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

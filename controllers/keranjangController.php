@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $crud->execute($_POST["keranjang_frame"]);
       $crud->execute($_POST["query_Keranjang_Lensa"]);
       $crud->execute($_POST["query_keranjang_resep"]);
+      $crud->execute($_POST["update_status"]);
 
       $response = array(
         'status' => 'success',
@@ -23,6 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif ($_POST["type"] == "insert_frame") {
       $crud->execute($_POST["query_keranjang"]);
       $crud->execute($_POST["keranjang_frame"]);
+      $crud->execute($_POST["update_status"]);
       $response = array(
         'status' => 'success',
         'msg' => 'Berhasil Memasukkan Frame Ke keranjang',

@@ -4,10 +4,16 @@ session_start();
 date_default_timezone_set("Asia/Bangkok");
 include "../config/koneksi.php";
 
+if (!isset($_SESSION['statusLogin'])) {
+  header('Location: ../views/login.php');
+} else if ($_SESSION['level'] != 3) {
+  header('Location: ../views/dashboard.php');
+}
+
 $datenow = getdate();
 
 $crud = new koneksi();
-$idPeg = $_SESSION["idPeg"];
+$idPeg = $_SESSION["id_pegawai"];
 
 $dataCart = $crud->showData("SELECT keranjang.kode_pesanan, keranjang_frame.harga AS harga_frame, keranjang_lensa.harga AS harga_lensa, keranjang.total FROM keranjang_frame RIGHT JOIN keranjang ON keranjang_frame.kode_pesanan = keranjang.kode_pesanan LEFT JOIN keranjang_lensa ON keranjang_lensa.kode_pesanan = keranjang.kode_pesanan WHERE keranjang.id_pegawai = '" . $idPeg . "'");
 
@@ -101,7 +107,7 @@ function rupiah($angka)
           <h1 class="pt-4">Nama</h1>
           <input class="cursor-pointer px-4 outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden" type="text" placeholder="" name="" id="txt_nama">
           <h1 class="pt-6">No Telepon</h1>
-          <input class="cursor-pointer px-4 outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden" type="text" placeholder="" name="" id="txt_nohp">
+          <input class="cursor-pointer px-4 outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden" type="number" placeholder="" name="" id="txt_nohp">
           <h1 class="pt-6">Pekerjaan / Instansi</h1>
           <div class="px-4 flex flex-row justify-between items-center outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden">
             <input class="cursor-pointer h-full w-full pr-4 outline-0" type="text" placeholder="" name="" id="txt_pekerjaan">
@@ -554,10 +560,10 @@ function rupiah($angka)
       var alamat = $('#txt_alamat').val();
       var bayar;
       console.log($('#txt_bayar').val());
-      if($('#txt_bayar').val() == ""){
+      if ($('#txt_bayar').val() == "") {
         console.log('ahaaaa');
         bayar = 0;
-      } else {  
+      } else {
         bayar = parseInt($("#txt_bayar").val().replace("Rp. ", "").replace(".", "").replace(".", "").replace(" ", ""))
       }
       var tgljatuhtempo = new Date($('#tgljatuhtempo').val());
@@ -594,6 +600,15 @@ function rupiah($angka)
               'kembalian': kembalian,
               'tgljatuhtempo': getDateNow(),
               // 'tgljatuhtempo': tgljatuhtempo.getFullYear() + '-' + (tgljatuhtempo.getMonth() + 1) + '-' + tgljatuhtempo.getDate(),
+            },
+            beforeSend: function() {
+              Swal.fire({
+                title: 'Loading',
+                html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                allowOutsideClick: false,
+                showConfirmButton: false,
+
+              });
             },
             success: function(res) {
               // alert(res);
@@ -638,6 +653,15 @@ function rupiah($angka)
               'proses_pembayaran': convertProsesPembayaran(),
               'kembalian': kembalian,
               'tgljatuhtempo': tgljatuhtempo.getFullYear() + '-' + (tgljatuhtempo.getMonth() + 1) + '-' + tgljatuhtempo.getDate(),
+            },
+            beforeSend: function() {
+              Swal.fire({
+                title: 'Loading',
+                html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                allowOutsideClick: false,
+                showConfirmButton: false,
+
+              });
             },
             success: function(res) {
               alert(res);
