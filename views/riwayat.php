@@ -261,6 +261,7 @@ $datariwayat = (isset($_GET["search"])) ? $crud->showData("SELECT transaksi.kode
   <script src="../js/sweetalert2.min.js"></script>
   <script src="../js/jquery.iddle.min.js"></script>
   <script>
+    
     $(document).idle({
       onIdle: function() {
         $.ajax({
