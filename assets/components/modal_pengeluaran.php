@@ -67,7 +67,7 @@ $supplier = $select->showData("SELECT * FROM supplier");
       <div class="h-12 flex mt-8 items-center  px-5">
         <h1 class="w-1/2 font-semibold text-sm">Tanggal</h1>
         <div class=" h-[50px] w-full border border-[#C9C9C9] rounded-lg ml-4 overflow-hidden">
-            <input type="date" name="" class="h-full w-full" id="date">
+            <input type="date" id="tanggal" class="h-full w-full" id="date">
         </div>
       </div> 
       <div class=" flex w-full items-center px-5 mt-7">
@@ -94,7 +94,7 @@ $supplier = $select->showData("SELECT * FROM supplier");
      <div class=" flex w-full items-center  px-5 mt-7">
         <p class="font-ex-semibold w-1/2">Supplier</p>
         <div class=" h-[50px] w-full border border-[#C9C9C9] rounded-lg ml-4 overflow-hidden">
-        <select name="brg" id="brg" class="h-full w-full outline-0 border-0 px-4 bg-white">
+        <select name="supplier" id="supplier" class="h-full w-full outline-0 border-0 px-4 bg-white">
               <option selected disabled value="">Pilih Supplier</option>
               <?php 
                  foreach ($supplier as $data) {

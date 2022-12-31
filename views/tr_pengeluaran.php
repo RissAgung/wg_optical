@@ -163,7 +163,7 @@ function rupiah($angka)
                                 <th class="p-3 text-sm tracking-wide text-center">No</th>
                                 <th class="p-3 text-sm tracking-wide text-center">Kode Transaksi</th>
                                 <th class="p-3 text-sm tracking-wide text-center">Tanggal</th>
-                                <th class="p-3 text-sm tracking-wide text-center">Admin</th>
+                                <th class="p-3 text-sm tracking-wide text-center">User</th>
                                 <th class="p-3 text-sm tracking-wide text-center">Keterangan</th>
                                 <th class="p-3 text-sm tracking-wide text-center">Total</th>
                             </tr>
@@ -287,7 +287,7 @@ function rupiah($angka)
                                 <th class="p-3 text-sm tracking-wide text-center">No</th>
                                 <th class="p-3 text-sm tracking-wide text-center">Kode Transaksi</th>
                                 <th class="p-3 text-sm tracking-wide text-center">Tanggal</th>
-                                <th class="p-3 text-sm tracking-wide text-center">Admin</th>
+                                <th class="p-3 text-sm tracking-wide text-center">User</th>
                                 <th class="p-3 text-sm tracking-wide text-center">Supplier</th>
                                 <th class="p-3 text-sm tracking-wide text-center">Jenis</th>
                                 <th class="p-3 text-sm tracking-wide text-center">Barang</th>
@@ -446,6 +446,8 @@ function rupiah($angka)
                     // load modal input
                     $("#modal").load("../assets/components/modal_pengeluaran.php", function() {
                         modals("Opr");
+                        $('#pageOperasional').addClass('statusclick');
+
                         //change tab
                         $('#tabOperasional').on('click', function() {
 
@@ -473,6 +475,7 @@ function rupiah($angka)
                             $('#pageRestock').removeClass("hidden");
                             $('#pageOperasional').addClass("hidden");
                             $('#pageRestock').toggleClass('statusclick');
+                            $('#pageOperasional').removeClass('statusclick');
 
                             $('#hovertab').addClass("translate-x-[165px]");
                             $('#hovertab').removeClass("translate-x-[0px]");
@@ -504,6 +507,12 @@ function rupiah($angka)
                             var tgl;
                             var keterangan;
                             var total;
+                            var jenis;
+                            var frame;
+                            var tambahan;
+                            var perkap;
+                            var supplier;
+                            var qty;
 
                             console.log("add");
                             console.log(idPegawai);
@@ -515,9 +524,16 @@ function rupiah($angka)
 
                             function getData() {
                                 tgl = $("#date").val();
+                                date = $("#tanggal").val();
                                 keterangan = $('#ket').val();
                                 total = parseInt($("#total").val().replace("Rp. ", "").replace(".", "").replace(".", "").replace(" ", ""));
-                                kode = "TR" + Math.random().toString(9).slice(2, 10);
+                                kode = "TR" + Math.random().toString(9).slice(2, 10);                              
+                                jenis = $("#jns").val();
+                                frame = $("#brg").val();
+                                tambahan = $("#brg").val();
+                                perkap = $("#brg").val();
+                                supplier = $("#supplier").val();
+                                qty = $("#jml").val();
                             };
 
 
@@ -582,7 +598,46 @@ function rupiah($angka)
                                 }
                             });
                             //end query add    
-                        };    
+                        }else if($( "#pageRestock" ).hasClass( "statusclick")){
+                            $("#btn_tambah").on("click", function(e) {
+                                console.log("add stock");
+                                e.preventDefault();
+                                getData();
+                                let formData = new FormData();
+                                let query;
+                                formData.append('type', "insert");
+                                formData.append('query', "INSERT INTO tr_pengeluaran VALUES ('" + kode + "' ,'" + date + "','" + idPegawai + "','restock','NULL','NULL','"+jenis+"','NULL','NULL','12212','"+supplier+"','"+qty+"')");
+
+                                $.ajax({
+                                        type: "POST",
+                                        url: "../controllers/pengeluaran.php",
+                                        data: formData,
+                                        contentType: false,
+                                        processData: false,
+                                        success: function(res) {                                            
+                                            const data = JSON.parse(res);
+                                            if (data.status == 'error') {
+                                                Swal.fire({
+                                                    icon: 'error',
+                                                    title: 'Gagal',
+                                                    text: data.msg,
+                                                })
+                                            } else {
+                                                Swal.fire({
+                                                    icon: 'success',
+                                                    title: 'Berhasil',
+                                                    text: data.msg,
+
+                                                }).then(function() {
+                                                    closeModal();
+                                                    window.location.replace("tr_pengeluaran.php?halaman=<?= $halamanAktif ?>");
+                                                });
+                                            }
+                                        }
+                                    });
+                           
+                            });
+                        };
                         }); //end code add    
 
                         //close modal 
