@@ -682,8 +682,14 @@ function getStatusPembayaran($kode)
 
     // modal detail invoice
     $("#modal_detail_invoice").load("../assets/components/modal_detail_invoice.html", function() {
+      $('#ok_btn').on('click', function(){
+        console.log("btn_ok");
+        $('#modal_detail_invoice').addClass("scale-0");
+        $('#bgbody').addClass('scale-0');
+        $('#bgbody').removeClass('effectmodal');
+      })
       $('#close_detail').on('click', function() {
-        console.log("pppppphello");
+        console.log("btn_x");
         $('#modal_detail_invoice').addClass("scale-0");
         $('#bgbody').addClass('scale-0');
         $('#bgbody').removeClass('effectmodal');
@@ -762,10 +768,9 @@ function getStatusPembayaran($kode)
 
           // status pesanan
           kontenHtml += '<div class="flex flex-col w-full max-md:p-5 p-9 bg-white mb-1">'
+          console.log(finalData.status_pengiriman);
 
-          console.log(finalData.status_pengiriman.length);
-
-          let status_pengiriman = (finalData.status_pengiriman == '1') ? "Di " + finalData.status_pengiriman : "Menunggu Konfirmasi";
+          let status_pengiriman = finalData.status_confirm != '1' ? "Di " + finalData.status_pengiriman : "Menunggu Konfirmasi";
           kontenHtml += '<h1 class="pb-4 font-ex-semibold">' + status_pengiriman + '</h1>'
 
           kontenHtml += '<div class="flex flex-row w-full">'

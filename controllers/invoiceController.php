@@ -4,6 +4,17 @@ include "../config/koneksi.php";
 
 $crud = new koneksi();
 
+if(isset($_GET['check'])){
+  if($_GET['check'] == 'requestPembelian'){
+    $res = $crud->showData("SELECT COUNT(*) as checkRequest FROM pegawai JOIN transaksi ON pegawai.id_pegawai = transaksi.id_pegawai JOIN customer ON transaksi.id_customer = customer.id_customer LEFT JOIN cicilan ON transaksi.kode_pesanan = cicilan.kode_pesanan WHERE transaksi.status_confirm = '1'");
+    foreach ($res as $value) {
+      $json = $value['checkRequest'];
+    }
+
+    echo $json;
+  }
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (isset($_POST["type"])) {
     if ($_POST["type"] == "confirm") {

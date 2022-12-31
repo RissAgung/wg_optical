@@ -37,7 +37,7 @@
                 <div id="no-data" class="hidden justify-center items-center h-full w-full">
                     <h1>No Data</h1>
                 </div>
-                <table class="w-full">
+                <table id="tabledetail" class="w-full">
                     <tbody id="bodytabel" class="">
                         <tr>
                             <td class="tracking-wide p-8 text-sm text-center">1</td>
@@ -62,25 +62,49 @@
 
     <script>
         function deleteDetailBawa(id) {
-            $.ajax({
-                url: '../controllers/tabelBarangBawaController.php',
-                type: 'POST',
-                data: {
-                    'id': id,
-                },
-                success: function(res) {
-                    const data = JSON.parse(res);
-                    if (data.status == 'success') {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Berhasil',
-                            text: data.msg,
-                        }).then(function() {
-                            window.location.reload();
-                        });
-                    }
+            Swal.fire({
+                title: 'Hapus Data',
+                text: "Apakah anda yakin ingin menghapus?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya',
+                cancelButtonText: 'Batal',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '../controllers/tabelBarangBawaController.php',
+                        type: 'POST',
+                        data: {
+                            'id': id,
+                        },
+                        beforeSend: function() {
+                            Swal.fire({
+                                title: 'Loading',
+                                html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                                allowOutsideClick: false,
+                                showConfirmButton: false,
+
+                            });
+                        },
+                        success: function(res) {
+                            const data = JSON.parse(res);
+                            if (data.status == 'success') {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Berhasil',
+                                    text: data.msg,
+                                }).then(function() {
+                                    window.location.reload();
+                                });
+                            }
+                        }
+                    });
                 }
-            });
+            })
+
+
         }
     </script>
 

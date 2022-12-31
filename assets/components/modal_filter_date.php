@@ -38,7 +38,7 @@ $date = getdate();
                     <div class="flex flex-col items-start w-full gap-2">
                         <h1 class="w-1/2 font-semibold text-sm text-start">Bulan</h1>
                         <div class="h-[50px] w-full border border-[#C9C9C9] rounded-lg overflow-hidden">
-                            <select name="txt_level" id="txt_level" class="h-full w-full outline-0 border-0 px-4">
+                            <select id="filterbulanan_bulan" class="h-full w-full outline-0 border-0 px-4">
                                 <option value="1">Januari</option>
                                 <option value="2">Februari</option>
                                 <option value="3">Maret</option>
@@ -57,7 +57,7 @@ $date = getdate();
                     <div class="flex flex-col items-start w-full gap-2">
                         <h1 class="w-1/2 font-semibold text-sm text-start">Tahun</h1>
                         <div class="h-[50px] w-full border border-[#C9C9C9] rounded-lg overflow-hidden">
-                            <select name="txt_level" id="txt_level" class="h-full w-full outline-0 border-0 px-4">
+                            <select id="filterbulanan_tahun" class="h-full w-full outline-0 border-0 px-4">
                                 <?php for ($i = ($date['year'] - 10); $i < ($date['year'] + 10); $i++) : ?>
                                     <option <?php echo $i == $date['year'] ? "selected" : ""; ?> value="<?= $i; ?>"><?= $i; ?></option>
                                 <?php endfor ?>
@@ -69,7 +69,7 @@ $date = getdate();
                     <div class="flex flex-col items-start w-full gap-2">
                         <h1 class="w-1/2 font-semibold text-sm text-start">Tahun</h1>
                         <div class="h-[50px] w-full border border-[#C9C9C9] rounded-lg overflow-hidden">
-                            <select name="txt_level" id="txt_level" class="h-full w-full outline-0 border-0 px-4">
+                            <select id="filtertahunan_tahun" class="h-full w-full outline-0 border-0 px-4">
                                 <?php for ($i = ($date['year'] - 10); $i < ($date['year'] + 10); $i++) : ?>
                                     <option <?php echo $i == $date['year'] ? "selected" : ""; ?> value="<?= $i; ?>"><?= $i; ?></option>
                                 <?php endfor ?>
@@ -103,10 +103,13 @@ $date = getdate();
 
     <script>
         datenow = new Date();
+        $('button[name="daterange"]').html('<p>Pilih Range</p>');
+
         
-        var selectedTab = 'Harian';
+        var selectedTab = 'harian';
         const pilihan = ['harian', 'mingguan', 'bulanan', 'tahunan', 'range'];
         var selectedFilterHarian = datenow.getFullYear() + '-' + (datenow.getMonth() + 1) + '-' + datenow.getDate();
+        var selectedFilterMingguan = datenow.getFullYear() + '-' + (datenow.getMonth() + 1) + '-' + datenow.getDate();
 
         function clickTab(name) {
             for (let index = 0; index < pilihan.length; index++) {
@@ -154,7 +157,14 @@ $date = getdate();
             // ...options
         });
 
-        var getDateRange = '';
+        minggu.addEventListener('changeDate', function(evt) {
+            datemingguan = new Date(evt.detail.date);
+            selectedFilterMingguan = datemingguan.getFullYear() + '-' + (datemingguan.getMonth() + 1) + '-' + datemingguan.getDate();
+            // alert(ateharian.getFullYear() + '-' + (dateharian.getMonth() + 1) + '-' + dateharian.getDate());
+        });
+
+        var range_start = '';
+        var range_end = '';
 
 
         $(function() {
@@ -163,8 +173,12 @@ $date = getdate();
                 "showDropdowns": true,
                 "parentEl": $('#bodynya'),
             }, function(start, end, label) {
-                getDateRange = start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD');
-                $('button[name="daterange"]').html('<p>' + getDateRange + '</p>')
+                // getDateRange = start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD');
+
+                range_start = start.format('YYYY-MM-DD');
+                range_end = end.format('YYYY-MM-DD');
+
+                $('button[name="daterange"]').html('<p class="text-xs">' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + '</p>')
                 // console.log(getDateRange);
             });
         });
