@@ -80,7 +80,10 @@
 
             <div id="pagelaporan" class="hidden">
                 <div class="flex flex-col lg:flex-row w-full h-full gap-2 justify-start items-start mb-12">
-                    <div class="text-sm  mx-auto md:mx-auto bg-white rounded-md mt-4 w-full">
+                    <div class="text-sm relative mx-auto md:mx-auto bg-white rounded-md mt-4 w-full">
+                        <div id="loadingchartpenjualan" class="absolute h-full w-full flex flex-col justify-center items-center bg-slate-50 z-[20]">
+                            <div class="loadingspinner"></div>
+                        </div>
                         <div class="px-4 py-4" id="chartpenjualan">
                         </div>
 
@@ -124,6 +127,7 @@
     <script src="../js/DateRangePicker.js"></script>
     <script src="../js/datePicker.js"></script>
     <script>
+        var categorySelected = 1;
         var dataframe = [];
         var datalensa = [];
         var datafullset = [];
@@ -137,76 +141,343 @@
             });
 
             $('#apply').on('click', async function() {
-                dataframe = [];
-                datafullset = [];
-                datalensa = [];
-                // categories = [];
-                if (selectedTab == 'harian') {
-                    console.log(selectedFilterHarian);
 
-                    options.title.text = 'Grafik Wilayah Harian';
-                    chart.updateOptions(options.title.text)
+                if (categorySelected == 1) {
+                    dataframe = [];
+                    datafullset = [];
+                    datalensa = [];
+                    // categories = [];
 
-                    // chart.update();
-                    await getSeriesFilterHarian();
+                    if (selectedTab == 'harian') {
+                        console.log(selectedFilterHarian);
 
-                    $('#modalkontendate').addClass("scale-0");
-                    $('#bgmodaldate').removeClass("effectmodal");
-
-                } else if (selectedTab == 'mingguan') {
-                    options.title.text = 'Grafik Wilayah Mingguan';
-                    chart.updateOptions(options.title.text)
-                    console.log(selectedFilterMingguan);
-                    await getSeriesFilterMingguan();
-                    $('#modalkontendate').addClass("scale-0");
-                    $('#bgmodaldate').removeClass("effectmodal");
-
-                } else if (selectedTab == 'bulanan') {
-                    options.title.text = 'Grafik Wilayah Bulanan';
-                    chart.updateOptions(options.title.text)
-                    // console.log(selectedFilterBu);
-                    await getSeriesFilterBulanan();
-                    $('#modalkontendate').addClass("scale-0");
-                    $('#bgmodaldate').removeClass("effectmodal");
-
-                } else if (selectedTab == 'tahunan') {
-                    options.title.text = 'Grafik Wilayah Tahunan';
-                    chart.updateOptions(options.title.text)
-                    // console.log(selectedFilterBu);
-                    await getSeriesFilterTahunan();
-                    $('#modalkontendate').addClass("scale-0");
-                    $('#bgmodaldate').removeClass("effectmodal");
-
-                } else {
-                    console.log('bukan harian');
-                    if (range_start == '' && range_end == '') {} else {
-                        options.title.text = 'Grafik Wilayah | ' + range_start + ' to ' + range_end;
+                        options.title.text = 'Grafik Wilayah Harian';
                         chart.updateOptions(options.title.text)
-                        await getSeriesFilterRange();
+
+                        // chart.update();
+                        await getSeriesFilterHarian();
+
                         $('#modalkontendate').addClass("scale-0");
                         $('#bgmodaldate').removeClass("effectmodal");
+
+                    } else if (selectedTab == 'mingguan') {
+                        options.title.text = 'Grafik Wilayah Mingguan';
+                        chart.updateOptions(options.title.text)
+                        console.log(selectedFilterMingguan);
+                        await getSeriesFilterMingguan();
+                        $('#modalkontendate').addClass("scale-0");
+                        $('#bgmodaldate').removeClass("effectmodal");
+
+                    } else if (selectedTab == 'bulanan') {
+                        options.title.text = 'Grafik Wilayah Bulanan';
+                        chart.updateOptions(options.title.text)
+                        // console.log(selectedFilterBu);
+                        await getSeriesFilterBulanan();
+                        $('#modalkontendate').addClass("scale-0");
+                        $('#bgmodaldate').removeClass("effectmodal");
+
+                    } else if (selectedTab == 'tahunan') {
+                        options.title.text = 'Grafik Wilayah Tahunan';
+                        chart.updateOptions(options.title.text)
+                        // console.log(selectedFilterBu);
+                        await getSeriesFilterTahunan();
+                        $('#modalkontendate').addClass("scale-0");
+                        $('#bgmodaldate').removeClass("effectmodal");
+
+                    } else {
+                        console.log('bukan harian');
+                        if (range_start == '' && range_end == '') {} else {
+                            options.title.text = 'Grafik Wilayah | ' + range_start + ' to ' + range_end;
+                            chart.updateOptions(options.title.text)
+                            await getSeriesFilterRange();
+                            $('#modalkontendate').addClass("scale-0");
+                            $('#bgmodaldate').removeClass("effectmodal");
+                        }
                     }
+                    // chart.updateOptions(options);
+                    chart.updateSeries(getSeries());
+                    chart.update();
+                } else {
+                    dataPemasukkan = [];
+                    dataPengeluaran = [];
+                    optionspenjualan.xaxis.categories = [];
+                    // categories = [];
+
+                    if (selectedTab == 'harian') {
+                        optionspenjualan.title.text = 'Grafik Penjualan Harian';
+                        chartpenjualan.updateOptions(optionspenjualan.title.text)
+
+                        // chart.update();
+                        await getSeriesFilterPenjualanHarian();
+
+                        $('#modalkontendate').addClass("scale-0");
+                        $('#bgmodaldate').removeClass("effectmodal");
+
+                    } else if (selectedTab == 'mingguan') {
+                        optionspenjualan.title.text = 'Grafik Penjualan Mingguan';
+                        chartpenjualan.updateOptions(optionspenjualan.title.text)
+                        // chart.update();
+                        await getSeriesFilterPenjualanMingguan();
+
+                        $('#modalkontendate').addClass("scale-0");
+                        $('#bgmodaldate').removeClass("effectmodal");
+                        // options.title.text = 'Grafik Wilayah Mingguan';
+                        // chart.updateOptions(options.title.text)
+                        // console.log(selectedFilterMingguan);
+                        // await getSeriesFilterMingguan();
+                        // $('#modalkontendate').addClass("scale-0");
+                        // $('#bgmodaldate').removeClass("effectmodal");
+
+                    } else if (selectedTab == 'bulanan') {
+                        optionspenjualan.title.text = 'Grafik Penjualan Bulanan';
+                        chartpenjualan.updateOptions(optionspenjualan.title.text)
+                        // chart.update();
+                        await getSeriesFilterPenjualanBulanan();
+
+                        $('#modalkontendate').addClass("scale-0");
+                        $('#bgmodaldate').removeClass("effectmodal");
+                        // options.title.text = 'Grafik Wilayah Bulanan';
+                        // chart.updateOptions(options.title.text)
+                        // // console.log(selectedFilterBu);
+                        // await getSeriesFilterBulanan();
+                        // $('#modalkontendate').addClass("scale-0");
+                        // $('#bgmodaldate').removeClass("effectmodal");
+
+                    } else if (selectedTab == 'tahunan') {
+                        optionspenjualan.title.text = 'Grafik Penjualan Tahunan';
+                        chartpenjualan.updateOptions(optionspenjualan.title.text)
+                        // chart.update();
+                        await getSeriesFilterPenjualanTahunan();
+
+                        $('#modalkontendate').addClass("scale-0");
+                        $('#bgmodaldate').removeClass("effectmodal");
+                        // options.title.text = 'Grafik Wilayah Tahunan';
+                        // chart.updateOptions(options.title.text)
+                        // // console.log(selectedFilterBu);
+                        // await getSeriesFilterTahunan();
+                        // $('#modalkontendate').addClass("scale-0");
+                        // $('#bgmodaldate').removeClass("effectmodal");
+
+                    } else if (selectedTab == 'range') {
+                        optionspenjualan.title.text = 'Grafik Penjualan Range';
+                        chartpenjualan.updateOptions(optionspenjualan.title.text)
+                        // chart.update();
+                        await getSeriesFilterPenjualanRange();
+
+                        $('#modalkontendate').addClass("scale-0");
+                        $('#bgmodaldate').removeClass("effectmodal");
+                        // options.title.text = 'Grafik Wilayah Tahunan';
+                        // chart.updateOptions(options.title.text)
+                        // // console.log(selectedFilterBu);
+                        // await getSeriesFilterTahunan();
+                        // $('#modalkontendate').addClass("scale-0");
+                        // $('#bgmodaldate').removeClass("effectmodal");
+
+                    } else {
+                        // console.log('bukan harian');
+                        // if (range_start == '' && range_end == '') {} else {
+                        //     options.title.text = 'Grafik Wilayah | ' + range_start + ' to ' + range_end;
+                        //     chart.updateOptions(options.title.text)
+                        //     await getSeriesFilterRange();
+                        //     $('#modalkontendate').addClass("scale-0");
+                        //     $('#bgmodaldate').removeClass("effectmodal");
+                        // }
+                    }
+                    // chart.updateOptions(options);
+                    chartpenjualan.updateSeries(getSeriesPenjualan());
+                    chartpenjualan.update();
                 }
-                // chart.updateOptions(options);
-                chart.updateSeries(getSeries());
-                chart.update();
-
-
-                // chart.updateOptions(options);
-
-                // chart.updateOptions(options);
-
-
-
-                // chart.updateOptions(categories);
-
-
 
             });
-
-            // filter 
-
         });
+
+        async function getSeriesFilterPenjualanHarian() {
+            var modal_loading = Swal.fire({
+                title: 'Loading',
+                html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                allowOutsideClick: false,
+                showConfirmButton: false,
+
+            });
+            await $.ajax({
+                url: '../controllers/laporanPenjualanController.php?getDataBarChart=harian',
+                type: 'POST',
+                data: {
+                    'tanggal': selectedFilterHarian,
+                },
+                success: function(res) {
+                    // alert(res);
+                    //alert(res);
+                    const data = JSON.parse(res);
+                    //categories = [];
+                    for (let index = 0; index < data.length; index++) {
+                        const element = data[index];
+                        // categories = element.kecamatan;
+                        //dataframe.push(20);
+                        dataPemasukkan.push(element.data);
+                        dataPengeluaran.push(450000);
+                        optionspenjualan.xaxis.categories.push(element.labels);
+                        // datafullset.push(5);
+                        // options.series[1].data.push(element.jumlah);
+                        //alert(element.jumlah);
+                    }
+
+                    // chartpenjualan.update();
+                }
+            });
+
+            modal_loading.close();
+            chartpenjualan.updateOptions(optionspenjualan);
+            // chartpenjualan.updateSeries(getSeriesPenjualan(), true);
+
+        }
+
+
+
+        async function getSeriesFilterPenjualanMingguan() {
+            var modal_loading = Swal.fire({
+                title: 'Loading',
+                html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                allowOutsideClick: false,
+                showConfirmButton: false,
+
+            });
+            await $.ajax({
+                url: '../controllers/laporanPenjualanController.php?getDataBarChart=mingguan',
+                type: 'POST',
+                data: {
+                    'tanggal': selectedFilterMingguan,
+                },
+                success: function(res) {
+                    alert(res);
+                    //alert(res);
+                    const data = JSON.parse(res);
+                    dataPemasukkan = data.data;
+                    optionspenjualan.xaxis.categories = data.labels;
+                    // chartpenjualan.update();
+                }
+            });
+
+
+            chartpenjualan.updateOptions(optionspenjualan);
+            modal_loading.close();
+            // chartpenjualan.updateSeries(getSeriesPenjualan(), true);
+        }
+
+
+        async function getSeriesFilterPenjualanBulanan() {
+            var modal_loading = Swal.fire({
+                title: 'Loading',
+                html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                allowOutsideClick: false,
+                showConfirmButton: false,
+
+            });
+            await $.ajax({
+                url: '../controllers/laporanPenjualanController.php?getDataBarChart=bulanan',
+                type: 'POST',
+                data: {
+                    'bulan': $('#filterbulanan_bulan').val(),
+                    'tahun': $('#filterbulanan_tahun').val(),
+                },
+                success: function(res) {
+
+                    //alert(res);
+                    const data = JSON.parse(res);
+                    //categories = [];
+
+                    dataPemasukkan = data.data
+                    for (let index = 0; index < data.labels.length; index++) {
+                        const element = data.labels[index];
+
+                        optionspenjualan.xaxis.categories.push(element);
+                    }
+
+                    // categories = element.kecamatan;
+                    //dataframe.push(20);
+                    // datalensa.push(element.jumlah);
+                    // datafullset.push(5);
+                    // options.series[1].data.push(element.jumlah);
+                    //alert(element.jumlah);
+
+
+                    // chartpenjualan.update();
+                }
+            });
+
+
+            chartpenjualan.updateOptions(optionspenjualan);
+            modal_loading.close();
+            // chartpenjualan.updateSeries(getSeriesPenjualan(), true);
+        }
+
+        async function getSeriesFilterPenjualanTahunan() {
+            var modal_loading = Swal.fire({
+                title: 'Loading',
+                html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                allowOutsideClick: false,
+                showConfirmButton: false,
+
+            });
+            await $.ajax({
+                url: '../controllers/laporanPenjualanController.php?getDataBarChart=tahunan',
+                type: 'POST',
+                data: {
+                    'tahun': $('#filtertahunan_tahun').val(),
+                },
+                success: function(res) {
+
+                    // alert(res);
+                    //alert(res);
+                    const data = JSON.parse(res);
+                    dataPemasukkan = data.data;
+                    optionspenjualan.xaxis.categories = data.labels;
+
+                    // chartpenjualan.update();
+                }
+            });
+
+
+            chartpenjualan.updateOptions(optionspenjualan);
+            modal_loading.close();
+            // chartpenjualan.updateSeries(getSeriesPenjualan());
+        }
+
+        async function getSeriesFilterPenjualanRange() {
+            var modal_loading = Swal.fire({
+                title: 'Loading',
+                html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                allowOutsideClick: false,
+                showConfirmButton: false,
+
+            });
+            await $.ajax({
+                url: '../controllers/laporanPenjualanController.php?getDataBarChart=range',
+                type: 'POST',
+                data: {
+                    'start': range_start,
+                    'end': range_end,
+                },
+                success: function(res) {
+
+                    // alert(res);
+                    //alert(res);
+                    const data = JSON.parse(res);
+                    dataPemasukkan = data.data;
+                    optionspenjualan.xaxis.categories[0] = range_start + ' to ' + range_end;
+                
+                    chartpenjualan.update();
+                }
+            });
+            chartpenjualan.update();
+
+            chartpenjualan.updateOptions(optionspenjualan);
+            modal_loading.close();
+            // chartpenjualan.updateSeries(getSeriesPenjualan(), true);
+        }
+
+
+        ////////
 
         async function getSeriesFilterHarian() {
             var modal_loading = Swal.fire({
@@ -989,6 +1260,7 @@
 
         $(document).ready(function() {
             loadDefaultSeries();
+            loadDefaultSeriesPenjualan();
             // chartpieframe.updateSeries([0]);
             // loadChartPenjualan();
 
@@ -997,6 +1269,18 @@
             // chart.update();
             console.log('abcd');
         });
+
+        function refreshChartPenjualan() {
+            dataPemasukkan = [];
+            dataPengeluaran = [];
+            optionspenjualan.xaxis.categories = [];
+            // chart.updateSeries(getSeries());
+            optionspenjualan.title.text = 'Grafik Penjualan';
+            chart.updateOptions(optionspenjualan.title.text)
+
+            loadDefaultSeriesPenjualan();
+
+        }
 
         function refreshChart() {
             dataframe = [];
@@ -1017,11 +1301,16 @@
             // getCategories();
             console.log('ahaaa');
 
+            $('#loadingchartpenjualan').show();
+            refreshChartPenjualan();
+
             // chartpieframe.updateSeries([48, 22, 18, 43]);
             $('#loadingchartpieframe').show();
             $('#loadingchartpielensa').show();
             console.log(getSeriesPie());
             refreshChartPie();
+
+
             // chart.updateSeries(getSeries());
         }
 
@@ -1046,6 +1335,38 @@
                 name: 'Fullset',
                 data: datafullset,
             }]
+        }
+
+        var dataPemasukkan = [];
+        var dataPengeluaran = [];
+
+        function getSeriesPenjualan() {
+            return [{
+                name: 'Pemasukkan',
+                data: dataPemasukkan,
+            }, {
+                name: 'Pengeluaran',
+                data: dataPengeluaran,
+            }];
+        }
+
+
+        async function loadDefaultSeriesPenjualan() {
+            // alert('dwadwa');
+            await $.ajax({
+                url: '../controllers/laporanPenjualanController.php?getDataBarChart=default',
+                type: 'GET',
+                success: function(res) {
+                    const data = JSON.parse(res);
+                    dataPemasukkan = data.data;
+                    dataPengeluaran = [300000, 500000, 300000, 250000, 450000, 300000, 250000];
+                    optionspenjualan.xaxis.categories = data.labels;
+                    // alert(data.data);
+                }
+            });
+            chartpenjualan.updateOptions(optionspenjualan);
+            chartpenjualan.updateSeries(getSeriesPenjualan(), true);
+            $('#loadingchartpenjualan').hide();
         }
 
         async function loadDefaultSeries() {
@@ -1207,7 +1528,7 @@
         });
 
         $('#tabgrafik').on('click', function() {
-
+            categorySelected = 1;
             $('#pagegrafik').removeClass("hidden");
             $('#pagelaporan').addClass("hidden");
 
@@ -1224,7 +1545,7 @@
         });
 
         $('#tablaporan').on('click', function() {
-
+            categorySelected = 2;
             $('#pagegrafik').addClass("hidden");
             $('#pagelaporan').removeClass("hidden");
 
@@ -1234,6 +1555,8 @@
             // change theme tab
             $('#tabgrafik').removeClass("tab-focus");
             $('#tablaporan').addClass("tab-focus");
+            chartpenjualan.updateSeries(getSeriesPenjualan());
+
 
             chartpieframe.updateSeries(getSeriesPie(), true);
             chartpielensa.updateSeries(getSeriesPieLensa(), true);
@@ -1319,7 +1642,6 @@
         // chart penjualan
         var optionspenjualan = {
             chart: {
-
                 redrawOnWindowResize: true,
                 type: 'bar',
                 height: heightPenjualan,
@@ -1401,15 +1723,7 @@
                 },
             },
 
-            series: [{
-                name: 'Pemasukan',
-                data: [20, 32, 12, 31, 41, 22, 31],
-
-            }, {
-                name: 'Pengeluaran',
-                data: [23, 12, 31, 21, 41, 22, 32],
-
-            }],
+            series: [],
             stroke: {
                 colors: ["transparent"],
                 width: 2
@@ -1417,13 +1731,37 @@
 
             colors: ['#ED30A2', '#0782C8'],
 
-            xaxis: {
-                type: 'category',
-                categories: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'],
+            yaxis: {
                 labels: {
+                    style: {
+                        colors: '#333333',
+                        fontSize: '13px',
+                        fontFamily: '../assets/fonts/Montserrat-Medium'
+                    },
+                    formatter: value => {
+                        const formatter = new Intl.NumberFormat('id-ID', {
+                            style: 'currency',
+                            currency: 'IDR',
+                            minimumFractionDigits: 0
+                        });
+                        return formatter.format(value);
+                    },
+                }
+            },
+
+            xaxis: {
+
+                type: 'category',
+                categories: [],
+                labels: {
+                    style: {
+                        colors: '#333333',
+                        fontSize: '13px',
+                        fontFamily: '../assets/fonts/Montserrat-Bold'
+                    },
                     show: true,
+
                 },
-                rotateLabels: 0,
             }
 
         }
