@@ -591,8 +591,14 @@ function getStatusPembayaran($kode)
 
     // modal detail invoice
     $("#modal_detail_invoice").load("../assets/components/modal_detail_invoice.html", function() {
+      $('#ok_btn').on('click', function(){
+        console.log("btn_ok");
+        $('#modal_detail_invoice').addClass("scale-0");
+        $('#bgbody').addClass('scale-0');
+        $('#bgbody').removeClass('effectmodal');
+      })
       $('#close_detail').on('click', function() {
-        console.log("pppppphello");
+        console.log("btn_x");
         $('#modal_detail_invoice').addClass("scale-0");
         $('#bgbody').addClass('scale-0');
         $('#bgbody').removeClass('effectmodal');
