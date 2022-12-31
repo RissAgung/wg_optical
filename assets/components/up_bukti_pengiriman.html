@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../css/output.css">
+  <title>Document</title>
+</head>
+
+<body class="">
+
+  <div id="bgmodalinput" class="hidden w-full h-screen fixed bg-black z-[53] opacity-0 transition duration-300"></div>
+
+  <!-- container -->
+  <div id="modalImgHeader"
+    class="flex fixed z-[53] left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] flex-col justify-between max-md:w-[90%] w-[432px] h-96 bg-white rounded-md shadow-lg max-md:p-3 p-4 scale-0 transition ease-out">
+
+    <!-- header -->
+    <div class="w-full h-[10%] flex justify-between items-center px-2">
+      <h1 class="text-sm font-ex-semibold">Bukti pengiriman</h1>
+      <svg id="btn_out" class="cursor-pointer fill-[#535A6D] hover:fill-[#373d4f]" width="18" height="18"
+        viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M7.3289 5.47926L10.6264 2.18142C10.8405 1.93831 10.9539 1.62288 10.9436 1.29924C10.9332 0.975599 10.7999 0.668037 10.5707 0.439072C10.3415 0.210106 10.0337 0.0769213 9.70976 0.0665883C9.38581 0.0562553 9.07009 0.16955 8.82676 0.383443L5.52586 3.67789L2.21901 0.373252C2.10056 0.254916 1.95995 0.161048 1.80519 0.097005C1.65044 0.0329623 1.48457 1.24687e-09 1.31706 0C1.14956 -1.24687e-09 0.983689 0.0329623 0.828933 0.097005C0.674177 0.161048 0.533562 0.254916 0.415117 0.373252C0.296672 0.491587 0.202716 0.632072 0.138614 0.786685C0.0745119 0.941298 0.041519 1.10701 0.041519 1.27436C0.041519 1.44171 0.0745119 1.60743 0.138614 1.76204C0.202716 1.91665 0.296672 2.05714 0.415117 2.17547L3.72282 5.47926L0.425318 8.77625C0.295996 8.89175 0.19162 9.03239 0.118574 9.18957C0.0455293 9.34676 0.00535166 9.51718 0.000499102 9.69041C-0.00435345 9.86364 0.0262212 10.036 0.0903528 10.1971C0.154484 10.3581 0.250824 10.5043 0.373478 10.6269C0.496133 10.7494 0.642522 10.8457 0.80369 10.9097C0.964858 10.9738 1.13742 11.0043 1.31081 10.9995C1.4842 10.9947 1.65478 10.9545 1.81211 10.8815C1.96944 10.8086 2.11021 10.7043 2.22581 10.5751L5.52586 7.28063L8.82251 10.5751C9.06172 10.8141 9.38616 10.9483 9.72446 10.9483C10.0628 10.9483 10.3872 10.8141 10.6264 10.5751C10.8656 10.3361 11 10.0119 11 9.67396C11 9.33598 10.8656 9.01184 10.6264 8.77286L7.3289 5.47926Z" />
+      </svg>
+    </div>
+
+    <!-- image -->
+    <div class="flex items-center justify-center w-full h-[67%] border-2 border-dashed border-[#B9B9B9]">
+      <label for="imgInp" class="cursor-pointer">
+        <svg id="imgdefault_peg" width="60" height="60" viewBox="0 0 60 60" fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M51.4775 0H8.5225C6.263 0.00264656 4.09681 0.9014 2.49911 2.49911C0.9014 4.09681 0.00264656 6.263 0 8.5225L0 60H60V8.5225C59.9974 6.263 59.0986 4.09681 57.5009 2.49911C55.9032 0.9014 53.737 0.00264656 51.4775 0V0ZM8.5225 7.5H51.4775C51.7485 7.50066 52.0082 7.6086 52.1998 7.80021C52.3914 7.99183 52.4993 8.25152 52.5 8.5225V52.5L26.035 26.035C25.0974 25.0976 23.8258 24.5711 22.5 24.5711C21.1742 24.5711 19.9026 25.0976 18.965 26.035L7.5 37.5V8.5225C7.50066 8.25152 7.6086 7.99183 7.80021 7.80021C7.99183 7.6086 8.25152 7.50066 8.5225 7.5Z"
+            fill="#999999" />
+          <path
+            d="M38.7495 25C42.2013 25 44.9995 22.2018 44.9995 18.75C44.9995 15.2982 42.2013 12.5 38.7495 12.5C35.2977 12.5 32.4995 15.2982 32.4995 18.75C32.4995 22.2018 35.2977 25 38.7495 25Z"
+            fill="#999999" />
+        </svg>
+      </label>
+      <input type="file" name="imgProduct" class="hidden" id="imgInp">
+      <img id="imgpreview_peg" class="object-cover w-full h-full rounded-md hidden" src="#" alt="Gambar anda">
+    </div>
+
+    <!-- button -->
+    <div class="flex flex-row items-center justify-center gap-2 w-full h-[15%]">
+      <div id="btn_upload"
+        class="cursor-pointer flex items-center justify-center text-white font-ex-semibold h-[80%] w-[111px] bg-[#343948] hover:bg-[#242939] rounded-md transition ease-in-out">
+        Upload</div>
+      <div id="btnOutHeader"
+        class="cursor-pointer flex items-center justify-center text-white font-ex-semibold h-[80%] w-[111px] bg-[#EC4D47] hover:bg-[#a5302c] rounded-md transition ease-in-out">
+        Cencel</div>
+    </div>
+  </div>
+
+</body>
+
+</html>

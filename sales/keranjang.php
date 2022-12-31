@@ -1,8 +1,14 @@
 <?php
 
-session_start();
 
 include "../config/koneksi.php";
+session_start();
+
+if (!isset($_SESSION['statusLogin'])) {
+  header('Location: ../views/login.php');
+} else if ($_SESSION['level'] != 3) {
+  header('Location: ../views/dashboard.php');
+}
 
 $crud = new koneksi();
 $idPeg = $_SESSION["idPeg"];

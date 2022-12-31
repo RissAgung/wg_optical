@@ -320,6 +320,21 @@ input[type=file] {
 
 }
 
+/* tab pointer invoice mobile */
+@media (max-width: 376px) {
+    .tab_invoice_mobile1 {
+        @apply translate-x-0;
+    }
+
+    .tab_invoice_mobile2 {
+        @apply translate-x-[110px];
+    }
+
+    .tab_invoice_mobile3 {
+        @apply translate-x-[225px];
+    }
+}
+
 input[type=file]::file-selector-button {
     transform: translateY(70px);
     color: white !important;

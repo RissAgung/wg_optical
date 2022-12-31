@@ -3,10 +3,16 @@
 session_start();
 include "../../config/koneksi.php";
 
+if (!isset($_SESSION['statusLogin'])) {
+  header('Location: ../views/login.php');
+} else if ($_SESSION['level'] != 3) {
+  header('Location: ../views/dashboard.php');
+}
+
 $con = new koneksi();
 
 $idPegawai = $_SESSION["idPeg"];
-$dataLens = $con->showData("SELECT * FROM detail_bawa JOIN produk ON detail_bawa.Kode_Frame = produk.kode_frame LEFT JOIN keranjang_frame ON detail_bawa.Id_Bawa = keranjang_frame.id_bawa WHERE kode_pesanan IS NULL AND detail_bawa.Id_pegawai = '$idPegawai'");
+$dataLens = $con->showData("SELECT detail_bawa.Id_Bawa, produk.harga_jual FROM detail_bawa JOIN produk ON detail_bawa.Kode_Frame = produk.Kode_Frame WHERE detail_bawa.Id_pegawai = '$idPegawai' AND detail_bawa.status_frame = 'ready'");
 $lens = $con->showData("SELECT * FROM lensa");
 
 ?>
@@ -24,7 +30,7 @@ $lens = $con->showData("SELECT * FROM lensa");
 </head>
 
 <body class="bg-[#ECECEC] scrollbar-hide">
-  <section id="header" class="fixed z-[9999] w-full top-0">
+  <section id="header" class="fixed z-[70] w-full top-0">
     <div class="flex flex-row px-8 py-6 shadow-lg bg-white">
       <a href="../dashboard.php">
         <svg class="my-[2px]" width="9" height="19" viewBox="0 0 9 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -163,7 +169,7 @@ $lens = $con->showData("SELECT * FROM lensa");
       </div>
     </div>
   </section>
-  <div class="fixed z-[9999] font-ex-medium flex flex-col w-full my-auto bg-white py-6 bottom-0">
+  <div class="fixed z-[70] font-ex-medium flex flex-col w-full my-auto bg-white py-6 bottom-0">
     <div class="h-[1px] -translate-y-[24px] w-full bg-[#C9C9C9]"></div>
 
     <div class="flex flex-row justify-center w-full gap-4 h-full px-6 items-center">
@@ -279,6 +285,7 @@ $lens = $con->showData("SELECT * FROM lensa");
             type: "insert",
             query_keranjang: "INSERT INTO keranjang VALUES ('" + idTR + "',NOW(),'<?= $idPegawai ?>','" + totalHarga + "')",
             keranjang_frame: "INSERT INTO keranjang_frame VALUES ('" + idTR + "','" + kode + "','" + hargaFrame + "')",
+            update_status: "UPDATE `detail_bawa` SET `status_frame` = 'unready' WHERE `detail_bawa`.`Id_Bawa` = '"+kode+"';",
             query_Keranjang_Lensa: "INSERT INTO `keranjang_lensa`(`kode_varian_lensa_keranjang`, `kode_pesanan`, `id_jenis_lensa`, `harga`) VALUES ('" + kode_varian_lensa + "','" + idTR + "','" + jenis_lensa + "','" + hargaLensa + "')",
             query_keranjang_resep: "INSERT INTO `keranjang_resep`(`kode_varian_lensa_keranjang`, `KN_SPH`, `KN_CYL`, `KN_AXIS`, `KR_SPH`, `KR_CYL`, `KR_AXIS`, `KN_ADD+`, `KN_PD`, `KN_SEG`, `KR_ADD+`, `KR_PD`, `KR_SEG`) VALUES ('" + kode_varian_lensa + "','" + kn_sph + "','" + kn_cyl + "','" + kn_axis + "','" + kr_sph + "','" + kr_cyl + "','" + kr_axis + "','" + kn_add + "','" + kn_pp + "','" + kn_seg + "','" + kr_add + "','" + kr_pp + "','" + kr_seg + "')",
           },
