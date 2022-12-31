@@ -12,7 +12,7 @@ include "../../config/koneksi.php";
 
 $con = new koneksi();
 
-$idPegawai = $_SESSION["idPeg"];
+$idPegawai = $_SESSION["id_pegawai"];
 $dataLens = $con->showData("SELECT detail_bawa.Id_Bawa, produk.harga_jual FROM detail_bawa JOIN produk ON detail_bawa.Kode_Frame = produk.Kode_Frame WHERE detail_bawa.Id_pegawai = '$idPegawai' AND detail_bawa.status_frame = 'ready'");
 
 ?>
@@ -99,7 +99,16 @@ $dataLens = $con->showData("SELECT detail_bawa.Id_Bawa, produk.harga_jual FROM d
             type: "insert_frame",
             query_keranjang: "INSERT INTO keranjang VALUES ('" + idTR + "',NOW(),'<?= $idPegawai ?>','" + harga_input + "')",
             keranjang_frame: "INSERT INTO keranjang_frame VALUES ('" + idTR + "','" + kode + "','" + harga_input + "')",
-            update_status: "UPDATE `detail_bawa` SET `status_frame` = 'unready' WHERE `detail_bawa`.`Id_Bawa` = '"+kode+"';",
+            update_status: "UPDATE detail_bawa SET status_frame = 'unready' WHERE Id_Bawa = '" + kode + "';",
+          },
+          beforeSend: function() {
+            Swal.fire({
+              title: 'Loading',
+              html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+              allowOutsideClick: false,
+              showConfirmButton: false,
+
+            });
           },
           success: function(res) {
             const data = JSON.parse(res);

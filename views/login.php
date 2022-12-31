@@ -45,7 +45,7 @@ echo '<script>Swal.fire({
                                 <a href="tracking.html"><button class="text-white font-semibold px-4 py-2 hover:bg-slate-700 hover:rounded-lg">Cari</button></a>
                             </li>
                             <li class="group">
-                                <a href="index.html"><button class="py-2 text-white font-semibold px-4 hover:bg-slate-700 hover:rounded-lg">Home</button></a>
+                                <a href="index.php"><button class="py-2 text-white font-semibold px-4 hover:bg-slate-700 hover:rounded-lg">Home</button></a>
                             </li>
                         </ul>
 
