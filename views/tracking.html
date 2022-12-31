@@ -7,9 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WG Optical | Tracking Page</title>
     <link rel="stylesheet" href="../css/output.css">
+    <link rel="stylesheet" href="../css/sweetalert2.min.css">
 </head>
 
-<body class="bg-[#171A23]">
+<body class="bg-[#171A23] font-ex-medium">
 
     <div class="flex flex-col h-screen justify-between">
         <section id="navbar">
@@ -43,7 +44,7 @@
         </section>
 
         <section id="hero" class="mb-auto">
-            <div class="flex flex-col w-full pt-40 bg-[#171A23] justify-center items-center">
+            <div class="flex flex-col w-full pt-24 bg-[#171A23] justify-center items-center">
                 <h1 class="text-white text-4xl px-8 font-semibold text-center">Track</h1>
                 <h1 class="text-white text-4xl px-8 font-semibold text-center">Your Order Item</h1>
 
@@ -52,7 +53,7 @@
                 </div>
 
                 <div class="bg-white w-[85%] md:w-[60%] lg:w-[45%] h-16 rounded-lg relative mt-8">
-                    <input class="w-full h-full pr-20 rounded-lg px-6 border-none mb-6" placeholder="Masukkan No Faktur" type="text">
+                    <input id="inputTrack" class="w-full h-full pr-20 rounded-lg px-6 border-none mb-6" placeholder="Masukkan No Faktur" type="text">
                     <div class="h-8 w-8 absolute right-5 bottom-4 fill-[#797E8D]">
                         <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 487.95 487.95" style="enable-background:new 0 0 487.95 487.95;" xml:space="preserve">
                             <path d="M481.8,453l-140-140.1c27.6-33.1,44.2-75.4,44.2-121.6C386,85.9,299.5,0.2,193.1,0.2S0,86,0,191.4s86.5,191.1,192.9,191.1
@@ -60,6 +61,16 @@
                     c0-82.8,68.2-150.1,151.9-150.1s151.9,67.3,151.9,150.1s-68.2,150.1-151.9,150.1S41,274.1,41,191.4z" />
                         </svg>
                     </div>
+                </div>
+            </div>
+        </section>
+        <section id="resultTracking" class="bg-white w-full mt-20">
+            <div id="detailResult" class="h-0 transitionsidebar flex flex-col justify-start items-center overflow-hidden">
+                <h1 id="trackNama" class="text-3xl font-bold py-2 mt-12">Mphstar</h1>
+                <p id="trackKode">#TR00012434GJSA</p>
+
+                <div id="statusTracking" class="px-8 flex justify-center items-center mt-12">
+                    <img id="imgtracking" class="h-[320px]" src="../assets/images/mobile_3.svg" alt="">
                 </div>
             </div>
         </section>
@@ -100,8 +111,117 @@
 
     </div>
 
-
+    <script src="../js/jquery-3.6.1.min.js"></script>
+    <script src="../js/sweetalert2.min.js"></script>
+    <script src="../js/swiper-bundle.min.js"></script>
     <script src="../js/script.js"></script>
+    <script>
+        var height = 'h-[600px]';
+
+        window.addEventListener('resize', function() {
+            if ($(window).width() >= 460) {
+                if ($('#imgtracking').attr('src').includes('mobile')) {
+                    $('#imgtracking').attr('src', $('#imgtracking').attr('src').replace('mobile', 'tablet'));
+                }
+            } else {
+                if ($('#imgtracking').attr('src').includes('tablet')) {
+                    $('#imgtracking').attr('src', $('#imgtracking').attr('src').replace('tablet', 'mobile'));
+                }
+            }
+
+        });
+
+        var loading;
+
+        $('#inputTrack').keypress(function(e) {
+            if (e.which == 13) {
+                console.log($('#detailResult').height());
+
+                if ($('#inputTrack').val() == "") {
+                    loading.close();
+                    // window.location.replace("master_pegawai.php");
+                    $('#detailResult').addClass('h-0');
+                    $('#detailResult').removeClass('h-[420px]');
+                    $('#detailResult').removeClass('h-[450px]');
+                } else {
+                    $.ajax({
+                        url: '../controllers/trackingController.php',
+                        type: 'POST',
+                        data: {
+                            'kode_pesanan': $('#inputTrack').val(),
+                        },
+                        beforeSend: function() {
+                            loading = Swal.fire({
+                                title: 'Loading',
+                                html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                                allowOutsideClick: false,
+                                showConfirmButton: false,
+
+                            });
+                        },
+                        success: function(res) {
+                            loading.close();
+                            // alert(res);
+                            try {
+                                const data = JSON.parse(res);
+                                $('#trackNama').html(data[0].nama);
+                                $('#trackKode').html(data[0].kode_pesanan);
+
+
+                                if (data[0].status_pengiriman == 'produksi') {
+                                    if ($(window).width() >= 460) {
+                                        $('#statusTracking').html('<img id="imgtracking" class="h-[200px]" src="../assets/images/tablet_1.svg" alt="">');
+                                    } else {
+                                        $('#statusTracking').html('<img id="imgtracking" class="h-[200px]" src="../assets/images/mobile_1.svg" alt="">');
+                                    }
+                                    // $('#detailResult').removeClass('h-[450px]');
+                                    // $('#detailResult').removeClass('h-[650px]');
+
+                                    // $('#detailResult').addClass('h-[420px]');
+                                } else if (data[0].status_pengiriman == 'kirim') {
+                                    if ($(window).width() >= 460) {
+                                        $('#statusTracking').html('<img id="imgtracking" class="h-[220px]" src="../assets/images/tablet_2.svg" alt="">');
+                                    } else {
+                                        $('#statusTracking').html('<img id="imgtracking" class="h-[220px]" src="../assets/images/mobile_2.svg" alt="">');
+                                    }
+                                    // $('#detailResult').removeClass('h-[300px]');
+                                    // $('#detailResult').removeClass('h-[650px]');
+
+
+                                } else if (data[0].status_pengiriman == 'terima') {
+                                    // alert('dwad');
+                                    if ($(window).width() >= 460) {
+                                        $('#statusTracking').html('<img id="imgtracking" class="h-[200px]" src="../assets/images/tablet_3.svg" alt="">');
+                                    } else {
+                                        $('#statusTracking').html('<img id="imgtracking" class="h-[230px]" src="../assets/images/mobile_3.svg" alt="">');
+                                    }
+                                    // $('#detailResult').removeClass('h-[450px]');
+                                    // $('#detailResult').removeClass('h-[300px]');
+
+                                    // $('#detailResult').addClass('h-[450px]');
+
+                                }
+
+                                $('#detailResult').removeClass('h-0');
+                                $('#detailResult').addClass('h-[450px]');
+
+                            } catch (error) {
+                                Swal.fire({
+                                    icon: 'warning',
+                                    title: 'Tidak ditemukan',
+                                    text: 'Kode Pesanan tidak ditemukan',
+                                });
+                            }
+
+
+                        },
+                    });
+
+
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>

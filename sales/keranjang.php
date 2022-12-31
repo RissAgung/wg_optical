@@ -1,8 +1,10 @@
 <?php
 
 session_start();
-
+date_default_timezone_set("Asia/Bangkok");
 include "../config/koneksi.php";
+
+$datenow = getdate();
 
 $crud = new koneksi();
 $idPeg = $_SESSION["idPeg"];
@@ -49,7 +51,7 @@ function rupiah($angka)
 <body class="scrollbar-hide bg-[#ECECEC]">
 
   <section id="pembayaran" class="hidden bg-white">
-    <section id="header" class="fixed z-[100] w-full top-0">
+    <section id="header" class="fixed z-[50] w-full top-0">
       <div class="flex flex-row px-8 py-6 shadow-md bg-white">
         <button onclick="backToKeranjang()">
           <svg class="my-[2px]" width="9" height="19" viewBox="0 0 9 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -134,7 +136,7 @@ function rupiah($angka)
           <div id="field-jatuh-tgl-tempo" class="hidden">
             <h1 class="pt-6">Tanggal Jatuh Tempo</h1>
             <div class="h-16 w-full border border-[#C9C9C9] rounded-lg mt-3 overflow-hidden">
-              <input type="date" id="tgljatuhtempo" class="h-full w-full">
+              <input type="date" id="tgljatuhtempo" class="h-full w-full" min="<?= $datenow['year'] . '-' . $datenow['mon'] . '-' . $datenow['mday']; ?>">
             </div>
           </div>
           <h1 class="pt-6">Depan Bayar</h1>
@@ -142,7 +144,7 @@ function rupiah($angka)
         </div>
       </div>
     </section>
-    <div class="fixed z-[100] font-ex-medium flex flex-col w-full my-auto bg-white py-6 bottom-0">
+    <div class="fixed z-[50] font-ex-medium flex flex-col w-full my-auto bg-white py-6 bottom-0">
       <div class="h-[1px] -translate-y-[24px] w-full bg-[#C9C9C9]"></div>
       <div class="flex flex-row justify-between w-full gap-4 h-full px-6 items-center">
         <div class="flex flex-col">
@@ -160,7 +162,7 @@ function rupiah($angka)
     <!-- modal deail -->
     <div id="modal_detail"></div>
 
-    <section id="header" class="fixed z-[100] w-full top-0">
+    <section id="header" class="fixed z-[50] w-full top-0">
       <div class="flex flex-row px-8 py-6 justify-between shadow-sm bg-white">
         <a href="dashboard.php">
           <svg class="my-[2px]" width="9" height="19" viewBox="0 0 9 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -182,7 +184,7 @@ function rupiah($angka)
       <div class=" overflow-y-scroll scrollbar-hide">
 
         <?php foreach ($dataCart as $index) : ?>
-          
+
           <div class="bg-white my-4 mx-6 rounded-lg shadow-sm">
             <div class="flex flex-row relative">
               <div class="flex items-center px-2">
@@ -217,7 +219,7 @@ function rupiah($angka)
 
       </div>
     </section>
-    <div class="fixed z-[100] font-ex-medium flex flex-col w-full my-auto bg-white py-6 items-center bottom-0">
+    <div class="fixed z-[50] font-ex-medium flex flex-col w-full my-auto bg-white py-6 items-center bottom-0">
       <div class="h-[1px] -translate-y-[24px] w-full bg-[#C9C9C9]"></div>
 
       <div class="flex flex-row justify-between gap-4 w-full h-full px-8 items-center">
@@ -240,6 +242,13 @@ function rupiah($angka)
   <script src="../js/jquery-3.6.1.min.js"></script>
   <script src="../js/sweetalert2.min.js"></script>
   <script>
+    /* Dengan Rupiah */
+    var dengan_rupiah = document.getElementById('txt_bayar');
+    dengan_rupiah.addEventListener('keyup', function(e) {
+      dengan_rupiah.value = formatRupiah(this.value, 'Rp. ');
+    });
+
+
     function getDateNow() {
       var date = new Date();
       var strdate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
@@ -543,7 +552,14 @@ function rupiah($angka)
       var instansi = $('#txt_instansi').val();
       var kecamatan = $('#txt_kecamatan').val();
       var alamat = $('#txt_alamat').val();
-      var bayar = $('#txt_bayar').val();
+      var bayar;
+      console.log($('#txt_bayar').val());
+      if($('#txt_bayar').val() == ""){
+        console.log('ahaaaa');
+        bayar = 0;
+      } else {  
+        bayar = parseInt($("#txt_bayar").val().replace("Rp. ", "").replace(".", "").replace(".", "").replace(" ", ""))
+      }
       var tgljatuhtempo = new Date($('#tgljatuhtempo').val());
       var desa = $('#txt_desa').val();
 
@@ -580,6 +596,7 @@ function rupiah($angka)
               // 'tgljatuhtempo': tgljatuhtempo.getFullYear() + '-' + (tgljatuhtempo.getMonth() + 1) + '-' + tgljatuhtempo.getDate(),
             },
             success: function(res) {
+              // alert(res);
               const data = JSON.parse(res);
               if (data.status == 'success') {
                 Swal.fire({
@@ -593,7 +610,7 @@ function rupiah($angka)
             },
           });
         }
-      } else if($('#opsi-pembayaran').val() == 'Cicilan') {
+      } else if ($('#opsi-pembayaran').val() == 'Cicilan') {
         kembalian = 0;
         if (bayar >= total) {
           Swal.fire({
@@ -602,6 +619,7 @@ function rupiah($angka)
             text: 'Jumlah bayar tidak sesuai dengan jenis pembayaran',
           });
         } else {
+          console.log(bayar);
           $.ajax({
             url: "../controllers/transaksiController.php",
             type: 'POST',
@@ -622,6 +640,7 @@ function rupiah($angka)
               'tgljatuhtempo': tgljatuhtempo.getFullYear() + '-' + (tgljatuhtempo.getMonth() + 1) + '-' + tgljatuhtempo.getDate(),
             },
             success: function(res) {
+              alert(res);
               const data = JSON.parse(res);
               if (data.status == 'success') {
                 Swal.fire({
