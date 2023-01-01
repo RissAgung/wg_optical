@@ -55,7 +55,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($_POST["type"] == "delete") {
       $crud->execute($_POST["query"]);
       $path = "../images/produk/" . $_POST["imgPath"];
-      unlink($path);
+      if (file_exists($path)) {
+        unlink($path);
+      }
       $response = array(
         'status' => 'success',
         'msg' => 'Data berhasil dihapus'
@@ -94,7 +96,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               $img_upload_path_produk = "../images/produk/" . $_POST['img_file_produk_baru'];
               $img_upload_path_produk_lama = "../images/produk/" . $_POST['img_file_produk_lama'];
               move_uploaded_file($tmpproduk_name, $img_upload_path_produk);
-              unlink($img_upload_path_produk_lama);
+              if (file_exists($img_upload_path_produk_lama)) {
+                unlink($img_upload_path_produk_lama);
+              }
               $crud->execute($_POST["query"]);
               $response = array(
                 'status' => 'success',

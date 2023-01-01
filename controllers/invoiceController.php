@@ -33,7 +33,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           $crud->execute("DELETE FROM detail_bawa WHERE Id_Bawa = '" . $index['id_detail_bawa'] . "'");
           $crud->execute("UPDATE produk SET stock='$finalStock' WHERE kode_frame = '$id_produk'");
         }
-
       }
 
       $crud->execute("UPDATE transaksi SET status_confirm = '2', status_pengiriman= 'produksi' WHERE transaksi.kode_pesanan = '" . $_POST['id'] . "'");
@@ -82,6 +81,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $response = array(
         'status' => 'success',
         'msg' => 'Bukti pengiriman telah di konfirmasi',
+      );
+      echo json_encode($response);
+      exit();
+    }
+
+    if ($_POST["type"] == "tolak_pengiriman") {
+
+      $pathDb = $crud->showData("SELECT bukti_pengiriman FROM transaksi WHERE kode_pesanan='" . $_POST['id'] . "'");
+      $pathImg = "../images/bukti_pengiriman/" . $pathDb[0]['bukti_pengiriman'];
+      $crud->execute("UPDATE transaksi SET status_pengiriman='kirim', bukti_pengiriman=NULL WHERE kode_pesanan = '" . $_POST['id'] . "'");
+      unlink($pathImg);
+
+      $response = array(
+        'status' => 'success',
+        'msg' => 'Berhasil menolak bukti pengiriman',
       );
       echo json_encode($response);
       exit();

@@ -1,3 +1,13 @@
+<?php
+
+include "../../config/koneksi.php";
+
+$crud = new koneksi();
+
+$dataNotif = $crud->showData("SELECT pegawai.nama, pegawai.foto_pegawai FROM transaksi LEFT JOIN pegawai ON pegawai.id_pegawai = transaksi.id_pegawai WHERE transaksi.status_confirm = '1'");
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,11 +45,16 @@
 
     <div class="flex flex-row items-center">
       <div class="mr-4">
-        <div onclick="showNotif()" class="cursor-pointer">
+        <div onclick="showNotif()" class="cursor-pointer relative">
           <svg width="24" height="26" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M23.8313 21.0763L23.5594 20.8364C22.788 20.1491 22.1129 19.361 21.5521 18.4933C20.9397 17.2957 20.5727 15.9879 20.4725 14.6467V10.6961C20.4778 8.58936 19.7136 6.55319 18.3235 4.97017C16.9334 3.38714 15.013 2.36623 12.9233 2.09923V1.06761C12.9233 0.784463 12.8108 0.512912 12.6106 0.312696C12.4104 0.11248 12.1388 0 11.8557 0C11.5725 0 11.301 0.11248 11.1008 0.312696C10.9005 0.512912 10.7881 0.784463 10.7881 1.06761V2.11523C8.71703 2.40147 6.81989 3.42855 5.44804 5.00626C4.07618 6.58396 3.32257 8.60538 3.32679 10.6961V14.6467C3.22663 15.9879 2.85958 17.2957 2.24718 18.4933C1.69609 19.3588 1.03178 20.1468 0.271901 20.8364L0 21.0763V23.3315H23.8313V21.0763Z" fill="#444D68" />
             <path d="M9.81348 24.1712C9.8836 24.6781 10.1348 25.1425 10.5206 25.4787C10.9065 25.8148 11.401 26 11.9127 26C12.4245 26 12.9189 25.8148 13.3048 25.4787C13.6906 25.1425 13.9418 24.6781 14.0119 24.1712H9.81348Z" fill="#444D68" />
           </svg>
+          <?php if (count($dataNotif) != 0) : ?>
+            <div class="w-[22px] h-[22px] text-white text-sm font-ex-semibold rounded-full flex justify-center items-center bg-red-600 absolute bottom-3 left-2">
+              <?= count($dataNotif) ?>
+            </div>
+          <?php endif ?>
         </div>
 
         <!-- notfication -->
@@ -53,17 +68,19 @@
           <div id="content_notif" class="h-[90%]">
             <div class="flex flex-col justify-between w-full h-full font-ex-color">
               <div id="content" class="flex flex-col h-[80%] overflow-hidden">
-                <?php for ($i = 0; $i < 10; $i++) : ?>
-                  <div class="flex flex-row mb-[24px] ml-[7px]">
-                    <div class="w-[43px] h-[43px] rounded-full overflow-hidden">
-                      <img class="w-[43px] h-[43px] object-cover" src="https://img.idxchannel.com/media/700/images/idx/2022/05/13/Model_dengan_Penghasilan_Tertinggi.jpg" alt="gambar_user">
+                <?php foreach ($dataNotif as $index) : ?>
+                  <a href="../views/invoice.php">
+                    <div class="flex flex-row mb-[24px] ml-[7px]">
+                      <div class="w-[43px] h-[43px] rounded-full overflow-hidden">
+                        <img class="w-[43px] h-[43px] object-cover" src="../images/pegawai/foto_pegawai/<?= $index['foto_pegawai'] ?>" alt="gambar_user">
+                      </div>
+                      <div class="flex flex-col justify-center ml-[9px]">
+                        <h2 class="font-ex-semibold text-[12px]">Konfirmasi Pesanan</h2>
+                        <p class="font-ex-semibold text-[11px] text-[#777980]"><?= $index["nama"] ?></p>
+                      </div>
                     </div>
-                    <div class="flex flex-col justify-center ml-[9px]">
-                      <h2 class="font-ex-semibold text-[12px]">Konfirmasi Pesanan</h2>
-                      <p class="font-ex-medium text-[10px] text-[#ADAFB6]">Rizal maulana</p>
-                    </div>
-                  </div>
-                <?php endfor ?>
+                  </a>
+                <?php endforeach ?>
               </div>
 
               <div onclick="viewAll()" id="vl" class="cursor-pointer flex flex-col h-[10%] items-center justify-center font-ex-semibold text-[12px]">
@@ -79,7 +96,6 @@
 
   <script src="../../js/jquery-3.6.1.min.js"></script>
   <script>
-
     function showNotif() {
       $('#notif').toggleClass('hidden');
       reset();
