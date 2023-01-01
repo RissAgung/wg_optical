@@ -4,6 +4,7 @@ include '../config/koneksi.php';
 $crud = new Koneksi();
 
 $data = [];
+$dataPengeluaran = [];
 $labels = [];
 
 if (isset($_GET['getDataPieChart'])) {
@@ -43,11 +44,23 @@ if (isset($_GET['getDataPieChart'])) {
     if (isset($_GET['getDataBarChart'])) {
         if ($_GET['getDataBarChart'] == 'harian') {
             $res = $crud->showData("SELECT kode_pesanan, SUM(total_bayar - kembalian) AS total, date(tanggal) AS tanggal, (CASE WHEN DAYNAME(tanggal)='Sunday' THEN 'Minggu' WHEN DAYNAME(tanggal)='Monday' THEN 'Senin' WHEN DAYNAME(tanggal)='Tuesday' THEN 'Selasa' WHEN DAYNAME(tanggal)='Wednesday' THEN 'Rabu' WHEN DAYNAME(tanggal)='Thursday' THEN 'Kamis' WHEN DAYNAME(tanggal)='Friday' THEN 'Jumat' ELSE 'Sabtu' END ) as hari FROM transaksi WHERE DATE(tanggal) = DATE('" . $_POST['tanggal'] . "') GROUP BY DATE(tanggal)");
+
+
             $resultnya = [];
             foreach ($res as $value) {
                 array_push($resultnya, array(
                     'data' => $value['total'],
                     'labels' => $value['hari'],
+                ));
+            }
+
+            $res1 = $crud->showData("SELECT kode_tr_pengeluaran, SUM(total_harga) as total, tanggal, (CASE WHEN DAYNAME(tanggal)='Sunday' THEN 'Minggu' WHEN DAYNAME(tanggal)='Monday' THEN 'Senin' WHEN DAYNAME(tanggal)='Tuesday' THEN 'Selasa' WHEN DAYNAME(tanggal)='Wednesday' THEN 'Rabu' WHEN DAYNAME(tanggal)='Thursday' THEN 'Kamis' WHEN DAYNAME(tanggal)='Friday' THEN 'Jumat' ELSE 'Sabtu' END ) as hari FROM tr_pengeluaran WHERE kategori = 'operasional' AND DATE(tanggal) = DATE('" . $_POST['tanggal'] . "') GROUP BY DATE(tanggal)");
+
+            $result2 = [];
+
+            foreach ($res1 as $value) {
+                array_push($resultnya, array(
+                    'data_pengeluaran' => $value['total'],
                 ));
             }
             echo json_encode($resultnya);
@@ -64,8 +77,20 @@ if (isset($_GET['getDataPieChart'])) {
                 }
             }
 
+            $dataPengeluaran = [0, 0, 0, 0, 0, 0, 0];
+            $res1 = $crud->showData("SELECT kode_tr_pengeluaran, SUM(total_harga) as total, tanggal, (CASE WHEN DAYNAME(tanggal)='Sunday' THEN 'Minggu' WHEN DAYNAME(tanggal)='Monday' THEN 'Senin' WHEN DAYNAME(tanggal)='Tuesday' THEN 'Selasa' WHEN DAYNAME(tanggal)='Wednesday' THEN 'Rabu' WHEN DAYNAME(tanggal)='Thursday' THEN 'Kamis' WHEN DAYNAME(tanggal)='Friday' THEN 'Jumat' ELSE 'Sabtu' END ) as hari FROM tr_pengeluaran WHERE kategori = 'operasional' AND YEARWEEK(DATE(tanggal)) = YEARWEEK(DATE('" . $_POST['tanggal'] . "')) GROUP BY DATE(tanggal)");
+
+            foreach ($res1 as $value) {
+                for ($i = 0; $i < count($labels); $i++) {
+                    if ($value['hari'] == $labels[$i]) {
+                        $dataPengeluaran[$i] = $value['total'];
+                    }
+                }
+            }
+
             echo json_encode(array(
                 'data' => $data,
+                'data_pengeluaran' => $dataPengeluaran,
                 'labels' => $labels,
             ));
         } else if ($_GET['getDataBarChart'] == 'bulanan') {
@@ -155,8 +180,20 @@ if (isset($_GET['getDataPieChart'])) {
                 }
             }
 
+            $dataPengeluaran = [0, 0, 0, 0, 0, 0, 0];
+            $res1 = $crud->showData("SELECT kode_tr_pengeluaran, SUM(total_harga) as total, tanggal, (CASE WHEN DAYNAME(tanggal)='Sunday' THEN 'Minggu' WHEN DAYNAME(tanggal)='Monday' THEN 'Senin' WHEN DAYNAME(tanggal)='Tuesday' THEN 'Selasa' WHEN DAYNAME(tanggal)='Wednesday' THEN 'Rabu' WHEN DAYNAME(tanggal)='Thursday' THEN 'Kamis' WHEN DAYNAME(tanggal)='Friday' THEN 'Jumat' ELSE 'Sabtu' END ) as hari FROM tr_pengeluaran WHERE kategori = 'operasional' AND YEARWEEK(DATE(tanggal)) = YEARWEEK(DATE(NOW())) GROUP BY DATE(tanggal)");
+
+            foreach ($res1 as $value) {
+                for ($i = 0; $i < count($labels); $i++) {
+                    if ($value['hari'] == $labels[$i]) {
+                        $dataPengeluaran[$i] = $value['total'];
+                    }
+                }
+            }
+
             echo json_encode(array(
                 'data' => $data,
+                'data_pengeluaran' => $dataPengeluaran,
                 'labels' => $labels,
             ));
         }
