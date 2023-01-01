@@ -309,14 +309,18 @@
                     // alert(res);
                     //alert(res);
                     const data = JSON.parse(res);
+                    // alert(data[1].data_pengeluaran);
                     //categories = [];
                     for (let index = 0; index < data.length; index++) {
                         const element = data[index];
                         // categories = element.kecamatan;
                         //dataframe.push(20);
-                        dataPemasukkan.push(element.data);
-                        dataPengeluaran.push(450000);
-                        optionspenjualan.xaxis.categories.push(element.labels);
+                        if(index == 0 ){
+                            dataPemasukkan.push(element.data);
+                            optionspenjualan.xaxis.categories.push(element.labels);
+                        } else {
+                            dataPengeluaran.push(element.data_pengeluaran);
+                        }
                         // datafullset.push(5);
                         // options.series[1].data.push(element.jumlah);
                         //alert(element.jumlah);
@@ -349,9 +353,10 @@
                     'tanggal': selectedFilterMingguan,
                 },
                 success: function(res) {
-                    alert(res);
+                    // alert(res);
                     //alert(res);
                     const data = JSON.parse(res);
+                    dataPengeluaran = data.data_pengeluaran;
                     dataPemasukkan = data.data;
                     optionspenjualan.xaxis.categories = data.labels;
                     // chartpenjualan.update();
@@ -1359,7 +1364,7 @@
                 success: function(res) {
                     const data = JSON.parse(res);
                     dataPemasukkan = data.data;
-                    dataPengeluaran = [300000, 500000, 300000, 250000, 450000, 300000, 250000];
+                    dataPengeluaran = data.data_pengeluaran;
                     optionspenjualan.xaxis.categories = data.labels;
                     // alert(data.data);
                 }

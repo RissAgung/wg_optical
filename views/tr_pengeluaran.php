@@ -11,7 +11,7 @@ if (!isset($_SESSION['statusLogin'])) {
 
 
 $execute = $crud->showData("SELECT * FROM tr_pengeluaran JOIN pegawai ON tr_pengeluaran.id_pegawai = pegawai.id_pegawai ORDER BY tanggal DESC");
-$restock = $crud->showData("SELECT tr_pengeluaran.kode_tr_pengeluaran, tr_pengeluaran.tanggal, tr_pengeluaran.id_pegawai, tr_pengeluaran.id_Supplier, tr_pengeluaran.jenis, CASE WHEN tr_pengeluaran.kode_perkap IS NULL AND tr_pengeluaran.kode_barang IS NULL THEN tr_pengeluaran.kode_frame ELSE CASE WHEN tr_pengeluaran.kode_frame IS NULL AND tr_pengeluaran.kode_barang IS NULL THEN tr_pengeluaran.kode_perkap ELSE tr_pengeluaran.kode_barang END END as barang, tr_pengeluaran.QTY FROM tr_pengeluaran LEFT JOIN perlengkapan ON tr_pengeluaran.kode_perkap = perlengkapan.kode_perlengkapan LEFT JOIN tambahan ON tambahan.kode_barang = tr_pengeluaran.kode_barang WHERE tr_pengeluaran.kategori = 'restock';");
+$restock = $crud->showData("SELECT tr_pengeluaran.kode_tr_pengeluaran, tr_pengeluaran.tanggal, tr_pengeluaran.id_pegawai, tr_pengeluaran.id_Supplier, tr_pengeluaran.jenis, (CASE WHEN tr_pengeluaran.kode_frame IS NOT NULL THEN produk.merk WHEN tr_pengeluaran.kode_barang IS NOT NULL THEN tambahan.nama_barang WHEN tr_pengeluaran.kode_perkap IS NOT NULL THEN perlengkapan.nama_perlengkapan END) as barang, tr_pengeluaran.QTY FROM tr_pengeluaran LEFT JOIN perlengkapan ON tr_pengeluaran.kode_perkap = perlengkapan.kode_perlengkapan LEFT JOIN tambahan ON tambahan.kode_barang = tr_pengeluaran.kode_barang LEFT JOIN produk ON produk.kode_frame = tr_pengeluaran.kode_frame WHERE tr_pengeluaran.kategori = 'restock';");
 
 function rupiah($angka)
 {
@@ -167,16 +167,17 @@ function rupiah($angka)
                                     <th class="p-3 text-sm tracking-wide text-center">Total</th>
                                 </tr>
                             </thead>
-                            <tbody id="isiTable">
+                            <tbody id="isiTableOp">
 
                                 <?php
 
                                 $i = 0;
                                 foreach ($execute as $data) {
                                     if ($data['kategori'] == "operasional") {
+                                        $i++;
                                 ?>
                                         <tr>
-                                            <td class="p-3 text-sm tracking-wide text-center"><?php echo $i + 1; ?></td>
+                                            <td class="p-3 text-sm tracking-wide text-center"><?php echo $i; ?></td>
                                             <td class="p-3 text-sm tracking-wide text-center"><?php echo $data['kode_tr_pengeluaran'] ?></td>
                                             <td class="p-3 text-sm tracking-wide text-center"><?php echo $data['tanggal'] ?></td>
                                             <td class="p-3 text-sm tracking-wide text-center"><?php echo $data['nama'] ?></td>
@@ -187,7 +188,6 @@ function rupiah($angka)
                                         </script>
                                 <?php
                                     }
-                                    $i++;
                                 }
                                 ?>
                             </tbody>
@@ -211,9 +211,12 @@ function rupiah($angka)
 
             <div id="pageRestock" class="hidden">
                 <!-- konten table -->
-                <div class="">
+                <div class="relative ex-table">
+                    <div id="loadingTableRestock" class="absolute h-full w-full flex flex-col justify-center items-center bg-slate-50 z-[20]">
+                        <div class="loadingspinner"></div>
+                    </div>
                     <!-- Table -->
-                    <div class="overflow-x-auto text-sm mx-auto bg-white rounded-md py-6 px-6 ex-table">
+                    <div class="overflow-x-auto text-sm mx-auto md:mx-auto bg-white rounded-md py-6 px-6 h-full">
 
                         <table class="w-full ">
                             <thead class="border-b-2 border-gray-100">
@@ -228,16 +231,14 @@ function rupiah($angka)
                                     <th class="p-3 text-sm tracking-wide text-center">Jumlah</th>
                                 </tr>
                             </thead>
-                            <tbody>
-
+                            <tbody id="isiTableRs">
                                 <?php
-
                                 $i = 0;
                                 foreach ($restock as $restok) {
-
+                                    $i++;
                                 ?>
                                     <tr>
-                                        <td class="p-3 text-sm tracking-wide text-center"><?php echo $i + 1; ?></td>
+                                        <td class="p-3 text-sm tracking-wide text-center"><?php echo $i; ?></td>
                                         <td class="p-3 text-sm tracking-wide text-center"><?php echo $restok['kode_tr_pengeluaran'] ?></td>
                                         <td class="p-3 text-sm tracking-wide text-center"><?php echo $restok['tanggal'] ?></td>
                                         <td class="p-3 text-sm tracking-wide text-center"><?php echo $restok['id_pegawai'] ?></td>
@@ -246,11 +247,7 @@ function rupiah($angka)
                                         <td class="p-3 text-sm tracking-wide text-center"><?php echo $restok['barang'] ?></td>
                                         <td class="p-3 text-sm tracking-wide text-center"><?php echo $restok['QTY'] ?></td>
                                     </tr>
-                                    <script>
-
-                                    </script>
                                 <?php
-                                    $i++;
                                 }
                                 ?>
                             </tbody>
@@ -279,6 +276,7 @@ function rupiah($angka)
 
             $(document).ready(function() {
                 $('#loadingTableOperasional').hide();
+                $('#loadingTableRestock').hide();
             });
             // load sidebar
             $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
@@ -380,12 +378,11 @@ function rupiah($angka)
                     var idPegawai = "<?php echo $_SESSION["id_pegawai"] ?>";
                     var kode;
                     var tgl;
+                    var daterestok;
                     var keterangan;
                     var total;
                     var jenis;
-                    var frame;
-                    var tambahan;
-                    var perkap;
+                    var barang;
                     var supplier;
                     var qty;
 
@@ -399,23 +396,22 @@ function rupiah($angka)
 
                     function getData() {
                         tgl = $("#date").val();
-                        date = $("#tanggal").val();
+                        daterestok = $("#daterestok").val();
                         keterangan = $('#ket').val();
                         total = parseInt($("#total").val().replace("Rp. ", "").replace(".", "").replace(".", "").replace(" ", ""));
                         kode = "TR" + Math.random().toString(9).slice(2, 10);
                         jenis = $("#jns").val();
-                        frame = $("#brg").val();
-                        tambahan = $("#brg").val();
-                        perkap = $("#brg").val();
+                        barang = $("#brg").val();
                         supplier = $("#supplier").val();
                         qty = $("#jml").val();
                     };
 
                     //start query add
-                    if ($("#pageOperasional").hasClass("statusclick")) {
+                    if (tabSelected == 1) {
                         $("#btn_tambah").on("click", function(e) {
                             e.preventDefault();
                             getData();
+                            // alert(tgl);
                             let formData = new FormData();
                             let query;
                             formData.append('type', "insert");
@@ -432,7 +428,7 @@ function rupiah($angka)
                                     icon: 'error',
                                     title: 'Gagal',
                                     text: "Keterangan Tidak Boleh Kosong",
-                                })
+                                });
                             } else if ($('#total').val() == "") {
                                 Swal.fire({
                                     icon: 'error',
@@ -447,7 +443,7 @@ function rupiah($angka)
                                     contentType: false,
                                     processData: false,
                                     success: function(res) {
-                                        alert(res);
+                                        // alert(res);
                                         const data = JSON.parse(res);
                                         if (data.status == 'error') {
                                             Swal.fire({
@@ -471,44 +467,82 @@ function rupiah($angka)
                             }
                         });
                         //end query add    
-                    } else if ($("#pageRestock").hasClass("statusclick")) {
+                    } else {
                         $("#btn_tambah").on("click", function(e) {
-                            console.log("add stock");
                             e.preventDefault();
                             getData();
+                            // alert(supplier);
                             let formData = new FormData();
                             let query;
                             formData.append('type', "insert");
-                            formData.append('query', "INSERT INTO tr_pengeluaran VALUES ('" + kode + "' ,'" + date + "','" + idPegawai + "','restock',NULL,NULL,'" + jenis + "',NULL,NULL,NULL,'" + supplier + "','" + qty + "')");
+                            if (jenis == 'produk') {
+                                formData.append('query', "INSERT INTO tr_pengeluaran VALUES ('" + kode + "' ,'" + daterestok + "','" + idPegawai + "','restock',NULL,NULL,'" + jenis + "','" + barang + "',NULL,NULL,'" + supplier + "','" + qty + "')");
+                            } else if (jenis == 'tambahan') {
+                                formData.append('query', "INSERT INTO tr_pengeluaran VALUES ('" + kode + "' ,'" + daterestok + "','" + idPegawai + "','restock',NULL,NULL,'" + jenis + "',NULL,'" + barang + "',NULL,'" + supplier + "','" + qty + "')");
+                            } else {
+                                formData.append('query', "INSERT INTO tr_pengeluaran VALUES ('" + kode + "' ,'" + daterestok + "','" + idPegawai + "','restock',NULL,NULL,'" + jenis + "',NULL,NULL,'" + barang + "','" + supplier + "','" + qty + "')");
+                            }
+                            if ($('#daterestok').val() == "") {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Gagal',
+                                    text: "Masukkan Tanggal",
+                                })
+                            } else if (jenis == "") {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Gagal',
+                                    text: "Pilih Jenis Terlebih Dahulu",
+                                })
+                            } else if (barang == "") {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Gagal',
+                                    text: "Pilih Barang Terlebih Dahulu",
+                                })
+                            } else if (supplier == "") {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Gagal',
+                                    text: "Pilih Supplier Terlebih Dahulu",
+                                })
+                            } else if (qty == "") {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Gagal',
+                                    text: "Masukkan QTY",
+                                })
+                            } else {
 
-                            $.ajax({
-                                type: "POST",
-                                url: "../controllers/pengeluaran.php",
-                                data: formData,
-                                contentType: false,
-                                processData: false,
-                                success: function(res) {
-                                    alert(res);
-                                    const data = JSON.parse(res);
-                                    if (data.status == 'error') {
-                                        Swal.fire({
-                                            icon: 'error',
-                                            title: 'Gagal',
-                                            text: data.msg,
-                                        })
-                                    } else {
-                                        Swal.fire({
-                                            icon: 'success',
-                                            title: 'Berhasil',
-                                            text: data.msg,
+                                $.ajax({
+                                    type: "POST",
+                                    url: "../controllers/pengeluaran.php",
+                                    data: formData,
+                                    contentType: false,
+                                    processData: false,
+                                    success: function(res) {
+                                        // alert(res);
+                                        const data = JSON.parse(res);
+                                        if (data.status == 'error') {
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Gagal',
+                                                text: data.msg,
+                                            })
+                                        } else {
+                                            Swal.fire({
+                                                icon: 'success',
+                                                title: 'Berhasil',
+                                                text: data.msg,
 
-                                        }).then(function() {
-                                            closeModal();
-                                            window.location.replace("tr_pengeluaran.php");
-                                        });
+                                            }).then(function() {
+                                                closeModal();
+                                                window.location.replace("tr_pengeluaran.php");
+                                            });
+                                        }
                                     }
-                                }
-                            });
+                                });
+                            }
 
                         });
                     };
@@ -538,9 +572,8 @@ function rupiah($angka)
             $('#search').keypress(function(e) {
                 if (e.which == 13) {
                     if (tabSelected == 1) {
-
                         $.ajax({
-                            url: '../controllers/pengeluaran.php?search=' + $('#search').val(),
+                            url: '../controllers/pengeluaran.php?type=getOperasional&search=' + $('#search').val(),
                             type: 'GET',
                             beforeSend: function() {
                                 $('#loadingTableOperasional').show();
@@ -548,9 +581,7 @@ function rupiah($angka)
                             },
                             success: function(res) {
                                 var kontenHtml = '';
-                                if (res == 'kosong') {
-
-                                } else {
+                                if (res == 'kosong') {} else {
                                     const data = JSON.parse(res);
 
                                     for (let index = 0; index < data.length; index++) {
@@ -563,19 +594,44 @@ function rupiah($angka)
                                         kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['keterangan'] + '</td>';
                                         kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['total_harga'] + '</td>';
                                         kontenHtml += '</tr>';
-
                                     }
-
                                 }
-                                $('#isiTable').html(kontenHtml);
+                                $('#isiTableOp').html(kontenHtml);
                                 $('#loadingTableOperasional').hide();
-
                             }
                         })
                         // window.location.replace("tr_pengeluaran.php?search=" + $('#search').val());
-
                     } else {
-
+                        $.ajax({
+                            url: '../controllers/pengeluaran.php?type=getRestock&search=' + $('#search').val(),
+                            type: 'GET',
+                            beforeSend: function() {
+                                $('#loadingTableRestock').show();
+                                $('#loadingTableRestock').addClass('flex');
+                            },
+                            success: function(res) {
+                                // alert(res);
+                                var kontenHtml = '';
+                                if (res == 'kosong') {} else {
+                                    const data = JSON.parse(res);
+                                    for (let index = 0; index < data.length; index++) {
+                                        const element = data[index];
+                                        kontenHtml += '<tr>';
+                                        kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + (index + 1) + '</td>';
+                                        kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['kode'] + '</td>';
+                                        kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['tanggal'] + '</td>';
+                                        kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['nama'] + '</td>';
+                                        kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['supplier'] + '</td>';
+                                        kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['jenis'] + '</td>';
+                                        kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['barang'] + '</td>';
+                                        kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['jumlah'] + '</td>';
+                                        kontenHtml += '</tr>';
+                                    }
+                                }
+                                $('#isiTableRs').html(kontenHtml);
+                                $('#loadingTableRestock').hide();
+                            }
+                        })
                     }
                 }
             });
