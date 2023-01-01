@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
 
                 // insert transaksi
-                $crud->execute("INSERT INTO transaksi VALUES ('" . generateTransaksiID($data) . "', NOW(), '" . $_POST['id_pegawai'] . "', '" . $_POST['total'] . "', '" . $_POST['total_harga'] . "', '" . $_POST['kembalian'] . "', '" . $idCus . "', '" . $_POST['proses_pembayaran'] . "', '" . $_POST['tgljatuhtempo'] . "', 'proses')");
+                $crud->execute("INSERT INTO transaksi VALUES ('" . generateTransaksiID($data) . "', '1', NOW(), '" . $_POST['id_pegawai'] . "', '" . $_POST['total_bayar'] . "', '" . $_POST['total_harga'] . "', '" . $_POST['kembalian'] . "', '" . $idCus . "', '" . $_POST['tgljatuhtempo'] . "',  NULL, NULL)");
 
                 // insert transaksi
                 for ($i = 0; $i < count($data); $i++) {
@@ -51,6 +51,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     // hapus keranjang
                     $crud->execute("DELETE FROM keranjang WHERE kode_pesanan = '" . $data[$i][0] . "'");
                 }
+
+                $idCicilan = "CL" . generateTransaksiID($data);
+                $crud->execute("INSERT INTO cicilan VALUES ('" . $idCicilan . "','" . generateTransaksiID($data) . "','" . $_POST['total_bayar'] . "')");
 
                 $response = array(
                     'status' => 'success',
