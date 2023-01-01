@@ -99,7 +99,7 @@ $dataLens = $con->showData("SELECT detail_bawa.Id_Bawa, produk.harga_jual FROM d
             type: "insert_frame",
             query_keranjang: "INSERT INTO keranjang VALUES ('" + idTR + "',NOW(),'<?= $idPegawai ?>','" + harga_input + "')",
             keranjang_frame: "INSERT INTO keranjang_frame VALUES ('" + idTR + "','" + kode + "','" + harga_input + "')",
-            update_status: "UPDATE detail_bawa SET status_frame = 'unready' WHERE Id_Bawa = '" + kode + "';",
+            update_status: "UPDATE detail_bawa SET status_frame='unready' WHERE Id_Bawa = '"+kode+"'",
           },
           beforeSend: function() {
             Swal.fire({

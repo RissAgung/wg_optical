@@ -10,7 +10,7 @@ if (!isset($_SESSION['statusLogin'])) {
 
 $crud = new koneksi();
 
-$dataPembelian = $crud->showData("SELECT transaksi.status_pengiriman, transaksi.tanggal, transaksi.kode_pesanan, pegawai.nama AS nama_sales, customer.nama AS nama_cus, cicilan.depan_pembayaran, frame_transaksi.id_detail_bawa FROM pegawai JOIN transaksi ON pegawai.id_pegawai = transaksi.id_pegawai JOIN detail_transaksi ON transaksi.kode_pesanan = detail_transaksi.kode_pesanan LEFT JOIN frame_transaksi ON detail_transaksi.kode_detail_pesanan = frame_transaksi.kode_detail_pesanan JOIN customer ON transaksi.id_customer = customer.id_customer LEFT JOIN cicilan ON transaksi.kode_pesanan = cicilan.kode_pesanan WHERE transaksi.status_confirm = '1'");
+$dataPembelian = $crud->showData("SELECT transaksi.status_pengiriman, transaksi.tanggal, transaksi.kode_pesanan, pegawai.nama AS nama_sales, customer.nama AS nama_cus, cicilan.depan_pembayaran FROM pegawai JOIN transaksi ON pegawai.id_pegawai = transaksi.id_pegawai JOIN customer ON transaksi.id_customer = customer.id_customer LEFT JOIN cicilan ON transaksi.kode_pesanan = cicilan.kode_pesanan WHERE transaksi.status_confirm = '1'");
 
 $dataProses = $crud->showData("SELECT transaksi.status_pengiriman, transaksi.bukti_pengiriman, transaksi.tanggal, transaksi.kode_pesanan, pegawai.nama AS nama_sales, customer.nama AS nama_cus, transaksi.total_harga, transaksi.total_bayar, cicilan.depan_pembayaran, cicilan.kode_cicilan FROM pegawai JOIN transaksi ON pegawai.id_pegawai = transaksi.id_pegawai JOIN customer ON transaksi.id_customer = customer.id_customer LEFT JOIN cicilan ON transaksi.kode_pesanan = cicilan.kode_pesanan WHERE transaksi.status_confirm = '2'");
 
@@ -191,7 +191,7 @@ function getStatusPembayaran($kode)
                         <path d="M11.7273 15.9375C11.7281 15.1415 11.967 14.3633 12.4143 13.6995C12.8615 13.0357 13.4975 12.5156 14.2432 12.2038C14.9888 11.8919 15.8114 11.8021 16.6086 11.9454C17.4058 12.0887 18.1426 12.4589 18.7274 13.01V6.875C18.7274 6.37772 18.5263 5.90081 18.1682 5.54917C17.8102 5.19754 17.3246 5 16.8183 5H9.18185C8.33828 5.00099 7.52955 5.33055 6.93306 5.91639C6.33656 6.50222 6.00101 7.2965 6 8.125V16.875C6.00101 17.7035 6.33656 18.4978 6.93306 19.0836C7.52955 19.6694 8.33828 19.999 9.18185 20H15.8637C14.7667 20 13.7146 19.572 12.9389 18.8101C12.1631 18.0483 11.7273 17.0149 11.7273 15.9375V15.9375ZM9.18185 9.375C9.18185 9.20924 9.2489 9.05027 9.36824 8.93306C9.48758 8.81585 9.64944 8.75 9.81822 8.75H14.9092C15.078 8.75 15.2398 8.81585 15.3592 8.93306C15.4785 9.05027 15.5455 9.20924 15.5455 9.375C15.5455 9.54076 15.4785 9.69973 15.3592 9.81694C15.2398 9.93415 15.078 10 14.9092 10H9.81822C9.64944 10 9.48758 9.93415 9.36824 9.81694C9.2489 9.69973 9.18185 9.54076 9.18185 9.375ZM19.8137 19.8169C19.6943 19.934 19.5325 19.9999 19.3638 19.9999C19.195 19.9999 19.0332 19.934 18.9139 19.8169L17.3821 18.3125C16.9285 18.5968 16.4019 18.7486 15.8637 18.75C15.2974 18.75 14.7437 18.585 14.2728 18.276C13.8018 17.967 13.4348 17.5277 13.2181 17.0138C13.0013 16.4999 12.9446 15.9344 13.0551 15.3888C13.1656 14.8432 13.4383 14.3421 13.8388 13.9488C14.2393 13.5554 14.7496 13.2876 15.3051 13.179C15.8606 13.0705 16.4363 13.1262 16.9596 13.3391C17.4829 13.552 17.9301 13.9124 18.2448 14.375C18.5594 14.8375 18.7274 15.3812 18.7274 15.9375C18.726 16.466 18.5715 16.9832 18.2819 17.4287L19.8137 18.9331C19.933 19.0503 20 19.2093 20 19.375C20 19.5407 19.933 19.6997 19.8137 19.8169Z" fill="#51514F" />
                       </svg>
                     </button>
-                    <button onclick="confirm_tr('<?= $index['kode_pesanan'] ?>', '<?= $index['id_detail_bawa'] ?>')">
+                    <button onclick="confirm_tr('<?= $index['kode_pesanan'] ?>')">
                       <svg width="35" height="35" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect width="25.36" height="25.36" rx="5" fill="#82DCC6" />
                         <path d="M17.8211 7.38155C18.063 7.13348 18.3849 6.99634 18.7189 6.99906C19.0529 7.00179 19.3728 7.14416 19.6112 7.39614C19.8495 7.64813 19.9877 7.99001 19.9965 8.34965C20.0054 8.70929 19.8842 9.05856 19.6585 9.32377L12.807 18.5539C12.6892 18.6906 12.547 18.8003 12.389 18.8764C12.2309 18.9526 12.0602 18.9936 11.8871 18.9971C11.7139 19.0005 11.542 18.9663 11.3814 18.8965C11.2208 18.8267 11.0749 18.7228 10.9525 18.5909L6.40892 13.6965C6.28239 13.5695 6.1809 13.4164 6.11051 13.2462C6.04012 13.076 6.00227 12.8923 5.99922 12.706C5.99617 12.5198 6.02798 12.3347 6.09276 12.162C6.15753 11.9892 6.25394 11.8323 6.37623 11.7006C6.49852 11.5689 6.6442 11.465 6.80456 11.3952C6.96492 11.3255 7.13669 11.2912 7.30961 11.2945C7.48253 11.2978 7.65307 11.3385 7.81104 11.4144C7.96902 11.4902 8.1112 11.5995 8.2291 11.7358L11.8248 15.6073L17.7885 7.42225C17.7992 7.40801 17.8107 7.39442 17.8228 7.38155H17.8211Z" fill="#073D2F" />
@@ -697,7 +697,7 @@ function getStatusPembayaran($kode)
       console.log("hahai ready");
     });
 
-    function confirm_tr(id, detail_bawa) {
+    function confirm_tr(id) {
       Swal.fire({
         icon: 'question',
         title: 'Apakah anda yakin?',
@@ -714,7 +714,6 @@ function getStatusPembayaran($kode)
             data: {
               'type': 'confirm',
               'id': id,
-              'detail_bawa': detail_bawa,
             },
             beforeSend: function() {
               Swal.fire({
@@ -726,6 +725,7 @@ function getStatusPembayaran($kode)
             },
             success: function(res) {
               const data = JSON.parse(res);
+              // console.log(data);
               if (data.status === "success") {
                 Swal.fire({
                   icon: 'success',
