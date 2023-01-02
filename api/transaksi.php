@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 $idCus = generateCustomerID($crud);
                 // insert customer
-                $crud->execute("INSERT INTO customer VALUES ('" . $idCus . "', '" . $_POST['txt_nama'] . "', '" . $_POST['txt_kecamatan'] . "', '" . $_POST['txt_desa'] . "', '" . $_POST['txt_alamat'] . "', '" . $_POST['txt_pekerjaan'] . "', '" . $_POST['txt_instansi'] . "')");
+                $crud->execute("INSERT INTO customer VALUES ('" . $idCus . "', '" . $_POST['txt_nama'] . "', '" . $_POST['txt_kecamatan'] . "', '" . $_POST['txt_desa'] . "', '" . $_POST['txt_alamat'] . "', '" . $_POST['txt_pekerjaan'] . "', '" . $_POST['txt_instansi'] . "', '" . $_POST['no_hp'] . "')");
 
                 foreach (json_decode($_POST['data']) as $value) {
                     array_push($data, (array) $value);
@@ -52,8 +52,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $crud->execute("DELETE FROM keranjang WHERE kode_pesanan = '" . $data[$i][0] . "'");
                 }
 
-                $idCicilan = "CL" . generateTransaksiID($data);
-                $crud->execute("INSERT INTO cicilan VALUES ('" . $idCicilan . "','" . generateTransaksiID($data) . "','" . $_POST['total_bayar'] . "')");
+                if($_POST['pembayaran'] == 'Cicilan'){
+                    $idCicilan = "CL" . generateTransaksiID($data);
+                    $crud->execute("INSERT INTO cicilan VALUES ('" . $idCicilan . "','" . generateTransaksiID($data) . "','" . $_POST['total_bayar'] . "')");
+                }
+
 
                 $response = array(
                     'status' => 'success',
