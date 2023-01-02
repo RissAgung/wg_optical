@@ -6,12 +6,13 @@ $api_key = 'aoi12j1h7dwgopticalw1dggwuawdki';
 
 if (isset($_POST['apikey'])) {
     if ($_POST['apikey'] == $api_key) {
+        $json = [];
         $idpeg = $_POST['id_pegawai'];
 
         if (isset($_POST['type'])) {
 
             if ($_POST['type'] == 'getFrame') {
-                $result = $crud->showData("SELECT * FROM detail_bawa JOIN produk ON detail_bawa.Kode_Frame = produk.kode_frame LEFT JOIN keranjang_frame ON detail_bawa.Id_Bawa = keranjang_frame.id_bawa WHERE kode_pesanan IS NULL AND detail_bawa.Id_pegawai = '141220223'");
+                $result = $crud->showData("SELECT * FROM detail_bawa JOIN produk ON detail_bawa.Kode_Frame = produk.kode_frame LEFT JOIN keranjang_frame ON detail_bawa.Id_Bawa = keranjang_frame.id_bawa WHERE status_frame = 'ready' AND kode_pesanan IS NULL AND detail_bawa.Id_pegawai = '".$idpeg."'");
                 foreach ($result as $value) {
                     $json[] = array(
                         'status' => 'sukses',

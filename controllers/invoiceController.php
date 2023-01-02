@@ -26,14 +26,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         foreach ($detailBawa as $index) {
           $indexDB = strpos($index['id_detail_bawa'], '-');
           $id_produk = substr($index['id_detail_bawa'], 0, $indexDB);
-
+          $stockDb = 0;
           $stock = $crud->showData("SELECT stock FROM produk WHERE kode_frame = '" . $id_produk . "'");
-          $stockDb = $stock[0]["stock"];
+          foreach ($stock as $value) {
+            $stockDb = $value["stock"];
+          }
           $finalStock = $stockDb - 1;
           $crud->execute("DELETE FROM detail_bawa WHERE Id_Bawa = '" . $index['id_detail_bawa'] . "'");
           $crud->execute("UPDATE produk SET stock='$finalStock' WHERE kode_frame = '$id_produk'");
         }
-
       }
 
       $crud->execute("UPDATE transaksi SET status_confirm = '2', status_pengiriman= 'produksi' WHERE transaksi.kode_pesanan = '" . $_POST['id'] . "'");
