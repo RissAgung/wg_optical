@@ -1306,6 +1306,18 @@ video {
   height: 1rem;
 }
 
+.h-52 {
+  height: 13rem;
+}
+
+.h-44 {
+  height: 11rem;
+}
+
+.h-40 {
+  height: 10rem;
+}
+
 .max-h-\[400px\] {
   max-height: 400px;
 }
@@ -2072,6 +2084,11 @@ video {
 .bg-\[\#EC4D47\] {
   --tw-bg-opacity: 1;
   background-color: rgb(236 77 71 / var(--tw-bg-opacity));
+}
+
+.bg-red-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(239 68 68 / var(--tw-bg-opacity));
 }
 
 .bg-opacity-50 {
