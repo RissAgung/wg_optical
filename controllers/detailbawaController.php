@@ -20,12 +20,6 @@ for ($i = 0; $i < count($_POST); $i++) {
             $kodeframe = $data[$i]['kode'];
             $exec->execute("INSERT INTO detail_bawa VALUES ('" . $detailbawa . "', '" . $data[$i]['pegawai'] . "' ,'" . $kodeframe . "', 'ready')");
         }
-        $response = array(
-            'status' => 'success',
-            'msg' => 'Berhasil Menambahkan Barang'
-        );
-        echo json_encode($response);
-        exit();
     } else {
 
         for ($g = 0; $g < $data[$i]['jumlah']; $g++) {
@@ -61,12 +55,14 @@ for ($i = 0; $i < count($_POST); $i++) {
                 }
             }
         }
-        $response = array(
-            'status' => 'success',
-            'msg' => 'Berhasil Menambahkan Barang'
-        );
-        echo json_encode($response);
-        exit();
+
         //   var_dump($tempDataMissing);
     }
 }
+
+$response = array(
+    'status' => 'success',
+    'msg' => 'Berhasil Menambahkan Barang'
+);
+echo json_encode($response);
+exit();

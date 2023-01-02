@@ -139,6 +139,8 @@ $data = $select->showData("SELECT produk.kode_frame, produk.merk, produk.stock, 
                 },
                 
                 success: function(res) {
+                    // alert(res);
+                    // console.log(res);
                     const data = JSON.parse(res);
                     if (data.status == 'success') {
                         Swal.fire({
