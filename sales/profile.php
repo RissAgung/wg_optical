@@ -10,6 +10,14 @@ if (!isset($_SESSION['statusLogin'])) {
 include "../config/koneksi.php";
 $crud = new koneksi();
 
+$id_pegawai = $_SESSION['id_pegawai'];
+
+$dataPegawai = $crud->showData("SELECT * FROM pegawai WHERE id_pegawai = '$id_pegawai'");
+foreach ($dataPegawai as $index) {
+  $foto_pegawai = $index["foto_pegawai"];
+  $nama_pegawai = $index["nama"];
+}
+
 function rupiah($angka)
 {
   $hasil_rupiah = "Rp. " . number_format($angka, 0, ',', '.');
@@ -42,10 +50,16 @@ function rupiah($angka)
   <!-- main content -->
 
   <!-- Proses -->
-  <div id="page_proses" class="flex flex-col items-center w-full h-full pb-[76px] pt-[90px] gap-2 overflow-y-auto bg-white">
-    <div class="flex flex-col justify-between">
+  <div id="page_proses" class="flex flex-col items-center justify-center w-full h-full pb-[76px] overflow-y-auto bg-white">
+    <div class="flex flex-col items-center justify-between w-full gap-4 pb-10">
       <div class="w-40 h-40 rounded-full bg-black overflow-hidden">
-        <img src="../images/pegawai/foto_pegawai/" alt="foto pegawai" class="w-40 h-40 object-cover">
+        <img src="../images/pegawai/foto_pegawai/<?= $foto_pegawai ?>" alt="foto pegawai" class="w-40 h-40 object-cover">
+      </div>
+      <div>
+        <?= $nama_pegawai ?>
+      </div>
+      <div id="button-logout" class="flex justify-center items-center rounded-xl font-ex-semibold text-white w-[80%] h-16 bg-[#444D68]">
+        LOGOUT
       </div>
     </div>
   </div>
@@ -72,6 +86,34 @@ function rupiah($angka)
       $('#modalImgHeader').addClass('scale-0');
       $('#bgmodalinput').removeClass("effectmodal");
     });
+  });
+
+  $('#button-logout').on('click', function() {
+    console.log('aawas');
+    Swal.fire({
+      icon: 'question',
+      title: 'Apakah anda yakin keluar?',
+      showDenyButton: true,
+      confirmButtonText: 'Ya',
+      denyButtonText: `Batal`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        $.ajax({
+          url: '../controllers/loginController.php',
+          type: 'post',
+          data: {
+            'type': 'logout',
+          },
+          success: function() {
+            window.location.replace('../views/login.php');
+          }
+        });
+
+      } else if (result.isDenied) {
+
+      }
+    })
   });
 </script>
 

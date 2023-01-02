@@ -13,6 +13,10 @@ $id_pegawai = $_SESSION['id_pegawai'];
 
 $dataPegawai = $crud->showData("SELECT * FROM pegawai WHERE id_pegawai = '$id_pegawai'");
 // $dataTr = $crud->showData("")
+foreach($dataPegawai as $index){
+  $foto_pegawai = $index["foto_pegawai"];
+  $nama_pegawai = $index["nama"];
+}
 
 ?>
 
@@ -37,14 +41,14 @@ $dataPegawai = $crud->showData("SELECT * FROM pegawai WHERE id_pegawai = '$id_pe
       <!-- left -->
       <div class="flex flex-row items-center">
         <div class="w-[45px] h-[45px] overflow-hidden rounded-full mr-2">
-          <img class="object-cover w-[45px] h-[45px]" src="../images/pegawai/foto_pegawai/<?= $dataPegawai[0]["foto_pegawai"] ?>" alt="">
+          <img class="object-cover w-[45px] h-[45px]" src="../images/pegawai/foto_pegawai/<?= $foto_pegawai ?>" alt="">
         </div>
-        <h3 class="font-ex-semibold">Welcome, <?= $dataPegawai[0]["nama"] ?></h3>
+        <h3 class="font-ex-semibold">Welcome, <?= $nama_pegawai ?></h3>
       </div>
 
       <!-- right -->
       <div class="flex flex-row items-center">
-        <div id="button-logout" class="w-[45px] h-[45px] rounded-full border-2 border-[#A9B6C3] flex justify-center items-center">
+        <div class="w-[45px] h-[45px] rounded-full border-2 border-[#A9B6C3] flex justify-center items-center">
           <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M18.9089 13.4983L16.7494 5.69208C16.2882 4.02222 15.2834 2.55505 13.8948 1.52406C12.5062 0.493072 10.8137 -0.0424819 9.08659 0.00263403C7.35948 0.04775 5.69705 0.670944 4.36387 1.77303C3.03069 2.87512 2.10339 4.39276 1.72954 6.08443L0.0591915 13.6232C-0.0216324 13.9885 -0.019661 14.3672 0.0649603 14.7316C0.149582 15.096 0.314693 15.4366 0.548114 15.7284C0.781535 16.0203 1.07731 16.2558 1.41361 16.4177C1.74992 16.5796 2.11817 16.6637 2.4912 16.6638H5.48719C5.67783 17.6053 6.18717 18.4518 6.92891 19.0598C7.67065 19.6678 8.59917 20 9.55716 20C10.5151 20 11.4437 19.6678 12.1854 19.0598C12.9271 18.4518 13.4365 17.6053 13.6271 16.6638H16.5093C16.8932 16.6636 17.2717 16.5745 17.6156 16.4034C17.9594 16.2323 18.2592 15.9839 18.4916 15.6775C18.7239 15.3711 18.8826 15.015 18.9551 14.637C19.0276 14.259 19.0121 13.8693 18.9098 13.4983H18.9089ZM9.55716 18.3298C9.04363 18.3277 8.5433 18.1664 8.12461 17.8682C7.70593 17.57 7.38935 17.1493 7.21817 16.6638H11.8961C11.725 17.1493 11.4084 17.57 10.9897 17.8682C10.571 18.1664 10.0707 18.3277 9.55716 18.3298ZM17.1697 14.6687C17.0922 14.7717 16.9917 14.8551 16.8763 14.9123C16.761 14.9694 16.6338 14.9987 16.5052 14.9977H2.4912C2.36683 14.9977 2.24405 14.9697 2.13192 14.9157C2.0198 14.8617 1.92119 14.7832 1.84338 14.6859C1.76556 14.5886 1.71053 14.475 1.68235 14.3535C1.65416 14.232 1.65354 14.1057 1.68053 13.9839L3.35088 6.44512C3.64521 5.11747 4.37361 3.92658 5.42029 3.06178C6.46698 2.19698 7.77188 1.70789 9.12755 1.67228C10.4832 1.63666 11.8119 2.05655 12.9023 2.8652C13.9927 3.67386 14.7822 4.82486 15.1455 6.13524L17.305 13.9415C17.3403 14.0649 17.3464 14.1949 17.3229 14.3211C17.2994 14.4473 17.247 14.5663 17.1697 14.6687Z" fill="#373F47" />
           </svg>
@@ -163,34 +167,6 @@ $dataPegawai = $crud->showData("SELECT * FROM pegawai WHERE id_pegawai = '$id_pe
 
       },
       idle: 50000
-    });
-
-    $('#button-logout').on('click', function() {
-      console.log('aawas');
-      Swal.fire({
-        icon: 'question',
-        title: 'Apakah anda yakin keluar?',
-        showDenyButton: true,
-        confirmButtonText: 'Ya',
-        denyButtonText: `Batal`,
-      }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
-        if (result.isConfirmed) {
-          $.ajax({
-            url: '../controllers/loginController.php',
-            type: 'post',
-            data: {
-              'type': 'logout',
-            },
-            success: function() {
-              window.location.replace('../views/login.php');
-            }
-          });
-
-        } else if (result.isDenied) {
-
-        }
-      })
     });
 
     $('#navbar').load("../assets/components/navbar_sales.html");
