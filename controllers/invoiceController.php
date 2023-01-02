@@ -87,5 +87,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       echo json_encode($response);
       exit();
     }
+
+    if ($_POST["type"] == "tolak_pengiriman") {
+
+      $pathDb = $crud->showData("SELECT bukti_pengiriman FROM transaksi WHERE kode_pesanan='" . $_POST['id'] . "'");
+      $pathImg = "../images/bukti_pengiriman/" . $pathDb[0]['bukti_pengiriman'];
+      $crud->execute("UPDATE transaksi SET status_pengiriman='kirim', bukti_pengiriman=NULL WHERE kode_pesanan = '" . $_POST['id'] . "'");
+      unlink($pathImg);
+
+      $response = array(
+        'status' => 'success',
+        'msg' => 'Berhasil menolak bukti pengiriman',
+      );
+      echo json_encode($response);
+      exit();
+    }
   }
 }
