@@ -1371,6 +1371,7 @@
             });
             chartpenjualan.updateOptions(optionspenjualan);
             chartpenjualan.updateSeries(getSeriesPenjualan(), true);
+            // kshdsd
             $('#loadingchartpenjualan').hide();
         }
 
