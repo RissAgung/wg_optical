@@ -386,12 +386,13 @@
                     'tahun': $('#filterbulanan_tahun').val(),
                 },
                 success: function(res) {
-
+                    
                     //alert(res);
                     const data = JSON.parse(res);
                     //categories = [];
 
                     dataPemasukkan = data.data
+                    dataPengeluaran = data.data_pengeluaran;
                     for (let index = 0; index < data.labels.length; index++) {
                         const element = data.labels[index];
 
@@ -436,6 +437,7 @@
                     //alert(res);
                     const data = JSON.parse(res);
                     dataPemasukkan = data.data;
+                    dataPengeluaran = data.data_pengeluaran;
                     optionspenjualan.xaxis.categories = data.labels;
 
                     // chartpenjualan.update();
@@ -469,6 +471,7 @@
                     //alert(res);
                     const data = JSON.parse(res);
                     dataPemasukkan = data.data;
+                    dataPengeluaran = data.data_pengeluaran;
                     optionspenjualan.xaxis.categories[0] = range_start + ' to ' + range_end;
                 
                     chartpenjualan.update();

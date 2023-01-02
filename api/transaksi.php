@@ -20,12 +20,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     array_push($data, (array) $value);
                 }
 
+                $idtr = generateTransaksiID($data);
+
                 // insert transaksi
-                $crud->execute("INSERT INTO transaksi VALUES ('" . generateTransaksiID($data) . "', '1', NOW(), '" . $_POST['id_pegawai'] . "', '" . $_POST['total_bayar'] . "', '" . $_POST['total_harga'] . "', '" . $_POST['kembalian'] . "', '" . $idCus . "', '" . $_POST['tgljatuhtempo'] . "',  NULL, NULL)");
+                $crud->execute("INSERT INTO transaksi VALUES ('" . $idtr . "', '1', NOW(), '" . $_POST['id_pegawai'] . "', '" . $_POST['total_bayar'] . "', '" . $_POST['total_harga'] . "', '" . $_POST['kembalian'] . "', '" . $idCus . "', '" . $_POST['tgljatuhtempo'] . "',  NULL, NULL)");
 
                 // insert transaksi
                 for ($i = 0; $i < count($data); $i++) {
-                    $crud->execute("INSERT INTO detail_transaksi VALUES ('" . generateTransaksiID($data) . "', '" . $data[$i][0] . "')");
+                    $crud->execute("INSERT INTO detail_transaksi VALUES ('" . $idtr . "', '" . $data[$i][0] . "')");
 
                     // if ($i == count($data) - 1) {
                     //     $param = $param . "'" . $data[$i][0] . "'";
@@ -53,8 +55,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
 
                 if($_POST['pembayaran'] == 'Cicilan'){
-                    $idCicilan = "CL" . generateTransaksiID($data);
-                    $crud->execute("INSERT INTO cicilan VALUES ('" . $idCicilan . "','" . generateTransaksiID($data) . "','" . $_POST['total_bayar'] . "')");
+                    $idCicilan = "CL" . $idtr;
+                    $crud->execute("INSERT INTO cicilan VALUES ('" . $idCicilan . "','" . $idtr . "','" . $_POST['total_bayar'] . "')");
                 }
 
 

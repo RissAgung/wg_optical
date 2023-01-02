@@ -136,8 +136,21 @@ if (isset($_GET['getDataPieChart'])) {
                 }
             }
 
+            $res1 = $crud->showData("SELECT kode_tr_pengeluaran, (CASE WHEN SUM(total_harga) IS NULL THEN '0' ELSE SUM(total_harga) END) AS total, YEARWEEK(date(tanggal)) AS yearweek FROM tr_pengeluaran WHERE MONTH(DATE(tanggal)) = '" . $_POST['bulan'] . "' AND YEAR(DATE(tanggal)) = '" . $_POST['tahun'] . "' GROUP BY yearweek");
+
+            $dataPengeluaran = [0, 0, 0, 0, 0, 0];
+
+            foreach ($res1 as $value) {
+                for ($i=0; $i < count($yearweek); $i++) { 
+                    if($value['yearweek'] == $yearweek[$i]){
+                        $dataPengeluaran[$i] = $value['total'];
+                    }
+                }
+            }
+
             echo json_encode(array(
                 'data' => $data,
+                'data_pengeluaran' => $dataPengeluaran,
                 'labels' => $labels,
             ));
         } else if ($_GET['getDataBarChart'] == 'tahunan') {
@@ -153,8 +166,20 @@ if (isset($_GET['getDataPieChart'])) {
                 }
             }
 
+            $dataPengeluaran = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            $res1 = $crud->showData("SELECT kode_tr_pengeluaran, SUM(total_harga) AS total, (CASE WHEN MONTHNAME(DATE(tanggal)) = 'January' THEN 'Jan' WHEN MONTHNAME(DATE(tanggal)) = 'February' THEN 'Feb' WHEN MONTHNAME(DATE(tanggal)) = 'March' THEN 'Mar' WHEN MONTHNAME(DATE(tanggal)) = 'April' THEN 'Apr' WHEN MONTHNAME(DATE(tanggal)) = 'May' THEN 'Mei' WHEN MONTHNAME(DATE(tanggal)) = 'June' THEN 'Jun' WHEN MONTHNAME(DATE(tanggal)) = 'July' THEN 'Jul' WHEN MONTHNAME(DATE(tanggal)) = 'August' THEN 'Aug' WHEN MONTHNAME(DATE(tanggal)) = 'September' THEN 'Sep' WHEN MONTHNAME(DATE(tanggal)) = 'October' THEN 'Oct' WHEN MONTHNAME(DATE(tanggal)) = 'November' THEN 'Nov' WHEN MONTHNAME(DATE(tanggal)) = 'December' THEN 'Dec' END) AS tahun FROM tr_pengeluaran WHERE YEAR(DATE(tanggal)) = '" . $_POST['tahun'] . "' GROUP BY tahun");
+
+            foreach ($res1 as $value) {
+                for ($i = 0; $i < count($labels); $i++) {
+                    if ($value['tahun'] == $labels[$i]) {
+                        $dataPengeluaran[$i] = $value['total'];
+                    }
+                }
+            }
+
             echo json_encode(array(
                 'data' => $data,
+                'data_pengeluaran'=> $dataPengeluaran,
                 'labels' => $labels,
             ));
         } else if ($_GET['getDataBarChart'] == 'range') {
@@ -164,8 +189,16 @@ if (isset($_GET['getDataPieChart'])) {
                 array_push($data, $value['total']);
             }
 
+            $dataPengeluaran = [];
+            $res1 = $crud->showData("SELECT kode_tr_pengeluaran, SUM(total_harga) AS total FROM tr_pengeluaran WHERE DATE(tanggal) BETWEEN '" . $_POST['start'] . "' AND '" . $_POST['end'] . "'");
+
+            foreach ($res1 as $value) {
+                array_push($dataPengeluaran, $value['total']);
+            }
+
             echo json_encode(array(
                 'data' => $data,
+                'data_pengeluaran' => $dataPengeluaran,
             ));
         } else {
             $res = $crud->showData("SELECT kode_pesanan, (SUM(total_bayar) - SUM(kembalian)) AS total, YEARWEEK(DATE(tanggal)), (CASE WHEN DAYNAME(tanggal)='Sunday' THEN 'Minggu' WHEN DAYNAME(tanggal)='Monday' THEN 'Senin' WHEN DAYNAME(tanggal)='Tuesday' THEN 'Selasa' WHEN DAYNAME(tanggal)='Wednesday' THEN 'Rabu' WHEN DAYNAME(tanggal)='Thursday' THEN 'Kamis' WHEN DAYNAME(tanggal)='Friday' THEN 'Jumat' ELSE 'Sabtu' END ) as hari, date(tanggal) AS tanggal FROM transaksi WHERE YEARWEEK(DATE(tanggal)) = YEARWEEK(DATE(NOW())) GROUP BY DATE(tanggal)");
