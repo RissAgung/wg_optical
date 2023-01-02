@@ -1,11 +1,18 @@
 <?php
 
+include "../config/koneksi.php";
+$crud = new koneksi();
+
 session_start();
 if (!isset($_SESSION['statusLogin'])) {
   header('Location: ../views/login.php');
 } else if ($_SESSION['level'] != 3) {
   header('Location: ../views/dashboard.php');
 }
+$id_pegawai = $_SESSION['id_pegawai'];
+
+$dataPegawai = $crud->showData("SELECT * FROM pegawai WHERE id_pegawai = '$id_pegawai'");
+// $dataTr = $crud->showData("")
 
 ?>
 
@@ -30,9 +37,9 @@ if (!isset($_SESSION['statusLogin'])) {
       <!-- left -->
       <div class="flex flex-row items-center">
         <div class="w-[45px] h-[45px] overflow-hidden rounded-full mr-2">
-          <img class="object-cover w-[45px] h-[45px]" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTN9RiCn_q7Sb-CrhRj-aimuCB-Qvd5Yc3Ecg&usqp=CAU" alt="">
+          <img class="object-cover w-[45px] h-[45px]" src="../images/pegawai/foto_pegawai/<?= $dataPegawai[0]["foto_pegawai"] ?>" alt="">
         </div>
-        <h3 class="font-ex-semibold">Welcome, Rizal</h3>
+        <h3 class="font-ex-semibold">Welcome, <?= $dataPegawai[0]["nama"] ?></h3>
       </div>
 
       <!-- right -->

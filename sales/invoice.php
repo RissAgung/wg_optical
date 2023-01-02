@@ -157,7 +157,7 @@ function rupiah($angka)
   <!-- konfirmasi -->
   <div id="page_konfirmasi" class="hidden flex flex-col items-center w-full h-full pb-[76px] pt-[110px] gap-2 overflow-y-auto bg-[#ECECEC]">
     <?php foreach ($dataProses as $index) : ?>
-      <?php if ($index["status_pengiriman"] == 'kirim' && $index["bukti_pengiriman"] != null && $index["status_confirm"] == 2 || $index["total_bayar"] < $index["total_harga"]) : ?>
+      <?php if (($index["status_pengiriman"] == 'terima' && $index["total_bayar"] < $index["total_harga"]) || ($index["status_pengiriman"] == 'kirim' && $index["bukti_pengiriman"] != null)) : ?>
         <div class="flex flex-col w-[95%] bg-white rounded-lg p-4 shadow-sm">
           <div class="flex flex-row justify-between items-center w-full h-full">
 

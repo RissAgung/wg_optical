@@ -560,9 +560,9 @@ function getStatusPembayaran($kode)
         $('#bgbody').removeClass('effectmodal');
       });
       $('#confirm_cencel').on('click', function() {
-        $('#modal_confirm_pengiriman').addClass("scale-0");
-        $('#bgbody').addClass('scale-0');
-        $('#bgbody').removeClass('effectmodal');
+        // $('#modal_confirm_pengiriman').addClass("scale-0");
+        // $('#bgbody').addClass('scale-0');
+        // $('#bgbody').removeClass('effectmodal');
       })
     })
 
@@ -613,7 +613,56 @@ function getStatusPembayaran($kode)
               }
             }
           });
-        })
+        });
+        $('#confirm_cencel').on('click', function() {
+
+          Swal.fire({
+            icon: 'question',
+            title: 'Apakah anda yakin?',
+            text: 'Data akan mengembalikan data ke status pengiriman',
+            showDenyButton: true,
+            confirmButtonText: 'Ya',
+            denyButtonText: `Batal`,
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+              $.ajax({
+                url: '../controllers/invoiceController.php',
+                type: 'post',
+                data: {
+                  'type': 'tolak_pengiriman',
+                  'id': id,
+                  'status': "kirim",
+                },
+                beforeSend: function() {
+                  Swal.fire({
+                    title: 'Loading',
+                    html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                    allowOutsideClick: false,
+                    showConfirmButton: false,
+                  });
+                },
+                success: function(res) {
+                  const data = JSON.parse(res);
+                  if (data.status == "success") {
+                    Swal.fire({
+                      icon: 'success',
+                      title: 'Berhasil',
+                      text: data.msg,
+                    }).then(function() {
+                      $('#modal_confirm_pengiriman').addClass("scale-0");
+                      $('#bgbody').addClass('scale-0');
+                      $('#bgbody').removeClass('effectmodal');
+                      window.location.replace('../views/invoice.php');
+                    })
+                  }
+                }
+              });
+            } else if (result.isDenied) {
+
+            }
+          })
+        });
       }
 
     }
@@ -682,7 +731,7 @@ function getStatusPembayaran($kode)
 
     // modal detail invoice
     $("#modal_detail_invoice").load("../assets/components/modal_detail_invoice.html", function() {
-      $('#ok_btn').on('click', function(){
+      $('#ok_btn').on('click', function() {
         console.log("btn_ok");
         $('#modal_detail_invoice').addClass("scale-0");
         $('#bgbody').addClass('scale-0');
