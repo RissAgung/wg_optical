@@ -724,7 +724,7 @@ function getStatusPembayaran($kode)
               });
             },
             success: function(res) {
-              alert(res);
+              // alert(res);
               const data = JSON.parse(res);
               // console.log(data);
               if (data.status === "success") {
