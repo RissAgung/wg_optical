@@ -3,6 +3,11 @@ date_default_timezone_set("Asia/Bangkok");
 include '../controllers/supplier.php';
 session_start();
 
+$profileDB = $crud->showData("SELECT foto_pegawai FROM pegawai WHERE id_pegawai = '" . $_SESSION['id_pegawai'] . "'");
+$imgProfile = "";
+foreach ($profileDB as $index) {
+    $imgProfile = $index["foto_pegawai"];
+}
 
 if (!isset($_SESSION['statusLogin'])) {
     header('Location: login.php');
@@ -30,6 +35,9 @@ $execute = (isset($_GET["search"])) ? $crud->showData("SELECT * FROM supplier WH
 
 <body class="bg-[#F0F0F0] font-ex-color box-border">
 
+    <div id="loading" class="fixed w-full h-full top-0 left-0 flex flex-col justify-center items-center bg-slate-50 z-[99]">
+        <div class="loadingspinner"></div>
+    </div>
 
     <!-- modal  -->
     <div id="modal" class=""></div>
@@ -119,7 +127,7 @@ $execute = (isset($_GET["search"])) ? $crud->showData("SELECT * FROM supplier WH
                                             <path fill-rule="evenodd" clip-rule="evenodd" d="M27.4782 8.38256C27.7335 8.48841 27.9655 8.64355 28.1609 8.83911C28.3564 9.03447 28.5116 9.26646 28.6174 9.52181C28.7233 9.77717 28.7777 10.0509 28.7777 10.3273C28.7777 10.6037 28.7233 10.8774 28.6174 11.1328C28.5116 11.3881 28.3564 11.6201 28.1609 11.8155L25.3473 14.6282L22.3717 11.6526L25.1845 8.83911C25.3798 8.64355 25.6118 8.48841 25.8672 8.38256C26.1225 8.27671 26.3962 8.22223 26.6727 8.22223C26.9491 8.22223 27.2228 8.27671 27.4782 8.38256ZM9.59277 25.7604C9.59295 24.9094 9.93117 24.0933 10.533 23.4916L21.2376 12.787L24.2132 15.7626L13.5086 26.4672C12.9069 27.069 12.0908 27.4072 11.2398 27.4074H9.59277V25.7604Z" fill="#3F2C0D" />
                                         </svg>
                                     </button>
-                                    <button id="delete-button-<?php echo $i; ?>">
+                                    <button onclick="delete_data('<?= $data['Id_Supplier'] ?>')">
                                         <svg width="38" height="37" viewBox="0 0 38 37" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <rect x="0.444336" width="37" height="37" rx="5" fill="#F35E58" />
                                             <path d="M23.3982 10.5062V8.67903C23.3982 8.19444 23.2105 7.72969 22.8764 7.38703C22.5423 7.04437 22.0892 6.85187 21.6167 6.85187H16.2723C15.7998 6.85187 15.3467 7.04437 15.0126 7.38703C14.6785 7.72969 14.4908 8.19444 14.4908 8.67903V10.5062H10.0371V12.3333H11.8186V26.0371C11.8186 26.7639 12.1001 27.4611 12.6013 27.975C13.1024 28.489 13.7821 28.7778 14.4908 28.7778H23.3982C24.1069 28.7778 24.7866 28.489 25.2878 27.975C25.7889 27.4611 26.0704 26.7639 26.0704 26.0371V12.3333H27.8519V10.5062H23.3982ZM18.0538 22.3827H16.2723V16.9012H18.0538V22.3827ZM21.6167 22.3827H19.8353V16.9012H21.6167V22.3827ZM21.6167 10.5062H16.2723V8.67903H21.6167V10.5062Z" fill="#501614" />
@@ -233,7 +241,8 @@ $execute = (isset($_GET["search"])) ? $crud->showData("SELECT * FROM supplier WH
     <script>
         // top bar
         $('#top_bar').load("../assets/components/top_bar.php", function() {
-            $('#title-header').html('Master Data Product');
+            $("#avatar_profile").attr("src", "../images/pegawai/foto_pegawai/<?= $imgProfile ?>");
+            $('#title-header').html('Master Data Supplier');
             $("#burger").on("click", function() {
                 $('#bgbody').removeClass("hidden");
 
@@ -259,6 +268,7 @@ $execute = (isset($_GET["search"])) ? $crud->showData("SELECT * FROM supplier WH
             $('#button-logout').on('click', function() {
                 // kosong
             });
+            $('#loading').hide();
         });
 
         $("#burger").on("click", function() {
@@ -355,6 +365,14 @@ $execute = (isset($_GET["search"])) ? $crud->showData("SELECT * FROM supplier WH
                             data: formData,
                             contentType: false,
                             processData: false,
+                            beforeSend: function() {
+                                Swal.fire({
+                                    title: 'Loading',
+                                    html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                                    allowOutsideClick: false,
+                                    showConfirmButton: false,
+                                });
+                            },
                             success: function(res) {
                                 const data = JSON.parse(res);
 
@@ -439,6 +457,14 @@ $execute = (isset($_GET["search"])) ? $crud->showData("SELECT * FROM supplier WH
                                 data: formData,
                                 contentType: false,
                                 processData: false,
+                                beforeSend: function() {
+                                    Swal.fire({
+                                        title: 'Loading',
+                                        html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                                        allowOutsideClick: false,
+                                        showConfirmButton: false,
+                                    });
+                                },
                                 success: function(res) {
                                     const data = JSON.parse(res);
 
@@ -485,57 +511,52 @@ $execute = (isset($_GET["search"])) ? $crud->showData("SELECT * FROM supplier WH
     </script>
 
     <script>
-        // load modal
-        $("#modal-delete").load("../assets/components/modal_hapus.html", function() {
+        function delete_data(id) {
+            Swal.fire({
+                icon: 'question',
+                title: 'Apakah anda yakin?',
+                showDenyButton: true,
+                confirmButtonText: 'Ya',
+                denyButtonText: `Batal`,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '../controllers/supplier.php',
+                        type: 'post',
+                        data: {
+                            'type': 'delete',
+                            'query': "DELETE FROM supplier WHERE Id_Supplier = '" + id + "'",
+                        },
+                        beforeSend: function() {
+                            Swal.fire({
+                                title: 'Loading',
+                                html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                                allowOutsideClick: false,
+                                showConfirmButton: false,
+                            });
+                        },
+                        success: function(res) {
+                            $('#modalkontenhapus').toggleClass("scale-100");
+                            $('#bgmodalhapus').removeClass("effectmodal");
+                            selected_idsupplier = "";
 
-            <?php
-            for ($index = 0; $index < count($execute); $index++) {
-            ?>
-                $('#delete-button-<?php echo $index; ?>').on('click', function() {
-                    selected_idsupplier = '<?php echo $execute[$index]['Id_Supplier']; ?>';
+                            const data = JSON.parse(res);
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil',
+                                text: data.msg,
+                            }).then(function() {
+                                window.location.replace("master_supplier.php");
+                            });
+                        }
+                    });
 
-                    console.log("tes");
-                    $('#title_delete').html('Hapus Data ini?');
+                } else if (result.isDenied) {
 
-                    $('#modalkontenhapus').removeClass("scale-0");
-                    $('#bgmodalhapus').addClass("effectmodal");
-                });
-            <?php
-            }
-            ?>
-
-            $('#submithapus').on('click', function() {
-                $.ajax({
-                    url: '../controllers/supplier.php',
-                    type: 'post',
-                    data: {
-                        'type': 'delete',
-                        'query': "DELETE FROM supplier WHERE Id_Supplier = '" + selected_idsupplier + "'",
-                    },
-                    success: function(res) {
-                        $('#modalkontenhapus').toggleClass("scale-100");
-                        $('#bgmodalhapus').removeClass("effectmodal");
-                        selected_idsupplier = "";
-
-                        const data = JSON.parse(res);
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Berhasil',
-                            text: data.msg,
-                        }).then(function() {
-                            window.location.replace("master_supplier.php");
-                        });
-                    }
-                });
-            });
-
-            $('#closemodalhapus, #cancelmodalhapus').on('click', function() {
-                $('#modalkontenhapus').addClass("scale-0");
-                $('#bgmodalhapus').removeClass("effectmodal");
-                selected_idsupplier = "";
-            });
-        });
-
+                }
+            })
+        }
 
         // reset search
         var input = '<?= $input ?>';

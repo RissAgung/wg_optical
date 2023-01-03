@@ -10,6 +10,11 @@ if (!isset($_SESSION['statusLogin'])) {
 }
 
 $crud = new koneksi();
+$profileDB = $crud->showData("SELECT foto_pegawai FROM pegawai WHERE id_pegawai = '" . $_SESSION['id_pegawai'] . "'");
+$imgProfile = "";
+foreach ($profileDB as $index) {
+  $imgProfile = $index["foto_pegawai"];
+}
 
 $datariwayat = (isset($_GET["search"])) ? $crud->showData("SELECT transaksi.status_pengiriman, transaksi.status_confirm, transaksi.tanggal, transaksi.kode_pesanan, pegawai.nama AS nama_sales, customer.nama AS nama_cus, transaksi.bukti_pengiriman, customer.alamat_jalan, transaksi.total_harga, transaksi.total_bayar, transaksi.status_pengiriman, cicilan.depan_pembayaran, cicilan.kode_cicilan FROM pegawai JOIN transaksi ON pegawai.id_pegawai = transaksi.id_pegawai JOIN customer ON transaksi.id_customer = customer.id_customer LEFT JOIN cicilan ON transaksi.kode_pesanan = cicilan.kode_pesanan WHERE customer.nama LIKE '%" . $_GET['search'] . "%'") : $crud->showData("SELECT transaksi.status_pengiriman, transaksi.status_confirm, transaksi.tanggal, transaksi.kode_pesanan, pegawai.nama AS nama_sales, customer.nama AS nama_cus, transaksi.bukti_pengiriman, customer.alamat_jalan, transaksi.total_harga, transaksi.total_bayar, transaksi.status_pengiriman, cicilan.depan_pembayaran, cicilan.kode_cicilan FROM pegawai JOIN transaksi ON pegawai.id_pegawai = transaksi.id_pegawai JOIN customer ON transaksi.id_customer = customer.id_customer LEFT JOIN cicilan ON transaksi.kode_pesanan = cicilan.kode_pesanan");
 ?>
@@ -28,6 +33,11 @@ $datariwayat = (isset($_GET["search"])) ? $crud->showData("SELECT transaksi.stat
 </head>
 
 <body class="bg-[#F0F0F0] font-ex-color box-border">
+
+  <div id="loading" class="fixed w-full h-full top-0 left-0 flex flex-col justify-center items-center bg-slate-50 z-[99]">
+    <div class="loadingspinner"></div>
+  </div>
+
   <!-- Logout modal -->
   <div id="bgmodal" class="w-full h-screen fixed hidden bg-black z-[51] opacity-0 transition duration-300"></div>
   <div id="modalLogout" class="w-[90%] md:w-[60%] lg:w-[30%] bg-white fixed z-[51] left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] shadow-xl rounded-lg scale-0  transition ease-in-out">
@@ -192,7 +202,8 @@ $datariwayat = (isset($_GET["search"])) ? $crud->showData("SELECT transaksi.stat
     // load sidebar
 
     $('#top_bar').load("../assets/components/top_bar.php", function() {
-      $('#title-header').html('Master Data Product');
+      $("#avatar_profile").attr("src", "../images/pegawai/foto_pegawai/<?= $imgProfile ?>");
+      $('#title-header').html('Riwayat');
       $("#burger").on("click", function() {
         $('#bgbody').removeClass("hidden");
 
@@ -208,13 +219,11 @@ $datariwayat = (isset($_GET["search"])) ? $crud->showData("SELECT transaksi.stat
 
       });
 
-      $('#loading').hide();
-
     });
 
     $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
       $('#riwayat').addClass("hover-sidebar");
-
+      $('#loading').hide();
     });
 
 

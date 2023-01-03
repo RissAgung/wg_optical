@@ -89,7 +89,7 @@ $dataNotif = $crud->showData("SELECT pegawai.nama, pegawai.foto_pegawai FROM tra
           </div>
         </div>
       </div>
-      <img class="w-10 h-10 rounded-full" src="https://upload.wikimedia.org/wikipedia/id/d/d5/Aang_.jpg" alt="Rounded avatar">
+      <img class="w-10 h-10 rounded-full" src="" id="avatar_profile" alt="Rounded avatar">
     </div>
   </div>
 

@@ -5,7 +5,7 @@ $crud = new koneksi();
 
 $dataDb = $crud->showData("SELECT * FROM content_landing");
 $imbDb = $crud->showData("SELECT * FROM image_landing");
-$imgFrame = $crud->showData("SELECT merk, gambar FROM produk");
+$imgFrame = $crud->showData("SELECT merk, gambar FROM produk LIMIT 6");
 
 ?>
 <!DOCTYPE html>

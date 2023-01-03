@@ -9,6 +9,11 @@ if (!isset($_SESSION['statusLogin'])) {
 }
 
 $crud = new koneksi();
+$profileDB = $crud->showData("SELECT foto_pegawai FROM pegawai WHERE id_pegawai = '" . $_SESSION['id_pegawai'] . "'");
+$imgProfile = "";
+foreach ($profileDB as $index) {
+  $imgProfile = $index["foto_pegawai"];
+}
 
 $dataPembelian = $crud->showData("SELECT transaksi.status_pengiriman, transaksi.tanggal, transaksi.kode_pesanan, pegawai.nama AS nama_sales, customer.nama AS nama_cus, cicilan.depan_pembayaran FROM pegawai JOIN transaksi ON pegawai.id_pegawai = transaksi.id_pegawai JOIN customer ON transaksi.id_customer = customer.id_customer LEFT JOIN cicilan ON transaksi.kode_pesanan = cicilan.kode_pesanan WHERE transaksi.status_confirm = '1'");
 
@@ -50,6 +55,9 @@ function getStatusPembayaran($kode)
 
 <body class="bg-[#F0F0F0] font-ex-color box-border text-[#343948]">
 
+  <div id="loading" class="fixed w-full h-full top-0 left-0 flex flex-col justify-center items-center bg-slate-50 z-[99]">
+    <div class="loadingspinner"></div>
+  </div>
 
   <!-- modal edit pembayaran -->
   <div class="fixed z-[52] scale-0 transition ease-in-out" id="modal_edit_bayar">
@@ -345,7 +353,8 @@ function getStatusPembayaran($kode)
     // });
 
     $('#top_bar').load("../assets/components/top_bar.php", function() {
-      $('#title-header').html('Master Data Product');
+      $("#avatar_profile").attr("src", "../images/pegawai/foto_pegawai/<?= $imgProfile ?>");
+      $('#title-header').html('Invoice');
       $("#burger").on("click", function() {
         $('#bgbody').removeClass("hidden");
 
@@ -361,8 +370,6 @@ function getStatusPembayaran($kode)
 
       });
 
-      $('#loading').hide();
-
     });
 
     console.log($(document).width());
@@ -370,7 +377,7 @@ function getStatusPembayaran($kode)
     // load sidebar
     $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
       $('#tab_invoice').addClass("hover-sidebar");
-
+      $('#loading').hide();
     });
 
     // tab bar

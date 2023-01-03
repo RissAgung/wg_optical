@@ -4,6 +4,11 @@ include '../controllers/pegawaiController.php';
 
 session_start();
 
+$profileDB = $crud->showData("SELECT foto_pegawai FROM pegawai WHERE id_pegawai = '" . $_SESSION['id_pegawai'] . "'");
+$imgProfile = "";
+foreach ($profileDB as $index) {
+    $imgProfile = $index["foto_pegawai"];
+}
 
 if (!isset($_SESSION['statusLogin'])) {
     header('Location: login.php');
@@ -302,7 +307,7 @@ function getNameRoles($id)
 
 
     <script>
-        $(window).on('load', function(){
+        $(window).on('load', function() {
             $('#loading').hide();
         });
         // $(document).idle({
@@ -339,6 +344,7 @@ function getNameRoles($id)
 
         // top_bar
         $('#top_bar').load("../assets/components/top_bar.php", function() {
+            $("#avatar_profile").attr("src","../images/pegawai/foto_pegawai/<?= $imgProfile ?>");
             $('#title-header').html('Master Data Pegawai');
             $("#burger").on("click", function() {
                 $('#bgbody').toggleClass("hidden");

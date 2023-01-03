@@ -9,6 +9,11 @@ if (!isset($_SESSION['statusLogin'])) {
     header('Location: ../sales/dashboard.php');
 }
 $crud = new koneksi();
+$profileDB = $crud->showData("SELECT foto_pegawai FROM pegawai WHERE id_pegawai = '" . $_SESSION['id_pegawai'] . "'");
+$imgProfile = "";
+foreach ($profileDB as $index) {
+    $imgProfile = $index["foto_pegawai"];
+}
 
 $datagaji = (isset($_GET["search"])) ? $crud->showData("SELECT gaji.id_gaji , pegawai.nama , gaji.bulan, gaji.total_penjualan, gaji.gaji FROM gaji JOIN pegawai ON gaji.id_pegawai = pegawai.id_pegawai WHERE pegawai.nama LIKE '%" . $_GET['search'] . "%'") : $crud->showData("SELECT gaji.id_gaji , pegawai.nama , gaji.bulan, gaji.total_penjualan, gaji.gaji FROM gaji JOIN pegawai ON gaji.id_pegawai = pegawai.id_pegawai");
 
@@ -35,6 +40,9 @@ function rupiah($angka)
 
 <body class="bg-[#F0F0F0] font-ex-color box-border">
 
+    <div id="loading" class="fixed w-full h-full top-0 left-0 flex flex-col justify-center items-center bg-slate-50 z-[99]">
+        <div class="loadingspinner"></div>
+    </div>
 
     <!-- modal detail -->
     <div id="modal-detail" class=""></div>
@@ -158,7 +166,8 @@ function rupiah($angka)
         // load sidebar
 
         $('#top_bar').load("../assets/components/top_bar.php", function() {
-            $('#title-header').html('Master Data Product');
+            $("#avatar_profile").attr("src", "../images/pegawai/foto_pegawai/<?= $imgProfile ?>");
+            $('#title-header').html('Salary');
             $("#burger").on("click", function() {
                 $('#bgbody').removeClass("hidden");
 
@@ -174,13 +183,11 @@ function rupiah($angka)
 
             });
 
-            $('#loading').hide();
-
         });
 
         $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
             $('#salary').addClass("hover-sidebar");
-
+            $('#loading').hide();
         });
 
         $("#modal-detail").load("../assets/components/modal_detail_salary.html", function() {

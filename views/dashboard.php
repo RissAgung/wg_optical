@@ -1,11 +1,16 @@
 <?php
 date_default_timezone_set("Asia/Bangkok");
 include "../config/koneksi.php";
+session_start();
 
 $crud = new koneksi();
 $dataPEngeluaran = $crud->showData("SELECT SUM(total_harga) AS total FROM tr_pengeluaran WHERE MONTH(tanggal) = '" . date('n') . "'");
+$profileDB = $crud->showData("SELECT foto_pegawai FROM pegawai WHERE id_pegawai = '" . $_SESSION['id_pegawai'] . "'");
+$imgProfile = "";
+foreach ($profileDB as $index) {
+  $imgProfile = $index["foto_pegawai"];
+}
 
-session_start();
 
 
 if (!isset($_SESSION['statusLogin'])) {
@@ -36,6 +41,10 @@ function rupiah($angka)
 </head>
 
 <body class="bg-[#F0F0F0] font-ex-color box-border">
+
+  <div id="loading" class="fixed w-full h-full top-0 left-0 flex flex-col justify-center items-center bg-slate-50 z-[99]">
+    <div class="loadingspinner"></div>
+  </div>
 
   <!-- Background hitam saat sidebar show -->
   <div id="bgbody" class="w-full h-screen bg-black fixed z-51 bg-opacity-50 hidden"></div>
@@ -209,7 +218,8 @@ function rupiah($angka)
 
     // top bar
     $('#top_bar').load("../assets/components/top_bar.php", function() {
-      $('#title-header').html('Master Data Product');
+      $("#avatar_profile").attr("src", "../images/pegawai/foto_pegawai/<?= $imgProfile ?>");
+      $('#title-header').html('Dashboard');
       $("#burger").on("click", function() {
         $('#bgbody').removeClass("hidden");
 
@@ -224,8 +234,6 @@ function rupiah($angka)
         $('#bgbody').addClass("hidden");
 
       });
-
-      $('#loading').hide();
 
     });
 
@@ -409,6 +417,7 @@ function rupiah($angka)
         $('#modalLogout').toggleClass("scale-0");
         $('#bgmodal').addClass("effectmodal");
       });
+      $('#loading').hide();
     });
 
     // auto hide sidebar
