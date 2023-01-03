@@ -1,8 +1,8 @@
 <?php
+date_default_timezone_set("Asia/Bangkok");
 include "../config/koneksi.php";
 session_start();
 $crud = new koneksi();
-date_default_timezone_set("Asia/Bangkok");
 
 $data = [];
 $param = "";

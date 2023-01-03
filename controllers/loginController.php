@@ -1,4 +1,6 @@
-<?php include '../config/koneksi.php';
+<?php
+date_default_timezone_set("Asia/Bangkok"); 
+include '../config/koneksi.php';
 
 session_start();
 

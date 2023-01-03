@@ -1,6 +1,6 @@
 <?php
 include '../config/koneksi.php';
-
+date_default_timezone_set("Asia/Bangkok");
 $crud = new koneksi();
 
 $wilayah = [];

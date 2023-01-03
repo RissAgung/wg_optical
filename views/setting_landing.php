@@ -1,5 +1,5 @@
 <?php
-
+date_default_timezone_set("Asia/Bangkok");
 include "../config/koneksi.php";
 session_start();
 if (!isset($_SESSION['statusLogin'])) {
@@ -37,10 +37,10 @@ $dataDB = $crud->showData("SELECT * FROM content_landing");
   <div id="modalAddHeader"></div>
 
   <!-- sidebar -->
-  <div id="sidebar" class="ex-sidebar ex-hide-sidebar fixed z-[51] max-lg:transition max-lg:duration-[1s]"></div>
+  <div id="sidebar" class="ex-sidebar ex-hide-sidebar fixed z-[52] max-lg:transition max-lg:duration-[1s]"></div>
 
   <!-- Background hitam saat sidebar show -->
-  <div id="bgbody" class="w-full h-screen bg-black fixed z-[52] bg-opacity-50 hidden"></div>
+  <div id="bgbody" class="w-full h-screen bg-black fixed z-[51] bg-opacity-50 hidden"></div>
 
 
   <div class="lg:ml-72">

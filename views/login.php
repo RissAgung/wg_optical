@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set("Asia/Bangkok");
 session_start();
 if (isset($_SESSION['statusLogin'])) {
     header('Location: dashboard.php');
@@ -104,50 +105,61 @@ echo '<script>Swal.fire({
         }
 
         $('#login').on('click', function() {
-            $.ajax({
-                url: '../controllers/loginController.php',
-                type: 'post',
-                data: {
-                    'type': 'login',
-                    'txt_email': $('#txt_email').val(),
-                    'txt_password': $('#txt_password').val(),
-                },
-                beforeSend: function() {
-                    Swal.fire({
-                        title: 'Loading',
-                        html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
-                        allowOutsideClick: false,
-                        showConfirmButton: false,
 
-                    });
+            $.ajax({
+                type: "post",
+                url: "../controllers/salaryController.php",
+                data: {
+                    type: "salary",
                 },
                 success: function(res) {
-                    const data = JSON.parse(res);
-                    if (data.status == 'error') {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Gagal',
-                            text: data.msg,
-                        });
-                    } else if (data.status == 'success_roles') {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Berhasil',
-                            text: data.msg,
-                        }).then(function() {
-                            window.location.replace("../sales/dashboard.php");
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Berhasil',
-                            text: data.msg,
-                        }).then(function() {
-                            window.location.replace("dashboard.php");
-                        });
-                    }
+                    $.ajax({
+                        url: '../controllers/loginController.php',
+                        type: 'post',
+                        data: {
+                            'type': 'login',
+                            'txt_email': $('#txt_email').val(),
+                            'txt_password': $('#txt_password').val(),
+                        },
+                        beforeSend: function() {
+                            Swal.fire({
+                                title: 'Loading',
+                                html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                                allowOutsideClick: false,
+                                showConfirmButton: false,
+
+                            });
+                        },
+                        success: function(res) {
+                            const data = JSON.parse(res);
+                            if (data.status == 'error') {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Gagal',
+                                    text: data.msg,
+                                });
+                            } else if (data.status == 'success_roles') {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Berhasil',
+                                    text: data.msg,
+                                }).then(function() {
+                                    window.location.replace("../sales/dashboard.php");
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Berhasil',
+                                    text: data.msg,
+                                }).then(function() {
+                                    window.location.replace("dashboard.php");
+                                });
+                            }
+                        }
+                    });
                 }
             });
+
         });
     </script>
 
