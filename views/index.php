@@ -1,10 +1,11 @@
 <?php
-
+date_default_timezone_set("Asia/Bangkok");
 include "../config/koneksi.php";
 $crud = new koneksi();
 
 $dataDb = $crud->showData("SELECT * FROM content_landing");
 $imbDb = $crud->showData("SELECT * FROM image_landing");
+$imgFrame = $crud->showData("SELECT merk, gambar FROM produk LIMIT 6");
 
 ?>
 <!DOCTYPE html>
@@ -99,133 +100,16 @@ $imbDb = $crud->showData("SELECT * FROM image_landing");
                     <!-- Additional required wrapper -->
                     <div class="swiper-wrapper card-wrapper mb-8">
                         <!-- Slides -->
-                        <div class="swiper-slide content-center">
-                            <div class="flex flex-wrap gap-6 justify-center m-auto pb-10 w-60">
-                                <div class="object-center">
-                                    <img class="" src="../assets/images/catalog.png" alt="catalog">
+                        <?php foreach ($imgFrame as $index) : ?>
+                            <div class="swiper-slide content-center">
+                                <div class="flex flex-wrap gap-6 justify-center m-auto pb-10 w-60">
+                                    <div class="object-center overflow-hidden rounded-2xl w-[240px] h-[160px]">
+                                        <img class="w-[240px] h-[160px] object-cover" src="../images/produk/<?= $index["gambar"] ?>" alt="catalog">
+                                    </div>
+                                    <h2 class="text-center text-3xl font-bold py-4"><?= $index["merk"] ?></h2>
                                 </div>
-                                <h2 class="text-center text-3xl font-bold py-4">Product 1</h2>
-                                <p class="text-center font-semibold text-md text-slate-600">Lorem Ipsum is simply dummy
-                                    text
-                                    of the printing and typesetting industry. Lorem Ipsum has been the industry's
-                                    standard
-                                    dummy text ever since the 1500s,</p>
-
-                                <span class="bg-[#171A23] px-8 py-2 rounded-lg">
-                                    <a href="#" class="text-white font-semibold">Detail</a>
-                                </span>
                             </div>
-
-
-                        </div>
-                        <div class="swiper-slide content-center">
-                            <div class="flex flex-wrap gap-6 justify-center m-auto pb-10 w-60">
-                                <div class="object-center">
-                                    <img class="" src="../assets/images/catalog.png" alt="catalog">
-                                </div>
-                                <h2 class="text-center text-3xl font-bold py-4">Product 2</h2>
-                                <p class="text-center font-semibold text-md text-slate-600">Lorem Ipsum is simply dummy
-                                    text
-                                    of the printing and typesetting industry. Lorem Ipsum has been the industry's
-                                    standard
-                                    dummy text ever since the 1500s,</p>
-
-                                <span class="bg-[#171A23] px-8 py-2 rounded-lg">
-                                    <a href="#" class="text-white font-semibold">Detail</a>
-                                </span>
-                            </div>
-
-
-                        </div>
-                        <div class="swiper-slide content-center">
-                            <div class="flex flex-wrap gap-6 justify-center m-auto pb-10 w-60">
-                                <div class="object-center">
-                                    <img class="" src="../assets/images/catalog.png" alt="catalog">
-                                </div>
-                                <h2 class="text-center text-3xl font-bold py-4">Product 3</h2>
-                                <p class="text-center font-semibold text-md text-slate-600">Lorem Ipsum is simply dummy
-                                    text
-                                    of the printing and typesetting industry. Lorem Ipsum has been the industry's
-                                    standard
-                                    dummy text ever since the 1500s,</p>
-
-                                <span class="bg-[#171A23] px-8 py-2 rounded-lg">
-                                    <a href="#" class="text-white font-semibold">Detail</a>
-                                </span>
-                            </div>
-
-
-                        </div>
-                        <div class="swiper-slide content-center">
-                            <div class="flex flex-wrap gap-6 justify-center m-auto pb-10 w-60">
-                                <div class="object-center">
-                                    <img class="" src="../assets/images/catalog.png" alt="catalog">
-                                </div>
-                                <h2 class="text-center text-3xl font-bold py-4">Product 4</h2>
-                                <p class="text-center font-semibold text-md text-slate-600">Lorem Ipsum is simply dummy
-                                    text
-                                    of the printing and typesetting industry. Lorem Ipsum has been the industry's
-                                    standard
-                                    dummy text ever since the 1500s,</p>
-
-                                <span class="bg-[#171A23] px-8 py-2 rounded-lg">
-                                    <a href="#" class="text-white font-semibold">Detail</a>
-                                </span>
-                            </div>
-
-
-                        </div>
-                        <div class="swiper-slide content-center">
-                            <div class="flex flex-wrap gap-6 justify-center m-auto pb-10 w-60">
-                                <div class="object-center">
-                                    <img class="" src="../assets/images/catalog.png" alt="catalog">
-                                </div>
-                                <h2 class="text-center text-3xl font-bold py-4">Product 5</h2>
-                                <p class="text-center font-semibold text-md text-slate-600">Lorem Ipsum is simply dummy
-                                    text
-                                    of the printing and typesetting industry. Lorem Ipsum has been the industry's
-                                    standard
-                                    dummy text ever since the 1500s,</p>
-
-                                <span class="bg-[#171A23] px-8 py-2 rounded-lg">
-                                    <a href="#" class="text-white font-semibold">Detail</a>
-                                </span>
-                            </div>
-
-
-                        </div>
-                        <div class="swiper-slide content-center">
-                            <div class="flex flex-wrap gap-6 justify-center m-auto pb-10 w-60">
-                                <div class="object-center">
-                                    <img class="" src="../assets/images/catalog.png" alt="catalog">
-                                </div>
-                                <h2 class="text-center text-3xl font-bold py-4">Product 6</h2>
-                                <p class="text-center font-semibold text-md text-slate-600">Lorem Ipsum is simply dummy
-                                    text
-                                    of the printing and typesetting industry. Lorem Ipsum has been the industry's
-                                    standard
-                                    dummy text ever since the 1500s,</p>
-                                <span class="bg-[#171A23] px-8 py-2 rounded-lg">
-                                    <a href="#" class="text-white font-semibold">Detail</a>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="swiper-slide content-center">
-                            <div class="flex flex-wrap gap-6 justify-center m-auto pb-10 w-60">
-                                <div class="object-center">
-                                    <img class="" src="../assets/images/catalog.png" alt="catalog">
-                                </div>
-                                <h2 class="text-center text-3xl font-bold py-4">Product 7</h2>
-                                <p class="text-center font-semibold text-md text-slate-600">Lorem Ipsum is simply dummy
-                                    text
-                                    of the printing and typesetting industry. Lorem Ipsum has been the industry's
-                                    standard
-                                    dummy text ever since the 1500s,</p>
-                                <span class="bg-[#171A23] px-8 py-2 rounded-lg">
-                                    <a href="#" class="text-white font-semibold">Detail</a>
-                                </span>
-                            </div>
-                        </div>
+                        <?php endforeach ?>
                     </div>
                     <!-- If we need pagination -->
 
@@ -253,7 +137,9 @@ $imbDb = $crud->showData("SELECT * FROM image_landing");
                         <div class="swiper-slide content-center">
                             <div class="flex flex-col justify-center">
                                 <div class="w-full h-full px-10">
-                                    <div class="bg-[#C7CCCC] h-[300px] w-full rounded-xl"></div>
+                                    <div class="h-[300px] w-full rounded-xl overflow-hidden">
+                                        <img src="../assets/images/progresive.png" class="h-[300px] w-full object-cover" alt="progressive">
+                                    </div>
                                 </div>
                                 <div class="flex items-center justify-center pt-8">
                                     <h1 class="text-white font-bold text-2xl">PROGRESSIVE LENS</h1>
@@ -264,7 +150,7 @@ $imbDb = $crud->showData("SELECT * FROM image_landing");
                                         titik fokus untuk melihat jarak jauh dan titik fokus untuk melihat jarak dekat.
                                         Selain itu, lensa ini dilengkapi dengan titik fokus yang berkemampun untuk
                                         melihat jarak sedang sehingga lebih nyaman. Lensa Progresif bisa
-                                        dibilang lensa trifokal.</h1>
+                                        dibilang lensa trifokal.</h1>
                                 </div>
                             </div>
                         </div>
@@ -272,18 +158,17 @@ $imbDb = $crud->showData("SELECT * FROM image_landing");
                         <div class="swiper-slide content-center">
                             <div class="flex flex-col justify-center">
                                 <div class="w-full h-full px-10">
-                                    <div class="bg-[#C7CCCC] h-[300px] w-full rounded-xl"></div>
+                                    <div class="h-[300px] w-full rounded-xl overflow-hidden">
+                                        <img src="../assets/images/single_vision.png" class="h-[300px] w-full object-cover" alt="progressive">
+                                    </div>
                                 </div>
                                 <div class="flex items-center justify-center pt-8">
                                     <h1 class="text-white font-bold text-2xl">SINGLE VISION</h1>
                                 </div>
                                 <div class="flex items-center justify-center py-4 px-[30px]">
-                                    <h1 class="text-white font-bold text-center">Lensa ini juga memiliki dua titik
-                                        fokus, bedanya lensa progresif tidak memiliki jarak atau garis pembatas pada
-                                        titik fokus untuk melihat jarak jauh dan titik fokus untuk melihat jarak dekat.
-                                        Selain itu, lensa ini dilengkapi dengan titik fokus yang berkemampun untuk
-                                        melihat jarak sedang sehingga lebih nyaman. Lensa Progresif bisa
-                                        dibilang lensa trifokal.</h1>
+                                    <h1 class="text-white font-bold text-center">Dinamakan Single Vision karena hanya memiliki satu titik fokus.
+                                        Lensa tunggal digunakan untuk kacamata miopi (negatif) ataupun hipermetropi (positif),
+                                        atau astigmatisma (silindris).</h1>
                                 </div>
                             </div>
 

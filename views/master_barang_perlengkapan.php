@@ -1,7 +1,13 @@
 <?php
+date_default_timezone_set("Asia/Bangkok");
+session_start();
 require "../config/koneksi.php";
 $crud = new koneksi();
-
+$profileDB = $crud->showData("SELECT foto_pegawai FROM pegawai WHERE id_pegawai = '" . $_SESSION['id_pegawai'] . "'");
+$imgProfile = "";
+foreach ($profileDB as $index) {
+  $imgProfile = $index["foto_pegawai"];
+}
 // pagination
 $jumlahDataPerHalaman = 6;
 $jumlahData = (isset($_GET["search"])) ? count($crud->showData("SELECT * FROM perlengkapan WHERE kode_perlengkapan LIKE'%" . $_GET["search"] . "%' LIMIT 0, $jumlahDataPerHalaman")) : count($crud->showData("SELECT * FROM perlengkapan"));
@@ -26,7 +32,10 @@ $data = (isset($_GET["search"])) ? $crud->showData("SELECT * FROM perlengkapan W
 </head>
 
 <body class="bg-[#F0F0F0] font-ex-color box-border">
-  <!-- logout modal -->
+
+  <div id="loading" class="fixed w-full h-full top-0 left-0 flex flex-col justify-center items-center bg-slate-50 z-[99]">
+    <div class="loadingspinner"></div>
+  </div>
 
   <!-- modal -->
   <div id="modal">
@@ -67,11 +76,20 @@ $data = (isset($_GET["search"])) ? $crud->showData("SELECT * FROM perlengkapan W
 
         <!-- Search -->
         <div class="flex flex-row shadow-sm rounded-md items-center bg-white box-border px-2 md:mr-6">
-          <svg width="19" height="19" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" class="ml-3">
-            <path d="M19.2502 19.25L15.138 15.1305M17.4168 9.62501C17.4168 11.6915 16.5959 13.6733 15.1347 15.1346C13.6735 16.5958 11.6916 17.4167 9.62516 17.4167C7.55868 17.4167 5.57684 16.5958 4.11562 15.1346C2.6544 13.6733 1.8335 11.6915 1.8335 9.62501C1.8335 7.55853 2.6544 5.57669 4.11562 4.11547C5.57684 2.65425 7.55868 1.83334 9.62516 1.83334C11.6916 1.83334 13.6735 2.65425 15.1347 4.11547C16.5959 5.57669 17.4168 7.55853 17.4168 9.62501V9.62501Z" stroke="#797E8D" stroke-width="2" stroke-linecap="round" />
-          </svg>
-          <?php $input = (isset($_GET["search"])) ? $_GET["search"] : null ?>
-          <input id="search" value="<?= $input ?>" type="text" placeholder="Type here" class="h-11 bg-transparent ml-2 outline-none" />
+          <div class="flex flex-row items-center">
+            <svg width="19" height="19" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" class="ml-3">
+              <path d="M19.2502 19.25L15.138 15.1305M17.4168 9.62501C17.4168 11.6915 16.5959 13.6733 15.1347 15.1346C13.6735 16.5958 11.6916 17.4167 9.62516 17.4167C7.55868 17.4167 5.57684 16.5958 4.11562 15.1346C2.6544 13.6733 1.8335 11.6915 1.8335 9.62501C1.8335 7.55853 2.6544 5.57669 4.11562 4.11547C5.57684 2.65425 7.55868 1.83334 9.62516 1.83334C11.6916 1.83334 13.6735 2.65425 15.1347 4.11547C16.5959 5.57669 17.4168 7.55853 17.4168 9.62501V9.62501Z" stroke="#797E8D" stroke-width="2" stroke-linecap="round" />
+            </svg>
+            <?php $input = (isset($_GET["search"])) ? $_GET["search"] : null ?>
+            <input id="search" value="<?= $input ?>" type="text" placeholder="Type here" class="h-11 bg-transparent ml-2 outline-none" />
+          </div>
+          <div onclick="search_reset()" class="cursor-pointer justify-center items-center pr-2">
+            <?php if (isset($_GET["search"])) : ?>
+              <svg class="cursor-pointer fill-[#535A6D]" width="10" height="10" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7.3289 5.47926L10.6264 2.18142C10.8405 1.93831 10.9539 1.62288 10.9436 1.29924C10.9332 0.975599 10.7999 0.668037 10.5707 0.439072C10.3415 0.210106 10.0337 0.0769213 9.70976 0.0665883C9.38581 0.0562553 9.07009 0.16955 8.82676 0.383443L5.52586 3.67789L2.21901 0.373252C2.10056 0.254916 1.95995 0.161048 1.80519 0.097005C1.65044 0.0329623 1.48457 1.24687e-09 1.31706 0C1.14956 -1.24687e-09 0.983689 0.0329623 0.828933 0.097005C0.674177 0.161048 0.533562 0.254916 0.415117 0.373252C0.296672 0.491587 0.202716 0.632072 0.138614 0.786685C0.0745119 0.941298 0.041519 1.10701 0.041519 1.27436C0.041519 1.44171 0.0745119 1.60743 0.138614 1.76204C0.202716 1.91665 0.296672 2.05714 0.415117 2.17547L3.72282 5.47926L0.425318 8.77625C0.295996 8.89175 0.19162 9.03239 0.118574 9.18957C0.0455293 9.34676 0.00535166 9.51718 0.000499102 9.69041C-0.00435345 9.86364 0.0262212 10.036 0.0903528 10.1971C0.154484 10.3581 0.250824 10.5043 0.373478 10.6269C0.496133 10.7494 0.642522 10.8457 0.80369 10.9097C0.964858 10.9738 1.13742 11.0043 1.31081 10.9995C1.4842 10.9947 1.65478 10.9545 1.81211 10.8815C1.96944 10.8086 2.11021 10.7043 2.22581 10.5751L5.52586 7.28063L8.82251 10.5751C9.06172 10.8141 9.38616 10.9483 9.72446 10.9483C10.0628 10.9483 10.3872 10.8141 10.6264 10.5751C10.8656 10.3361 11 10.0119 11 9.67396C11 9.33598 10.8656 9.01184 10.6264 8.77286L7.3289 5.47926Z" fill="#535A6D" />
+              </svg>
+            <?php endif ?>
+          </div>
         </div>
 
       </div>
@@ -109,14 +127,14 @@ $data = (isset($_GET["search"])) ? $crud->showData("SELECT * FROM perlengkapan W
                 <td class="p-3 text-sm tracking-wide text-center"><?= $index["nama_perlengkapan"] ?></td>
                 <td class="p-3 text-sm tracking-wide text-center"><?= $index["stock"] ?></td>
                 <!-- <td></td> -->
-                <td class="p-3 text-sm tracking-wide text-center"">
+                <td class="p-3 text-sm tracking-wide text-center">
                   <button id="edit-button-<?= $i; ?>">
                     <svg width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <rect width="37" height="37" rx="5" fill="#EDC683" />
                       <path fill-rule="evenodd" clip-rule="evenodd" d="M27.4782 8.38256C27.7335 8.48841 27.9655 8.64355 28.1609 8.83911C28.3564 9.03447 28.5116 9.26646 28.6174 9.52181C28.7233 9.77717 28.7777 10.0509 28.7777 10.3273C28.7777 10.6037 28.7233 10.8774 28.6174 11.1328C28.5116 11.3881 28.3564 11.6201 28.1609 11.8155L25.3473 14.6282L22.3717 11.6526L25.1845 8.83911C25.3798 8.64355 25.6118 8.48841 25.8672 8.38256C26.1225 8.27671 26.3962 8.22223 26.6727 8.22223C26.9491 8.22223 27.2228 8.27671 27.4782 8.38256ZM9.59277 25.7604C9.59295 24.9094 9.93117 24.0933 10.533 23.4916L21.2376 12.787L24.2132 15.7626L13.5086 26.4672C12.9069 27.069 12.0908 27.4072 11.2398 27.4074H9.59277V25.7604Z" fill="#3F2C0D" />
                     </svg>
                   </button>
-                  <button id="delete-button-<?= $i ?>">
+                  <button onclick="delete_data('<?= $index['kode_perlengkapan'] ?>')">
                     <svg width="38" height="37" viewBox="0 0 38 37" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <rect x="0.444336" width="37" height="37" rx="5" fill="#F35E58" />
                       <path d="M23.3982 10.5062V8.67903C23.3982 8.19444 23.2105 7.72969 22.8764 7.38703C22.5423 7.04437 22.0892 6.85187 21.6167 6.85187H16.2723C15.7998 6.85187 15.3467 7.04437 15.0126 7.38703C14.6785 7.72969 14.4908 8.19444 14.4908 8.67903V10.5062H10.0371V12.3333H11.8186V26.0371C11.8186 26.7639 12.1001 27.4611 12.6013 27.975C13.1024 28.489 13.7821 28.7778 14.4908 28.7778H23.3982C24.1069 28.7778 24.7866 28.489 25.2878 27.975C25.7889 27.4611 26.0704 26.7639 26.0704 26.0371V12.3333H27.8519V10.5062H23.3982ZM18.0538 22.3827H16.2723V16.9012H18.0538V22.3827ZM21.6167 22.3827H19.8353V16.9012H21.6167V22.3827ZM21.6167 10.5062H16.2723V8.67903H21.6167V10.5062Z" fill="#501614" />
@@ -214,6 +232,8 @@ $data = (isset($_GET["search"])) ? $crud->showData("SELECT * FROM perlengkapan W
     }
     // top_bar
     $('#top_bar').load("../assets/components/top_bar.php", function() {
+      $("#avatar_profile").attr("src", "../images/pegawai/foto_pegawai/<?= $imgProfile ?>");
+      $('#title-header').html('Master Data Perlengkapan');
       $("#burger").on("click", function() {
         $('#bgbody').toggleClass("hidden");
 
@@ -234,7 +254,7 @@ $data = (isset($_GET["search"])) ? $crud->showData("SELECT * FROM perlengkapan W
     // load sidebar
     $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
       $('#master_data').addClass("hover-sidebar");
-
+      $('#loading').hide();
     });
 
     // reset 
@@ -256,7 +276,7 @@ $data = (isset($_GET["search"])) ? $crud->showData("SELECT * FROM perlengkapan W
       //tambah
       $('#click-modal').on('click', function() {
         console.log("modal tambah ")
-        
+
         chenge("tambah");
 
         $('#bgmodalinput').addClass("effectmodal");
@@ -291,7 +311,7 @@ $data = (isset($_GET["search"])) ? $crud->showData("SELECT * FROM perlengkapan W
 
           } else {
             formData.append('type', 'insert')
-            formData.append('query', "INSERT INTO perlengkapan  VALUES('"+kode_perlengkapan+"','"+nama_perlengkapan+"',0)");
+            formData.append('query', "INSERT INTO perlengkapan  VALUES('" + kode_perlengkapan + "','" + nama_perlengkapan + "',0)");
             console.log(kode_perlengkapan + '' + $('#nama_perlengkapan').val());
             //alert(kode_perlengkapan, nama_perlengkapan);
             $.ajax({
@@ -300,9 +320,18 @@ $data = (isset($_GET["search"])) ? $crud->showData("SELECT * FROM perlengkapan W
               type: 'POST',
               contentType: false,
               processData: false,
+              beforeSend: function() {
+                Swal.fire({
+                  title: 'Loading',
+                  html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                  allowOutsideClick: false,
+                  showConfirmButton: false,
+
+                });
+              },
               success: function(res) {
                 //alert(res)
-               const data = JSON.parse(res);
+                const data = JSON.parse(res);
 
                 if (data.status == 'error') {
                   Swal.fire({
@@ -369,13 +398,22 @@ $data = (isset($_GET["search"])) ? $crud->showData("SELECT * FROM perlengkapan W
 
             } else {
               formData.append('type', 'update');
-              formData.append('query', "UPDATE perlengkapan SET kode_perlengkapan = '"+kode_perlengkapan+"', nama_perlengkapan= '"+nama_perlengkapan+"' WHERE kode_perlengkapan= '"+kode_perlengkapan+"' ");
+              formData.append('query', "UPDATE perlengkapan SET kode_perlengkapan = '" + kode_perlengkapan + "', nama_perlengkapan= '" + nama_perlengkapan + "' WHERE kode_perlengkapan= '" + kode_perlengkapan + "' ");
               $.ajax({
                 type: "post",
                 url: "../controllers/barang_perlengkapan_Controller.php",
                 data: formData,
                 contentType: false,
                 processData: false,
+                beforeSend: function() {
+                  Swal.fire({
+                    title: 'Loading',
+                    html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                    allowOutsideClick: false,
+                    showConfirmButton: false,
+
+                  });
+                },
                 success: function(res) {
                   const data = JSON.parse(res);
 
@@ -387,7 +425,7 @@ $data = (isset($_GET["search"])) ? $crud->showData("SELECT * FROM perlengkapan W
                     })
                   } else {
                     Swal.fire({
-                      icon: 'sukses',
+                      icon: 'success',
                       title: 'berhasil',
                       text: data.msg,
                     }).then(function() {
@@ -442,63 +480,56 @@ $data = (isset($_GET["search"])) ? $crud->showData("SELECT * FROM perlengkapan W
       $('#bgmodal').addClass("effectmodal");
     });
 
-    //delete modal 
-    $("#modal-delete").load("../assets/components/modal_hapus.html", function() {
-      console.log("modal hapus")
-      //delete
-      <?php for ($i = 1; $i <= count($data); $i++) : ?>
-        $('#delete-button-<?= $i ?>').on('click', function() {
-          console.log("button hapus")
-          var id = '<?= $data[$i - 1]["kode_perlengkapan"] ?>';
-          //var nama = '<?= $data[$i - 1]["nama_perlengkapan"] ?>';
+    function delete_data(id) {
+      Swal.fire({
+        icon: 'question',
+        title: 'Apakah anda yakin?',
+        showDenyButton: true,
+        confirmButtonText: 'Ya',
+        denyButtonText: `Batal`,
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          $.ajax({
+            type: "post",
+            url: "../controllers/barang_perlengkapan_Controller.php",
+            data: {
+              type: "delete",
+              query: "DELETE FROM perlengkapan WHERE kode_perlengkapan = '" + id + "'",
+              // name = nama,
+            },
+            beforeSend: function() {
+              Swal.fire({
+                title: 'Loading',
+                html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                allowOutsideClick: false,
+                showConfirmButton: false,
 
-          $('#title_delete').html('hapus data product ini ?');
+              });
+            },
+            cache: false,
+            success: function(res) {
+              const data = JSON.parse(res);
 
-          $('#modalkontenhapus').toggleClass("scale-100");
-          $('#bgmodalhapus').addClass("effectmodal");
+              if (data.status == 'sukses') {
+                swal.fire({
+                  icon: 'success',
+                  title: 'berhasil',
+                  text: data.msg,
+                }).then(function() {
+                  window.location.replace("master_barang_perlengkapan.php");
+                });
+              } else {
 
-          $('#submithapus').on('click', function() {
-            console.log("button submit")
-            $.ajax({
-              type: "post",
-              url: "../controllers/barang_perlengkapan_Controller.php",
-              data: {
-                type: "delete",
-                query: "DELETE FROM perlengkapan WHERE kode_perlengkapan = '" + id + "'",
-                // name = nama,
-              },
-              cache: false,
-              success: function(res) {
-                const data = JSON.parse(res);
-
-                if (data.status == 'sukses') {
-                  swal.fire({
-                    icon: 'success',
-                    title: 'berhasil',
-                    text: data.msg,
-                  }).then(function() {
-                    window.location.replace("master_barang_perlengkapan.php");
-                  });
-                } else {
-
-                }
               }
-            });
-          });
-          $('#closemodalhapus').on('click', function() {
-            console.log("cancel_menghapus")
-            $('#modalkontenhapus').removeClass("scale-100");
-            $('#bgmodalhapus').removeClass("effectmodal");
+            }
           });
 
-          $('#cancelmodalhapus').on('click', function() {
-            console.log("batal_menghapus")
-            $('#modalkontenhapus').removeClass("scale-100");
-            $('#bgmodalhapus').removeClass("effectmodal");
-          });
-        });
-      <?php endfor ?>
-    });
+        } else if (result.isDenied) {
+
+        }
+      })
+    }
 
     //searc
     $('#search').keypress(function(e) {
@@ -507,6 +538,9 @@ $data = (isset($_GET["search"])) ? $crud->showData("SELECT * FROM perlengkapan W
       }
     });
 
+    function search_reset() {
+      window.location.replace("master_barang_perlengkapan.php?");
+    }
   </script>
 </body>
 

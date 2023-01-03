@@ -1,11 +1,16 @@
 <?php
-
+date_default_timezone_set("Asia/Bangkok");
 include "../config/koneksi.php";
+session_start();
 
 $crud = new koneksi();
 $dataPEngeluaran = $crud->showData("SELECT SUM(total_harga) AS total FROM tr_pengeluaran WHERE MONTH(tanggal) = '" . date('n') . "'");
+$profileDB = $crud->showData("SELECT foto_pegawai FROM pegawai WHERE id_pegawai = '" . $_SESSION['id_pegawai'] . "'");
+$imgProfile = "";
+foreach ($profileDB as $index) {
+  $imgProfile = $index["foto_pegawai"];
+}
 
-session_start();
 
 
 if (!isset($_SESSION['statusLogin'])) {
@@ -37,8 +42,12 @@ function rupiah($angka)
 
 <body class="bg-[#F0F0F0] font-ex-color box-border">
 
+  <div id="loading" class="fixed w-full h-full top-0 left-0 flex flex-col justify-center items-center bg-slate-50 z-[99]">
+    <div class="loadingspinner"></div>
+  </div>
+
   <!-- Background hitam saat sidebar show -->
-  <div id="bgbody" class="w-full h-screen bg-black fixed z-50 bg-opacity-50 hidden"></div>
+  <div id="bgbody" class="w-full h-screen bg-black fixed z-51 bg-opacity-50 hidden"></div>
   <!-- End Background hitam saat sidebar show -->
 
   <!-- sidebar -->
@@ -49,36 +58,8 @@ function rupiah($angka)
   <div class="lg:ml-72 flex flex-col xl:h-screen">
 
     <!-- header -->
-    <div class="w-full h-16 bg-white flex items-center md:justify-between md:px-5 justify-between px-6 overflow-hidden">
-      <div class="flex flex-row uppercase font-ex-bold text-sm items-center">
+    <div id="top_bar">
 
-        <!-- hamburger -->
-        <div class="ex-burger mr-2 lg:hidden absolute" id="burger">
-          <svg xmlns="http://www.w3.org/2000/svg" id="Isolation_Mode" data-name="Isolation Mode" viewBox="0 0 24 24" width="20" height="20">
-            <rect y="10.5" width="24" height="3" />
-            <rect y="3.5" width="24" height="3" />
-            <rect y="17.5" width="24" height="3" />
-          </svg>
-        </div>
-        <div class="ex-burger mr-2 lg:hidden">
-          <svg xmlns="http://www.w3.org/2000/svg" id="Isolation_Mode" data-name="Isolation Mode" viewBox="0 0 24 24" width="20" height="20">
-            <rect y="10.5" width="24" height="3" />
-            <rect y="3.5" width="24" height="3" />
-            <rect y="17.5" width="24" height="3" />
-          </svg>
-        </div>
-
-        <h1>Dashboard</h1>
-      </div>
-      <div class="flex flex-row items-center">
-        <div class="mr-4">
-          <svg width="24" height="26" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M23.8313 21.0763L23.5594 20.8364C22.788 20.1491 22.1129 19.361 21.5521 18.4933C20.9397 17.2957 20.5727 15.9879 20.4725 14.6467V10.6961C20.4778 8.58936 19.7136 6.55319 18.3235 4.97017C16.9334 3.38714 15.013 2.36623 12.9233 2.09923V1.06761C12.9233 0.784463 12.8108 0.512912 12.6106 0.312696C12.4104 0.11248 12.1388 0 11.8557 0C11.5725 0 11.301 0.11248 11.1008 0.312696C10.9005 0.512912 10.7881 0.784463 10.7881 1.06761V2.11523C8.71703 2.40147 6.81989 3.42855 5.44804 5.00626C4.07618 6.58396 3.32257 8.60538 3.32679 10.6961V14.6467C3.22663 15.9879 2.85958 17.2957 2.24718 18.4933C1.69609 19.3588 1.03178 20.1468 0.271901 20.8364L0 21.0763V23.3315H23.8313V21.0763Z" fill="#444D68" />
-            <path d="M9.81348 24.1712C9.8836 24.6781 10.1348 25.1425 10.5206 25.4787C10.9065 25.8148 11.401 26 11.9127 26C12.4245 26 12.9189 25.8148 13.3048 25.4787C13.6906 25.1425 13.9418 24.6781 14.0119 24.1712H9.81348Z" fill="#444D68" />
-          </svg>
-        </div>
-        <img class="w-10 h-10 rounded-full" src="https://upload.wikimedia.org/wikipedia/id/d/d5/Aang_.jpg" alt="Rounded avatar">
-      </div>
     </div>
     <!-- end header -->
 
@@ -206,34 +187,27 @@ function rupiah($angka)
   <script src="../js/sweetalert2.min.js"></script>
   <script src="../js/swiper-bundle.min.js"></script>
   <script>
-    // $(document).idle({
-    //   onIdle: function() {
-    //     $.ajax({
-    //       url: '../controllers/loginController.php',
-    //       type: 'post',
-    //       data: {
-    //         'type': 'logout',
-    //       },
-    //       success: function() {
 
-    //       }
-    //     });
-    //     Swal.fire({
-    //       icon: 'warning',
-    //       title: 'Informasi',
-    //       text: 'Sesi anda telah habis, silahkan login kembali',
+    // top bar
+    $('#top_bar').load("../assets/components/top_bar.php", function() {
+      $("#avatar_profile").attr("src", "../images/pegawai/foto_pegawai/<?= $imgProfile ?>");
+      $('#title-header').html('Dashboard');
+      $("#burger").on("click", function() {
+        $('#bgbody').removeClass("hidden");
 
-    //     }).then(function() {
-    //       window.location.replace('../views/login.php');
-    //     });
+        $('#ex-sidebar').toggleClass("ex-hide-sidebar");
+        $('#burger').toggleClass("show");
+      });
 
-    //   },
-    //   idle: 50000
-    // });
+      $("#bgbody").on("click", function() {
+        $('#ex-sidebar').removeAttr("ex-hide-sidebar");
+        $('#burger').removeAttr("show");
 
-    // $(document).ready(function() {
-    //   console.log($(document).width());
-    // });
+        $('#bgbody').addClass("hidden");
+
+      });
+
+    });
 
     var swiperhero = new Swiper(".swiper", {
       slidesPerView: 1,
@@ -415,6 +389,7 @@ function rupiah($angka)
         $('#modalLogout').toggleClass("scale-0");
         $('#bgmodal').addClass("effectmodal");
       });
+      $('#loading').hide();
     });
 
     // auto hide sidebar

@@ -1,12 +1,27 @@
 <?php
-
+date_default_timezone_set("Asia/Bangkok");
+require "../config/koneksi.php";
 session_start();
 
 if (!isset($_SESSION['statusLogin'])) {
     header('Location: login.php');
-  } else if($_SESSION['level'] == 3 ){
+} else if ($_SESSION['level'] == 3) {
     header('Location: ../sales/dashboard.php');
-  }
+}
+$crud = new koneksi();
+$profileDB = $crud->showData("SELECT foto_pegawai FROM pegawai WHERE id_pegawai = '" . $_SESSION['id_pegawai'] . "'");
+$imgProfile = "";
+foreach ($profileDB as $index) {
+    $imgProfile = $index["foto_pegawai"];
+}
+
+$datagaji = (isset($_GET["search"])) ? $crud->showData("SELECT gaji.id_gaji , pegawai.nama , gaji.bulan, gaji.total_penjualan, gaji.gaji FROM gaji JOIN pegawai ON gaji.id_pegawai = pegawai.id_pegawai WHERE pegawai.nama LIKE '%" . $_GET['search'] . "%'") : $crud->showData("SELECT gaji.id_gaji , pegawai.nama , gaji.bulan, gaji.total_penjualan, gaji.gaji FROM gaji JOIN pegawai ON gaji.id_pegawai = pegawai.id_pegawai");
+
+function rupiah($angka)
+{
+    $hasil_rupiah = "Rp. " . number_format($angka, 0, ',', '.');
+    return $hasil_rupiah;
+}
 
 ?>
 
@@ -25,10 +40,14 @@ if (!isset($_SESSION['statusLogin'])) {
 
 <body class="bg-[#F0F0F0] font-ex-color box-border">
 
+    <div id="loading" class="fixed w-full h-full top-0 left-0 flex flex-col justify-center items-center bg-slate-50 z-[99]">
+        <div class="loadingspinner"></div>
+    </div>
 
     <!-- modal detail -->
     <div id="modal-detail" class=""></div>
     <!-- end modal detail -->
+
     <!-- modal bonus -->
     <div id="modal-bonus" class=""></div>
     <!-- end modal bonus -->
@@ -40,55 +59,39 @@ if (!isset($_SESSION['statusLogin'])) {
     <div id="ex-sidebar" class="ex-sidebar ex-hide-sidebar fixed z-50 max-lg:transition max-lg:duration-[1s]"></div>
     <!-- end sidebar -->
     <div class="lg:ml-72">
-        <div class="w-full h-16 bg-white flex items-center md:justify-between md:px-5 justify-between px-6">
-            <div class="flex flex-row uppercase font-ex-bold text-sm items-center">
 
-                <!-- hamburger -->
-                <div class="ex-burger mr-2 lg:hidden absolute" id="burger">
-                    <svg xmlns="http://www.w3.org/2000/svg" id="Isolation_Mode" data-name="Isolation Mode" viewBox="0 0 24 24" width="20" height="20">
-                        <rect y="10.5" width="24" height="3" />
-                        <rect y="3.5" width="24" height="3" />
-                        <rect y="17.5" width="24" height="3" />
-                    </svg>
-                </div>
-                <div class="ex-burger mr-2 lg:hidden">
-                    <svg xmlns="http://www.w3.org/2000/svg" id="Isolation_Mode" data-name="Isolation Mode" viewBox="0 0 24 24" width="20" height="20">
-                        <rect y="10.5" width="24" height="3" />
-                        <rect y="3.5" width="24" height="3" />
-                        <rect y="17.5" width="24" height="3" />
-                    </svg>
-                </div>
-
-                <h1>Salary</h1>
-            </div>
-            <div class="flex flex-row items-center">
-                <div class="mr-4">
-                    <svg width="24" height="26" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M23.8313 21.0763L23.5594 20.8364C22.788 20.1491 22.1129 19.361 21.5521 18.4933C20.9397 17.2957 20.5727 15.9879 20.4725 14.6467V10.6961C20.4778 8.58936 19.7136 6.55319 18.3235 4.97017C16.9334 3.38714 15.013 2.36623 12.9233 2.09923V1.06761C12.9233 0.784463 12.8108 0.512912 12.6106 0.312696C12.4104 0.11248 12.1388 0 11.8557 0C11.5725 0 11.301 0.11248 11.1008 0.312696C10.9005 0.512912 10.7881 0.784463 10.7881 1.06761V2.11523C8.71703 2.40147 6.81989 3.42855 5.44804 5.00626C4.07618 6.58396 3.32257 8.60538 3.32679 10.6961V14.6467C3.22663 15.9879 2.85958 17.2957 2.24718 18.4933C1.69609 19.3588 1.03178 20.1468 0.271901 20.8364L0 21.0763V23.3315H23.8313V21.0763Z" fill="#444D68" />
-                        <path d="M9.81348 24.1712C9.8836 24.6781 10.1348 25.1425 10.5206 25.4787C10.9065 25.8148 11.401 26 11.9127 26C12.4245 26 12.9189 25.8148 13.3048 25.4787C13.6906 25.1425 13.9418 24.6781 14.0119 24.1712H9.81348Z" fill="#444D68" />
-                    </svg>
-                </div>
-                <img class="w-10 h-10 rounded-full" src="https://upload.wikimedia.org/wikipedia/id/d/d5/Aang_.jpg" alt="Rounded avatar">
-            </div>
-
+        <!-- header -->
+        <div id="top_bar">
 
         </div>
+        <!-- end header -->
 
-        <div class="mt-3 flex items-center flex-col md:flex-row md:justify-between md:px-14 lg:justify-between md:py-[3px]">
+        <div class="mt-3 flex items-center flex-col md:flex-row md:justify-between md:px-16 lg:justify-between md:py-[3px]">
             <!-- Search -->
             <div class="flex flex-row shadow-sm rounded-md items-center bg-white box-border">
-                <svg width="19" height="19" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" class="ml-3">
-                    <path d="M19.2502 19.25L15.138 15.1305M17.4168 9.62501C17.4168 11.6915 16.5959 13.6733 15.1347 15.1346C13.6735 16.5958 11.6916 17.4167 9.62516 17.4167C7.55868 17.4167 5.57684 16.5958 4.11562 15.1346C2.6544 13.6733 1.8335 11.6915 1.8335 9.62501C1.8335 7.55853 2.6544 5.57669 4.11562 4.11547C5.57684 2.65425 7.55868 1.83334 9.62516 1.83334C11.6916 1.83334 13.6735 2.65425 15.1347 4.11547C16.5959 5.57669 17.4168 7.55853 17.4168 9.62501V9.62501Z" stroke="#797E8D" stroke-width="2" stroke-linecap="round" />
-                </svg>
+                <div class="flex flex-row items-center">
+                    <svg width="19" height="19" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" class="ml-3">
+                        <path d="M19.2502 19.25L15.138 15.1305M17.4168 9.62501C17.4168 11.6915 16.5959 13.6733 15.1347 15.1346C13.6735 16.5958 11.6916 17.4167 9.62516 17.4167C7.55868 17.4167 5.57684 16.5958 4.11562 15.1346C2.6544 13.6733 1.8335 11.6915 1.8335 9.62501C1.8335 7.55853 2.6544 5.57669 4.11562 4.11547C5.57684 2.65425 7.55868 1.83334 9.62516 1.83334C11.6916 1.83334 13.6735 2.65425 15.1347 4.11547C16.5959 5.57669 17.4168 7.55853 17.4168 9.62501V9.62501Z" stroke="#797E8D" stroke-width="2" stroke-linecap="round" />
+                    </svg>
 
-                <input type="text" placeholder="Cari Sales" class="h-11 bg-transparent ml-2 outline-none" />
+                    <input id="search" type="text" placeholder="Cari Sales" class="h-11 bg-transparent ml-2 outline-none" />
+                </div>
+                <div onclick="search_reset()" class="cursor-pointer justify-center items-center pr-3">
+                    <?php if (isset($_GET["search"])) : ?>
+                        <svg class="cursor-pointer fill-[#535A6D]" width="10" height="10" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7.3289 5.47926L10.6264 2.18142C10.8405 1.93831 10.9539 1.62288 10.9436 1.29924C10.9332 0.975599 10.7999 0.668037 10.5707 0.439072C10.3415 0.210106 10.0337 0.0769213 9.70976 0.0665883C9.38581 0.0562553 9.07009 0.16955 8.82676 0.383443L5.52586 3.67789L2.21901 0.373252C2.10056 0.254916 1.95995 0.161048 1.80519 0.097005C1.65044 0.0329623 1.48457 1.24687e-09 1.31706 0C1.14956 -1.24687e-09 0.983689 0.0329623 0.828933 0.097005C0.674177 0.161048 0.533562 0.254916 0.415117 0.373252C0.296672 0.491587 0.202716 0.632072 0.138614 0.786685C0.0745119 0.941298 0.041519 1.10701 0.041519 1.27436C0.041519 1.44171 0.0745119 1.60743 0.138614 1.76204C0.202716 1.91665 0.296672 2.05714 0.415117 2.17547L3.72282 5.47926L0.425318 8.77625C0.295996 8.89175 0.19162 9.03239 0.118574 9.18957C0.0455293 9.34676 0.00535166 9.51718 0.000499102 9.69041C-0.00435345 9.86364 0.0262212 10.036 0.0903528 10.1971C0.154484 10.3581 0.250824 10.5043 0.373478 10.6269C0.496133 10.7494 0.642522 10.8457 0.80369 10.9097C0.964858 10.9738 1.13742 11.0043 1.31081 10.9995C1.4842 10.9947 1.65478 10.9545 1.81211 10.8815C1.96944 10.8086 2.11021 10.7043 2.22581 10.5751L5.52586 7.28063L8.82251 10.5751C9.06172 10.8141 9.38616 10.9483 9.72446 10.9483C10.0628 10.9483 10.3872 10.8141 10.6264 10.5751C10.8656 10.3361 11 10.0119 11 9.67396C11 9.33598 10.8656 9.01184 10.6264 8.77286L7.3289 5.47926Z" fill="#535A6D" />
+                        </svg>
+                    <?php endif ?>
+                </div>
             </div>
+
             <!-- End Search -->
         </div>
 
         <!-- konten table -->
         <div class="" id="table">
             <!-- Table -->
+            <?php ?>
             <div class="overflow-x-auto  text-sm mx-auto w-[90%] md:w-[90%] md:mx-auto bg-white rounded-md mt-4 py-6 px-6 ex-table">
                 <table class="w-full ">
                     <thead class="border-b-2 border-gray-100">
@@ -100,22 +103,15 @@ if (!isset($_SESSION['statusLogin'])) {
                         </tr>
                     </thead>
                     <tbody>
-                        <?php
-                        $i  = 1;
-                        while ($i < 20) {
-                        ?>
+                        <?php $jumlahData = 0 ?>
+                        <?php foreach ($datagaji as $index) : ?>
+                            <?php $jumlahData = $jumlahData + 1 ?>
                             <tr>
-                                <td class="p-3 text-sm tracking-wide text-center ">01-20-2022</td>
-                                <td class="p-3 text-sm tracking-wide text-center">Rizal Dwi Koryanto</td>
-                                <td class="p-3 text-sm tracking-wide text-center">Salary Final</td>
+                                <td class="p-3 text-sm tracking-wide text-center "><?= $index["bulan"] ?></td>
+                                <td class="p-3 text-sm tracking-wide text-center"><?= $index["nama"] ?></td>
+                                <td class="p-3 text-sm tracking-wide text-center"><?= rupiah($index["gaji"]) ?></td>
                                 <td class="p-3 text-sm tracking-wide text-center">
-                                    <button id="add-bonus-<?php echo $i; ?>">
-                                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <rect width="40" height="40" rx="5" fill="#82DCC6" />
-                                            <path d="M21.1487 11.9255C22.208 10.865 23.7058 9.17217 24.3058 7.5575C24.584 6.80967 24.0255 6 23.2727 6H16.7273C15.9745 6 15.416 6.8085 15.6942 7.5575C16.2942 9.17217 17.792 10.865 18.8513 11.9255C12.9844 12.8577 8 20.721 8 27C8 30.8605 10.9356 34 14.5455 34H25.4545C29.0644 34 32 30.8605 32 27C32 20.721 27.0156 12.8577 21.1487 11.9255V11.9255ZM18.5207 22.0545L21.8393 22.646C23.3022 22.9062 24.3647 24.2478 24.3647 25.8345C24.3647 27.7642 22.8964 29.3345 21.092 29.3345V30.5012C21.092 31.1452 20.6033 31.6678 20.0011 31.6678C19.3989 31.6678 18.9102 31.1452 18.9102 30.5012V29.3345H18.6178C17.4527 29.3345 16.3673 28.6648 15.7836 27.5857C15.4825 27.028 15.6604 26.3152 16.1818 25.992C16.7011 25.6688 17.3698 25.859 17.672 26.4178C17.8662 26.7772 18.2295 27.0012 18.6178 27.0012H21.092C21.6931 27.0012 22.1829 26.4773 22.1829 25.8345C22.1829 25.3935 21.8873 25.0202 21.4804 24.9478L18.1618 24.3563C16.6989 24.0962 15.6364 22.7545 15.6364 21.1678C15.6364 19.2382 17.1047 17.6678 18.9091 17.6678V16.5012C18.9091 15.8572 19.3978 15.3345 20 15.3345C20.6022 15.3345 21.0909 15.8572 21.0909 16.5012V17.6678H21.3833C22.5473 17.6678 23.6338 18.3387 24.2175 19.4178C24.5185 19.9755 24.3407 20.6883 23.8193 21.0115C23.2989 21.3347 22.6313 21.1445 22.3291 20.5857C22.1338 20.2252 21.7716 20.0023 21.3833 20.0023H18.9091C18.308 20.0023 17.8182 20.5262 17.8182 21.169C17.8182 21.61 18.1138 21.9833 18.5207 22.0557V22.0545Z" fill="#073D2F" />
-                                        </svg>
-                                    </button>
-                                    <button id="detail-button-<?php echo $i; ?>">
+                                    <button onclick="showmodal('<?= $index['nama'] ?>')" id="detail-button">
                                         <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <rect width="40" height="40" rx="5" fill="#EDC683" />
                                             <path d="M18.4947 25.1339C18.496 23.8785 18.8727 22.6513 19.5781 21.6044C20.2835 20.5576 21.2864 19.7373 22.4624 19.2455C23.6383 18.7537 24.9355 18.6121 26.1928 18.8381C27.45 19.0641 28.6119 19.648 29.5343 20.517V10.8418C29.5343 10.0575 29.2171 9.30539 28.6524 8.75085C28.0878 8.1963 27.322 7.88477 26.5235 7.88477L14.4804 7.88477C13.15 7.88633 11.8746 8.40606 10.9339 9.32996C9.99318 10.2539 9.464 11.5065 9.4624 12.8131V26.6123C9.464 27.9189 9.99318 29.1716 10.9339 30.0955C11.8746 31.0194 13.15 31.5391 14.4804 31.5407H25.0181C23.288 31.5407 21.6287 30.8657 20.4054 29.6641C19.182 28.4626 18.4947 26.833 18.4947 25.1339ZM14.4804 14.7844C14.4804 14.523 14.5861 14.2723 14.7743 14.0874C14.9625 13.9026 15.2178 13.7987 15.484 13.7987H23.5127C23.7789 13.7987 24.0341 13.9026 24.2223 14.0874C24.4106 14.2723 24.5163 14.523 24.5163 14.7844C24.5163 15.0458 24.4106 15.2965 24.2223 15.4814C24.0341 15.6662 23.7789 15.7701 23.5127 15.7701H15.484C15.2178 15.7701 14.9625 15.6662 14.7743 15.4814C14.5861 15.2965 14.4804 15.0458 14.4804 14.7844ZM31.2474 31.2519C31.0592 31.4366 30.804 31.5404 30.5378 31.5404C30.2717 31.5404 30.0165 31.4366 29.8283 31.2519L27.4127 28.8794C26.6973 29.3278 25.8668 29.5671 25.0181 29.5693C24.1249 29.5693 23.2517 29.3092 22.509 28.8218C21.7664 28.3344 21.1875 27.6417 20.8457 26.8312C20.5039 26.0208 20.4144 25.1289 20.5887 24.2685C20.763 23.4081 21.1931 22.6178 21.8247 21.9975C22.4563 21.3772 23.261 20.9547 24.137 20.7836C25.0131 20.6125 25.9211 20.7003 26.7464 21.036C27.5716 21.3717 28.2769 21.9402 28.7731 22.6696C29.2694 23.399 29.5343 24.2566 29.5343 25.1339C29.532 25.9674 29.2883 26.783 28.8317 27.4856L31.2474 29.8581C31.4355 30.043 31.5412 30.2936 31.5412 30.555C31.5412 30.8164 31.4355 31.067 31.2474 31.2519Z" fill="#51514F" />
@@ -123,35 +119,19 @@ if (!isset($_SESSION['statusLogin'])) {
                                     </button>
                                 </td>
                             </tr>
-                        <?php
-                            $i++;
-                        }
-                        ?>
+                        <?php endforeach ?>
                     </tbody>
                 </table>
             </div>
             <!-- End Table -->
 
-            <!-- Pagination And Info Data -->
-            <div class="flex flex-col-reverse md:flex-row lg:flex-row lg:justify-between md:justify-between lg:px-14 lg:mt-5 items-center mt-3 text-sm">
-                <div class="flex flex-row mb-3 font-ex-semibold">
-                    <div class="flex justify-center items-center h-10 w-10 mr-2 rounded-sm bg-white drop-shadow-md">
-                        <svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8 0.748694C7.99976 0.947765 7.89284 1.13862 7.70275 1.2793L2.51977 5.11966C2.36289 5.23587 2.23845 5.37384 2.15354 5.52569C2.06864 5.67754 2.02494 5.84029 2.02494 6.00466C2.02494 6.16903 2.06864 6.33178 2.15354 6.48363C2.23845 6.63549 2.36289 6.77346 2.51977 6.88967L7.69599 10.7275C7.88058 10.8691 7.98272 11.0588 7.98042 11.2557C7.97811 11.4525 7.87153 11.6409 7.68365 11.7801C7.49576 11.9193 7.2416 11.9983 6.9759 12C6.71021 12.0017 6.45423 11.926 6.26311 11.7892L1.08689 7.95437C0.390892 7.43766 4.76837e-07 6.73745 4.76837e-07 6.00741C4.76837e-07 5.27738 0.390892 4.57717 1.08689 4.06045L6.26986 0.220095C6.41138 0.115167 6.59168 0.0436506 6.78799 0.0145702C6.98431 -0.0145102 7.18786 0.000148773 7.37294 0.0566969C7.55803 0.113245 7.71636 0.209149 7.82796 0.332306C7.93956 0.455462 7.99942 0.600353 8 0.748694Z" fill="#343948" />
-                        </svg>
-                    </div>
-                    <div class="flex justify-center items-center h-10 w-10 mr-2 rounded-sm bg-white drop-shadow-md">2</div>
-                    <div class="flex justify-center items-center h-10 w-10 mr-2 rounded-sm bg-white drop-shadow-md">3</div>
-                    <div class="flex justify-center items-center h-10 w-10 mr-2 rounded-sm bg-white drop-shadow-md">4</div>
-                    <div class="flex justify-center items-center h-10 w-10 mr-2 rounded-sm bg-white drop-shadow-md">
-                        <svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0 11.2513C0.00023652 11.0522 0.107156 10.8614 0.297251 10.7207L5.48023 6.88034C5.63711 6.76413 5.76155 6.62616 5.84646 6.47431C5.93136 6.32246 5.97506 6.15971 5.97506 5.99534C5.97506 5.83097 5.93136 5.66822 5.84646 5.51637C5.76155 5.36451 5.63711 5.22654 5.48023 5.11033L0.304007 1.27248C0.119416 1.13087 0.0172752 0.941199 0.019584 0.744328C0.0218929 0.547457 0.128467 0.359134 0.316351 0.21992C0.504235 0.0807055 0.758398 0.00173914 1.0241 2.83842e-05C1.28979 -0.00168237 1.54577 0.0739993 1.73689 0.210773L6.91311 4.04563C7.60911 4.56234 8 5.26255 8 5.99259C8 6.72262 7.60911 7.42283 6.91311 7.93955L1.73014 11.7799C1.58862 11.8848 1.40832 11.9563 1.21201 11.9854C1.01569 12.0145 0.812142 11.9999 0.627057 11.9433C0.441971 11.8868 0.283639 11.7909 0.17204 11.6677C0.0604405 11.5445 0.000575787 11.3996 0 11.2513Z" fill="#343948" />
-                        </svg>
-                    </div>
-                </div>
-                <div class="mb-3">20 from 120 data</div>
+            <!-- Info Data -->
+            <div class="w-[95%] h-8 mt-4 flex flex-row md:justify-end justify-center gap-1 md:pr-4">
+                <p>Total</p>
+                <p class="font-ex-semibold"><?= $jumlahData ?></p>
+                <p>data riwayat</p>
             </div>
-            <!-- End Pagination And Info Data -->
+            <!-- End Info Data -->
         </div>
         <!-- end konten table -->
     </div>
@@ -159,49 +139,81 @@ if (!isset($_SESSION['statusLogin'])) {
     <script src="../js/sweetalert2.min.js"></script>
     <script src="../js/jquery.iddle.min.js"></script>
     <script>
-        $(document).idle({
-            onIdle: function() {
-                $.ajax({
-                    url: '../controllers/loginController.php',
-                    type: 'post',
-                    data: {
-                        'type': 'logout',
-                    },
-                    success: function() {
 
-                    }
-                });
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Informasi',
-                    text: 'Sesi anda telah habis, silahkan login kembali',
+        $('#top_bar').load("../assets/components/top_bar.php", function() {
+            $("#avatar_profile").attr("src", "../images/pegawai/foto_pegawai/<?= $imgProfile ?>");
+            $('#title-header').html('Salary');
+            $("#burger").on("click", function() {
+                $('#bgbody').removeClass("hidden");
 
-                }).then(function() {
-                    window.location.replace('../views/login.php');
-                });
+                $('#ex-sidebar').toggleClass("ex-hide-sidebar");
+                $('#burger').toggleClass("show");
+            });
 
-            },
-            idle: 50000
+            $("#bgbody").on("click", function() {
+                $('#ex-sidebar').removeAttr("ex-hide-sidebar");
+                $('#burger').removeAttr("show");
+
+                $('#bgbody').addClass("hidden");
+
+            });
+
         });
-        // load sidebar
+
         $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
             $('#salary').addClass("hover-sidebar");
-            
+            $('#loading').hide();
         });
 
         $("#modal-detail").load("../assets/components/modal_detail_salary.html", function() {
-            for (var index = 1; index < 20; index++) {
-                $("#detail-button-" + index).on('click', function() {
-                    $('#modalkonten').toggleClass("scale-100");
-                    $('#bgmodal').addClass("effectmodal");
-                });
-            }
+
             $('#closemodal').on('click', function() {
                 $('#modalkonten').toggleClass("scale-100");
                 $('#bgmodal').removeClass("effectmodal");
             });
+
         });
 
+        async function showmodal(nama_pegawai) {
+
+            await $.ajax({
+                type: "post",
+                url: "../controllers/salaryController.php",
+                data: {
+                    type: "show_data",
+                    nama: nama_pegawai,
+                },
+                success: function(res) {
+                    const data = JSON.parse(res);
+                    let finalData = data[0];
+                    console.log(finalData);
+
+                    $('#nama_sales').html(finalData.nama);
+                    $('#tgl_gaji').html(finalData.bulan);
+                    $('#komisi').html(formatRupiah("" + finalData.gaji, "Rp. "));
+                    $('#total_gaji').html(formatRupiah("" + finalData.gaji, "Rp. "));
+                }
+            })
+
+            $('#modalkonten').toggleClass("scale-100");
+            $('#bgmodal').addClass("effectmodal");
+        }
+
+        function formatRupiah(angka, prefix) {
+            var number_string = angka.replace(/[^,\d]/g, '').toString(),
+                split = number_string.split(','),
+                sisa = split[0].length % 3,
+                rupiah = split[0].substr(0, sisa),
+                ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+            if (ribuan) {
+                separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
+
+            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+            return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+        }
 
         $("#modal-bonus").load("../assets/components/modal_bonus_gaji.html", function() {
             for (var index = 1; index < 20; index++) {
@@ -246,6 +258,17 @@ if (!isset($_SESSION['statusLogin'])) {
             $('#modalkonten').toggleClass("scale-100");
             $('#bgmodal').removeClass("effectmodal");
         });
+
+        //search
+        $('#search').keypress(function(e) {
+            if (e.which == 13) {
+                window.location.replace("salary.php?search=" + $('#search').val());
+            }
+        });
+
+        function search_reset() {
+            window.location.replace("salary.php?");
+        }
     </script>
 
 

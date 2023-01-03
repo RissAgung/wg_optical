@@ -1,3 +1,18 @@
+<?php
+date_default_timezone_set("Asia/Bangkok");
+
+session_start();
+include "../config/koneksi.php";
+$crud = new koneksi();
+
+$profileDB = $crud->showData("SELECT foto_pegawai FROM pegawai WHERE id_pegawai = '" . $_SESSION['id_pegawai'] . "'");
+$imgProfile = "";
+foreach ($profileDB as $index) {
+    $imgProfile = $index["foto_pegawai"];
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -321,7 +336,7 @@
                         const element = data[index];
                         // categories = element.kecamatan;
                         //dataframe.push(20);
-                        if(index == 0 ){
+                        if (index == 0) {
                             dataPemasukkan.push(element.data);
                             optionspenjualan.xaxis.categories.push(element.labels);
                         } else {
@@ -392,7 +407,7 @@
                     'tahun': $('#filterbulanan_tahun').val(),
                 },
                 success: function(res) {
-                    
+
                     //alert(res);
                     const data = JSON.parse(res);
                     //categories = [];
@@ -479,7 +494,7 @@
                     dataPemasukkan = data.data;
                     dataPengeluaran = data.data_pengeluaran;
                     optionspenjualan.xaxis.categories[0] = range_start + ' to ' + range_end;
-                
+
                     chartpenjualan.update();
                 }
             });
@@ -1474,62 +1489,33 @@
             $('#loadingchart').hide();
         }
 
-
-
-        // $(document).idle({
-        //     onIdle: function() {
-        //         $.ajax({
-        //             url: '../controllers/loginController.php',
-        //             type: 'post',
-        //             data: {
-        //                 'type': 'logout',
-        //             },
-        //             success: function() {
-
-        //             }
-        //         });
-        //         Swal.fire({
-        //             icon: 'warning',
-        //             title: 'Informasi',
-        //             text: 'Sesi anda telah habis, silahkan login kembali',
-
-        //         }).then(function() {
-        //             window.location.replace('../views/login.php');
-        //         });
-
-        //     },
-        //     idle: 50000
-        // });
-
-
-
         // load sidebar
         $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
             $('#grafik_keuangan').addClass("hover-sidebar");
         });
         // top_bar
         $('#top_bar').load("../assets/components/top_bar.php", function() {
-            $('#title-header').html('Master Data Pegawai');
+            $("#avatar_profile").attr("src","../images/pegawai/foto_pegawai/<?= $imgProfile ?>");
+            $('#title-header').html('Grafik Keuangan');
 
-            $('#loading').hide();
-
+            
             // auto hide sidebar
-
+            
             $("#burger").on("click", function() {
                 $('#bgbody').toggleClass("hidden");
-
+                
                 $('#ex-sidebar').toggleClass("ex-hide-sidebar");
                 $('#burger').toggleClass("show");
             });
-
+            
             $("#bgbody").on("click", function() {
                 $('#ex-sidebar').toggleClass("ex-hide-sidebar");
                 $('#burger').toggleClass("show");
-
+                
                 $('#bgbody').toggleClass("hidden");
-                console.log('aaaaqqqq');
-
+                
             });
+            $('#loading').hide();
         });
 
 

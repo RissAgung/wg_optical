@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set("Asia/Bangkok");
 include '../config/koneksi.php';
 
 $exec = new koneksi();
@@ -18,7 +19,7 @@ for ($i = 0; $i < count($_POST); $i++) {
         for ($z = 1; $z <= $data[$i]['jumlah']; $z++) {
             $detailbawa = $data[$i]['kode'] . '-' . $z;
             $kodeframe = $data[$i]['kode'];
-            $exec->execute("INSERT INTO detail_bawa VALUES ('" . $detailbawa . "', '" . $data[$i]['pegawai'] . "' ,'" . $kodeframe . "', 'ready')");
+            $exec->execute("INSERT INTO detail_bawa VALUES ('" . $detailbawa . "', '" . $data[$i]['pegawai'] . "' ,'" . $kodeframe . "', 'ready', 0, NULL, '" . $data[$i]['pegawai'] . "')");
         }
     } else {
 
@@ -41,7 +42,7 @@ for ($i = 0; $i < count($_POST); $i++) {
                 $detailbawa = $data[$i]['kode'] . '-' . min($missing);
                 $kodeframe = $data[$i]['kode'];
 
-                $exec->execute("INSERT INTO detail_bawa VALUES ('" . $detailbawa . "', '" . $data[$i]['pegawai'] . "' ,'" . $kodeframe . "', 'ready')");
+                $exec->execute("INSERT INTO detail_bawa VALUES ('" . $detailbawa . "', '" . $data[$i]['pegawai'] . "' ,'" . $kodeframe . "', 'ready', 0, NULL, '" . $data[$i]['pegawai'] . "')");
 
                 //var_dump($missing);
             } else {
@@ -50,7 +51,7 @@ for ($i = 0; $i < count($_POST); $i++) {
                     $detailbawa = $data[$i]['kode'] . '-' . $z;
                     $kodeframe = $data[$i]['kode'];
 
-                    $exec->execute("INSERT INTO detail_bawa VALUES ('" . $detailbawa . "', '" . $data[$i]['pegawai'] . "' ,'" . $kodeframe . "', 'ready')");
+                    $exec->execute("INSERT INTO detail_bawa VALUES ('" . $detailbawa . "', '" . $data[$i]['pegawai'] . "' ,'" . $kodeframe . "', 'ready', 0, NULL, '" . $data[$i]['pegawai'] . "')");
                     // echo $detailbawa;
                 }
             }

@@ -1,18 +1,24 @@
 <?php
-    include '../controllers/supplier.php';
-    session_start();
+date_default_timezone_set("Asia/Bangkok");
+include '../controllers/supplier.php';
+session_start();
 
+$profileDB = $crud->showData("SELECT foto_pegawai FROM pegawai WHERE id_pegawai = '" . $_SESSION['id_pegawai'] . "'");
+$imgProfile = "";
+foreach ($profileDB as $index) {
+    $imgProfile = $index["foto_pegawai"];
+}
 
-    if (!isset($_SESSION['statusLogin'])) {
-        header('Location: login.php');
-    }
-    // pagination
-    $jumlahDataPerHalaman = 6; 
-    $jumlahData = (isset($_GET["search"])) ? count($crud->showData("SELECT * FROM supplier WHERE  Nama_Supplier LIKE'%" . $_GET["search"] . "%' LIMIT 0, $jumlahDataPerHalaman")) : count($crud->showData("SELECT * FROM supplier"));
-    $halamanAktif = (isset($_GET["halaman"])) ? $_GET["halaman"] : 1;
-    $jumlahHalaman = ceil($jumlahData / $jumlahDataPerHalaman);
-    $awalData = ($jumlahDataPerHalaman * $halamanAktif) - $jumlahDataPerHalaman;
-    $execute = (isset($_GET["search"])) ? $crud->showData("SELECT * FROM supplier WHERE Nama_Supplier LIKE'%" . $_GET["search"] . "%' ORDER BY SUBSTRING(Nama_Supplier, -1, 5) DESC LIMIT $awalData, $jumlahDataPerHalaman") : $crud->showData("SELECT * FROM supplier  ORDER BY SUBSTRING(Nama_Supplier, -1, 5) DESC LIMIT $awalData, $jumlahDataPerHalaman");
+if (!isset($_SESSION['statusLogin'])) {
+    header('Location: login.php');
+}
+// pagination
+$jumlahDataPerHalaman = 6;
+$jumlahData = (isset($_GET["search"])) ? count($crud->showData("SELECT * FROM supplier WHERE  Nama_Supplier LIKE'%" . $_GET["search"] . "%' LIMIT 0, $jumlahDataPerHalaman")) : count($crud->showData("SELECT * FROM supplier"));
+$halamanAktif = (isset($_GET["halaman"])) ? $_GET["halaman"] : 1;
+$jumlahHalaman = ceil($jumlahData / $jumlahDataPerHalaman);
+$awalData = ($jumlahDataPerHalaman * $halamanAktif) - $jumlahDataPerHalaman;
+$execute = (isset($_GET["search"])) ? $crud->showData("SELECT * FROM supplier WHERE Nama_Supplier LIKE'%" . $_GET["search"] . "%' ORDER BY SUBSTRING(Nama_Supplier, -1, 5) DESC LIMIT $awalData, $jumlahDataPerHalaman") : $crud->showData("SELECT * FROM supplier  ORDER BY SUBSTRING(Nama_Supplier, -1, 5) DESC LIMIT $awalData, $jumlahDataPerHalaman");
 ?>
 
 <!DOCTYPE html>
@@ -23,13 +29,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Master Data Supplier | WG Optical</title>
-    <link rel="stylesheet" href="../css/output.css">    
+    <link rel="stylesheet" href="../css/output.css">
     <link rel="stylesheet" href="../css/sweetalert2.min.css">
 </head>
 
 <body class="bg-[#F0F0F0] font-ex-color box-border">
-    
-   
+
+    <div id="loading" class="fixed w-full h-full top-0 left-0 flex flex-col justify-center items-center bg-slate-50 z-[99]">
+        <div class="loadingspinner"></div>
+    </div>
+
     <!-- modal  -->
     <div id="modal" class=""></div>
     <!-- end modal  -->
@@ -39,44 +48,17 @@
     <!-- end modal delete -->
 
     <!-- Background hitam saat sidebar show -->
-    <div id="bgbody" class="w-full h-screen bg-black fixed z-50 bg-opacity-50 hidden"></div>
+    <div id="bgbody" class="w-full h-screen bg-black fixed z-51 bg-opacity-50 hidden"></div>
     <!-- End Background hitam saat sidebar show -->
     <!-- sidebar -->
     <div id="ex-sidebar" class="ex-sidebar ex-hide-sidebar fixed z-50 max-lg:transition max-lg:duration-[1s]"></div>
     <!-- end sidebar -->
     <div class="lg:ml-72">
-        <div class="w-full h-16 bg-white flex items-center md:justify-between md:px-5 justify-between px-6">
-            <div class="flex flex-row uppercase font-ex-bold text-sm items-center">
+        <!-- header -->
+        <div id="top_bar">
 
-                <!-- hamburger -->
-                <div class="ex-burger mr-2 lg:hidden absolute" id="burger">
-                    <svg xmlns="http://www.w3.org/2000/svg" id="Isolation_Mode" data-name="Isolation Mode" viewBox="0 0 24 24" width="20" height="20">
-                        <rect y="10.5" width="24" height="3" />
-                        <rect y="3.5" width="24" height="3" />
-                        <rect y="17.5" width="24" height="3" />
-                    </svg>
-                </div>
-                <div class="ex-burger mr-2 lg:hidden">
-                    <svg xmlns="http://www.w3.org/2000/svg" id="Isolation_Mode" data-name="Isolation Mode" viewBox="0 0 24 24" width="20" height="20">
-                        <rect y="10.5" width="24" height="3" />
-                        <rect y="3.5" width="24" height="3" />
-                        <rect y="17.5" width="24" height="3" />
-                    </svg>
-                </div>
-
-
-                <h1>Master Data Supplier</h1>
-            </div>
-            <div class="flex flex-row items-center">
-                <div class="mr-4">
-                    <svg width="24" height="26" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M23.8313 21.0763L23.5594 20.8364C22.788 20.1491 22.1129 19.361 21.5521 18.4933C20.9397 17.2957 20.5727 15.9879 20.4725 14.6467V10.6961C20.4778 8.58936 19.7136 6.55319 18.3235 4.97017C16.9334 3.38714 15.013 2.36623 12.9233 2.09923V1.06761C12.9233 0.784463 12.8108 0.512912 12.6106 0.312696C12.4104 0.11248 12.1388 0 11.8557 0C11.5725 0 11.301 0.11248 11.1008 0.312696C10.9005 0.512912 10.7881 0.784463 10.7881 1.06761V2.11523C8.71703 2.40147 6.81989 3.42855 5.44804 5.00626C4.07618 6.58396 3.32257 8.60538 3.32679 10.6961V14.6467C3.22663 15.9879 2.85958 17.2957 2.24718 18.4933C1.69609 19.3588 1.03178 20.1468 0.271901 20.8364L0 21.0763V23.3315H23.8313V21.0763Z" fill="#444D68" />
-                        <path d="M9.81348 24.1712C9.8836 24.6781 10.1348 25.1425 10.5206 25.4787C10.9065 25.8148 11.401 26 11.9127 26C12.4245 26 12.9189 25.8148 13.3048 25.4787C13.6906 25.1425 13.9418 24.6781 14.0119 24.1712H9.81348Z" fill="#444D68" />
-                    </svg>
-                </div>
-                <img class="w-10 h-10 rounded-full" src="https://upload.wikimedia.org/wikipedia/id/d/d5/Aang_.jpg" alt="Rounded avatar">
-            </div>
         </div>
+        <!-- end header -->
 
         <div class="mx-auto w-[90%] md:w-[90%] md:mx-auto rounded-md py-0 px-0">
             <div class="mt-0 flex items-center content-center flex-wrap justify-between max-[450px]:justify-center">
@@ -98,19 +80,19 @@
                 </div>
                 <!-- End Search -->
 
-            <!-- Button Add -->
-            <div class="flex flex-col md:flex-row items-center mt-3 md:mt-0">
-                <div class="md:my-auto h-10 w-24 font-ex-semibold text-white mt-3 md:mt-0" id="click-add">
+                <!-- Button Add -->
+                <div class="flex flex-col md:flex-row items-center mt-3 md:mt-0">
+                    <div class="md:my-auto h-10 w-24 font-ex-semibold text-white mt-3 md:mt-0" id="click-add">
 
-                    <button class="bg-[#3DBD9E] h-full w-full rounded-md">Tambah</button>
+                        <button class="bg-[#3DBD9E] h-full w-full rounded-md">Tambah</button>
+                    </div>
+                    <!-- End Button Add -->
                 </div>
-                <!-- End Button Add -->
             </div>
         </div>
-        </div>
-         <!-- End Search and Button Add -->
+        <!-- End Search and Button Add -->
 
-        
+
         <!-- konten table -->
         <div class="" id="table">
             <!-- Table -->
@@ -136,7 +118,7 @@
                                 <td class="p-3 text-sm tracking-wide text-center"><?php echo $nomor; ?></td>
                                 <td class="p-3 text-sm tracking-wide text-center"><?php echo $data['Nama_Supplier'] ?></td>
                                 <td class="p-3 text-sm tracking-wide text-center"><?php echo $data['No_Telp_Supplier'] ?></td>
-                                <td class="p-3 text-sm tracking-wide text-center"><?php echo $data['Keterangan'] ?></td>                                
+                                <td class="p-3 text-sm tracking-wide text-center"><?php echo $data['Keterangan'] ?></td>
                                 <td class="p-3 text-sm tracking-wide text-center"><?php echo $data['Alamat'] ?></td>
                                 <td class="p-3 text-sm tracking-wide text-center">
                                     <button id="edit-button-<?php echo $i; ?>">
@@ -145,7 +127,7 @@
                                             <path fill-rule="evenodd" clip-rule="evenodd" d="M27.4782 8.38256C27.7335 8.48841 27.9655 8.64355 28.1609 8.83911C28.3564 9.03447 28.5116 9.26646 28.6174 9.52181C28.7233 9.77717 28.7777 10.0509 28.7777 10.3273C28.7777 10.6037 28.7233 10.8774 28.6174 11.1328C28.5116 11.3881 28.3564 11.6201 28.1609 11.8155L25.3473 14.6282L22.3717 11.6526L25.1845 8.83911C25.3798 8.64355 25.6118 8.48841 25.8672 8.38256C26.1225 8.27671 26.3962 8.22223 26.6727 8.22223C26.9491 8.22223 27.2228 8.27671 27.4782 8.38256ZM9.59277 25.7604C9.59295 24.9094 9.93117 24.0933 10.533 23.4916L21.2376 12.787L24.2132 15.7626L13.5086 26.4672C12.9069 27.069 12.0908 27.4072 11.2398 27.4074H9.59277V25.7604Z" fill="#3F2C0D" />
                                         </svg>
                                     </button>
-                                    <button id="delete-button-<?php echo $i; ?>">
+                                    <button onclick="delete_data('<?= $data['Id_Supplier'] ?>')">
                                         <svg width="38" height="37" viewBox="0 0 38 37" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <rect x="0.444336" width="37" height="37" rx="5" fill="#F35E58" />
                                             <path d="M23.3982 10.5062V8.67903C23.3982 8.19444 23.2105 7.72969 22.8764 7.38703C22.5423 7.04437 22.0892 6.85187 21.6167 6.85187H16.2723C15.7998 6.85187 15.3467 7.04437 15.0126 7.38703C14.6785 7.72969 14.4908 8.19444 14.4908 8.67903V10.5062H10.0371V12.3333H11.8186V26.0371C11.8186 26.7639 12.1001 27.4611 12.6013 27.975C13.1024 28.489 13.7821 28.7778 14.4908 28.7778H23.3982C24.1069 28.7778 24.7866 28.489 25.2878 27.975C25.7889 27.4611 26.0704 26.7639 26.0704 26.0371V12.3333H27.8519V10.5062H23.3982ZM18.0538 22.3827H16.2723V16.9012H18.0538V22.3827ZM21.6167 22.3827H19.8353V16.9012H21.6167V22.3827ZM21.6167 10.5062H16.2723V8.67903H21.6167V10.5062Z" fill="#501614" />
@@ -171,7 +153,7 @@
             <!-- End Table -->
 
 
-                
+
             <!-- Pagination And Info Data -->
             <div class="mx-auto w-[90%] md:w-[90%] md:mx-autorounded-md py-2 px-0">
                 <div class="flex flex-col md:flex-row justify-between  items-center mt-3 text-sm">
@@ -246,8 +228,8 @@
             </div>
 
         </div>
-            </div>
-        <!-- end konten table -->
+    </div>
+    <!-- end konten table -->
     </div>
 
 
@@ -257,12 +239,36 @@
     <script src="../js/jquery.iddle.min.js"></script>
 
     <script>
+        // top bar
+        $('#top_bar').load("../assets/components/top_bar.php", function() {
+            $("#avatar_profile").attr("src", "../images/pegawai/foto_pegawai/<?= $imgProfile ?>");
+            $('#title-header').html('Master Data Supplier');
+            $("#burger").on("click", function() {
+                $('#bgbody').removeClass("hidden");
+
+                $('#ex-sidebar').toggleClass("ex-hide-sidebar");
+                $('#burger').toggleClass("show");
+            });
+
+            $("#bgbody").on("click", function() {
+                $('#ex-sidebar').removeAttr("ex-hide-sidebar");
+                $('#burger').removeAttr("show");
+
+                $('#bgbody').addClass("hidden");
+
+            });
+
+            $('#loading').hide();
+
+        });
+
         // load sidebar
         $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
             $('#master_data').addClass("hover-sidebar");
             $('#button-logout').on('click', function() {
                 // kosong
             });
+            $('#loading').hide();
         });
 
         $("#burger").on("click", function() {
@@ -279,13 +285,12 @@
             $('#bgbody').toggleClass("hidden");
 
         });
-
     </script>
     <script>
-    // load modal input
-    $("#modal").load("../assets/components/modal_supplier.html", function() {
-        //button close modal
-        function closeModal() {
+        // load modal input
+        $("#modal").load("../assets/components/modal_supplier.html", function() {
+            //button close modal
+            function closeModal() {
                 $('#modalkonten').toggleClass("scale-0");
                 $('#bgmodal').removeClass("effectmodal");
 
@@ -293,259 +298,268 @@
                 $('#nohp').val("");
                 $('#ket').val("");
                 $('#addres').val("");
-        }
-        //end close modal
+            }
+            //end close modal
 
-        var id = "SP"+ Math.random().toString(9).slice(2,5);
-        var name;
-        var nohp;
-        var ket;
-        var alamat;
+            var id = "SP" + Math.random().toString(9).slice(2, 5);
+            var name;
+            var nohp;
+            var ket;
+            var alamat;
 
-        function getData() {
-            name = $("#name").val();
-            nohp = $("#nohp").val();
-            ket = $("#ket").val();
-            alamat = $("#addres").val();
-        }
-        
-        //start add data
-        $('#click-add').on('click', function() {
+            function getData() {
+                name = $("#name").val();
+                nohp = $("#nohp").val();
+                ket = $("#ket").val();
+                alamat = $("#addres").val();
+            }
 
-        change("tambah");
+            //start add data
+            $('#click-add').on('click', function() {
 
-        $('#bgmodal').addClass("effectmodal");
-        $('#modalkonten').toggleClass("scale-0");
-        $('#title').html('Tambah Data');
-        
-        //start query add
-        $("#btn_tambah").on("click", function(e) {
-            e.preventDefault();
-            getData();
-            let formData = new FormData();
-            let query;
-            formData.append('type', "insert");
-            formData.append('query', "INSERT INTO supplier VALUES ('" + id + "' ,'" + name + "','" + nohp + "','" + ket + "','" + alamat + "')");
+                change("tambah");
 
-            if ($('#name').val() == "") {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Gagal',
-                                text: "Nama Tidak Boleh Kosong",
-                            })
-                    } else if ($('#nohp').val() == "") {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Gagal',
-                                text: "Nomor Telepon Tidak Boleh Kosong",
-                            })
-                    } else if ($('#ket').val() == "") {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Gagal',
-                                text: "Keterangan Tidak Boleh Kosong",
-                            })
-                    } else if ($('#addres').val() == "") {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Gagal',
-                                text: "Alamat Tidak Boleh Kosong",
-                            })
-                    }                               
-                    else {
-            
-            
-            $.ajax({
-              type: "POST",
-              url: "../controllers/supplier.php",
-              data: formData,
-              contentType: false,
-              processData: false,
-              success: function(res) {
-                const data = JSON.parse(res);
-
-                if (data.status == 'error') {
-                  Swal.fire({
-                    icon: 'error',
-                    title: 'Gagal',
-                    text: data.msg,
-                  })
-                } else {
-                  Swal.fire({
-                    icon: 'success',
-                    title: 'Berhasil',
-                    text: data.msg,
-
-                  }).then(function() {
-                    closeModal();
-                    window.location.replace("master_supplier.php?halaman=<?= $halamanAktif ?>");
-                  });
-                }
-              }              
-            });    }       
-        }); //end query add        
-    }); //end code add    
-
-    //start code edit
-    <?php
-        for ($index = 0; $index < count($execute); $index++) { ?>
-            $('#edit-button-<?php echo $index; ?>').on('click', function() {
-                change("edit");
-                
-                $('#modalkonten').toggleClass("scale-0");
                 $('#bgmodal').addClass("effectmodal");
-                $('#title').html('Edit Data'); 
-                
-                
-                IdS = '<?php echo $execute[$index]['Id_Supplier']; ?>';
-                $('#name').val('<?php echo $execute[$index]['Nama_Supplier']; ?>');
-                $('#nohp').val('<?php echo $execute[$index]['No_Telp_Supplier']; ?>');
-                $('#ket').val('<?php echo $execute[$index]['Keterangan']; ?>');
-                $('#addres').val('<?php echo $execute[$index]['Alamat']; ?>');
-                
+                $('#modalkonten').toggleClass("scale-0");
+                $('#title').html('Tambah Data');
 
-                //start query edit
-                $("#btn_edit").on("click", function(e) {
+                //start query add
+                $("#btn_tambah").on("click", function(e) {
                     e.preventDefault();
                     getData();
-
                     let formData = new FormData();
-                    formData.append('type', "update");
-                    formData.append('query', "UPDATE supplier SET Nama_Supplier='" + name + "', No_Telp_Supplier='" + nohp + "', Keterangan='" + ket + "', Alamat='" + alamat + "' WHERE Id_Supplier = '" + IdS + "'");
+                    let query;
+                    formData.append('type', "insert");
+                    formData.append('query', "INSERT INTO supplier VALUES ('" + id + "' ,'" + name + "','" + nohp + "','" + ket + "','" + alamat + "')");
 
                     if ($('#name').val() == "") {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal',
+                            text: "Nama Tidak Boleh Kosong",
+                        })
+                    } else if ($('#nohp').val() == "") {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal',
+                            text: "Nomor Telepon Tidak Boleh Kosong",
+                        })
+                    } else if ($('#ket').val() == "") {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal',
+                            text: "Keterangan Tidak Boleh Kosong",
+                        })
+                    } else if ($('#addres').val() == "") {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal',
+                            text: "Alamat Tidak Boleh Kosong",
+                        })
+                    } else {
+
+
+                        $.ajax({
+                            type: "POST",
+                            url: "../controllers/supplier.php",
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            beforeSend: function() {
+                                Swal.fire({
+                                    title: 'Loading',
+                                    html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                                    allowOutsideClick: false,
+                                    showConfirmButton: false,
+                                });
+                            },
+                            success: function(res) {
+                                const data = JSON.parse(res);
+
+                                if (data.status == 'error') {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Gagal',
+                                        text: data.msg,
+                                    })
+                                } else {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Berhasil',
+                                        text: data.msg,
+
+                                    }).then(function() {
+                                        closeModal();
+                                        window.location.replace("master_supplier.php?halaman=<?= $halamanAktif ?>");
+                                    });
+                                }
+                            }
+                        });
+                    }
+                }); //end query add        
+            }); //end code add    
+
+            //start code edit
+            <?php
+            for ($index = 0; $index < count($execute); $index++) { ?>
+                $('#edit-button-<?php echo $index; ?>').on('click', function() {
+                    change("edit");
+
+                    $('#modalkonten').toggleClass("scale-0");
+                    $('#bgmodal').addClass("effectmodal");
+                    $('#title').html('Edit Data');
+
+
+                    IdS = '<?php echo $execute[$index]['Id_Supplier']; ?>';
+                    $('#name').val('<?php echo $execute[$index]['Nama_Supplier']; ?>');
+                    $('#nohp').val('<?php echo $execute[$index]['No_Telp_Supplier']; ?>');
+                    $('#ket').val('<?php echo $execute[$index]['Keterangan']; ?>');
+                    $('#addres').val('<?php echo $execute[$index]['Alamat']; ?>');
+
+
+                    //start query edit
+                    $("#btn_edit").on("click", function(e) {
+                        e.preventDefault();
+                        getData();
+
+                        let formData = new FormData();
+                        formData.append('type', "update");
+                        formData.append('query', "UPDATE supplier SET Nama_Supplier='" + name + "', No_Telp_Supplier='" + nohp + "', Keterangan='" + ket + "', Alamat='" + alamat + "' WHERE Id_Supplier = '" + IdS + "'");
+
+                        if ($('#name').val() == "") {
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Gagal',
                                 text: "Nama Tidak Boleh Kosong",
                             })
-                    } else if ($('#nohp').val() == "") {
+                        } else if ($('#nohp').val() == "") {
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Gagal',
                                 text: "Nomor Telepon Tidak Boleh Kosong",
                             })
-                    } else if ($('#ket').val() == "") {
+                        } else if ($('#ket').val() == "") {
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Gagal',
                                 text: "Keterangan Tidak Boleh Kosong",
                             })
-                    } else if ($('#addres').val() == "") {
+                        } else if ($('#addres').val() == "") {
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Gagal',
                                 text: "Alamat Tidak Boleh Kosong",
                             })
-                    }                               
-                    else {
+                        } else {
                             $.ajax({
-                type: "post",
-                url: "../controllers/supplier.php",
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(res) {
-                  const data = JSON.parse(res);
+                                type: "post",
+                                url: "../controllers/supplier.php",
+                                data: formData,
+                                contentType: false,
+                                processData: false,
+                                beforeSend: function() {
+                                    Swal.fire({
+                                        title: 'Loading',
+                                        html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                                        allowOutsideClick: false,
+                                        showConfirmButton: false,
+                                    });
+                                },
+                                success: function(res) {
+                                    const data = JSON.parse(res);
 
-                  if (data.status == 'error') {
-                    Swal.fire({
-                      icon: 'error',
-                      title: 'Gagal',
-                      text: data.msg,
-                    })
-                  } else {
-                    Swal.fire({
-                      icon: 'success',
-                      title: 'Berhasil',
-                      text: data.msg,
+                                    if (data.status == 'error') {
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Gagal',
+                                            text: data.msg,
+                                        })
+                                    } else {
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'Berhasil',
+                                            text: data.msg,
 
-                    }).then(function() {
-                      closeModal();
-                      window.location.replace("master_supplier.php?halaman=<?= $halamanAktif ?>");
-                    });
-                  }
-                }
-              });
+                                        }).then(function() {
+                                            closeModal();
+                                            window.location.replace("master_supplier.php?halaman=<?= $halamanAktif ?>");
+                                        });
+                                    }
+                                }
+                            });
                         }
+                    });
+
                 });
-                   
-    });
-    <?php } ?>
+            <?php } ?>
 
 
-    //close modal 
-    $("#btn_out").on("click", function() {
-        closeModal();
-       
-        $('#bgmodal').removeClass("effectmodal");
-      });
-    
-    $("#btn_batal").on("click", function() {
-        closeModal();
+            //close modal 
+            $("#btn_out").on("click", function() {
+                closeModal();
 
-        $('#bgmodal').removeClass("effectmodal");
-      });   
-    
-    }); //end load modal add + edit
+                $('#bgmodal').removeClass("effectmodal");
+            });
 
+            $("#btn_batal").on("click", function() {
+                closeModal();
+
+                $('#bgmodal').removeClass("effectmodal");
+            });
+
+        }); //end load modal add + edit
     </script>
 
     <script>
-// load modal
-$("#modal-delete").load("../assets/components/modal_hapus.html", function() {
-
-<?php
-for ($index = 0; $index < count($execute); $index++) {
-?>
-    $('#delete-button-<?php echo $index; ?>').on('click', function() {
-        selected_idsupplier = '<?php echo $execute[$index]['Id_Supplier']; ?>';
-
-        console.log("tes");
-        $('#title_delete').html('Hapus Data ini?');
-
-        $('#modalkontenhapus').removeClass("scale-0");
-        $('#bgmodalhapus').addClass("effectmodal");
-    });
-<?php
-}
-?>
-
-$('#submithapus').on('click', function() {
-    $.ajax({
-        url: '../controllers/supplier.php',
-        type: 'post',
-        data: {
-            'type': 'delete',
-            'query': "DELETE FROM supplier WHERE Id_Supplier = '" + selected_idsupplier + "'",
-        },
-        success: function(res) {
-            $('#modalkontenhapus').toggleClass("scale-100");
-            $('#bgmodalhapus').removeClass("effectmodal");
-            selected_idsupplier = "";
-
-            const data = JSON.parse(res);
+        function delete_data(id) {
             Swal.fire({
-                icon: 'success',
-                title: 'Berhasil',
-                text: data.msg,
-            }).then(function() {
-                window.location.replace("master_supplier.php");
-            });
+                icon: 'question',
+                title: 'Apakah anda yakin?',
+                showDenyButton: true,
+                confirmButtonText: 'Ya',
+                denyButtonText: `Batal`,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '../controllers/supplier.php',
+                        type: 'post',
+                        data: {
+                            'type': 'delete',
+                            'query': "DELETE FROM supplier WHERE Id_Supplier = '" + id + "'",
+                        },
+                        beforeSend: function() {
+                            Swal.fire({
+                                title: 'Loading',
+                                html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                                allowOutsideClick: false,
+                                showConfirmButton: false,
+                            });
+                        },
+                        success: function(res) {
+                            $('#modalkontenhapus').toggleClass("scale-100");
+                            $('#bgmodalhapus').removeClass("effectmodal");
+                            selected_idsupplier = "";
+
+                            const data = JSON.parse(res);
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil',
+                                text: data.msg,
+                            }).then(function() {
+                                window.location.replace("master_supplier.php");
+                            });
+                        }
+                    });
+
+                } else if (result.isDenied) {
+
+                }
+            })
         }
-    });
-});
 
-$('#closemodalhapus, #cancelmodalhapus').on('click', function() {
-    $('#modalkontenhapus').addClass("scale-0");
-    $('#bgmodalhapus').removeClass("effectmodal");
-    selected_idsupplier = "";
-});
-});
-
-
-    // reset search
-    var input = '<?= $input ?>';
+        // reset search
+        var input = '<?= $input ?>';
         if (input !== "") {
             $('#btn_reset').removeClass('hidden');
             $('#btn_reset').addClass('flex');
@@ -553,7 +567,7 @@ $('#closemodalhapus, #cancelmodalhapus').on('click', function() {
                 window.location.replace("master_supplier.php");
             })
         }
-    //search
+        //search
         $('#search').keypress(function(e) {
             if (e.which == 13) {
                 if ($('#search').val() == "") {
@@ -564,7 +578,7 @@ $('#closemodalhapus, #cancelmodalhapus').on('click', function() {
                 }
             }
         });
-
     </script>
 </body>
+
 </html>
