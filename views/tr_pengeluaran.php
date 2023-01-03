@@ -34,6 +34,7 @@ function rupiah($angka)
     <title>Pengeluaran | WG Optical</title>
     <link rel="stylesheet" href="../css/output.css">
     <link rel="stylesheet" href="../css/datepicker.css">
+    <link rel="stylesheet" href="../css/daterangepicker.css">
 </head>
 
 <body class="bg-[#F0F0F0] font-ex-color box-border">
@@ -121,17 +122,23 @@ function rupiah($angka)
 
                     <!-- Button Add + Filter + Ekspor -->
                     <div class="flex flex-row items-center justify-center gap-2">
+                        <div onclick="refresh()" class="p-2 rounded-lg drop-shadow-sm font-ex-semibold bg-white hover:bg-gray-200 cursor-pointer" id="refresh-modal">
+                            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M3.21275 6.48793C4.30706 4.5993 6.05044 3.17272 8.11829 2.47382C10.1861 1.77492 12.4375 1.85134 14.4532 2.68885C16.4689 3.52635 18.1115 5.06786 19.0753 7.02635C20.039 8.98484 20.2581 11.2268 19.6918 13.3349C19.1256 15.4429 17.8125 17.2733 15.9971 18.4852C14.1817 19.6972 11.9877 20.2081 9.8237 19.9228C7.65966 19.6375 5.67305 18.5755 4.23377 16.9345C2.79448 15.2935 2.00062 13.1853 2 11.0025" stroke="black" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M7.62499 6.50256H3.125V2.00256" stroke="black" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </div>
                         <div>
-                            <button href="../controllers/export.php" class="bg-[#ffffff] drop-shadow-sm rounded-md items-center justify-center px-2 py-2">
+                            <button onclick="tableToExcel('xlsx')" class="bg-[#ffffff] hover:bg-gray-200 drop-shadow-sm rounded-md items-center justify-center px-2 py-2">
                                 <!-- onclick="tableHtmlToExcel('tableOPR')" -->
                                 <svg width="26px" height="26px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <rect width="100" height="100" fill="#Ffff" />
+                                    <rect width="100" height="100" fill="#0000" />
                                     <path d="M18 22a2 2 0 0 0 2-2v-5l-5 4v-3H8v-2h7v-3l5 4V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12zM13 4l5 5h-5V4z" fill="#000000" />
                                 </svg>
                             </button>
                         </div>
                         <div id="click-filter">
-                            <button class="bg-[#ffffff] drop-shadow-sm rounded-md px-2 py-2 items-center justify-center">
+                            <button class="bg-[#ffffff] hover:bg-gray-200 drop-shadow-sm rounded-md px-2 py-2 items-center justify-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" fill="none">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M6 11.1707L6 4C6 3.44771 5.55228 3 5 3C4.44771 3 4 3.44771 4 4L4 11.1707C2.83481 11.5825 2 12.6938 2 14C2 15.3062 2.83481 16.4175 4 16.8293L4 20C4 20.5523 4.44772 21 5 21C5.55228 21 6 20.5523 6 20L6 16.8293C7.16519 16.4175 8 15.3062 8 14C8 12.6938 7.16519 11.5825 6 11.1707ZM5 13C4.44772 13 4 13.4477 4 14C4 14.5523 4.44772 15 5 15C5.55228 15 6 14.5523 6 14C6 13.4477 5.55228 13 5 13Z" fill="black" />
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M19 21C18.4477 21 18 20.5523 18 20L18 18C18 17.9435 18.0047 17.8881 18.0137 17.8341C16.8414 17.4262 16 16.3113 16 15C16 13.6887 16.8414 12.5738 18.0137 12.1659C18.0047 12.1119 18 12.0565 18 12L18 4C18 3.44771 18.4477 3 19 3C19.5523 3 20 3.44771 20 4L20 12C20 12.0565 19.9953 12.1119 19.9863 12.1659C21.1586 12.5738 22 13.6887 22 15C22 16.3113 21.1586 17.4262 19.9863 17.8341C19.9953 17.8881 20 17.9435 20 18V20C20 20.5523 19.5523 21 19 21ZM18 15C18 14.4477 18.4477 14 19 14C19.5523 14 20 14.4477 20 15C20 15.5523 19.5523 16 19 16C18.4477 16 18 15.5523 18 15Z" fill="black" />
@@ -156,7 +163,7 @@ function rupiah($angka)
                     </div>
                     <!-- Table -->
                     <div class="overflow-x-auto text-sm mx-auto md:mx-auto bg-white rounded-md py-6 px-6 h-full">
-                        <table class="w-full ">
+                        <table class="w-full " id="table-operasional">
                             <thead class="border-b-2 border-gray-100">
                                 <tr>
                                     <th class="p-3 text-sm tracking-wide text-center">No</th>
@@ -184,8 +191,6 @@ function rupiah($angka)
                                             <td class="p-3 text-sm tracking-wide text-center"><?php echo $data['keterangan'] ?></td>
                                             <td class="p-3 text-sm tracking-wide text-center"><?php echo rupiah($data['total_harga']) ?></td>
                                         </tr>
-                                        <script>
-                                        </script>
                                 <?php
                                     }
                                 }
@@ -218,7 +223,7 @@ function rupiah($angka)
                     <!-- Table -->
                     <div class="overflow-x-auto text-sm mx-auto md:mx-auto bg-white rounded-md py-6 px-6 h-full">
 
-                        <table class="w-full ">
+                        <table class="w-full" id="table-restock">
                             <thead class="border-b-2 border-gray-100">
                                 <tr>
                                     <th class="p-3 text-sm tracking-wide text-center">No</th>
@@ -270,7 +275,9 @@ function rupiah($angka)
         <script src="../js/sweetalert2.min.js"></script>
         <script src="../js/jquery.iddle.min.js"></script>
         <script src="../js/datepicker.js"></script>
-
+        <script src="../js/moment.js"></script>
+        <script src="../js/xlsx.full.min.js"></script>
+        <script src="../js/DateRangePicker.js"></script>
         <script>
             var tabSelected = 1;
 
@@ -285,6 +292,62 @@ function rupiah($angka)
                     // kosong
                 });
             });
+
+            const tablesop = [];
+
+            const tableElements = document.querySelectorAll('table');
+            for (const table of tableElements) {
+                const rows = [];
+                for (const row of table.rows) {
+                    const cells = [];
+                    for (const cell of row.cells) {
+                        cells.push(cell.innerText);
+                    }
+                    rows.push(cells);
+                }
+                tablesop.push(rows);
+            }
+
+
+            function tableToExcel(type) {
+
+                if (tabSelected == 1) {
+                    var data = document.getElementById('table-operasional');
+                    var excelFile = XLSX.utils.table_to_book(data, {
+                        sheet: "Pengeluaran Operasional",
+                        raw: false
+                    });
+
+                    var ws = excelFile.Sheets["Pengeluaran Operasional"];
+                    //  get the current sheet
+                    for (var index = 2; index < $('#table-operasional').find('tr').length + 1; index++) {
+                        const getV = ws["F" + index].v;
+                        ws["F" + index].v = String(getV).replace("Rp. ", "").replace(".", "").replace(".", "").replace(" ", "");
+
+                    }
+
+                    XLSX.write(excelFile, {
+                        bookType: type,
+                        bookSST: false,
+                        type: 'base64'
+                    });
+                    XLSX.writeFile(excelFile, 'ExportedFile:Pengeluaran-Operasional.' + type);
+
+                } else {
+
+                    var data = document.getElementById('table-restock');
+                    var excelFile = XLSX.utils.table_to_book(data, {
+                        sheet: "Pengeluaran Restock"
+                    });
+                    XLSX.write(excelFile, {
+                        bookType: type,
+                        bookSST: true,
+                        type: 'base64'
+                    });
+                    XLSX.writeFile(excelFile, 'ExportedFile:Pengeluaran-restock.' + type);
+
+                }
+            }
 
             $("#burger").on("click", function() {
                 $('#bgbody').toggleClass("hidden");
@@ -301,12 +364,483 @@ function rupiah($angka)
 
             });
 
-            $("#modal_date").load("../assets/components/modal_filter_date.html", function() {
+            $("#modal_date").load("../assets/components/modal_filter_date.php", function() {
+                $("#closefilterdate").on("click", function() {
+                    $('#modalkontendate').addClass("scale-0");
+                    $('#bgmodaldate').removeClass("effectmodal");
+                });
                 $('#click-filter').on('click', function() {
 
-                    $('#modalkonten2').toggleClass("scale-0");
-                    $('#bgmodal2').addClass("effectmodal");
+                    $('#modalkontendate').toggleClass("scale-0");
+                    $('#bgmodaldate').addClass("effectmodal");
                 });
+
+                $('#apply').on('click', async function() {
+                    if (tabSelected == 1) {
+                        if (selectedTab == 'harian') {
+                            $.ajax({
+                                url: '../controllers/pengeluaran.php?type=getOperasional&filter=harian',
+                                type: 'POST',
+                                data: {
+                                    'tanggal': selectedFilterHarian,
+                                },
+                                beforeSend: function() {
+                                    $('#loadingTableOperasional').show();
+                                    $('#loadingTableOperasional').addClass('flex');
+                                },
+                                success: function(res) {
+                                    // alert(res);
+                                    var kontenHtml = '';
+                                    if (res == 'kosong') {} else {
+                                        const data = JSON.parse(res);
+
+                                        for (let index = 0; index < data.length; index++) {
+                                            const element = data[index];
+                                            kontenHtml += '<tr>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + (index + 1) + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['kode_tr_pengeluaran'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['tanggal'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['nama'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['keterangan'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['total_harga'] + '</td>';
+                                            kontenHtml += '</tr>';
+                                        }
+                                    }
+                                    $('#isiTableOp').html(kontenHtml);
+                                    $('#loadingTableOperasional').hide();
+                                }
+                            });
+                            // console.log(selectedFilterHarian);
+
+                            // options.title.text = 'Grafik Wilayah Harian';
+                            // chart.updateOptions(options.title.text)
+
+                            // // chart.update();
+                            // await getSeriesFilterHarian();
+
+                            $('#modalkontendate').addClass("scale-0");
+                            $('#bgmodaldate').removeClass("effectmodal");
+
+                        } else if (selectedTab == 'mingguan') {
+                            $.ajax({
+                                url: '../controllers/pengeluaran.php?type=getOperasional&filter=mingguan',
+                                type: 'POST',
+                                data: {
+                                    'tanggal': selectedFilterMingguan,
+                                },
+                                beforeSend: function() {
+                                    $('#loadingTableOperasional').show();
+                                    $('#loadingTableOperasional').addClass('flex');
+                                },
+                                success: function(res) {
+                                    var kontenHtml = '';
+                                    if (res == 'kosong') {} else {
+                                        const data = JSON.parse(res);
+
+                                        for (let index = 0; index < data.length; index++) {
+                                            const element = data[index];
+                                            kontenHtml += '<tr>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + (index + 1) + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['kode_tr_pengeluaran'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['tanggal'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['nama'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['keterangan'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['total_harga'] + '</td>';
+                                            kontenHtml += '</tr>';
+                                        }
+                                    }
+                                    $('#isiTableOp').html(kontenHtml);
+                                    $('#loadingTableOperasional').hide();
+                                }
+                            });
+                            // options.title.text = 'Grafik Wilayah Mingguan';
+                            // chart.updateOptions(options.title.text)
+                            // console.log(selectedFilterMingguan);
+                            // await getSeriesFilterMingguan();
+                            $('#modalkontendate').addClass("scale-0");
+                            $('#bgmodaldate').removeClass("effectmodal");
+
+                        } else if (selectedTab == 'bulanan') {
+                            $.ajax({
+                                url: '../controllers/pengeluaran.php?type=getOperasional&filter=bulanan',
+                                type: 'POST',
+                                data: {
+                                    'bulan': $('#filterbulanan_bulan').val(),
+                                    'tahun': $('#filterbulanan_tahun').val(),
+                                },
+                                beforeSend: function() {
+                                    $('#loadingTableOperasional').show();
+                                    $('#loadingTableOperasional').addClass('flex');
+                                },
+                                success: function(res) {
+                                    // alert(res);
+                                    var kontenHtml = '';
+                                    if (res == 'kosong') {} else {
+                                        const data = JSON.parse(res);
+
+                                        for (let index = 0; index < data.length; index++) {
+                                            const element = data[index];
+                                            kontenHtml += '<tr>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + (index + 1) + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['kode_tr_pengeluaran'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['tanggal'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['nama'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['keterangan'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['total_harga'] + '</td>';
+                                            kontenHtml += '</tr>';
+                                        }
+                                    }
+                                    $('#isiTableOp').html(kontenHtml);
+                                    $('#loadingTableOperasional').hide();
+                                }
+                            });
+                            // options.title.text = 'Grafik Wilayah Bulanan';
+                            // chart.updateOptions(options.title.text)
+                            // // console.log(selectedFilterBu);
+                            // await getSeriesFilterBulanan();
+                            $('#modalkontendate').addClass("scale-0");
+                            $('#bgmodaldate').removeClass("effectmodal");
+
+                        } else if (selectedTab == 'tahunan') {
+                            $.ajax({
+                                url: '../controllers/pengeluaran.php?type=getOperasional&filter=tahunan',
+                                type: 'POST',
+                                data: {
+                                    'tahun': $('#filtertahunan_tahun').val(),
+                                },
+                                beforeSend: function() {
+                                    $('#loadingTableOperasional').show();
+                                    $('#loadingTableOperasional').addClass('flex');
+                                },
+                                success: function(res) {
+                                    var kontenHtml = '';
+                                    if (res == 'kosong') {} else {
+                                        const data = JSON.parse(res);
+
+                                        for (let index = 0; index < data.length; index++) {
+                                            const element = data[index];
+                                            kontenHtml += '<tr>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + (index + 1) + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['kode_tr_pengeluaran'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['tanggal'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['nama'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['keterangan'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['total_harga'] + '</td>';
+                                            kontenHtml += '</tr>';
+                                        }
+                                    }
+                                    $('#isiTableOp').html(kontenHtml);
+                                    $('#loadingTableOperasional').hide();
+                                }
+                            });
+                            // options.title.text = 'Grafik Wilayah Tahunan';
+                            // chart.updateOptions(options.title.text)
+                            // // console.log(selectedFilterBu);
+                            // await getSeriesFilterTahunan();
+                            $('#modalkontendate').addClass("scale-0");
+                            $('#bgmodaldate').removeClass("effectmodal");
+
+                        } else {
+                            console.log('bukan harian');
+                            if (range_start == '' && range_end == '') {
+                                Swal.fire({
+                                    icon: 'warning',
+                                    title: 'Gagal',
+                                    text: "Pilih Date Terlebih Dahulu",
+                                });
+                            } else {
+                                $.ajax({
+                                    url: '../controllers/pengeluaran.php?type=getOperasional&filter=range',
+                                    type: 'POST',
+                                    data: {
+                                        'start': range_start,
+                                        'end': range_end,
+                                    },
+                                    beforeSend: function() {
+                                        $('#loadingTableOperasional').show();
+                                        $('#loadingTableOperasional').addClass('flex');
+                                    },
+                                    success: function(res) {
+                                        var kontenHtml = '';
+                                        if (res == 'kosong') {} else {
+                                            const data = JSON.parse(res);
+
+                                            for (let index = 0; index < data.length; index++) {
+                                                const element = data[index];
+                                                kontenHtml += '<tr>';
+                                                kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + (index + 1) + '</td>';
+                                                kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['kode_tr_pengeluaran'] + '</td>';
+                                                kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['tanggal'] + '</td>';
+                                                kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['nama'] + '</td>';
+                                                kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['keterangan'] + '</td>';
+                                                kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['total_harga'] + '</td>';
+                                                kontenHtml += '</tr>';
+                                            }
+                                        }
+                                        $('#isiTableOp').html(kontenHtml);
+                                        $('#loadingTableOperasional').hide();
+                                    }
+                                });
+                                // options.title.text = 'Grafik Wilayah | ' + range_start + ' to ' + range_end;
+                                // chart.updateOptions(options.title.text)
+                                // await getSeriesFilterRange();
+                                $('#modalkontendate').addClass("scale-0");
+                                $('#bgmodaldate').removeClass("effectmodal");
+                            }
+                        }
+                    } else {
+
+                        if (selectedTab == 'harian') {
+                            $.ajax({
+                                url: '../controllers/pengeluaran.php?type=getRestock&filter=harian',
+                                type: 'POST',
+                                data: {
+                                    'tanggal': selectedFilterHarian,
+                                },
+                                beforeSend: function() {
+                                    $('#loadingTableRestock').show();
+                                    $('#loadingTableRestock').addClass('flex');
+                                },
+                                success: function(res) {
+                                    alert(res);
+                                    var kontenHtml = '';
+                                    if (res == 'kosong') {} else {
+                                        const data = JSON.parse(res);
+                                        for (let index = 0; index < data.length; index++) {
+                                            const element = data[index];
+                                            kontenHtml += '<tr>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + (index + 1) + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['kode'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['tanggal'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['nama'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['supplier'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['jenis'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['barang'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['jumlah'] + '</td>';
+                                            kontenHtml += '</tr>';
+                                        }
+                                    }
+                                    $('#isiTableRs').html(kontenHtml);
+                                    $('#loadingTableRestock').hide();
+                                }
+                            });
+                            // optionspenjualan.title.text = 'Grafik Penjualan Harian';
+                            // chartpenjualan.updateOptions(optionspenjualan.title.text)
+
+                            // // chart.update();
+                            // await getSeriesFilterPenjualanHarian();
+
+                            $('#modalkontendate').addClass("scale-0");
+                            $('#bgmodaldate').removeClass("effectmodal");
+
+                        } else if (selectedTab == 'mingguan') {
+                            $.ajax({
+                                url: '../controllers/pengeluaran.php?type=getRestock&filter=mingguan',
+                                type: 'POST',
+                                data: {
+                                    'tanggal': selectedFilterMingguan,
+                                },
+                                beforeSend: function() {
+                                    $('#loadingTableRestock').show();
+                                    $('#loadingTableRestock').addClass('flex');
+                                },
+                                success: function(res) {
+                                    // alert(res);
+                                    var kontenHtml = '';
+                                    if (res == 'kosong') {} else {
+                                        const data = JSON.parse(res);
+                                        for (let index = 0; index < data.length; index++) {
+                                            const element = data[index];
+                                            kontenHtml += '<tr>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + (index + 1) + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['kode'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['tanggal'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['nama'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['supplier'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['jenis'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['barang'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['jumlah'] + '</td>';
+                                            kontenHtml += '</tr>';
+                                        }
+                                    }
+                                    $('#isiTableRs').html(kontenHtml);
+                                    $('#loadingTableRestock').hide();
+                                }
+                            });
+                            // optionspenjualan.title.text = 'Grafik Penjualan Mingguan';
+                            // chartpenjualan.updateOptions(optionspenjualan.title.text)
+                            // // chart.update();
+                            // await getSeriesFilterPenjualanMingguan();
+
+                            $('#modalkontendate').addClass("scale-0");
+                            $('#bgmodaldate').removeClass("effectmodal");
+                            // options.title.text = 'Grafik Wilayah Mingguan';
+                            // chart.updateOptions(options.title.text)
+                            // console.log(selectedFilterMingguan);
+                            // await getSeriesFilterMingguan();
+                            // $('#modalkontendate').addClass("scale-0");
+                            // $('#bgmodaldate').removeClass("effectmodal");
+
+                        } else if (selectedTab == 'bulanan') {
+                            $.ajax({
+                                url: '../controllers/pengeluaran.php?type=getRestock&filter=bulanan',
+                                type: 'POST',
+                                data: {
+                                    'bulan': $('#filterbulanan_bulan').val(),
+                                    'tahun': $('#filterbulanan_tahun').val(),
+                                },
+                                beforeSend: function() {
+                                    $('#loadingTableRestock').show();
+                                    $('#loadingTableRestock').addClass('flex');
+                                },
+                                success: function(res) {
+                                    // alert(res);
+                                    var kontenHtml = '';
+                                    if (res == 'kosong') {} else {
+                                        const data = JSON.parse(res);
+                                        for (let index = 0; index < data.length; index++) {
+                                            const element = data[index];
+                                            kontenHtml += '<tr>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + (index + 1) + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['kode'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['tanggal'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['nama'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['supplier'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['jenis'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['barang'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['jumlah'] + '</td>';
+                                            kontenHtml += '</tr>';
+                                        }
+                                    }
+                                    $('#isiTableRs').html(kontenHtml);
+                                    $('#loadingTableRestock').hide();
+                                }
+                            });
+                            // optionspenjualan.title.text = 'Grafik Penjualan Bulanan';
+                            // chartpenjualan.updateOptions(optionspenjualan.title.text)
+                            // // chart.update();
+                            // await getSeriesFilterPenjualanBulanan();
+
+                            $('#modalkontendate').addClass("scale-0");
+                            $('#bgmodaldate').removeClass("effectmodal");
+                            // options.title.text = 'Grafik Wilayah Bulanan';
+                            // chart.updateOptions(options.title.text)
+                            // // console.log(selectedFilterBu);
+                            // await getSeriesFilterBulanan();
+                            // $('#modalkontendate').addClass("scale-0");
+                            // $('#bgmodaldate').removeClass("effectmodal");
+
+                        } else if (selectedTab == 'tahunan') {
+                            $.ajax({
+                                url: '../controllers/pengeluaran.php?type=getRestock&filter=tahunan',
+                                type: 'POST',
+                                data: {
+                                    'tahun': $('#filtertahunan_tahun').val(),
+                                },
+                                beforeSend: function() {
+                                    $('#loadingTableRestock').show();
+                                    $('#loadingTableRestock').addClass('flex');
+                                },
+                                success: function(res) {
+                                    // alert(res);
+                                    var kontenHtml = '';
+                                    if (res == 'kosong') {} else {
+                                        const data = JSON.parse(res);
+                                        for (let index = 0; index < data.length; index++) {
+                                            const element = data[index];
+                                            kontenHtml += '<tr>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + (index + 1) + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['kode'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['tanggal'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['nama'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['supplier'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['jenis'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['barang'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['jumlah'] + '</td>';
+                                            kontenHtml += '</tr>';
+                                        }
+                                    }
+                                    $('#isiTableRs').html(kontenHtml);
+                                    $('#loadingTableRestock').hide();
+                                }
+                            });
+                            // optionspenjualan.title.text = 'Grafik Penjualan Tahunan';
+                            // chartpenjualan.updateOptions(optionspenjualan.title.text)
+                            // // chart.update();
+                            // await getSeriesFilterPenjualanTahunan();
+
+                            $('#modalkontendate').addClass("scale-0");
+                            $('#bgmodaldate').removeClass("effectmodal");
+                            // options.title.text = 'Grafik Wilayah Tahunan';
+                            // chart.updateOptions(options.title.text)
+                            // // console.log(selectedFilterBu);
+                            // await getSeriesFilterTahunan();
+                            // $('#modalkontendate').addClass("scale-0");
+                            // $('#bgmodaldate').removeClass("effectmodal");
+
+                        } else if (selectedTab == 'range') {
+                            $.ajax({
+                                url: '../controllers/pengeluaran.php?type=getRestock&filter=range',
+                                type: 'POST',
+                                data: {
+                                    'start': range_start,
+                                    'end': range_end,
+                                },
+                                beforeSend: function() {
+                                    $('#loadingTableRestock').show();
+                                    $('#loadingTableRestock').addClass('flex');
+                                },
+                                success: function(res) {
+                                    // alert(res);
+                                    var kontenHtml = '';
+                                    if (res == 'kosong') {} else {
+                                        const data = JSON.parse(res);
+                                        for (let index = 0; index < data.length; index++) {
+                                            const element = data[index];
+                                            kontenHtml += '<tr>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + (index + 1) + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['kode'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['tanggal'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['nama'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['supplier'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['jenis'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['barang'] + '</td>';
+                                            kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['jumlah'] + '</td>';
+                                            kontenHtml += '</tr>';
+                                        }
+                                    }
+                                    $('#isiTableRs').html(kontenHtml);
+                                    $('#loadingTableRestock').hide();
+                                }
+                            });
+                            // optionspenjualan.title.text = 'Grafik Penjualan Range';
+                            // chartpenjualan.updateOptions(optionspenjualan.title.text)
+                            // // chart.update();
+                            // await getSeriesFilterPenjualanRange();
+
+                            $('#modalkontendate').addClass("scale-0");
+                            $('#bgmodaldate').removeClass("effectmodal");
+                            // options.title.text = 'Grafik Wilayah Tahunan';
+                            // chart.updateOptions(options.title.text)
+                            // // console.log(selectedFilterBu);
+                            // await getSeriesFilterTahunan();
+                            // $('#modalkontendate').addClass("scale-0");
+                            // $('#bgmodaldate').removeClass("effectmodal");
+
+                        } else {
+                            // console.log('bukan harian');
+                            // if (range_start == '' && range_end == '') {} else {
+                            //     options.title.text = 'Grafik Wilayah | ' + range_start + ' to ' + range_end;
+                            //     chart.updateOptions(options.title.text)
+                            //     await getSeriesFilterRange();
+                            //     $('#modalkontendate').addClass("scale-0");
+                            //     $('#bgmodaldate').removeClass("effectmodal");
+                            // }
+                        }
+                    }
+                });
+
+
             });
 
             // load modal input
@@ -417,6 +951,8 @@ function rupiah($angka)
                             formData.append('type', "insert");
                             formData.append('query', "INSERT INTO tr_pengeluaran VALUES ('" + kode + "' ,'" + tgl + "','" + idPegawai + "','operasional','" + keterangan + "','" + total + "',NULL,NULL,NULL,NULL,NULL,NULL)");
 
+
+
                             if ($('#date').val() == "") {
                                 Swal.fire({
                                     icon: 'error',
@@ -477,6 +1013,7 @@ function rupiah($angka)
                             formData.append('type', "insert");
                             if (jenis == 'produk') {
                                 formData.append('query', "INSERT INTO tr_pengeluaran VALUES ('" + kode + "' ,'" + daterestok + "','" + idPegawai + "','restock',NULL,NULL,'" + jenis + "','" + barang + "',NULL,NULL,'" + supplier + "','" + qty + "')");
+
                             } else if (jenis == 'tambahan') {
                                 formData.append('query', "INSERT INTO tr_pengeluaran VALUES ('" + kode + "' ,'" + daterestok + "','" + idPegawai + "','restock',NULL,NULL,'" + jenis + "',NULL,'" + barang + "',NULL,'" + supplier + "','" + qty + "')");
                             } else {
@@ -635,6 +1172,72 @@ function rupiah($angka)
                     }
                 }
             });
+
+            function refresh() {
+                if (tabSelected == 1) {
+                    $.ajax({
+                        url: '../controllers/pengeluaran.php?type=getOperasional&search',
+                        type: 'GET',
+                        beforeSend: function() {
+                            $('#loadingTableOperasional').show();
+                            $('#loadingTableOperasional').addClass('flex');
+                        },
+                        success: function(res) {
+                            var kontenHtml = '';
+                            if (res == 'kosong') {} else {
+                                const data = JSON.parse(res);
+
+                                for (let index = 0; index < data.length; index++) {
+                                    const element = data[index];
+                                    kontenHtml += '<tr>';
+                                    kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + (index + 1) + '</td>';
+                                    kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['kode_tr_pengeluaran'] + '</td>';
+                                    kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['tanggal'] + '</td>';
+                                    kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['nama'] + '</td>';
+                                    kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['keterangan'] + '</td>';
+                                    kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['total_harga'] + '</td>';
+                                    kontenHtml += '</tr>';
+                                }
+                            }
+                            $('#isiTableOp').html(kontenHtml);
+                            $('#loadingTableOperasional').hide();
+                        }
+                    })
+                    // window.location.replace("tr_pengeluaran.php?search=" + $('#search').val());
+                } else {
+                    $.ajax({
+                        url: '../controllers/pengeluaran.php?type=getRestock&search',
+                        type: 'GET',
+                        beforeSend: function() {
+                            $('#loadingTableRestock').show();
+                            $('#loadingTableRestock').addClass('flex');
+                        },
+                        success: function(res) {
+                            // alert(res);
+                            var kontenHtml = '';
+                            if (res == 'kosong') {} else {
+                                const data = JSON.parse(res);
+                                for (let index = 0; index < data.length; index++) {
+                                    const element = data[index];
+                                    kontenHtml += '<tr>';
+                                    kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + (index + 1) + '</td>';
+                                    kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['kode'] + '</td>';
+                                    kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['tanggal'] + '</td>';
+                                    kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['nama'] + '</td>';
+                                    kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['supplier'] + '</td>';
+                                    kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['jenis'] + '</td>';
+                                    kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['barang'] + '</td>';
+                                    kontenHtml += '<td class="p-3 text-sm tracking-wide text-center">' + element['jumlah'] + '</td>';
+                                    kontenHtml += '</tr>';
+                                }
+                            }
+                            $('#isiTableRs').html(kontenHtml);
+                            $('#loadingTableRestock').hide();
+                        }
+                    })
+                }
+            
+            }
         </script>
 
 </body>
