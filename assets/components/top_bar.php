@@ -94,8 +94,34 @@ $dataNotif = $crud->showData("SELECT pegawai.nama, pegawai.foto_pegawai FROM tra
   </div>
 
 
-  <script src="../../js/jquery-3.6.1.min.js"></script>
+  <script src="../js/jquery-3.6.1.min.js"></script>
+  <script src="../js/jquery.iddle.min.js"></script>
   <script>
+    $(document).idle({
+      onIdle: function() {
+        $.ajax({
+          url: '../controllers/loginController.php',
+          type: 'post',
+          data: {
+            'type': 'logout',
+          },
+          success: function() {
+
+          }
+        });
+        Swal.fire({
+          icon: 'warning',
+          title: 'Informasi',
+          text: 'Sesi anda telah habis, silahkan login kembali',
+
+        }).then(function() {
+          window.location.replace('../views/login.php');
+        });
+
+      },
+      idle: 120000
+    });
+
     function showNotif() {
       $('#notif').toggleClass('hidden');
       reset();

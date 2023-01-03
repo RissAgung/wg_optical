@@ -310,30 +310,6 @@ function getNameRoles($id)
         $(window).on('load', function() {
             $('#loading').hide();
         });
-        // $(document).idle({
-        //     onIdle: function() {
-        //         $.ajax({
-        //             url: '../controllers/loginController.php',
-        //             type: 'post',
-        //             data: {
-        //                 'type': 'logout',
-        //             },
-        //             success: function() {
-
-        //             }
-        //         });
-        //         Swal.fire({
-        //             icon: 'warning',
-        //             title: 'Informasi',
-        //             text: 'Sesi anda telah habis, silahkan login kembali',
-
-        //         }).then(function() {
-        //             window.location.replace('../views/login.php');
-        //         });
-
-        //     },
-        //     idle: 50000
-        // });
 
         $('#modal-addBarang').load("../assets/components/modal_pilih_barang.php", function() {
             $('#closemodaladdbarang').on('click', function() {

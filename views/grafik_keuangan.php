@@ -1483,35 +1483,6 @@ foreach ($profileDB as $index) {
             $('#loadingchart').hide();
         }
 
-
-
-        // $(document).idle({
-        //     onIdle: function() {
-        //         $.ajax({
-        //             url: '../controllers/loginController.php',
-        //             type: 'post',
-        //             data: {
-        //                 'type': 'logout',
-        //             },
-        //             success: function() {
-
-        //             }
-        //         });
-        //         Swal.fire({
-        //             icon: 'warning',
-        //             title: 'Informasi',
-        //             text: 'Sesi anda telah habis, silahkan login kembali',
-
-        //         }).then(function() {
-        //             window.location.replace('../views/login.php');
-        //         });
-
-        //     },
-        //     idle: 50000
-        // });
-
-
-
         // load sidebar
         $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
             $('#grafik_keuangan').addClass("hover-sidebar");
