@@ -1,5 +1,5 @@
 <?php
-
+date_default_timezone_set("Asia/Bangkok");
 session_start();
 if (!isset($_SESSION['statusLogin'])) {
   header('Location: ../views/login.php');
