@@ -290,7 +290,7 @@ function rupiah($angka)
                 $('#loadingTableRestock').hide();
             });
             // load sidebar
-            $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
+            $("#ex-sidebar").load("../assets/components/sidebar.php", function() {
                 $('#pengeluaran').addClass("hover-sidebar");
                 $('#button-logout').on('click', function() {
                     // kosong
