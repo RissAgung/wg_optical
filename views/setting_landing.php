@@ -12,6 +12,11 @@ $crud = new koneksi();
 
 $imgDb = $crud->showData("SELECT img FROM image_landing");
 $dataDB = $crud->showData("SELECT * FROM content_landing");
+$profileDB = $crud->showData("SELECT foto_pegawai FROM pegawai WHERE id_pegawai = '" . $_SESSION['id_pegawai'] . "'");
+$imgProfile = "";
+foreach ($profileDB as $index) {
+  $imgProfile = $index["foto_pegawai"];
+}
 
 ?>
 
@@ -160,7 +165,7 @@ $dataDB = $crud->showData("SELECT * FROM content_landing");
             url: "../controllers/landingController.php",
             data: {
               "type": "update",
-              "query": "UPDATE content_landing SET header='"+header+"',description='"+description+"' WHERE id_landing = 'landing1'",
+              "query": "UPDATE content_landing SET header='" + header + "',description='" + description + "' WHERE id_landing = 'landing1'",
             },
             beforeSend: function() {
               loading = Swal.fire({
@@ -280,7 +285,8 @@ $dataDB = $crud->showData("SELECT * FROM content_landing");
 
     // load topBar
     $('#topBar').load("../assets/components/top_bar.php", function() {
-      $('#title-header').html('Master Data Product');
+      $("#avatar_profile").attr("src", "../images/pegawai/foto_pegawai/<?= $imgProfile ?>");
+      $('#title-header').html('Setting Landing');
       $("#burger").on("click", function() {
         $('#bgbody').toggleClass("hidden");
 

@@ -13,6 +13,11 @@ if (!isset($_SESSION['statusLogin'])) {
 
 $execute = $crud->showData("SELECT * FROM tr_pengeluaran JOIN pegawai ON tr_pengeluaran.id_pegawai = pegawai.id_pegawai ORDER BY tanggal DESC");
 $restock = $crud->showData("SELECT tr_pengeluaran.kode_tr_pengeluaran, tr_pengeluaran.tanggal, tr_pengeluaran.id_pegawai, tr_pengeluaran.id_Supplier, tr_pengeluaran.jenis, (CASE WHEN tr_pengeluaran.kode_frame IS NOT NULL THEN produk.merk WHEN tr_pengeluaran.kode_barang IS NOT NULL THEN tambahan.nama_barang WHEN tr_pengeluaran.kode_perkap IS NOT NULL THEN perlengkapan.nama_perlengkapan END) as barang, tr_pengeluaran.QTY FROM tr_pengeluaran LEFT JOIN perlengkapan ON tr_pengeluaran.kode_perkap = perlengkapan.kode_perlengkapan LEFT JOIN tambahan ON tambahan.kode_barang = tr_pengeluaran.kode_barang LEFT JOIN produk ON produk.kode_frame = tr_pengeluaran.kode_frame WHERE tr_pengeluaran.kategori = 'restock';");
+$profileDB = $crud->showData("SELECT foto_pegawai FROM pegawai WHERE id_pegawai = '" . $_SESSION['id_pegawai'] . "'");
+$imgProfile = "";
+foreach ($profileDB as $index) {
+    $imgProfile = $index["foto_pegawai"];
+}
 
 function rupiah($angka)
 {
@@ -38,6 +43,10 @@ function rupiah($angka)
 </head>
 
 <body class="bg-[#F0F0F0] font-ex-color box-border">
+
+    <div id="loading" class="fixed w-full h-full top-0 left-0 flex flex-col justify-center items-center bg-slate-50 z-[99]">
+        <div class="loadingspinner"></div>
+    </div>
 
     <!-- modal  -->
     <div id="modal"></div>
@@ -247,10 +256,9 @@ function rupiah($angka)
         <script src="../js/datepicker.js"></script>
 
         <script>
-
-            
             $('#top_bar').load("../assets/components/top_bar.php", function() {
-                $('#title-header').html('Master Data Product');
+                $("#avatar_profile").attr("src", "../images/pegawai/foto_pegawai/<?= $imgProfile ?>");
+                $('#title-header').html('Pengeluaran');
                 $("#burger").on("click", function() {
                     $('#bgbody').removeClass("hidden");
 
@@ -266,8 +274,6 @@ function rupiah($angka)
 
                 });
 
-                $('#loading').hide();
-
             });
 
             var tabSelected = 1;
@@ -282,6 +288,7 @@ function rupiah($angka)
                 $('#button-logout').on('click', function() {
                     // kosong
                 });
+                $('#loading').hide();
             });
 
             $("#burger").on("click", function() {
