@@ -201,7 +201,13 @@ foreach ($profileDB as $index) {
 
                     } else {
                         console.log('bukan harian');
-                        if (range_start == '' && range_end == '') {} else {
+                        if (range_start == '' && range_end == '') {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Gagal',
+                                text: "Pilih Date Terlebih Dahulu",
+                            });
+                        } else {
                             options.title.text = 'Grafik Wilayah | ' + range_start + ' to ' + range_end;
                             chart.updateOptions(options.title.text)
                             await getSeriesFilterRange();
