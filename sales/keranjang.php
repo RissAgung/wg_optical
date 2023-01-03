@@ -664,7 +664,6 @@ function rupiah($angka)
               });
             },
             success: function(res) {
-              alert(res);
               const data = JSON.parse(res);
               if (data.status == 'success') {
                 Swal.fire({

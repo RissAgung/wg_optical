@@ -97,7 +97,7 @@ function getStatusPembayaran($kode)
     <!-- end header -->
 
     <!-- main content -->
-    <div class="flex flex-col justify-between main-content w-[90%] mx-auto mt-4 max-[374px]:text-[13px] text-sm p-5 bg-white rounded-md relative">
+    <div class="flex flex-col justify-between overflow-y-auto main-content w-[90%] mx-auto mt-4 max-[374px]:text-[13px] text-sm p-5 bg-white rounded-md relative">
 
       <!-- atas -->
       <div class="h-[70%]">
@@ -114,7 +114,7 @@ function getStatusPembayaran($kode)
         <!-- end tab bar -->
 
         <!-- table pembelian -->
-        <div class="table-invoice flex mt-12 overflow-x-auto" id="table_Pembelian">
+        <div class="table-invoice flex mt-12" id="table_Pembelian">
           <table class="w-full" id="table_pembelian">
             <thead class="font-ex-bold border-b-2 border-gray-100">
               <tr>
