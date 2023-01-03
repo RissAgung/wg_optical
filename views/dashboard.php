@@ -383,7 +383,7 @@ function rupiah($angka)
     // chart.render();
 
     // load sidebar
-    $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
+    $("#ex-sidebar").load("../assets/components/sidebar.php", function() {
       $('#dashboard').addClass("hover-sidebar");
       $('#button-logout').on('click', function() {
         $('#modalLogout').toggleClass("scale-0");

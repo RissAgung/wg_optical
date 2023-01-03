@@ -1490,7 +1490,7 @@ foreach ($profileDB as $index) {
         }
 
         // load sidebar
-        $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
+        $("#ex-sidebar").load("../assets/components/sidebar.php", function() {
             $('#grafik_keuangan').addClass("hover-sidebar");
         });
         // top_bar

@@ -263,7 +263,7 @@ $execute = (isset($_GET["search"])) ? $crud->showData("SELECT * FROM supplier WH
         });
 
         // load sidebar
-        $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
+        $("#ex-sidebar").load("../assets/components/sidebar.php", function() {
             $('#master_data').addClass("hover-sidebar");
             $('#button-logout').on('click', function() {
                 // kosong

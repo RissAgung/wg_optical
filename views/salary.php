@@ -160,7 +160,7 @@ function rupiah($angka)
 
         });
 
-        $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
+        $("#ex-sidebar").load("../assets/components/sidebar.php", function() {
             $('#salary').addClass("hover-sidebar");
             $('#loading').hide();
         });
