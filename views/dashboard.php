@@ -335,8 +335,8 @@ function rupiah($angka)
       legend: {
         position: 'bottom',
         horizontalAlign: 'center',
-        width: 250,
-        offsetX: widthPenjualan,
+        // width: 250,
+        // offsetX: widthPenjualan,
       },
       labels: [],
       series: getSeriesPieLensa(),
@@ -350,8 +350,8 @@ function rupiah($angka)
       legend: {
         position: 'bottom',
         horizontalAlign: 'center',
-        width: 250,
-        offsetX: widthPenjualan,
+        // width: 250,
+        // offsetX: widthPenjualan,
       },
       labels: [],
       series: getSeriesPie(),
