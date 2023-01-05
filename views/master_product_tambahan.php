@@ -253,7 +253,7 @@ $data = (isset($_GET["search"])) ? $crud->showData("SELECT * FROM tambahan WHERE
     });
 
     // load sidebar
-    $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
+    $("#ex-sidebar").load("../assets/components/sidebar.php", function() {
       $('#master_data').addClass("hover-sidebar");
       $('#loading').hide();
     });

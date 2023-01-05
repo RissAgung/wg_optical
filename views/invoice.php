@@ -97,7 +97,7 @@ function getStatusPembayaran($kode)
     <!-- end header -->
 
     <!-- main content -->
-    <div class="flex flex-col justify-between main-content w-[90%] mx-auto mt-4 max-[374px]:text-[13px] text-sm p-5 bg-white rounded-md relative">
+    <div class="flex flex-col justify-between overflow-y-auto main-content w-[90%] mx-auto mt-4 max-[374px]:text-[13px] text-sm p-5 bg-white rounded-md relative">
 
       <!-- atas -->
       <div class="h-[70%]">
@@ -114,7 +114,7 @@ function getStatusPembayaran($kode)
         <!-- end tab bar -->
 
         <!-- table pembelian -->
-        <div class="table-invoice flex mt-12 overflow-x-auto" id="table_Pembelian">
+        <div class="table-invoice flex mt-12" id="table_Pembelian">
           <table class="w-full" id="table_pembelian">
             <thead class="font-ex-bold border-b-2 border-gray-100">
               <tr>
@@ -327,30 +327,6 @@ function getStatusPembayaran($kode)
   <script src="../js/sweetalert2.min.js"></script>
   <script src="../js/jquery.iddle.min.js"></script>
   <script>
-    // $(document).idle({
-    //   onIdle: function() {
-    //     $.ajax({
-    //       url: '../controllers/loginController.php',
-    //       type: 'post',
-    //       data: {
-    //         'type': 'logout',
-    //       },
-    //       success: function() {
-
-    //       }
-    //     });
-    //     Swal.fire({
-    //       icon: 'warning',
-    //       title: 'Informasi',
-    //       text: 'Sesi anda telah habis, silahkan login kembali',
-
-    //     }).then(function() {
-    //       window.location.replace('../views/login.php');
-    //     });
-
-    //   },
-    //   idle: 50000
-    // });
 
     $('#top_bar').load("../assets/components/top_bar.php", function() {
       $("#avatar_profile").attr("src", "../images/pegawai/foto_pegawai/<?= $imgProfile ?>");
@@ -375,7 +351,7 @@ function getStatusPembayaran($kode)
     console.log($(document).width());
 
     // load sidebar
-    $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
+    $("#ex-sidebar").load("../assets/components/sidebar.php", function() {
       $('#tab_invoice').addClass("hover-sidebar");
       $('#loading').hide();
     });

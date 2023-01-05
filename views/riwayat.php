@@ -196,7 +196,7 @@ $datariwayat = (isset($_GET["search"])) ? $crud->showData("SELECT transaksi.stat
 
     });
 
-    $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
+    $("#ex-sidebar").load("../assets/components/sidebar.php", function() {
       $('#riwayat').addClass("hover-sidebar");
       $('#loading').hide();
     });

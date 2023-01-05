@@ -363,7 +363,7 @@ function generateID(Koneksi $obj, $tglmasuk)
 
 
         // load sidebar
-        $("#ex-sidebar").load("../assets/components/sidebar.html", function() {
+        $("#ex-sidebar").load("../assets/components/sidebar.php", function() {
             $('#barang_bawa').addClass("hover-sidebar");
             $('#button-logout').on('click', function() {
                 // kosong

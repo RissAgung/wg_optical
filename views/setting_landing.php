@@ -279,7 +279,7 @@ foreach ($profileDB as $index) {
     }
 
     // load sidebar
-    $('#sidebar').load("../assets/components/sidebar.html", function() {
+    $('#sidebar').load("../assets/components/sidebar.php", function() {
 
     });
 
