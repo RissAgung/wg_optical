@@ -27,6 +27,7 @@ $lens = $con->showData("SELECT * FROM lensa");
   <title>Transaksi</title>
   <link rel="stylesheet" href="../../css/output.css">
   <link rel="stylesheet" href="../../css/sweetalert2.min.css">
+  <link rel="stylesheet" href="../../css/select2.css">
 </head>
 
 <body class="bg-[#ECECEC] scrollbar-hide">
@@ -43,8 +44,8 @@ $lens = $con->showData("SELECT * FROM lensa");
   <section class="text-[#373F47] font-ex-medium mt-[73px] mb-24" id="konten">
     <div class="flex flex-col overflow-y-auto scrollbar-hide">
       <div class="flex flex-col px-6 py-4 bg-white mt-[0.5px]">
-        <h1>Kode Frame</h1>
-        <select id="frame" class=" cursor-pointer outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden" name="cars" id="cars">
+        <h1 class="mb-4">Kode Frame</h1>
+        <select id="frame" class="js-example-basic-single cursor-pointer outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden" name="cars" id="cars">
           <?php foreach ($dataLens as $index) : ?>
             <option class="text-xs" value="<?= $index["harga_jual"] ?>-<?= $index["Id_Bawa"] ?>"><?= $index["Id_Bawa"] ?></option>
           <?php endforeach ?>
@@ -184,8 +185,14 @@ $lens = $con->showData("SELECT * FROM lensa");
   </div>
 
   <script src="../../js/jquery-3.6.1.min.js"></script>
+  <script src="../../js/select2.js"></script>
   <script src="../../js/sweetalert2.min.js"></script>
   <script>
+    $(document).ready(function() {
+      $('.js-example-basic-single').select2({
+        placeholder: "Pilih Kode Frame",
+      });
+    });
     let variant = [];
 
     function choice_variant(kode) {

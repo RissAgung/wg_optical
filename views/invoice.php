@@ -15,9 +15,9 @@ foreach ($profileDB as $index) {
   $imgProfile = $index["foto_pegawai"];
 }
 
-$dataPembelian = $crud->showData("SELECT transaksi.status_pengiriman, transaksi.tanggal, transaksi.kode_pesanan, pegawai.nama AS nama_sales, customer.nama AS nama_cus, cicilan.depan_pembayaran FROM pegawai JOIN transaksi ON pegawai.id_pegawai = transaksi.id_pegawai JOIN customer ON transaksi.id_customer = customer.id_customer LEFT JOIN cicilan ON transaksi.kode_pesanan = cicilan.kode_pesanan WHERE transaksi.status_confirm = '1'");
+$dataPembelian = $crud->showData("SELECT transaksi.status_pengiriman, transaksi.tanggal, transaksi.kode_pesanan, pegawai.nama AS nama_sales, customer.nama AS nama_cus, cicilan.depan_pembayaran FROM pegawai JOIN transaksi ON pegawai.id_pegawai = transaksi.id_pegawai JOIN customer ON transaksi.id_customer = customer.id_customer LEFT JOIN cicilan ON transaksi.kode_pesanan = cicilan.kode_pesanan WHERE transaksi.status_confirm = '1' ORDER BY transaksi.tanggal DESC");
 
-$dataProses = $crud->showData("SELECT transaksi.status_pengiriman, transaksi.bukti_pengiriman, transaksi.tanggal, transaksi.kode_pesanan, pegawai.nama AS nama_sales, customer.nama AS nama_cus, transaksi.total_harga, transaksi.total_bayar, cicilan.depan_pembayaran, cicilan.kode_cicilan FROM pegawai JOIN transaksi ON pegawai.id_pegawai = transaksi.id_pegawai JOIN customer ON transaksi.id_customer = customer.id_customer LEFT JOIN cicilan ON transaksi.kode_pesanan = cicilan.kode_pesanan WHERE transaksi.status_confirm = '2'");
+$dataProses = $crud->showData("SELECT transaksi.status_pengiriman, transaksi.bukti_pengiriman, transaksi.tanggal, transaksi.kode_pesanan, pegawai.nama AS nama_sales, customer.nama AS nama_cus, transaksi.total_harga, transaksi.total_bayar, cicilan.depan_pembayaran, cicilan.kode_cicilan FROM pegawai JOIN transaksi ON pegawai.id_pegawai = transaksi.id_pegawai JOIN customer ON transaksi.id_customer = customer.id_customer LEFT JOIN cicilan ON transaksi.kode_pesanan = cicilan.kode_pesanan WHERE transaksi.status_confirm = '2' ORDER BY transaksi.tanggal DESC");
 
 function getStatusPembayaran($kode)
 {
