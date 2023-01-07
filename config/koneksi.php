@@ -2,10 +2,10 @@
 
 class koneksi
 {
-  private $server = "wgoptical.eastus.cloudapp.azure.com";
+  private $server = "mphstar.com";
   private $username = "mphstar";
-  private $password = "12345678";
-  private $db = "wgoptical";
+  private $password = "123";
+  private $db = "wgoptical-3";
 
   public function prepareKoneksi()
   {

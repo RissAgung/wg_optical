@@ -74,7 +74,7 @@ function rupiah($angka)
         <!-- tab bar -->
 
         <div class="px-8">
-            <div class="mt-3 flex justify-between max-[550px]:justify-center md:py-[3px]">
+            <div class="mt-3 flex flex-wrap justify-between max-[599px]:justify-center">
                 <div class="box-border p-1.5 drop-shadow-sm rounded-md flex justify-between flex-row text-sm font-ex-semibold bg-white z-[1]">
                     <div id="hovertab" class="transitionsidebar translate-x-[0px] ease-in-out h-[35px] rounded-lg w-[120px] absolute bg-[#343948]"></div>
                     <div id="tabOperasional" class="flex cursor-pointer justify-center py-1.5 px-4 rounded-md tab-focus">Operasional</div>
@@ -85,9 +85,9 @@ function rupiah($angka)
 
 
             <div class=" md:mx-auto rounded-md py-0 px-0">
-                <div class="mt-0 flex items-center content-center flex-wrap justify-between max-[550px]:justify-center py-4 gap-2">
+                <div class="mt-0 flex items-center content-center flex-wrap justify-between max-[615px]:justify-center py-4 gap-2">
                     <!-- Search -->
-                    <div class="flex flex-row shadow-sm rounded-md items-center justify-center bg-white w-72 box-border px-2">
+                    <div class="flex flex-row shadow-sm rounded-md items-center bg-white w-72 box-border px-2">
                         <div class="w-full flex flex-row items-center">
                             <svg width="19" height="19" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" class="ml-3">
                                 <path d="M19.2502 19.25L15.138 15.1305M17.4168 9.62501C17.4168 11.6915 16.5959 13.6733 15.1347 15.1346C13.6735 16.5958 11.6916 17.4167 9.62516 17.4167C7.55868 17.4167 5.57684 16.5958 4.11562 15.1346C2.6544 13.6733 1.8335 11.6915 1.8335 9.62501C1.8335 7.55853 2.6544 5.57669 4.11562 4.11547C5.57684 2.65425 7.55868 1.83334 9.62516 1.83334C11.6916 1.83334 13.6735 2.65425 15.1347 4.11547C16.5959 5.57669 17.4168 7.55853 17.4168 9.62501V9.62501Z" stroke="#797E8D" stroke-width="2" stroke-linecap="round" />
@@ -1179,6 +1179,7 @@ function rupiah($angka)
             });
 
             function refresh() {
+                $('#search').val("");
                 if (tabSelected == 1) {
                     $.ajax({
                         url: '../controllers/pengeluaran.php?type=getOperasional&search',

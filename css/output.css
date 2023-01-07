@@ -651,6 +651,14 @@ video {
   left: 0.5rem;
 }
 
+.right-4 {
+  right: 1rem;
+}
+
+.right-7 {
+  right: 1.75rem;
+}
+
 .z-50 {
   z-index: 50;
 }
@@ -711,10 +719,6 @@ video {
   z-index: 53;
 }
 
-.m-1 {
-  margin: 0.25rem;
-}
-
 .m-auto {
   margin: auto;
 }
@@ -772,6 +776,16 @@ video {
 .mx-8 {
   margin-left: 2rem;
   margin-right: 2rem;
+}
+
+.my-8 {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.my-12 {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
 }
 
 .mr-2 {
@@ -1344,10 +1358,6 @@ video {
 
 .max-h-\[230px\] {
   max-height: 230px;
-}
-
-.w-1 {
-  width: 0.25rem;
 }
 
 .w-screen {
@@ -2112,6 +2122,11 @@ video {
   background-color: rgb(236 77 71 / var(--tw-bg-opacity));
 }
 
+.bg-red-300 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(252 165 165 / var(--tw-bg-opacity));
+}
+
 .bg-opacity-50 {
   --tw-bg-opacity: 0.5;
 }
@@ -2316,6 +2331,11 @@ video {
 .py-14 {
   padding-top: 3.5rem;
   padding-bottom: 3.5rem;
+}
+
+.py-8 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
 .pr-3 {
@@ -3435,6 +3455,32 @@ select {
   }
 }
 
+@media (max-width: 615px) {
+  .max-\[615px\]\:justify-center {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .max-\[600px\]\:flex-col {
+    flex-direction: column;
+  }
+
+  .max-\[600px\]\:justify-center {
+    justify-content: center;
+  }
+
+  .max-\[600px\]\:gap-2 {
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 599px) {
+  .max-\[599px\]\:justify-center {
+    justify-content: center;
+  }
+}
+
 @media (max-width: 550px) {
   .max-\[550px\]\:justify-center {
     justify-content: center;
@@ -3568,6 +3614,20 @@ select {
 
 @media (min-width: 450px) {
   .min-\[450px\]\:w-fit {
+    width: -moz-fit-content;
+    width: fit-content;
+  }
+}
+
+@media (min-width: 465px) {
+  .min-\[465px\]\:w-fit {
+    width: -moz-fit-content;
+    width: fit-content;
+  }
+}
+
+@media (min-width: 466px) {
+  .min-\[466px\]\:w-fit {
     width: -moz-fit-content;
     width: fit-content;
   }
@@ -3804,6 +3864,11 @@ select {
   .md\:py-8 {
     padding-top: 2rem;
     padding-bottom: 2rem;
+  }
+
+  .md\:px-8 {
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
 
   .md\:pb-44 {
