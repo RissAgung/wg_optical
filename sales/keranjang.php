@@ -52,6 +52,7 @@ function rupiah($angka)
   <title>Keranjang</title>
   <link rel="stylesheet" href="../css/output.css">
   <link rel="stylesheet" href="../css/sweetalert2.min.css">
+  <link rel="stylesheet" href="../css/select2.css">
 </head>
 
 <body class="scrollbar-hide bg-[#ECECEC]">
@@ -118,11 +119,12 @@ function rupiah($angka)
         <h1 class="font-ex-semibold px-6 pt-8">Detail Alamat</h1>
         <div class="flex flex-col px-6 py-4 bg-white mt-[0.5px] font-ex-medium">
 
-          <h1 class="pt-6">Kecamatan / Desa</h1>
+          <h1 class="my-4">Kecamatan</h1>
+          <select class="js-example-basic-single border-none outline-0" id="txt_kecamatan"> </select>
+
+          <h1 class="pt-6">Desa</h1>
           <div class="px-4 flex flex-row justify-between items-center outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden">
-            <input class="cursor-pointer h-full w-full pr-4 outline-0" type="text" placeholder="" name="" id="txt_kecamatan">
-            <h1 class="h-full flex items-center justify-center font-ex-semibold w-12 text-center">/</h1>
-            <input class="cursor-pointer h-full w-full pl-4 outline-0" type="text" placeholder="" name="" id="txt_desa">
+            <input class="cursor-pointer h-full w-full outline-0" type="text" placeholder="" name="" id="txt_desa">
           </div>
           <h1 class="pt-6">Alamat</h1>
           <div class="h-[167px] w-full border border-[#C9C9C9] rounded-lg mt-3 overflow-hidden">
@@ -247,7 +249,29 @@ function rupiah($angka)
 
   <script src="../js/jquery-3.6.1.min.js"></script>
   <script src="../js/sweetalert2.min.js"></script>
+  <script src="../js/select2.js"></script>
   <script>
+    $(document).ready(function() {
+      $('.js-example-basic-single').select2({
+        placeholder: "Pilih Kecamatan",
+      });
+      var kontenKecamatan = '';
+      $.ajax({
+        url: '../api/getKecamatan.php',
+        type: 'GET',
+        success: function(res) {
+          const data = JSON.parse(res);
+          for (let index = 0; index < data.kecamatan.length; index++) {
+            const element = data.kecamatan[index];
+            kontenKecamatan += "<option value='" + element.nama + "'>" + element.nama + "</option>"
+          }
+          // alert(data.kecamatan[0].nama);
+
+          $('#txt_kecamatan').html(kontenKecamatan);
+        }
+      });
+    });
+
     /* Dengan Rupiah */
     var dengan_rupiah = document.getElementById('txt_bayar');
     dengan_rupiah.addEventListener('keyup', function(e) {

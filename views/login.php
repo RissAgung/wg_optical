@@ -108,6 +108,15 @@ echo '<script>Swal.fire({
 
             $.ajax({
                 type: "post",
+                beforeSend: function() {
+                    Swal.fire({
+                        title: 'Loading',
+                        html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                        allowOutsideClick: false,
+                        showConfirmButton: false,
+
+                    });
+                },
                 url: "../controllers/salaryController.php",
                 data: {
                     type: "salary",
@@ -121,15 +130,7 @@ echo '<script>Swal.fire({
                             'txt_email': $('#txt_email').val(),
                             'txt_password': $('#txt_password').val(),
                         },
-                        beforeSend: function() {
-                            Swal.fire({
-                                title: 'Loading',
-                                html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
-                                allowOutsideClick: false,
-                                showConfirmButton: false,
 
-                            });
-                        },
                         success: function(res) {
                             const data = JSON.parse(res);
                             if (data.status == 'error') {

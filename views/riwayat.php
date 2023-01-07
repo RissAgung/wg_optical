@@ -16,7 +16,7 @@ foreach ($profileDB as $index) {
   $imgProfile = $index["foto_pegawai"];
 }
 
-$datariwayat = (isset($_GET["search"])) ? $crud->showData("SELECT transaksi.status_pengiriman, transaksi.status_confirm, transaksi.tanggal, transaksi.kode_pesanan, pegawai.nama AS nama_sales, customer.nama AS nama_cus, transaksi.bukti_pengiriman, customer.alamat_jalan, transaksi.total_harga, transaksi.total_bayar, transaksi.status_pengiriman, cicilan.depan_pembayaran, cicilan.kode_cicilan FROM pegawai JOIN transaksi ON pegawai.id_pegawai = transaksi.id_pegawai JOIN customer ON transaksi.id_customer = customer.id_customer LEFT JOIN cicilan ON transaksi.kode_pesanan = cicilan.kode_pesanan WHERE customer.nama LIKE '%" . $_GET['search'] . "%'") : $crud->showData("SELECT transaksi.status_pengiriman, transaksi.status_confirm, transaksi.tanggal, transaksi.kode_pesanan, pegawai.nama AS nama_sales, customer.nama AS nama_cus, transaksi.bukti_pengiriman, customer.alamat_jalan, transaksi.total_harga, transaksi.total_bayar, transaksi.status_pengiriman, cicilan.depan_pembayaran, cicilan.kode_cicilan FROM pegawai JOIN transaksi ON pegawai.id_pegawai = transaksi.id_pegawai JOIN customer ON transaksi.id_customer = customer.id_customer LEFT JOIN cicilan ON transaksi.kode_pesanan = cicilan.kode_pesanan");
+$datariwayat = (isset($_GET["search"])) ? $crud->showData("SELECT transaksi.status_pengiriman, transaksi.status_confirm, transaksi.tanggal, transaksi.kode_pesanan, pegawai.nama AS nama_sales, customer.nama AS nama_cus, transaksi.bukti_pengiriman, customer.alamat_jalan, transaksi.total_harga, transaksi.total_bayar, transaksi.status_pengiriman, cicilan.depan_pembayaran, cicilan.kode_cicilan FROM pegawai JOIN transaksi ON pegawai.id_pegawai = transaksi.id_pegawai JOIN customer ON transaksi.id_customer = customer.id_customer LEFT JOIN cicilan ON transaksi.kode_pesanan = cicilan.kode_pesanan WHERE customer.nama LIKE '%" . $_GET['search'] . "%'") : $crud->showData("SELECT transaksi.status_pengiriman, transaksi.status_confirm, transaksi.tanggal, transaksi.kode_pesanan, pegawai.nama AS nama_sales, customer.nama AS nama_cus, transaksi.bukti_pengiriman, customer.alamat_jalan, transaksi.total_harga, transaksi.total_bayar, transaksi.status_pengiriman, cicilan.depan_pembayaran, cicilan.kode_cicilan FROM pegawai JOIN transaksi ON pegawai.id_pegawai = transaksi.id_pegawai JOIN customer ON transaksi.id_customer = customer.id_customer LEFT JOIN cicilan ON transaksi.kode_pesanan = cicilan.kode_pesanan ORDER BY transaksi.tanggal DESC");
 ?>
 
 
@@ -118,23 +118,25 @@ $datariwayat = (isset($_GET["search"])) ? $crud->showData("SELECT transaksi.stat
     <!-- konten table -->
     <div class="flex flex-col items-center" id="table">
       <!--table-->
-      <div class="overflow-x-auto text-sm mx-auto w-[90%] md:w-[90%] md:mx-auto bg-white rounded-md mt-4 ex-table">
+      <div class="overflow-x-auto  text-sm mx-auto w-[90%] md:w-[90%] md:mx-auto bg-white rounded-md mt-4 py-6 px-6 ex-table">
         <table class="w-full">
           <thead class="border-b-2 border-gray-100">
             <tr>
+              <th class="p-3 text-sm tracking-wide text-center">No</th>
               <th class="p-3 text-sm tracking-wide text-center">Tanggal</th>
               <th class="p-3 text-sm tracking-wide text-center">Kode Pesanan</th>
               <th class="p-3 text-sm tracking-wide text-center">Sales</th>
               <th class="p-3 text-sm tracking-wide text-center">Customer</th>
-              <th class="p-3 text-sm tracking-wide text-center">aksi</th>
+              <th class="p-3 text-sm tracking-wide text-center">Aksi</th>
             </tr>
           </thead>
           <tbody>
-            <?php $totalData = 0 ?>
+            <?php $totalData = 0; $no = 1; ?>
             <?php foreach ($datariwayat as $index) : ?>
               <?php if ($index['total_bayar'] >= $index['total_harga'] && $index['status_pengiriman'] == 'terima') : ?>
                 <?php $totalData = $totalData + 1 ?>
                 <tr>
+                  <td class="p-3 text-sm tracking-wide text-center"><?= $no ?></td>
                   <td class="p-3 text-sm tracking-wide text-center"><?= $index['tanggal'] ?></td>
                   <td class="p-3 text-sm tracking-wide text-center"><?= $index['kode_pesanan'] ?></td>
                   <td class="p-3 text-sm tracking-wide text-center"><?= $index['nama_sales'] ?></td>
@@ -154,6 +156,7 @@ $datariwayat = (isset($_GET["search"])) ? $crud->showData("SELECT transaksi.stat
                   </button> -->
                   </td>
                 </tr>
+                <?php $no++; ?>
               <?php endif ?>
             <?php endforeach ?>
           </tbody>
@@ -175,7 +178,6 @@ $datariwayat = (isset($_GET["search"])) ? $crud->showData("SELECT transaksi.stat
   <script src="../js/sweetalert2.min.js"></script>
   <script src="../js/jquery.iddle.min.js"></script>
   <script>
-
     $('#top_bar').load("../assets/components/top_bar.php", function() {
       $("#avatar_profile").attr("src", "../images/pegawai/foto_pegawai/<?= $imgProfile ?>");
       $('#title-header').html('Riwayat');

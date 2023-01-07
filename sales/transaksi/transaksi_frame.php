@@ -27,10 +27,13 @@ $dataLens = $con->showData("SELECT detail_bawa.Id_Bawa, produk.harga_jual FROM d
   <title>Transaksi</title>
   <link rel="stylesheet" href="../../css/output.css">
   <link rel="stylesheet" href="../../css/sweetalert2.min.css">
+  <link rel="stylesheet" href="../../css/select2.css">
 </head>
 
 <body class="bg-[#ECECEC] scrollbar-hide">
-  <section id="header" class="fixed z-50 w-full top-0">
+  <!-- <div class="h-full w-full" id="dropdownsearch"></div> -->
+
+  <section id="header" class="fixed z-[50] w-full top-0">
     <div class="flex flex-row px-8 py-6 shadow-lg bg-white">
       <a href="../dashboard.php">
         <svg class="my-[2px]" width="9" height="19" viewBox="0 0 9 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -43,8 +46,8 @@ $dataLens = $con->showData("SELECT detail_bawa.Id_Bawa, produk.harga_jual FROM d
   <section class="text-[#373F47] font-ex-medium mt-[73px] mb-24" id="konten">
     <div class="flex flex-col overflow-y-auto scrollbar-hide">
       <div class="flex flex-col px-6 py-4 bg-white mt-[0.5px]">
-        <h1>Kode Frame</h1>
-        <select id="frame" class=" cursor-pointer outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden" name="cars" id="cars">
+        <h1 class="mb-4">Kode Frame</h1>
+        <select id="frame" class="js-example-basic-single h-16 cursor-pointer outline-0 mt-3 md:mt-6 border-[1px] px-8 bg-white border-[#D9D9D9] rounded-md overflow-hidden" name="cars" id="cars">
           <?php foreach ($dataLens as $index) : ?>
             <option class="text-xs" value="<?= $index["harga_jual"] ?>-<?= $index["Id_Bawa"] ?>"><?= $index["Id_Bawa"] ?></option>
           <?php endforeach ?>
@@ -74,8 +77,16 @@ $dataLens = $con->showData("SELECT detail_bawa.Id_Bawa, produk.harga_jual FROM d
   </div>
 
   <script src="../../js/jquery-3.6.1.min.js"></script>
+  <script src="../../js/select2.js"></script>
   <script src="../../js/sweetalert2.min.js"></script>
   <script>
+
+    $(document).ready(function() {
+      $('.js-example-basic-single').select2({
+        placeholder: "Pilih Kode Frame",
+      });
+    });
+
     var harga;
 
     function tambah() {
@@ -99,7 +110,7 @@ $dataLens = $con->showData("SELECT detail_bawa.Id_Bawa, produk.harga_jual FROM d
             type: "insert_frame",
             query_keranjang: "INSERT INTO keranjang VALUES ('" + idTR + "',NOW(),'<?= $idPegawai ?>','" + harga_input + "')",
             keranjang_frame: "INSERT INTO keranjang_frame VALUES ('" + idTR + "','" + kode + "','" + harga_input + "')",
-            update_status: "UPDATE detail_bawa SET status_frame='unready' WHERE Id_Bawa = '"+kode+"'",
+            update_status: "UPDATE detail_bawa SET status_frame='unready' WHERE Id_Bawa = '" + kode + "'",
           },
           beforeSend: function() {
             Swal.fire({

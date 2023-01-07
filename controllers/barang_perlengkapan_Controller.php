@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
       $crud -> execute($_POST['query']);
       $respon = array(
         'status' => 'sukses',
-        'msg' => 'berhasil ',
+        'msg' => 'Berhasil Menambahkan Data ',
 
       );
       echo json_encode($respon);
@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
       $crud -> execute($_POST['query']);
       $respon = array(
         'status' => 'sukses',
-        'msg' => 'berhasil edit',
+        'msg' => 'Berhasil Mengubah Data',
       );
       echo json_encode($respon);
       exit();
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
       $crud -> execute($_POST['query']);
       $respon = array(
         'status' => 'sukses',
-        'msg' => 'berhasil di hapus',
+        'msg' => 'Berhasil Menghapus Data',
       );
       echo json_encode($respon);
       exit();
