@@ -643,7 +643,7 @@ function rupiah($angka)
                   title: 'Berhasil',
                   text: data.msg,
                 }).then(function() {
-                  window.location.replace("dashboard.php");
+                  window.location.replace("../views/digitalbill.php?status='"+data.id+"'");
                 });
               }
             },
@@ -684,7 +684,6 @@ function rupiah($angka)
                 html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
                 allowOutsideClick: false,
                 showConfirmButton: false,
-
               });
             },
             success: function(res) {
@@ -695,7 +694,7 @@ function rupiah($angka)
                   title: 'Berhasil',
                   text: data.msg,
                 }).then(function() {
-                  window.location.replace("dashboard.php");
+                  window.location.replace("../views/digitalbill.php?status='"+data.id+"'");
                 });
               }
             },
