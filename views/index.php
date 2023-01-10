@@ -17,6 +17,7 @@ $imgFrame = $crud->showData("SELECT merk, gambar FROM produk LIMIT 6");
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="../css/output.css">
     <link rel="stylesheet" href="../css/swiper-bundle.min.css">
+    <link rel="icon" type="image/x-icon" href="../assets/images/wgLogo.png">
 
     <title>WG Optical</title>
 </head>

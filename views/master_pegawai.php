@@ -81,7 +81,8 @@ function getNameRoles($id)
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Master Data Pegawai | WG Optical</title>
+    <link rel="icon" type="image/x-icon" href="../assets/images/wgLogo.png">
+    <title>Pegawai | WG Optical</title>
     <link rel="stylesheet" href="../css/output.css">
     <link rel="stylesheet" href="../css/apexcharts.css">
     <link rel="stylesheet" href="../css/sweetalert2.min.css">
