@@ -25,6 +25,50 @@ foreach ($dataPegawai as $index) {
   $nama_pegawai = $index["nama"];
 }
 
+$result = [];
+$data = [];
+
+$res = $crud->showData("SELECT (CASE WHEN (SUM(frame_transaksi.harga) + SUM(lensa_transaksi.harga)) IS NULL THEN 0 ELSE (SUM(frame_transaksi.harga) + SUM(lensa_transaksi.harga)) END) as jumlah, COUNT(*) as count FROM transaksi LEFT JOIN detail_transaksi ON transaksi.kode_pesanan = detail_transaksi.kode_pesanan LEFT JOIN frame_transaksi ON detail_transaksi.kode_detail_pesanan = frame_transaksi.kode_detail_pesanan LEFT JOIN lensa_transaksi ON detail_transaksi.kode_detail_pesanan = lensa_transaksi.kode_detail_pesanan WHERE transaksi.status_pengiriman = 'terima' AND transaksi.total_bayar >= transaksi.total_harga AND transaksi.id_pegawai = '" . $id_pegawai . "' AND MONTH(transaksi.tanggal) = MONTH(NOW()) AND frame_transaksi.kode_detail_pesanan IS NOT NULL AND lensa_transaksi.kode_detail_pesanan IS NOT NULL");
+
+foreach ($res as $value) {
+  array_push($data, $value);
+}
+
+$res1 = $crud->showData("SELECT (CASE WHEN SUM(frame_transaksi.harga) IS NULL THEN 0 ELSE SUM(frame_transaksi.harga) END) as jumlah, COUNT(*) AS count FROM transaksi LEFT JOIN detail_transaksi ON transaksi.kode_pesanan = detail_transaksi.kode_pesanan LEFT JOIN frame_transaksi ON detail_transaksi.kode_detail_pesanan = frame_transaksi.kode_detail_pesanan LEFT JOIN lensa_transaksi ON detail_transaksi.kode_detail_pesanan = lensa_transaksi.kode_detail_pesanan WHERE transaksi.status_pengiriman = 'terima' AND transaksi.total_bayar >= transaksi.total_harga AND transaksi.id_pegawai = '" . $id_pegawai . "' AND MONTH(transaksi.tanggal) = MONTH(NOW()) AND frame_transaksi.kode_detail_pesanan IS NOT NULL AND lensa_transaksi.kode_detail_pesanan IS NULL");
+
+foreach ($res1 as $value) {
+  array_push($data, $value);
+}
+
+$res2 = $crud->showData("SELECT (CASE WHEN SUM(lensa_transaksi.harga) IS NULL THEN 0 ELSE SUM(lensa_transaksi.harga) END) as jumlah, COUNT(*) AS count FROM transaksi LEFT JOIN detail_transaksi ON transaksi.kode_pesanan = detail_transaksi.kode_pesanan LEFT JOIN frame_transaksi ON detail_transaksi.kode_detail_pesanan = frame_transaksi.kode_detail_pesanan LEFT JOIN lensa_transaksi ON detail_transaksi.kode_detail_pesanan = lensa_transaksi.kode_detail_pesanan WHERE transaksi.status_pengiriman = 'terima' AND transaksi.total_bayar >= transaksi.total_harga AND transaksi.id_pegawai = '" . $id_pegawai . "' AND MONTH(transaksi.tanggal) = MONTH(NOW()) AND frame_transaksi.kode_detail_pesanan IS NULL AND lensa_transaksi.kode_detail_pesanan IS NOT NULL");
+
+foreach ($res2 as $value) {
+  array_push($data, $value);
+}
+
+$setoranLensa = 0;
+
+if ($data[2]['jumlah'] > 500000) {
+  $setoranLensa = $data[2]['jumlah'];
+}
+
+$kalkulasi = 0;
+if (($data[0]['count'] + $data[1]['count']) < 10) {
+  $kalkulasi = (($data[0]['jumlah'] + $data[1]['jumlah']) + $setoranLensa) * 0.1;
+} else if (($data[0]['count'] + $data[1]['count']) >= 10 && ($data[0]['count'] + $data[1]['count']) < 20) {
+  $kalkulasi = ((($data[0]['jumlah'] + $data[1]['jumlah']) + $setoranLensa) * 0.15) + 500000;
+} else if (($data[0]['count'] + $data[1]['count']) >= 20) {
+  $kalkulasi = ((($data[0]['jumlah'] + $data[1]['jumlah']) + $setoranLensa) * 0.2) + 500000;
+}
+
+array_push($result, array(
+  "setoran" => $kalkulasi,
+  "jumlah_frame" => $data[0]['count'] + $data[1]['count'],
+));
+
+
+// echo json_encode($result, JSON_PRETTY_PRINT);
+
 ?>
 
 <!DOCTYPE html>
@@ -91,7 +135,7 @@ foreach ($dataPegawai as $index) {
             <div class="absolute flex flex-col justify-center text-white max-[389px]:p-3 p-5 h-full max-[389px]:gap-1 gap-3 w-full">
               <p class="text-sm font-ex-semibold">Pendapatan</p>
               <p class="text-xs w-[75%]">Pendapaan yang didapat pada 1 bulan ini</p>
-              <p class="text-xl font-ex-semibold">Rp. 700.000</p>
+              <p class="text-xl font-ex-semibold"><?= "Rp " . str_replace(",", ".", str_replace(".00", "", number_format($result[0]['setoran'], 2))); ?></p>
             </div>
           </div>
 
@@ -104,16 +148,16 @@ foreach ($dataPegawai as $index) {
                 <div class="flex flex-row gap-3">
                   <div class="flex flex-col w-[40%]">
                     <p class="text-xs">Pesanan dalam pengiriman</p>
-                    <p class="mt-2 text-xl font-ex-semibold">30</p>
+                    <p class="mt-2 text-xl font-ex-semibold"><?= $result[0]['jumlah_frame'] ?></p>
                   </div>
 
-                  <div class="h-full w-[4px] rounded-full bg-white">
+                  <!-- <div class="h-full w-[4px] rounded-full bg-white">
 
                   </div>
                   <div class="flex flex-col w-[40%]">
                     <p class="text-xs">Pesanan selesai</p>
                     <p class="text-xl font-ex-semibold">30</p>
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>
