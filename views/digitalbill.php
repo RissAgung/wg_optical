@@ -30,7 +30,6 @@
       var statusGet = <?= $statusGet = (isset($_GET["status"]) == null ? "undefined" : $_GET["status"]) ?>;
 
       if (statusGet != undefined) {
-        console.log("awdhkjahsdkasd kontol")
         $.ajax({
           url: '../controllers/detailInvoiceController.php?detail=' + statusGet,
           type: 'GET',

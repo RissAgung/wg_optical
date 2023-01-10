@@ -759,6 +759,12 @@ function getStatusPembayaran($kode)
                 }).then(function() {
                   window.location.replace('../views/invoice.php');
                 })
+              } else {
+                Swal.fire({
+                  icon: 'warning',
+                  title: 'Informasi',
+                  text: data.msg,
+                });
               }
             }
           });

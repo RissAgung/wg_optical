@@ -21,28 +21,64 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       $detailBawa = $crud->showData("SELECT frame_transaksi.id_detail_bawa FROM frame_transaksi RIGHT JOIN detail_transaksi ON frame_transaksi.kode_detail_pesanan = detail_transaksi.kode_detail_pesanan JOIN transaksi ON detail_transaksi.kode_pesanan = transaksi.kode_pesanan WHERE transaksi.kode_pesanan = '" . $_POST['id'] . "'");
 
-      if ($detailBawa[0]['id_detail_bawa'] != null) {
+      $cekstockcase = $crud->showData("SELECT * FROM tambahan WHERE kode_barang = 'CKCMT'");
+      $cekstocklap = $crud->showData("SELECT * FROM tambahan WHERE kode_barang = 'LPXQW'");
 
-        foreach ($detailBawa as $index) {
-          $indexDB = strpos($index['id_detail_bawa'], '-');
-          $id_produk = substr($index['id_detail_bawa'], 0, $indexDB);
-          $stockDb = 0;
-          $stock = $crud->showData("SELECT stock FROM produk WHERE kode_frame = '" . $id_produk . "'");
-          foreach ($stock as $value) {
-            $stockDb = $value["stock"];
+      if ($cekstockcase[0]['stock'] < count($detailBawa)) {
+        $response = array(
+          'status' => 'error',
+          'msg' => 'Stock Case kacamata harus lebih dari ' . count($detailBawa),
+        );
+      } else if ($cekstocklap[0]['stock'] < count($detailBawa)) {
+        $response = array(
+          'status' => 'error',
+          'msg' => 'Stock Lap kacamata harus lebih dari ' . count($detailBawa),
+        );
+      } else {
+        if ($detailBawa[0]['id_detail_bawa'] != null) {
+
+
+          foreach ($detailBawa as $index) {
+
+            $stockcasedb = 0;
+            $stocklapdb = 0;
+
+            $stockcase = $crud->showData("SELECT * FROM tambahan WHERE kode_barang = 'CKCMT'");
+            foreach ($stockcase as $value) {
+              $stockcasedb = $value["stock"];
+            }
+            $finalStockcase = $stockcasedb - 1;
+
+            $stocklap = $crud->showData("SELECT * FROM tambahan WHERE kode_barang = 'LPXQW'");
+            foreach ($stocklap as $value) {
+              $stocklapdb = $value["stock"];
+            }
+            $finalStocklap = $stocklapdb - 1;
+            $crud->execute("UPDATE tambahan SET stock = '" . $finalStockcase . "' WHERE kode_barang = 'CKCMT'");
+            $crud->execute("UPDATE tambahan SET stock = '" . $finalStocklap . "' WHERE kode_barang = 'LPXQW'");
+
+
+            $indexDB = strpos($index['id_detail_bawa'], '-');
+            $id_produk = substr($index['id_detail_bawa'], 0, $indexDB);
+            $stockDb = 0;
+            $stock = $crud->showData("SELECT stock FROM produk WHERE kode_frame = '" . $id_produk . "'");
+            foreach ($stock as $value) {
+              $stockDb = $value["stock"];
+            }
+            $finalStock = $stockDb - 1;
+            $crud->execute("DELETE FROM detail_bawa WHERE Id_Bawa = '" . $index['id_detail_bawa'] . "'");
+            $crud->execute("UPDATE produk SET stock='$finalStock' WHERE kode_frame = '$id_produk'");
           }
-          $finalStock = $stockDb - 1;
-          $crud->execute("DELETE FROM detail_bawa WHERE Id_Bawa = '" . $index['id_detail_bawa'] . "'");
-          $crud->execute("UPDATE produk SET stock='$finalStock' WHERE kode_frame = '$id_produk'");
         }
+
+        $crud->execute("UPDATE transaksi SET status_confirm = '2', status_pengiriman= 'produksi' WHERE transaksi.kode_pesanan = '" . $_POST['id'] . "'");
+
+        $response = array(
+          'status' => 'success',
+          'msg' => 'Pesanan sudah di konfirmasi'
+        );
       }
 
-      $crud->execute("UPDATE transaksi SET status_confirm = '2', status_pengiriman= 'produksi' WHERE transaksi.kode_pesanan = '" . $_POST['id'] . "'");
-
-      $response = array(
-        'status' => 'success',
-        'msg' => 'Pesanan sudah di konfirmasi'
-      );
 
       echo json_encode($response);
       exit();
