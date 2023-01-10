@@ -44,6 +44,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $crud->execute("DELETE FROM keranjang WHERE kode_pesanan = '" . $data[$i]["kode"] . "'");
             }
 
+            $cekstockcase = $crud->showData("SELECT * FROM tambahan WHERE kode_barang = 'CKCMT'");
+            $cekstocklap = $crud->showData("SELECT * FROM tambahan WHERE kode_barang = 'LPXQW'");
+
+            if(count($cekstockcase) == 0){
+                $crud->execute("INSERT INTO tambahan VALUES ('CKCMT', 'Case Kacamata', '0')");
+            }
+
+            if(count($cekstocklap) == 0){
+                $crud->execute("INSERT INTO tambahan VALUES ('LPXQW', 'Lap Kacamata', '0')");
+            }
+
             $response = array(
                 'status' => 'success',
                 'msg' => 'Transaksi Berhasil'
@@ -88,6 +99,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $idCicilan = "CL" . generateTransaksiID($data);
             $crud->execute("INSERT INTO cicilan VALUES ('" . $idCicilan . "','" . generateTransaksiID($data) . "','" . $_POST['total'] . "')");
+
+            $cekstockcase = $crud->showData("SELECT * FROM tambahan WHERE kode_barang = 'CKCMT'");
+            $cekstocklap = $crud->showData("SELECT * FROM tambahan WHERE kode_barang = 'LPXQW'");
+
+            if(count($cekstockcase) == 0){
+                $crud->execute("INSERT INTO tambahan VALUES ('CKCMT', 'Case Kacamata', '0')");
+            }
+
+            if(count($cekstocklap) == 0){
+                $crud->execute("INSERT INTO tambahan VALUES ('LPXQW', 'Lap Kacamata', '0')");
+            }
 
             $response = array(
                 'status' => 'success',

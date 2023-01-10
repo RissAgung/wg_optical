@@ -12,6 +12,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($_POST['apikey'] == $api_key) {
             if ($_POST["type"] == "insert") {
 
+
+
                 $idCus = generateCustomerID($crud);
                 // insert customer
                 $crud->execute("INSERT INTO customer VALUES ('" . $idCus . "', '" . $_POST['txt_nama'] . "', '" . $_POST['txt_kecamatan'] . "', '" . $_POST['txt_desa'] . "', '" . $_POST['txt_alamat'] . "', '" . $_POST['txt_pekerjaan'] . "', '" . $_POST['txt_instansi'] . "', '" . $_POST['no_hp'] . "')");
@@ -54,15 +56,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $crud->execute("DELETE FROM keranjang WHERE kode_pesanan = '" . $data[$i][0] . "'");
                 }
 
-                if($_POST['pembayaran'] == 'Cicilan'){
+                if ($_POST['pembayaran'] == 'Cicilan') {
                     $idCicilan = "CL" . $idtr;
                     $crud->execute("INSERT INTO cicilan VALUES ('" . $idCicilan . "','" . $idtr . "','" . $_POST['total_bayar'] . "')");
+                }
+
+                $cekstockcase = $crud->showData("SELECT * FROM tambahan WHERE kode_barang = 'CKCMT'");
+                $cekstocklap = $crud->showData("SELECT * FROM tambahan WHERE kode_barang = 'LPXQW'");
+
+                if (count($cekstockcase) === 0) {
+                    $crud->execute("INSERT INTO tambahan VALUES ('CKCMT', 'Case Kacamata', '0')");
+                }
+
+                if (count($cekstocklap) === 0) {
+                    $crud->execute("INSERT INTO tambahan VALUES ('LPXQW', 'Case Kacamata', '0')");
                 }
 
 
                 $response = array(
                     'status' => 'success',
-                    'msg' => 'Transaksi Berhasil'
+                    'msg' => 'Transaksi Berhasil',
+                    'kode_tr' => $idtr,
                 );
                 echo json_encode($response);
                 exit();
