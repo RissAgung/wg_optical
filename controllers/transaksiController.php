@@ -57,7 +57,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $response = array(
                 'status' => 'success',
-                'msg' => 'Transaksi Berhasil'
+                'msg' => 'Transaksi Berhasil',
+                'id' => generateTransaksiID($data),
             );
             echo json_encode($response);
             exit();
@@ -113,7 +114,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $response = array(
                 'status' => 'success',
-                'msg' => 'Transaksi Berhasil'
+                'msg' => 'Transaksi Berhasil',
+                'id' => generateTransaksiID($data),
             );
             echo json_encode($response);
             exit();
