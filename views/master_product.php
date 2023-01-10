@@ -45,9 +45,10 @@ function rupiah($angka)
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../css/output.css">
   <link rel="stylesheet" href="../css/sweetalert2.min.css">
+  <link rel="icon" type="image/x-icon" href="../assets/images/wgLogo.png">
   <style>
   </style>
-  <title>Master Data | WG Optical</title>
+  <title>Product | WG Optical</title>
 </head>
 
 

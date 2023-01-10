@@ -28,7 +28,8 @@ $data = (isset($_GET["search"])) ? $crud->showData("SELECT * FROM perlengkapan W
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../css/output.css">
   <link rel="stylesheet" href="../css/sweetalert2.min.css">
-  <title>Barang Perlengkapan</title>
+  <link rel="icon" type="image/x-icon" href="../assets/images/wgLogo.png">
+  <title>Perlengkapan | WG Optical</title>
 </head>
 
 <body class="bg-[#F0F0F0] font-ex-color box-border">

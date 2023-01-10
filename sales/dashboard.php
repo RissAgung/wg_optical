@@ -81,7 +81,8 @@ array_push($result, array(
   <link rel="stylesheet" href="../css/output.css">
   <link rel="stylesheet" href="../css/swiper-bundle.min.css">
   <link rel="stylesheet" href="../css/sweetalert2.min.css">
-  <title>Document</title>
+  <link rel="icon" type="image/x-icon" href="../assets/images/wgLogo.png">
+  <title>Dashboard | WG Optical</title>
 </head>
 
 <body class="text-[#373F47]">
