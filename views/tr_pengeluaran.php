@@ -40,7 +40,8 @@ function rupiah($angka)
     <link rel="icon" type="image/x-icon" href="../assets/images/wgLogo.png">
     <title>Pengeluaran | WG Optical</title>
     <link rel="stylesheet" href="../css/output.css">
-    <link rel="stylesheet" href="../css/datepicker.css">
+    <link rel="stylesheet" href="../css/sweetalert2.min.css">
+    <link rel="stylesheet" href="../css/datePicker.css">
     <link rel="stylesheet" href="../css/daterangepicker.css">
 </head>
 
@@ -257,13 +258,13 @@ function rupiah($angka)
 
 
         <script src="../js/jquery-3.6.1.min.js"></script>
+        <script src="../js/moment.js"></script>
         <script src="../js/sweetalert2.min.js"></script>
         <script src="../js/jquery.iddle.min.js"></script>
-        <script src="../js/datepicker.js"></script>
-        <script src="../js/moment.js"></script>
         <script src="../js/xlsx.full.min.js"></script>
-        <script src="../js/DateRangePicker.js"></script>
+
         <script>
+            
             $('#top_bar').load("../assets/components/top_bar.php", function() {
                 $("#avatar_profile").attr("src", "../images/pegawai/foto_pegawai/<?= $imgProfile ?>");
                 $('#title-header').html('Pengeluaran');

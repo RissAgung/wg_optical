@@ -58,6 +58,10 @@ $dataLens = $con->showData("SELECT detail_bawa.Id_Bawa, produk.harga_jual FROM d
       <div class="flex flex-col px-6 py-4 bg-white mt-[0.5px]">
         <h1>Harga Frame</h1>
         <input id="inputHarga" class="px-4 outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden" type="text" placeholder="Masukkan Harga" name="" id="">
+
+        <div class="flex justify-end pt-4">
+          <h1 id="value_harga_minimal" class="font-ex-medium text-yellow-600">Harga Minimal : Rp. </h1>
+        </div>
       </div>
 
     </div>
@@ -81,23 +85,29 @@ $dataLens = $con->showData("SELECT detail_bawa.Id_Bawa, produk.harga_jual FROM d
   <script src="../../js/select2.js"></script>
   <script src="../../js/sweetalert2.min.js"></script>
   <script>
-
     $(document).ready(function() {
       $('.js-example-basic-single').select2({
         placeholder: "Pilih Kode Frame",
       });
+
+      $('#value_harga_minimal').html("Harga Minimal = " + formatRupiah($('#frame').val().substr(0, $('#frame').val().indexOf("-")), 'Rp. '));
+    });
+
+    $('#frame').on('change', function() {
+      $('#value_harga_minimal').html("Harga Minimal = " + formatRupiah($('#frame').val().substr(0, $('#frame').val().indexOf("-")), 'Rp. '));
     });
 
     var harga;
 
     function tambah() {
-      var harga_input = parseInt($("#inputHarga").val().replace("Rp. ", "").replace(".", "").replace(".", "").replace(" ", ""));
 
       var value = $('#frame').val();
       var Vindex = value.indexOf("-");
 
       var harga = value.substr(0, Vindex);
       var kode = value.substr(Vindex + 1, 10);
+      var harga_input = parseInt($("#inputHarga").val().replace("Rp. ", "").replace(".", "").replace(".", "").replace(" ", ""));
+
 
       if (harga_input >= harga) {
         console.log("Ok Cuk!");

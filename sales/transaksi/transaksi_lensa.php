@@ -212,20 +212,20 @@ $lens = $con->showData("SELECT * FROM lensa");
       // resep
 
       // kiri
-      var kr_sph = $('#kr-sph').val();
-      var kr_cyl = $('#kr-cyl').val();
-      var kr_axis = $('#kr-axis').val();
-      var kr_add = $('#kr-add').val();
-      var kr_pp = $('#kr-pd').val();
-      var kr_seg = $('#kr-seg').val();
+      var kr_sph = $('#kr-sph').val() == "" ? "0" : $('#kr-sph').val();
+      var kr_cyl = $('#kr-cyl').val() == "" ? "0" : $('#kr-cyl').val();
+      var kr_axis = $('#kr-axis').val() == "" ? "0" : $('#kr-axis').val();
+      var kr_add = $('#kr-add').val() == "" ? "0" : $('#kr-add').val();
+      var kr_pp = $('#kr-pd').val() == "" ? "0" : $('#kr-pd').val();
+      var kr_seg = $('#kr-seg').val() == "" ? "0" : $('#kr-seg').val();
 
       // kanan
-      var kn_sph = $('#kn-sph').val();
-      var kn_cyl = $('#kn-cyl').val();
-      var kn_axis = $('#kn-axis').val();
-      var kn_add = $('#kn-add').val();
-      var kn_pp = $('#kn-pd').val();
-      var kn_seg = $('#kn-seg').val();
+      var kn_sph = $('#kn-sph').val() == "" ? "0" : $('#kn-sph').val();
+      var kn_cyl = $('#kn-cyl').val() == "" ? "0" : $('#kn-cyl').val();
+      var kn_axis = $('#kn-axis').val() == "" ? "0" : $('#kn-axis').val();
+      var kn_add = $('#kn-add').val() == "" ? "0" : $('#kn-add').val();
+      var kn_pp = $('#kn-pd').val() == "" ? "0" : $('#kn-pd').val();
+      var kn_seg = $('#kn-seg').val() == "" ? "0" : $('#kn-seg').val();
 
       var kode_detail_lens = '<?= strtoupper(str_replace(".", "", uniqid('KDLK', true))) ?>';
       var kode_varian_lensa = '<?= strtoupper(str_replace(".", "", uniqid('KVLK', true))) ?>';

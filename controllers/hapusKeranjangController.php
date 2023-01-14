@@ -13,9 +13,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = $_POST['kode_tr'];
 
             foreach ($data as $value) {
+                $ha = $crud->showData("SELECT Id_Bawa FROM keranjang_frame WHERE kode_pesanan = '" . $value['kode'] . "'");
+                foreach ($ha as $values) {
+                    # code...
+                    $crud->execute("UPDATE detail_bawa SET status_frame = 'ready' WHERE Id_Bawa = '" . $values['Id_Bawa'] . "'");
+                }
+
                 $crud->execute("DELETE FROM keranjang WHERE kode_pesanan = '" . $value['kode'] . "'");
             }
         } else {
+            $ha = $crud->showData("SELECT Id_Bawa FROM keranjang_frame WHERE kode_pesanan = '" . $_POST['kode_tr'] . "'");
+            foreach ($ha as $value) {
+                # code...
+                $crud->execute("UPDATE detail_bawa SET status_frame = 'ready' WHERE Id_Bawa = '" . $value['Id_Bawa'] . "'");
+            }
+
             $crud->execute("DELETE FROM keranjang WHERE kode_pesanan = '" . $_POST['kode_tr'] . "'");
         }
 

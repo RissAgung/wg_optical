@@ -34,6 +34,13 @@ function rupiah($angka)
 </head>
 
 <body class="h-screen text-[#373F47]">
+<div id="bgbody" class="w-full h-screen bg-black fixed z-[52] bg-opacity-50 hidden"></div>
+
+<!-- modal detail invoice -->
+<div class="fixed z-[53] scale-0 transition ease-in-out" id="modal_detail_invoice">
+
+</div>
+<!-- end modal detail invoice -->
 
   <div id="modalAddHeader"></div>
 
@@ -55,7 +62,7 @@ function rupiah($angka)
 
     <?php foreach ($dataProses as $index) : ?>
       <?php if ($index["status_pengiriman"] != "kirim" && $index["status_pengiriman"] != "terima") : ?>
-        <div class="flex flex-col w-[95%] bg-white rounded-lg p-4 shadow-sm">
+        <div onclick="show_detail('<?= $index['kode_pesanan'] ?>')" class="flex flex-col w-[95%] bg-white rounded-lg p-4 shadow-sm">
           <div class="flex flex-row justify-between items-center w-full h-full">
 
             <div class="flex flex-row items-center gap-2">
@@ -111,7 +118,7 @@ function rupiah($angka)
     <?php foreach ($dataProses as $index) : ?>
       <?php if ($index["status_pengiriman"] == "kirim" && $index["status_confirm"] == 2 && $index["bukti_pengiriman"] == null) : ?>
         <div class="flex flex-col w-[95%] bg-white rounded-lg p-4 shadow-sm">
-          <div class="flex flex-row justify-between items-center w-full h-full">
+          <div onclick="show_detail('<?= $index['kode_pesanan'] ?>')" class="flex flex-row justify-between items-center w-full h-full">
 
             <div class="flex flex-row items-center gap-2">
               <svg width="40" height="41" viewBox="0 0 40 41" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -131,17 +138,17 @@ function rupiah($angka)
             <hr class="w-full">
           </div>
 
-          <div class="flex flex-col gap-2 pl-1">
+          <div onclick="show_detail('<?= $index['kode_pesanan'] ?>')" class="flex flex-col gap-2 pl-1">
             <p class="text-sm font-ex-semibold"><?= $index["nama_cus"] ?></p>
             <p class="text-xs"><?= $index["alamat_jalan"] ?></p>
           </div>
 
-          <div class="py-4">
+          <div onclick="show_detail('<?= $index['kode_pesanan'] ?>')" class="py-4">
             <hr class="w-full">
           </div>
 
           <div class="flex flex-row items-center justify-between pl-1">
-            <div class="flex flex-col">
+            <div onclick="show_detail('<?= $index['kode_pesanan'] ?>')" class="flex flex-col">
               <p class="text-xs">Total</p>
               <p class="text-sm font-ex-semibold"><?= rupiah($index["total_harga"]) ?></p>
             </div>
@@ -159,7 +166,7 @@ function rupiah($angka)
   <div id="page_konfirmasi" class="hidden flex flex-col items-center w-full h-full pb-[76px] pt-[110px] gap-2 overflow-y-auto bg-[#ECECEC]">
     <?php foreach ($dataProses as $index) : ?>
       <?php if (($index["status_pengiriman"] == 'terima' && $index["total_bayar"] < $index["total_harga"]) || ($index["status_pengiriman"] == 'kirim' && $index["bukti_pengiriman"] != null)) : ?>
-        <div class="flex flex-col w-[95%] bg-white rounded-lg p-4 shadow-sm">
+        <div onclick="show_detail('<?= $index['kode_pesanan'] ?>')" class="flex flex-col w-[95%] bg-white rounded-lg p-4 shadow-sm">
           <div class="flex flex-row justify-between items-center w-full h-full">
 
             <div class="flex flex-row items-center gap-2">
@@ -218,6 +225,8 @@ function rupiah($angka)
   // navbar
   $('#navbar').load("../assets/components/navbar_sales.html");
 
+  
+
   $('#modalAddHeader').load("../assets/components/up_bukti_pengiriman.html", function() {
     $('#btnOutHeader').on('click', function() {
       $('#modalImgHeader').addClass('scale-0');
@@ -240,6 +249,23 @@ function rupiah($angka)
       }
     }
   });
+
+  // modal detail invoice
+  $("#modal_detail_invoice").load("../assets/components/modal_detail_invoice.html", function() {
+      $('#ok_btn').on('click', function() {
+        console.log("btn_ok");
+        $('#modal_detail_invoice').addClass("scale-0");
+        $('#bgbody').addClass('scale-0');
+        $('#bgbody').removeClass('effectmodal');
+      })
+      $('#close_detail').on('click', function() {
+        console.log("btn_x");
+        $('#modal_detail_invoice').addClass("scale-0");
+        $('#bgbody').addClass('scale-0');
+        $('#bgbody').removeClass('effectmodal');
+      })
+      console.log("hahai ready");
+    });
 
   function resetImg() {
     $('#imgInp').val(null);
@@ -295,6 +321,7 @@ function rupiah($angka)
           },
           success: function(res) {
             // loading.close();
+            // alert(res);
             const data = JSON.parse(res);
 
             if (data.status == "error") {
@@ -379,6 +406,309 @@ function rupiah($angka)
     // $('#pointer').removeClass('tab_invoice_mobile2');
     // $('#pointer').addClass('tab_invoice_mobile3');
   });
+
+  function show_detail(id) {
+      $('#bgbody').addClass('effectmodal');
+      $('#bgbody').removeClass('scale-0');
+      $('#modal_detail_invoice').removeClass('scale-0');
+
+      var kontenHtml = "";
+      $.ajax({
+        url: '../controllers/detailInvoiceController.php?detail=' + id,
+        type: 'GET',
+        success: function(res) {
+          const data = JSON.parse(res);
+          const finalData = data[0];
+
+          // const dataPesanan = finalData.data_pesanan[0];
+          // const finallData = dataPesanan.frame;
+          const dataPesanan = finalData.data_pesanan;
+          const dataPembayaran = finalData.data_pembayaran;
+          const dataCicilan = finalData.data_cicilan;
+
+          console.log(finalData);
+          console.log(dataPesanan.length);
+
+          // status pesanan
+          kontenHtml += '<div class="flex flex-col w-full max-md:p-5 p-9 bg-white mb-1">'
+          console.log(finalData.status_pengiriman);
+
+          let status_pengiriman = finalData.status_confirm != '1' ? "Di " + finalData.status_pengiriman : "Menunggu Konfirmasi";
+          kontenHtml += '<h1 class="pb-4 font-ex-semibold">' + status_pengiriman + '</h1>'
+
+          kontenHtml += '<div class="flex flex-row w-full">'
+          kontenHtml += '<div class="w-[40%] py-1">Kode Pesanan</div>'
+          kontenHtml += '<div class="w-[10%] py-1 flex justify-center">:</div>'
+          kontenHtml += '<div class="w-[50%] py-1">' + finalData.kode_pesanan + '</div>'
+          kontenHtml += '</div>'
+          kontenHtml += '<div class="flex flex-row w-full">'
+          kontenHtml += '<div class="w-[40%] py-1">Tgl Pesan</div>'
+          kontenHtml += '<div class="w-[10%] py-1 flex justify-center">:</div>'
+
+          var index = finalData.tanggal.indexOf(' ');
+          var textModified = finalData.tanggal.substring(0, index);
+
+          kontenHtml += '<div class="w-[50%] py-1">' + textModified + '</div>'
+          kontenHtml += '</div>'
+          kontenHtml += '<div class="flex flex-row w-full">'
+          kontenHtml += '<div class="w-[40%] py-1">Sales</div>'
+          kontenHtml += '<div class="w-[10%] py-1 flex justify-center">:</div>'
+          kontenHtml += '<div class="w-[50%] py-1">' + finalData.nama_sales + '</div>'
+          kontenHtml += '</div>'
+          kontenHtml += '</div>'
+
+          // info custommer
+          kontenHtml += '<div class="flex flex-col w-full max-md:p-5 p-9 bg-white mb-1">'
+
+          kontenHtml += '<h1 class="pb-4 font-ex-semibold">Info Custommer</h1>'
+
+          kontenHtml += '<div class="flex flex-row w-full">'
+          kontenHtml += '<div class="w-[40%] py-1">Nama</div>'
+          kontenHtml += '<div class="w-[10%] py-1 flex justify-center">:</div>'
+          kontenHtml += '<div class="w-[50%] py-1">' + finalData.nama_cus + '</div>'
+          kontenHtml += '</div>'
+          kontenHtml += '<div class="flex flex-row w-full">'
+          kontenHtml += '<div class="w-[40%] py-1">No Telepon</div>'
+          kontenHtml += '<div class="w-[10%] py-1 flex justify-center">:</div>'
+          kontenHtml += '<div class="w-[50%] py-1">081233764580</div>'
+          kontenHtml += '</div>'
+          kontenHtml += '<div class="flex flex-row w-full">'
+          kontenHtml += '<div class="w-[40%] py-1">Kecamatan</div>'
+          kontenHtml += '<div class="w-[10%] py-1 flex justify-center">:</div>'
+          kontenHtml += '<div class="w-[50%] py-1">' + finalData.kecamatan + '</div>'
+          kontenHtml += '</div>'
+          kontenHtml += '<div class="flex flex-row w-full">'
+          kontenHtml += '<div class="w-[40%] py-1">Desa</div>'
+          kontenHtml += '<div class="w-[10%] py-1 flex justify-center">:</div>'
+          kontenHtml += '<div class="w-[50%] py-1">' + finalData.desa + '</div>'
+          kontenHtml += '</div>'
+          kontenHtml += '<div class="flex flex-row w-full">'
+          kontenHtml += '<div class="w-[40%] py-1">Alamat</div>'
+          kontenHtml += '<div class="w-[10%] py-1 flex justify-center">:</div>'
+          kontenHtml += '<div class="w-[50%] py-1">' + finalData.alamat_jalan + '</div>'
+          kontenHtml += '</div>'
+          kontenHtml += '<div class="flex flex-row w-full">'
+          kontenHtml += '<div class="w-[40%] py-1">Pekerjaan / Instansi</div>'
+          kontenHtml += '<div class="w-[10%] py-1 flex justify-center">:</div>'
+          kontenHtml += '<div class="w-[50%] py-1">' + finalData.pekerjaan + ' / ' + finalData.instansi + '</div>'
+          kontenHtml += '</div>'
+          kontenHtml += '</div>'
+
+          // detail pesanan
+          kontenHtml += '<div class="flex flex-col w-full max-md:p-5 p-9 bg-white mb-1">'
+
+          kontenHtml += '<h1 class="pb-4 font-ex-semibold">Detail Pesanan</h1>'
+
+          for (var i = 0; i < dataPesanan.length; i++) {
+
+            let data_content = dataPesanan[i];
+            let data_lensa = data_content.lensa;
+            let final_data_lensa = "";
+
+            if (data_lensa[0] != "") {
+              for (var j = 0; j < data_lensa.length; j++) {
+                final_data_lensa += data_lensa[j] + ", ";
+              }
+            } else {
+              final_data_lensa = "-  ";
+            }
+            console.log(final_data_lensa);
+
+            let jenis_transaksi = "";
+
+            if (data_lensa[0] != "" && data_content.frame != "") {
+              jenis_transaksi = "Set";
+            } else if (data_lensa[0] != "" && data_content.frame == "") {
+              jenis_transaksi = "Lensa";
+            } else if (data_lensa[0] == "" && data_content.frame != "") {
+              jenis_transaksi = "Frame";
+            }
+
+            kontenHtml += '<div class="flex flex-row w-full">'
+            kontenHtml += '<div class="w-[40%] py-1">Kode Frame</div>'
+            kontenHtml += '<div class="w-[10%] py-1 flex justify-center">:</div>'
+            let frame = data_content.frame != null ? data_content.frame : "-";
+            kontenHtml += '<div class="w-[50%] py-1">' + frame + '</div>'
+            kontenHtml += '</div>'
+
+            kontenHtml += '<div class="flex flex-row w-full">'
+            kontenHtml += '<div class="w-[40%] py-1">Jenis Lensa</div>'
+            kontenHtml += '<div class="w-[10%] py-1 flex justify-center">:</div>'
+            kontenHtml += '<div class="w-[50%] py-1">' + final_data_lensa.substring(0, final_data_lensa.length - 2) + '</div>'
+            kontenHtml += '</div>'
+
+            kontenHtml += '<div class="flex flex-row w-full">'
+            kontenHtml += '<div class="w-[40%] py-1">Jenis Tranksi</div>'
+            kontenHtml += '<div class="w-[10%] py-1 flex justify-center">:</div>'
+            kontenHtml += '<div class="w-[50%] py-1">' + jenis_transaksi + '</div>'
+            kontenHtml += '</div>'
+            kontenHtml += '<div class="flex flex-row w-full">'
+            kontenHtml += '<div class="w-[40%] py-1">Harga Frame</div>'
+            kontenHtml += '<div class="w-[10%] py-1 flex justify-center">:</div>'
+            let harga_frame = data_content.harga_frame != null ? formatRupiah(data_content.harga_frame, "Rp. ") : "-";
+            kontenHtml += '<div class="w-[50%] py-1">' + harga_frame + '</div>'
+            kontenHtml += '</div>'
+            kontenHtml += '<div class="flex flex-row w-full">'
+            kontenHtml += '<div class="w-[40%] py-1">Harga Lensa</div>'
+            kontenHtml += '<div class="w-[10%] py-1 flex justify-center">:</div>'
+            let harga_lensa = data_content.harga_lensa != null ? formatRupiah(data_content.harga_lensa, "Rp. ") : "-";
+            kontenHtml += '<div class="w-[50%] py-1">' + harga_lensa + '</div>'
+            kontenHtml += '</div>'
+
+            if (data_content.harga_lensa != null) {
+              kontenHtml += '<h1 class="pb-4 font-ex-semibold max-md:mt-5 mt-9">Resep Lensa</h1>'
+
+              kontenHtml += '<h2 class="mb-2 font-ex-semibold">Kanan</h2>'
+              kontenHtml += '<div class="flex flex-row w-full">'
+              kontenHtml += '<div class="w-[40%] py-1">SPH</div>'
+              kontenHtml += '<div class="w-[10%] py-1 flex justify-center">:</div>'
+              kontenHtml += '<div class="w-[50%] py-1">' + data_content.kn_sph + '</div>'
+              kontenHtml += '</div>'
+              kontenHtml += '<div class="flex flex-row w-full">'
+              kontenHtml += '<div class="w-[40%] py-1">CYL</div>'
+              kontenHtml += '<div class="w-[10%] py-1 flex justify-center">:</div>'
+              kontenHtml += '<div class="w-[50%] py-1">' + data_content.kn_cyl + '</div>'
+              kontenHtml += '</div>'
+              kontenHtml += '<div class="flex flex-row w-full">'
+              kontenHtml += '<div class="w-[40%] py-1">AXIS</div>'
+              kontenHtml += '<div class="w-[10%] py-1 flex justify-center">:</div>'
+              kontenHtml += '<div class="w-[50%] py-1">' + data_content.kn_axis + '</div>'
+              kontenHtml += '</div>'
+              kontenHtml += '<div class="flex flex-row w-full">'
+              kontenHtml += '<div class="w-[40%] py-1">ADD+</div>'
+              kontenHtml += '<div class="w-[10%] py-1 flex justify-center">:</div>'
+              kontenHtml += '<div class="w-[50%] py-1">' + data_content.kn_add + '</div>'
+              kontenHtml += '</div>'
+              kontenHtml += '<div class="flex flex-row w-full">'
+              kontenHtml += '<div class="w-[40%] py-1">PD.</div>'
+              kontenHtml += '<div class="w-[10%] py-1 flex justify-center">:</div>'
+              kontenHtml += '<div class="w-[50%] py-1">' + data_content.kn_pd + '</div>'
+              kontenHtml += '</div>'
+              kontenHtml += '<div class="flex flex-row w-full">'
+              kontenHtml += '<div class="w-[40%] py-1">SEG.</div>'
+              kontenHtml += '<div class="w-[10%] py-1 flex justify-center">:</div>'
+              kontenHtml += '<div class="w-[50%] py-1">' + data_content.kn_seg + '</div>'
+              kontenHtml += '</div>'
+
+              kontenHtml += '<h2 class="mb-2 mt-3 font-ex-semibold">Kiri</h2>'
+              kontenHtml += '<div class="flex flex-row w-full">'
+              kontenHtml += '<div class="w-[40%] py-1">SPH</div>'
+              kontenHtml += '<div class="w-[10%] py-1 flex justify-center">:</div>'
+              kontenHtml += '<div class="w-[50%] py-1">' + data_content.kr_sph + '</div>'
+              kontenHtml += '</div>'
+              kontenHtml += '<div class="flex flex-row w-full">'
+              kontenHtml += '<div class="w-[40%] py-1">CYL</div>'
+              kontenHtml += '<div class="w-[10%] py-1 flex justify-center">:</div>'
+              kontenHtml += '<div class="w-[50%] py-1">' + data_content.kr_cyl + '</div>'
+              kontenHtml += '</div>'
+              kontenHtml += '<div class="flex flex-row w-full">'
+              kontenHtml += '<div class="w-[40%] py-1">AXIS</div>'
+              kontenHtml += '<div class="w-[10%] py-1 flex justify-center">:</div>'
+              kontenHtml += '<div class="w-[50%] py-1">' + data_content.kr_axis + '</div>'
+              kontenHtml += '</div>'
+              kontenHtml += '<div class="flex flex-row w-full">'
+              kontenHtml += '<div class="w-[40%] py-1">ADD+</div>'
+              kontenHtml += '<div class="w-[10%] py-1 flex justify-center">:</div>'
+              kontenHtml += '<div class="w-[50%] py-1">' + data_content.kr_add + '</div>'
+              kontenHtml += '</div>'
+              kontenHtml += '<div class="flex flex-row w-full">'
+              kontenHtml += '<div class="w-[40%] py-1">PD.</div>'
+              kontenHtml += '<div class="w-[10%] py-1 flex justify-center">:</div>'
+              kontenHtml += '<div class="w-[50%] py-1">' + data_content.kr_add + '</div>'
+              kontenHtml += '</div>'
+              kontenHtml += '<div class="flex flex-row w-full">'
+              kontenHtml += '<div class="w-[40%] py-1">SEG.</div>'
+              kontenHtml += '<div class="w-[10%] py-1 flex justify-center">:</div>'
+              kontenHtml += '<div class="w-[50%] py-1">' + data_content.kr_seg + '</div>'
+              kontenHtml += '</div>'
+            }
+            if (i != dataPesanan.length - 1) {
+              kontenHtml += '<hr class="w-full my-4">'
+            }
+          }
+          kontenHtml += '</div>'
+
+          // pembayaran
+          kontenHtml += '<div class="flex flex-col w-full max-md:p-5 p-9 bg-white mb-1">'
+
+          kontenHtml += '<h1 class="pb-4 font-ex-semibold">Info Pembayaran</h1>'
+
+          let final_data_pembayaran = dataPembayaran[0];
+
+          kontenHtml += '<div class="flex flex-row w-full">'
+          kontenHtml += '<div class="w-[40%] py-1">Total Harga</div>'
+          kontenHtml += '<div class="w-[10%] py-1 flex justify-center">:</div>'
+          kontenHtml += '<div class="w-[50%] py-1">' + formatRupiah(final_data_pembayaran.total_harga, "Rp. ") + '</div>'
+          kontenHtml += '</div>'
+
+          kontenHtml += '<div class="flex flex-row w-full mb-2">'
+          let status = final_data_pembayaran.depan_pembayaran == null ? "Total Bayar" : "Uang Muka";
+          kontenHtml += '<div class="w-[40%] py-1">' + status + '</div>'
+          kontenHtml += '<div class="w-[10%] py-1 flex justify-center">:</div>'
+          let dataStatus = final_data_pembayaran.depan_pembayaran == null ? final_data_pembayaran.total_bayar : final_data_pembayaran.depan_pembayaran;
+          kontenHtml += '<div class="w-[50%] py-1">' + formatRupiah("" + dataStatus, "Rp. ") + '</div>'
+          kontenHtml += '</div>'
+
+          for (let k = 0; k < dataCicilan.length; k++) {
+            let finalDataCicilan = dataCicilan[k];
+            if (finalDataCicilan.total_bayar != null) {
+              kontenHtml += '<div class="flex flex-row w-full">'
+              kontenHtml += '<div class="w-[40%] py-1">Pembayaran ' + (k + 1) + '</div>'
+              kontenHtml += '<div class="w-[10%] py-1 flex justify-center">:</div>'
+              kontenHtml += '<div class="w-[50%] py-1">' + formatRupiah("" + finalDataCicilan.total_bayar, "Rp. ") + '</div>'
+              kontenHtml += '</div>'
+            }
+          }
+
+          kontenHtml += '<div class="flex flex-row w-full mt-2">'
+          kontenHtml += '<div class="w-[40%] py-1">Kembalian</div>'
+          kontenHtml += '<div class="w-[10%] py-1 flex justify-center">:</div>'
+          let kembalian = final_data_pembayaran.kembalian <= 0 ? "0" : final_data_pembayaran.kembalian;
+          kontenHtml += '<div class="w-[50%] py-1">' + formatRupiah("" + kembalian, "Rp. ") + '</div>'
+          kontenHtml += '</div>'
+
+          kontenHtml += '<div class="flex flex-row w-full">'
+          kontenHtml += '<div class="w-[40%] py-1">Kurang Bayar</div>'
+          kontenHtml += '<div class="w-[10%] py-1 flex justify-center">:</div>'
+          let kurang_bayar = final_data_pembayaran.total_harga - final_data_pembayaran.total_bayar;
+          kurang_bayar = kurang_bayar < 0 ? "0" : kurang_bayar;
+          kontenHtml += '<div class="w-[50%] py-1">' + formatRupiah("" + kurang_bayar, "Rp. ") + '</div>'
+          kontenHtml += '</div>'
+
+          kontenHtml += '<div class="flex flex-row w-full">'
+          kontenHtml += '<div class="w-[40%] py-1">Tgl Pelunasan</div>'
+          kontenHtml += '<div class="w-[10%] py-1 flex justify-center">:</div>'
+          kontenHtml += '<div class="w-[50%] py-1">' + final_data_pembayaran.tanggal_jatuh_tempo + '</div>'
+          kontenHtml += '</div>'
+
+          kontenHtml += '<div class="flex flex-row w-full">'
+          let status_lunas = kurang_bayar == 0 ? "Lunas" : "Belum";
+          kontenHtml += '<div class="w-[40%] py-1">Lunas / Belum</div>'
+          kontenHtml += '<div class="w-[10%] py-1 flex justify-center">:</div>'
+          kontenHtml += '<div class="w-[50%] py-1">' + status_lunas + '</div>'
+          kontenHtml += '</div>'
+          kontenHtml += '</div>'
+
+          $('#main_content').html(kontenHtml);
+        }
+      });
+    }
+
+    function formatRupiah(angka, prefix) {
+      var number_string = angka.replace(/[^,\d]/g, '').toString(),
+        split = number_string.split(','),
+        sisa = split[0].length % 3,
+        rupiah = split[0].substr(0, sisa),
+        ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+      if (ribuan) {
+        separator = sisa ? '.' : '';
+        rupiah += separator + ribuan.join('.');
+      }
+
+      rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+      return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+    }
 </script>
 
 </html>

@@ -124,13 +124,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else if ($_POST['type'] == 'ubah_pegawai') {
             $allowed_exs = array("jpg", "jpeg", "png");
             if ($_POST['opsifoto'] == 'tanpa-foto') {
-                $crud->execute($_POST['query']);
-                $response = array(
-                    'status' => 'success',
-                    'msg' => 'Berhasil Mengubah Data',
-                );
-                echo json_encode($response);
-                exit();
+                $email = $_POST['txt_email'];
+                $query = "SELECT * FROM pegawai WHERE email = '$email'";
+                $result = $crud->execute($query);
+                $num = mysqli_num_rows($result);
+
+                while ($row = mysqli_fetch_array($result)) {
+                    $emailval = $row['email'];
+                }
+
+                if ($num != 0) {
+                    if ($emailval == $email) {
+                        $response = array(
+                            'status' => 'error',
+                            'msg' => 'Email telah terdaftar'
+                        );
+                        echo json_encode($response);
+                        exit();
+                    }
+                } else {
+                    $crud->execute($_POST['query']);
+                    $response = array(
+                        'status' => 'success',
+                        'msg' => 'Berhasil Mengubah Data',
+                    );
+                    echo json_encode($response);
+                    exit();
+                }
                 // form_data.append('opsifoto', "tanpa-foto");
             } else if ($_POST['opsifoto'] == 'fotopegawai-dan-ktp') {
                 $imgpeg_name = $_FILES['image_peg']['name'];
@@ -181,35 +201,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             echo json_encode($response);
                             exit();
                         } else {
-                            # crating upload path on root directory
-                            $img_upload_path_peg = "../images/pegawai/foto_pegawai/" . $_POST['img_file_peg'];
-                            $img_upload_path_ktp = "../images/pegawai/foto_ktp/" . $_POST['img_file_ktp'];
+                            $email = $_POST['txt_email'];
+                            $query = "SELECT * FROM pegawai WHERE email = '$email'";
+                            $result = $crud->execute($query);
+                            $num = mysqli_num_rows($result);
 
-
-                            $img_upload_path_peg_old = "../images/pegawai/foto_pegawai/" . $_POST['img_file_peg_old'];
-                            $img_upload_path_ktp_old = "../images/pegawai/foto_ktp/" . $_POST['img_file_ktp_old'];
-
-                            // hapus foto lama
-                            if(file_exists($img_upload_path_peg_old)){
-                                unlink($img_upload_path_peg_old);
-                            }
-                            if(file_exists($img_upload_path_ktp_old)){
-                                unlink($img_upload_path_ktp_old);
+                            while ($row = mysqli_fetch_array($result)) {
+                                $emailval = $row['email'];
                             }
 
-                            # move uploaded image to 'uploads' folder
-                            move_uploaded_file($tmppeg_name, $img_upload_path_peg);
-                            move_uploaded_file($tmpktp_name, $img_upload_path_ktp);
+                            if ($num != 0) {
+                                if ($emailval == $email) {
+                                    $response = array(
+                                        'status' => 'error',
+                                        'msg' => 'Email telah terdaftar'
+                                    );
+                                    echo json_encode($response);
+                                    exit();
+                                }
+                            } else {
 
-                            // echo $_POST['query'];
+                                # crating upload path on root directory
+                                $img_upload_path_peg = "../images/pegawai/foto_pegawai/" . $_POST['img_file_peg'];
+                                $img_upload_path_ktp = "../images/pegawai/foto_ktp/" . $_POST['img_file_ktp'];
 
-                            $crud->execute($_POST['query']);
-                            $response = array(
-                                'status' => 'success',
-                                'msg' => 'Berhasil Mengubah Data'
-                            );
-                            echo json_encode($response);
-                            exit();
+
+                                $img_upload_path_peg_old = "../images/pegawai/foto_pegawai/" . $_POST['img_file_peg_old'];
+                                $img_upload_path_ktp_old = "../images/pegawai/foto_ktp/" . $_POST['img_file_ktp_old'];
+
+                                // hapus foto lama
+                                if (file_exists($img_upload_path_peg_old)) {
+                                    unlink($img_upload_path_peg_old);
+                                }
+                                if (file_exists($img_upload_path_ktp_old)) {
+                                    unlink($img_upload_path_ktp_old);
+                                }
+
+                                # move uploaded image to 'uploads' folder
+                                move_uploaded_file($tmppeg_name, $img_upload_path_peg);
+                                move_uploaded_file($tmpktp_name, $img_upload_path_ktp);
+
+                                // echo $_POST['query'];
+
+                                $crud->execute($_POST['query']);
+                                $response = array(
+                                    'status' => 'success',
+                                    'msg' => 'Berhasil Mengubah Data'
+                                );
+                                echo json_encode($response);
+                                exit();
+                            }
                         }
                     }
                 } else {
@@ -271,33 +312,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             echo json_encode($response);
                             exit();
                         } else {
-                            # crating upload path on root directory
-                            $img_upload_path_peg = "../images/pegawai/foto_pegawai/" . $_POST['img_file_peg'];
-                            $img_upload_path_kk = "../images/pegawai/foto_kk/" . $_POST['img_file_kk'];
+                            $email = $_POST['txt_email'];
+                            $query = "SELECT * FROM pegawai WHERE email = '$email'";
+                            $result = $crud->execute($query);
+                            $num = mysqli_num_rows($result);
 
-                            $img_upload_path_peg_old = "../images/pegawai/foto_pegawai/" . $_POST['img_file_peg_old'];
-                            $img_upload_path_kk_old = "../images/pegawai/foto_kk/" . $_POST['img_file_kk_old'];
-
-                            // hapus foto lama
-                            if(file_exists($img_upload_path_peg_old)){
-                                unlink($img_upload_path_peg_old);
-                            }
-                            if(file_exists($img_upload_path_kk_old)){
-                                unlink($img_upload_path_kk_old);
+                            while ($row = mysqli_fetch_array($result)) {
+                                $emailval = $row['email'];
                             }
 
-                            # move uploaded image to 'uploads' folder
-                            move_uploaded_file($tmppeg_name, $img_upload_path_peg);
-                            move_uploaded_file($tmpkk_name, $img_upload_path_kk);
-                            // echo $_POST['query'];
+                            if ($num != 0) {
+                                if ($emailval == $email) {
+                                    $response = array(
+                                        'status' => 'error',
+                                        'msg' => 'Email telah terdaftar'
+                                    );
+                                    echo json_encode($response);
+                                    exit();
+                                }
+                            } else {
 
-                            $crud->execute($_POST['query']);
-                            $response = array(
-                                'status' => 'success',
-                                'msg' => 'Berhasil Mengubah Data'
-                            );
-                            echo json_encode($response);
-                            exit();
+                                # crating upload path on root directory
+                                $img_upload_path_peg = "../images/pegawai/foto_pegawai/" . $_POST['img_file_peg'];
+                                $img_upload_path_kk = "../images/pegawai/foto_kk/" . $_POST['img_file_kk'];
+
+                                $img_upload_path_peg_old = "../images/pegawai/foto_pegawai/" . $_POST['img_file_peg_old'];
+                                $img_upload_path_kk_old = "../images/pegawai/foto_kk/" . $_POST['img_file_kk_old'];
+
+                                // hapus foto lama
+                                if (file_exists($img_upload_path_peg_old)) {
+                                    unlink($img_upload_path_peg_old);
+                                }
+                                if (file_exists($img_upload_path_kk_old)) {
+                                    unlink($img_upload_path_kk_old);
+                                }
+
+                                # move uploaded image to 'uploads' folder
+                                move_uploaded_file($tmppeg_name, $img_upload_path_peg);
+                                move_uploaded_file($tmpkk_name, $img_upload_path_kk);
+                                // echo $_POST['query'];
+
+                                $crud->execute($_POST['query']);
+                                $response = array(
+                                    'status' => 'success',
+                                    'msg' => 'Berhasil Mengubah Data'
+                                );
+                                echo json_encode($response);
+                                exit();
+                            }
                         }
                     }
                 } else {
@@ -339,28 +401,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             echo json_encode($response);
                             exit();
                         } else {
-                            # crating upload path on root directory
-                            $img_upload_path_peg = "../images/pegawai/foto_pegawai/" . $_POST['img_file_peg'];
+                            $email = $_POST['txt_email'];
+                            $query = "SELECT * FROM pegawai WHERE email = '$email'";
+                            $result = $crud->execute($query);
+                            $num = mysqli_num_rows($result);
 
-                            $img_upload_path_peg_old = "../images/pegawai/foto_pegawai/" . $_POST['img_file_peg_old'];
-
-                            // hapus foto lama
-                            if(file_exists($img_upload_path_peg_old)){
-                                unlink($img_upload_path_peg_old);
+                            while ($row = mysqli_fetch_array($result)) {
+                                $emailval = $row['email'];
                             }
 
-                            # move uploaded image to 'uploads' folder
-                            move_uploaded_file($tmppeg_name, $img_upload_path_peg);
+                            if ($num != 0) {
+                                if ($emailval == $email) {
+                                    $response = array(
+                                        'status' => 'error',
+                                        'msg' => 'Email telah terdaftar'
+                                    );
+                                    echo json_encode($response);
+                                    exit();
+                                }
+                            } else {
+                                # crating upload path on root directory
+                                $img_upload_path_peg = "../images/pegawai/foto_pegawai/" . $_POST['img_file_peg'];
 
-                            // echo $_POST['query'];
+                                $img_upload_path_peg_old = "../images/pegawai/foto_pegawai/" . $_POST['img_file_peg_old'];
 
-                            $crud->execute($_POST['query']);
-                            $response = array(
-                                'status' => 'success',
-                                'msg' => 'Berhasil Mengubah Data'
-                            );
-                            echo json_encode($response);
-                            exit();
+                                // hapus foto lama
+                                if (file_exists($img_upload_path_peg_old)) {
+                                    unlink($img_upload_path_peg_old);
+                                }
+
+                                # move uploaded image to 'uploads' folder
+                                move_uploaded_file($tmppeg_name, $img_upload_path_peg);
+
+                                // echo $_POST['query'];
+
+                                $crud->execute($_POST['query']);
+                                $response = array(
+                                    'status' => 'success',
+                                    'msg' => 'Berhasil Mengubah Data'
+                                );
+                                echo json_encode($response);
+                                exit();
+                            }
                         }
                     }
                 } else {
@@ -416,33 +498,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             echo json_encode($response);
                             exit();
                         } else {
-                            # crating upload path on root directory
-                            $img_upload_path_ktp = "../images/pegawai/foto_ktp/" . $_POST['img_file_ktp'];
-                            $img_upload_path_kk = "../images/pegawai/foto_kk/" . $_POST['img_file_kk'];
+                            $email = $_POST['txt_email'];
+                            $query = "SELECT * FROM pegawai WHERE email = '$email'";
+                            $result = $crud->execute($query);
+                            $num = mysqli_num_rows($result);
 
-                            $img_upload_path_ktp_old = "../images/pegawai/foto_ktp/" . $_POST['img_file_ktp_old'];
-                            $img_upload_path_kk_old = "../images/pegawai/foto_kk/" . $_POST['img_file_kk_old'];
-
-                            // hapus foto lama
-                            if(file_exists($img_upload_path_ktp_old)){
-                                unlink($img_upload_path_ktp_old);
-                            }
-                            if(file_exists($img_upload_path_kk_old)){
-                                unlink($img_upload_path_kk_old);
+                            while ($row = mysqli_fetch_array($result)) {
+                                $emailval = $row['email'];
                             }
 
-                            # move uploaded image to 'uploads' folder
-                            move_uploaded_file($tmpktp_name, $img_upload_path_ktp);
-                            move_uploaded_file($tmpkk_name, $img_upload_path_kk);
-                            // echo $_POST['query'];
+                            if ($num != 0) {
+                                if ($emailval == $email) {
+                                    $response = array(
+                                        'status' => 'error',
+                                        'msg' => 'Email telah terdaftar'
+                                    );
+                                    echo json_encode($response);
+                                    exit();
+                                }
+                            } else {
+                                # crating upload path on root directory
+                                $img_upload_path_ktp = "../images/pegawai/foto_ktp/" . $_POST['img_file_ktp'];
+                                $img_upload_path_kk = "../images/pegawai/foto_kk/" . $_POST['img_file_kk'];
 
-                            $crud->execute($_POST['query']);
-                            $response = array(
-                                'status' => 'success',
-                                'msg' => 'Berhasil Mengubah Data'
-                            );
-                            echo json_encode($response);
-                            exit();
+                                $img_upload_path_ktp_old = "../images/pegawai/foto_ktp/" . $_POST['img_file_ktp_old'];
+                                $img_upload_path_kk_old = "../images/pegawai/foto_kk/" . $_POST['img_file_kk_old'];
+
+                                // hapus foto lama
+                                if (file_exists($img_upload_path_ktp_old)) {
+                                    unlink($img_upload_path_ktp_old);
+                                }
+                                if (file_exists($img_upload_path_kk_old)) {
+                                    unlink($img_upload_path_kk_old);
+                                }
+
+                                # move uploaded image to 'uploads' folder
+                                move_uploaded_file($tmpktp_name, $img_upload_path_ktp);
+                                move_uploaded_file($tmpkk_name, $img_upload_path_kk);
+                                // echo $_POST['query'];
+
+                                $crud->execute($_POST['query']);
+                                $response = array(
+                                    'status' => 'success',
+                                    'msg' => 'Berhasil Mengubah Data'
+                                );
+                                echo json_encode($response);
+                                exit();
+                            }
                         }
                     }
                 } else {
@@ -477,27 +579,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             echo json_encode($response);
                             exit();
                         } else {
-                            # crating upload path on root directory
-                            $img_upload_path_ktp = "../images/pegawai/foto_ktp/" . $_POST['img_file_ktp'];
+                            $email = $_POST['txt_email'];
+                            $query = "SELECT * FROM pegawai WHERE email = '$email'";
+                            $result = $crud->execute($query);
+                            $num = mysqli_num_rows($result);
 
-                            $img_upload_path_ktp_old = "../images/pegawai/foto_ktp/" . $_POST['img_file_ktp_old'];
-
-                            // hapus foto lama
-                            if(file_exists($img_upload_path_ktp_old)){
-                                unlink($img_upload_path_ktp_old);
+                            while ($row = mysqli_fetch_array($result)) {
+                                $emailval = $row['email'];
                             }
 
-                            # move uploaded image to 'uploads' folder
-                            move_uploaded_file($tmpktp_name, $img_upload_path_ktp);
-                            // echo $_POST['query'];
+                            if ($num != 0) {
+                                if ($emailval == $email) {
+                                    $response = array(
+                                        'status' => 'error',
+                                        'msg' => 'Email telah terdaftar'
+                                    );
+                                    echo json_encode($response);
+                                    exit();
+                                }
+                            } else {
 
-                            $crud->execute($_POST['query']);
-                            $response = array(
-                                'status' => 'success',
-                                'msg' => 'Berhasil Mengubah Data'
-                            );
-                            echo json_encode($response);
-                            exit();
+                                # crating upload path on root directory
+                                $img_upload_path_ktp = "../images/pegawai/foto_ktp/" . $_POST['img_file_ktp'];
+
+                                $img_upload_path_ktp_old = "../images/pegawai/foto_ktp/" . $_POST['img_file_ktp_old'];
+
+                                // hapus foto lama
+                                if (file_exists($img_upload_path_ktp_old)) {
+                                    unlink($img_upload_path_ktp_old);
+                                }
+
+                                # move uploaded image to 'uploads' folder
+                                move_uploaded_file($tmpktp_name, $img_upload_path_ktp);
+                                // echo $_POST['query'];
+
+                                $crud->execute($_POST['query']);
+                                $response = array(
+                                    'status' => 'success',
+                                    'msg' => 'Berhasil Mengubah Data'
+                                );
+                                echo json_encode($response);
+                                exit();
+                            }
                         }
                     }
                 } else {
@@ -534,27 +657,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             echo json_encode($response);
                             exit();
                         } else {
-                            # crating upload path on root directory
-                            $img_upload_path_kk = "../images/pegawai/foto_kk/" . $_POST['img_file_kk'];
+                            $email = $_POST['txt_email'];
+                            $query = "SELECT * FROM pegawai WHERE email = '$email'";
+                            $result = $crud->execute($query);
+                            $num = mysqli_num_rows($result);
 
-                            $img_upload_path_kk_old = "../images/pegawai/foto_kk/" . $_POST['img_file_kk_old'];
-
-                            // hapus foto lama
-                            if(file_exists($img_upload_path_kk_old)){
-                                unlink($img_upload_path_kk_old);
+                            while ($row = mysqli_fetch_array($result)) {
+                                $emailval = $row['email'];
                             }
 
-                            # move uploaded image to 'uploads' folder
-                            move_uploaded_file($tmpkk_name, $img_upload_path_kk);
-                            // echo $_POST['query'];
+                            if ($num != 0) {
+                                if ($emailval == $email) {
+                                    $response = array(
+                                        'status' => 'error',
+                                        'msg' => 'Email telah terdaftar'
+                                    );
+                                    echo json_encode($response);
+                                    exit();
+                                }
+                            } else {
 
-                            $crud->execute($_POST['query']);
-                            $response = array(
-                                'status' => 'success',
-                                'msg' => 'Berhasil Mengubah Data'
-                            );
-                            echo json_encode($response);
-                            exit();
+                                # crating upload path on root directory
+                                $img_upload_path_kk = "../images/pegawai/foto_kk/" . $_POST['img_file_kk'];
+
+                                $img_upload_path_kk_old = "../images/pegawai/foto_kk/" . $_POST['img_file_kk_old'];
+
+                                // hapus foto lama
+                                if (file_exists($img_upload_path_kk_old)) {
+                                    unlink($img_upload_path_kk_old);
+                                }
+
+                                # move uploaded image to 'uploads' folder
+                                move_uploaded_file($tmpkk_name, $img_upload_path_kk);
+                                // echo $_POST['query'];
+
+                                $crud->execute($_POST['query']);
+                                $response = array(
+                                    'status' => 'success',
+                                    'msg' => 'Berhasil Mengubah Data'
+                                );
+                                echo json_encode($response);
+                                exit();
+                            }
                         }
                     }
                 } else {
@@ -635,39 +779,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             echo json_encode($response);
                             exit();
                         } else {
-                            # crating upload path on root directory
-                            $img_upload_path_peg = "../images/pegawai/foto_pegawai/" . $_POST['img_file_peg'];
-                            $img_upload_path_ktp = "../images/pegawai/foto_ktp/" . $_POST['img_file_ktp'];
-                            $img_upload_path_kk = "../images/pegawai/foto_kk/" . $_POST['img_file_kk'];
+                            $email = $_POST['txt_email'];
+                            $query = "SELECT * FROM pegawai WHERE email = '$email'";
+                            $result = $crud->execute($query);
+                            $num = mysqli_num_rows($result);
 
-                            $img_upload_path_peg_old = "../images/pegawai/foto_pegawai/" . $_POST['img_file_peg_old'];
-                            $img_upload_path_ktp_old = "../images/pegawai/foto_ktp/" . $_POST['img_file_ktp_old'];
-                            $img_upload_path_kk_old = "../images/pegawai/foto_kk/" . $_POST['img_file_kk_old'];
-
-                            // hapus foto lama
-                            if(file_exists($img_upload_path_peg_old)){
-                                unlink($img_upload_path_peg_old);
-                            }
-                            if(file_exists($img_upload_path_ktp_old)){
-                                unlink($img_upload_path_ktp_old);
-                            }
-                            if(file_exists($img_upload_path_kk_old)){
-                                unlink($img_upload_path_kk_old);
+                            while ($row = mysqli_fetch_array($result)) {
+                                $emailval = $row['email'];
                             }
 
-                            # move uploaded image to 'uploads' folder
-                            move_uploaded_file($tmppeg_name, $img_upload_path_peg);
-                            move_uploaded_file($tmpktp_name, $img_upload_path_ktp);
-                            move_uploaded_file($tmpkk_name, $img_upload_path_kk);
-                            // echo $_POST['query'];
+                            if ($num != 0) {
+                                if ($emailval == $email) {
+                                    $response = array(
+                                        'status' => 'error',
+                                        'msg' => 'Email telah terdaftar'
+                                    );
+                                    echo json_encode($response);
+                                    exit();
+                                }
+                            } else {
 
-                            $crud->execute($_POST['query']);
-                            $response = array(
-                                'status' => 'success',
-                                'msg' => 'Berhasil Mengubah Data'
-                            );
-                            echo json_encode($response);
-                            exit();
+                                # crating upload path on root directory
+                                $img_upload_path_peg = "../images/pegawai/foto_pegawai/" . $_POST['img_file_peg'];
+                                $img_upload_path_ktp = "../images/pegawai/foto_ktp/" . $_POST['img_file_ktp'];
+                                $img_upload_path_kk = "../images/pegawai/foto_kk/" . $_POST['img_file_kk'];
+
+                                $img_upload_path_peg_old = "../images/pegawai/foto_pegawai/" . $_POST['img_file_peg_old'];
+                                $img_upload_path_ktp_old = "../images/pegawai/foto_ktp/" . $_POST['img_file_ktp_old'];
+                                $img_upload_path_kk_old = "../images/pegawai/foto_kk/" . $_POST['img_file_kk_old'];
+
+                                // hapus foto lama
+                                if (file_exists($img_upload_path_peg_old)) {
+                                    unlink($img_upload_path_peg_old);
+                                }
+                                if (file_exists($img_upload_path_ktp_old)) {
+                                    unlink($img_upload_path_ktp_old);
+                                }
+                                if (file_exists($img_upload_path_kk_old)) {
+                                    unlink($img_upload_path_kk_old);
+                                }
+
+                                # move uploaded image to 'uploads' folder
+                                move_uploaded_file($tmppeg_name, $img_upload_path_peg);
+                                move_uploaded_file($tmpktp_name, $img_upload_path_ktp);
+                                move_uploaded_file($tmpkk_name, $img_upload_path_kk);
+                                // echo $_POST['query'];
+
+                                $crud->execute($_POST['query']);
+                                $response = array(
+                                    'status' => 'success',
+                                    'msg' => 'Berhasil Mengubah Data'
+                                );
+                                echo json_encode($response);
+                                exit();
+                            }
                         }
                     }
                 } else {
@@ -697,13 +862,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // hapus foto lama
 
-            if(file_exists($img_upload_path_peg_old)){
+            if (file_exists($img_upload_path_peg_old)) {
                 unlink($img_upload_path_peg_old);
             }
-            if(file_exists($img_upload_path_ktp_old)){
+            if (file_exists($img_upload_path_ktp_old)) {
                 unlink($img_upload_path_ktp_old);
             }
-            if(file_exists($img_upload_path_kk_old)){
+            if (file_exists($img_upload_path_kk_old)) {
                 unlink($img_upload_path_kk_old);
             }
 

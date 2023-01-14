@@ -100,12 +100,14 @@ $date = getdate();
         </div>
     </div>
     <!-- end modal -->
-
+    <!-- <script src="../../js/DateRangePicker.js"></script> -->
+    <script src="../js/DateRangePicker.js"></script>
+    <script src="../js/datePicker.js"></script>
     <script>
         datenow = new Date();
         $('button[name="daterange"]').html('<p>Pilih Range</p>');
 
-        
+
         var selectedTab = 'harian';
         const pilihan = ['harian', 'mingguan', 'bulanan', 'tahunan', 'range'];
         var selectedFilterHarian = datenow.getFullYear() + '-' + (datenow.getMonth() + 1) + '-' + datenow.getDate();

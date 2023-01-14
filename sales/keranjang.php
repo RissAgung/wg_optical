@@ -304,7 +304,7 @@ function rupiah($angka)
               });
             },
             success: function(res) {
-              // alert(res);
+              alert(res);
               const data = JSON.parse(res);
               if (data.status == 'berhasil') {
                 Swal.fire({
@@ -370,7 +370,7 @@ function rupiah($angka)
         Swal.fire({
           icon: 'warning',
           title: 'Informasi',
-          text: "Pilih pesanan yang ingin di checkout",
+          text: "Pilih pesanan yang ingin di hapus",
         })
       }
     }
@@ -428,7 +428,7 @@ function rupiah($angka)
             kontenhtml += '<div class="flex flex-row mb-2">'
             kontenhtml += '<p class="w-[50%] font-ex-semibold">Frame</p>'
             kontenhtml += '<p class="w-[5%]">:</p>'
-            kontenhtml += '<p>' + finalData.merk + '</p>'
+            kontenhtml += '<p>' + finalData.idbawa + '</p>'
             kontenhtml += '</div>'
           }
           if (finalData.nama_lensa.length !== 0) {
@@ -633,17 +633,17 @@ function rupiah($angka)
 
     // pembayaran
     function cekDetailPesanan() {
-      var p = "";
+      // var p = "";
 
-      for (var i = 0; i < kodeTR.length; i++) {
-        p = p + " " + kodeTR[i]["kode"];
-      }
+      // for (var i = 0; i < kodeTR.length; i++) {
+      //   p = p + " " + kodeTR[i]["kode"];
+      // }
 
-      Swal.fire({
-        icon: 'success',
-        title: 'Berhasil',
-        text: p,
-      })
+      // Swal.fire({
+      //   icon: 'success',
+      //   title: 'Berhasil',
+      //   text: p,
+      // })
     }
 
     function backToKeranjang() {
@@ -760,6 +760,12 @@ function rupiah($angka)
             title: 'Gagal',
             text: 'Jumlah bayar tidak sesuai dengan jenis pembayaran',
           });
+        } else if (tgljatuhtempo == "Invalid Date") {
+          Swal.fire({
+            icon: 'error',
+            title: 'Gagal',
+            text: 'Masukkan Tanggal Jatuh Tempo Terlebih Dahulu',
+          });
         } else {
           console.log(bayar);
           $.ajax({
@@ -790,6 +796,7 @@ function rupiah($angka)
               });
             },
             success: function(res) {
+              alert(res);
               const data = JSON.parse(res);
               if (data.status == 'success') {
                 Swal.fire({
