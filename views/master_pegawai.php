@@ -310,9 +310,6 @@ function getNameRoles($id)
 
 
     <script>
-        $(window).on('load', function() {
-            $('#loading').hide();
-        });
 
         $('#modal-addBarang').load("../assets/components/modal_pilih_barang.php", function() {
             $('#closemodaladdbarang').on('click', function() {
@@ -425,6 +422,7 @@ function getNameRoles($id)
             $('#button-logout').on('click', function() {
                 // kosong
             });
+            $('#loading').hide();
         });
 
         function convertNameRolestoId(nameroles) {
@@ -710,7 +708,7 @@ function getNameRoles($id)
                         var query = "";
 
                         if (!imgpeg.length > 0 && !imgktp.length > 0 && !imgkk.length > 0) {
-                            query = "UPDATE pegawai SET nama = '" + $('#txt_nama').val() + "', gender = '" + $('#txt_gender').val() + "', `no.Telp` = '" + $('#txt_notelepon').val() + "', alamat = '" + $('#txt_alamat').val() + "', tgl_masuk = '" + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + "', email = '" + $('#txt_email').val() + "', id_level = '" + convertNameRolestoId($('#txt_level').val()) + "' WHERE id_pegawai = '" + selected_idpegawai + "'";
+                            query = "UPDATE pegawai SET nama = '" + $('#txt_nama').val() + "', gender = '" + $('#txt_gender').val() + "', `no.Telp` = '" + $('#txt_notelepon').val() + "', alamat = '" + $('#txt_alamat').val() + "', tgl_masuk = '" + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + "', email = '" + $('#txt_email').val().toLowerCase() + "', id_level = '" + convertNameRolestoId($('#txt_level').val()) + "' WHERE id_pegawai = '" + selected_idpegawai + "'";
                             form_editdata.append('opsifoto', "tanpa-foto");
                         } else {
                             if (!imgpeg.length > 0 || !imgktp.length > 0 || !imgkk.length > 0) {
@@ -726,7 +724,7 @@ function getNameRoles($id)
                                         var generateUniqKTP = "<?php echo uniqid("foto-ktp-", true) . "." . '"+getFileExtension(img_name_ktp)+"'; ?>";
 
 
-                                        query = "UPDATE pegawai SET nama = '" + $('#txt_nama').val() + "', gender = '" + $('#txt_gender').val() + "', `no.Telp` = '" + $('#txt_notelepon').val() + "', alamat = '" + $('#txt_alamat').val() + "', tgl_masuk = '" + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + "', email = '" + $('#txt_email').val() + "', id_level = '" + convertNameRolestoId($('#txt_level').val()) + "', foto_pegawai = '<?= '"+generateUniqPeg+"'; ?>', foto_ktp = '<?= '"+generateUniqKTP+"'; ?>' WHERE id_pegawai = '" + selected_idpegawai + "'";
+                                        query = "UPDATE pegawai SET nama = '" + $('#txt_nama').val() + "', gender = '" + $('#txt_gender').val() + "', `no.Telp` = '" + $('#txt_notelepon').val() + "', alamat = '" + $('#txt_alamat').val() + "', tgl_masuk = '" + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + "', email = '" + $('#txt_email').val().toLowerCase() + "', id_level = '" + convertNameRolestoId($('#txt_level').val()) + "', foto_pegawai = '<?= '"+generateUniqPeg+"'; ?>', foto_ktp = '<?= '"+generateUniqKTP+"'; ?>' WHERE id_pegawai = '" + selected_idpegawai + "'";
                                         form_editdata.append('opsifoto', "fotopegawai-dan-ktp");
                                     } else if (imgpeg.length > 0 && imgkk.length > 0) {
                                         form_editdata.append('image_peg', imgpeg[0]);
@@ -738,7 +736,7 @@ function getNameRoles($id)
                                         var generateUniqPeg = "<?php echo uniqid("foto-pegawai-", true) . "." . '"+getFileExtension(img_name_peg)+"'; ?>";
                                         var generateUniqKK = "<?php echo uniqid("foto-kk-", true) . "." . '"+getFileExtension(img_name_kk)+"'; ?>";
 
-                                        query = "UPDATE pegawai SET nama = '" + $('#txt_nama').val() + "', gender = '" + $('#txt_gender').val() + "', `no.Telp` = '" + $('#txt_notelepon').val() + "', alamat = '" + $('#txt_alamat').val() + "', tgl_masuk = '" + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + "', email = '" + $('#txt_email').val() + "', id_level = '" + convertNameRolestoId($('#txt_level').val()) + "', foto_pegawai = '<?= '"+generateUniqPeg+"'; ?>', foto_kk = '<?= '"+generateUniqKK+"'; ?>' WHERE id_pegawai = '" + selected_idpegawai + "'";
+                                        query = "UPDATE pegawai SET nama = '" + $('#txt_nama').val() + "', gender = '" + $('#txt_gender').val() + "', `no.Telp` = '" + $('#txt_notelepon').val() + "', alamat = '" + $('#txt_alamat').val() + "', tgl_masuk = '" + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + "', email = '" + $('#txt_email').val().toLowerCase() + "', id_level = '" + convertNameRolestoId($('#txt_level').val()) + "', foto_pegawai = '<?= '"+generateUniqPeg+"'; ?>', foto_kk = '<?= '"+generateUniqKK+"'; ?>' WHERE id_pegawai = '" + selected_idpegawai + "'";
                                         form_editdata.append('opsifoto', "fotopegawai-dan-kk");
                                     } else {
                                         form_editdata.append('image_peg', imgpeg[0]);
@@ -747,7 +745,7 @@ function getNameRoles($id)
 
                                         var generateUniqPeg = "<?php echo uniqid("foto-pegawai-", true) . "." . '"+getFileExtension(img_name_peg)+"'; ?>";
 
-                                        query = "UPDATE pegawai SET nama = '" + $('#txt_nama').val() + "', gender = '" + $('#txt_gender').val() + "', `no.Telp` = '" + $('#txt_notelepon').val() + "', alamat = '" + $('#txt_alamat').val() + "', tgl_masuk = '" + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + "', email = '" + $('#txt_email').val() + "', id_level = '" + convertNameRolestoId($('#txt_level').val()) + "', foto_pegawai = '<?= '"+generateUniqPeg+"'; ?>' WHERE id_pegawai = '" + selected_idpegawai + "'";
+                                        query = "UPDATE pegawai SET nama = '" + $('#txt_nama').val() + "', gender = '" + $('#txt_gender').val() + "', `no.Telp` = '" + $('#txt_notelepon').val() + "', alamat = '" + $('#txt_alamat').val() + "', tgl_masuk = '" + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + "', email = '" + $('#txt_email').val().toLowerCase() + "', id_level = '" + convertNameRolestoId($('#txt_level').val()) + "', foto_pegawai = '<?= '"+generateUniqPeg+"'; ?>' WHERE id_pegawai = '" + selected_idpegawai + "'";
                                         form_editdata.append('opsifoto', "fotopegawai");
                                     }
                                 } else if (imgktp.length > 0) {
@@ -761,7 +759,7 @@ function getNameRoles($id)
                                         var generateUniqKTP = "<?php echo uniqid("foto-ktp-", true) . "." . '"+getFileExtension(img_name_ktp)+"'; ?>";
                                         var generateUniqKK = "<?php echo uniqid("foto-kk-", true) . "." . '"+getFileExtension(img_name_kk)+"'; ?>";
 
-                                        query = "UPDATE pegawai SET nama = '" + $('#txt_nama').val() + "', gender = '" + $('#txt_gender').val() + "', `no.Telp` = '" + $('#txt_notelepon').val() + "', alamat = '" + $('#txt_alamat').val() + "', tgl_masuk = '" + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + "', email = '" + $('#txt_email').val() + "', id_level = '" + convertNameRolestoId($('#txt_level').val()) + "', foto_ktp = '<?= '"+generateUniqKTP+"'; ?>', foto_kk = '<?= '"+generateUniqKK+"'; ?>' WHERE id_pegawai = '" + selected_idpegawai + "'";
+                                        query = "UPDATE pegawai SET nama = '" + $('#txt_nama').val() + "', gender = '" + $('#txt_gender').val() + "', `no.Telp` = '" + $('#txt_notelepon').val() + "', alamat = '" + $('#txt_alamat').val() + "', tgl_masuk = '" + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + "', email = '" + $('#txt_email').val().toLowerCase() + "', id_level = '" + convertNameRolestoId($('#txt_level').val()) + "', foto_ktp = '<?= '"+generateUniqKTP+"'; ?>', foto_kk = '<?= '"+generateUniqKK+"'; ?>' WHERE id_pegawai = '" + selected_idpegawai + "'";
                                         form_editdata.append('opsifoto', "fotoktp-dan-kk");
                                     } else {
                                         form_editdata.append('image_ktp', imgktp[0]);
@@ -770,7 +768,7 @@ function getNameRoles($id)
 
                                         var generateUniqKTP = "<?php echo uniqid("foto-ktp-", true) . "." . '"+getFileExtension(img_name_ktp)+"'; ?>";
 
-                                        query = "UPDATE pegawai SET nama = '" + $('#txt_nama').val() + "', gender = '" + $('#txt_gender').val() + "', `no.Telp` = '" + $('#txt_notelepon').val() + "', alamat = '" + $('#txt_alamat').val() + "', tgl_masuk = '" + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + "', email = '" + $('#txt_email').val() + "', id_level = '" + convertNameRolestoId($('#txt_level').val()) + "', foto_ktp = '<?= '"+generateUniqKTP+"'; ?>' WHERE id_pegawai = '" + selected_idpegawai + "'";
+                                        query = "UPDATE pegawai SET nama = '" + $('#txt_nama').val() + "', gender = '" + $('#txt_gender').val() + "', `no.Telp` = '" + $('#txt_notelepon').val() + "', alamat = '" + $('#txt_alamat').val() + "', tgl_masuk = '" + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + "', email = '" + $('#txt_email').val().toLowerCase() + "', id_level = '" + convertNameRolestoId($('#txt_level').val()) + "', foto_ktp = '<?= '"+generateUniqKTP+"'; ?>' WHERE id_pegawai = '" + selected_idpegawai + "'";
                                         form_editdata.append('opsifoto', "fotoktp");
                                     }
                                 } else if (imgkk.length > 0) {
@@ -780,7 +778,7 @@ function getNameRoles($id)
 
                                     var generateUniqKK = "<?php echo uniqid("foto-kk-", true) . "." . '"+getFileExtension(img_name_kk)+"'; ?>";
 
-                                    query = "UPDATE pegawai SET nama = '" + $('#txt_nama').val() + "', gender = '" + $('#txt_gender').val() + "', `no.Telp` = '" + $('#txt_notelepon').val() + "', alamat = '" + $('#txt_alamat').val() + "', tgl_masuk = '" + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + "', email = '" + $('#txt_email').val() + "', id_level = '" + convertNameRolestoId($('#txt_level').val()) + "', foto_kk = '<?= '"+generateUniqKK+"'; ?>' WHERE id_pegawai = '" + selected_idpegawai + "'";
+                                    query = "UPDATE pegawai SET nama = '" + $('#txt_nama').val() + "', gender = '" + $('#txt_gender').val() + "', `no.Telp` = '" + $('#txt_notelepon').val() + "', alamat = '" + $('#txt_alamat').val() + "', tgl_masuk = '" + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + "', email = '" + $('#txt_email').val().toLowerCase() + "', id_level = '" + convertNameRolestoId($('#txt_level').val()) + "', foto_kk = '<?= '"+generateUniqKK+"'; ?>' WHERE id_pegawai = '" + selected_idpegawai + "'";
                                     form_editdata.append('opsifoto', "fotokk");
                                 }
                             } else {
@@ -797,7 +795,7 @@ function getNameRoles($id)
                                 var generateUniqKTP = "<?php echo uniqid("foto-ktp-", true) . "." . '"+getFileExtension(img_name_ktp)+"'; ?>";
                                 var generateUniqKK = "<?php echo uniqid("foto-kk-", true) . "." . '"+getFileExtension(img_name_kk)+"'; ?>";
 
-                                query = "UPDATE pegawai SET nama = '" + $('#txt_nama').val() + "', gender = '" + $('#txt_gender').val() + "', `no.Telp` = '" + $('#txt_notelepon').val() + "', alamat = '" + $('#txt_alamat').val() + "', tgl_masuk = '" + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + "', email = '" + $('#txt_email').val() + "', id_level = '" + convertNameRolestoId($('#txt_level').val()) + "', foto_pegawai = '<?= '"+generateUniqPeg+"'; ?>', foto_ktp = '<?= '"+generateUniqKTP+"'; ?>', foto_kk = '<?= '"+generateUniqKK+"'; ?>' WHERE id_pegawai = '" + selected_idpegawai + "'";
+                                query = "UPDATE pegawai SET nama = '" + $('#txt_nama').val() + "', gender = '" + $('#txt_gender').val() + "', `no.Telp` = '" + $('#txt_notelepon').val() + "', alamat = '" + $('#txt_alamat').val() + "', tgl_masuk = '" + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + "', email = '" + $('#txt_email').val().toLowerCase() + "', id_level = '" + convertNameRolestoId($('#txt_level').val()) + "', foto_pegawai = '<?= '"+generateUniqPeg+"'; ?>', foto_ktp = '<?= '"+generateUniqKTP+"'; ?>', foto_kk = '<?= '"+generateUniqKK+"'; ?>' WHERE id_pegawai = '" + selected_idpegawai + "'";
                                 form_editdata.append('opsifoto', "semua-foto");
                             }
 
@@ -813,6 +811,7 @@ function getNameRoles($id)
                         form_editdata.append('img_file_peg_old', lokasifotopegawai_lama);
                         form_editdata.append('img_file_ktp_old', lokasifotoktp_lama);
                         form_editdata.append('img_file_kk_old', lokasifotokk_lama);
+                        form_editdata.append('txt_email', $('#txt_email').val().toLowerCase());
 
                         if (!date.getDate()) {
                             Swal.fire({
@@ -820,14 +819,14 @@ function getNameRoles($id)
                                 title: 'Gagal',
                                 text: "Tanggal Tidak Boleh Kosong",
                             })
-                        } else if ($('#txt_email').val() == "") {
+                        } else if ($('#txt_email').val().toLowerCase() == "") {
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Gagal',
                                 text: "Email Tidak Boleh Kosong",
                             })
 
-                        } else if (!validasiEmail($('#txt_email').val())) {
+                        } else if (!validasiEmail($('#txt_email').val().toLowerCase())) {
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Gagal',
@@ -933,14 +932,14 @@ function getNameRoles($id)
                             title: 'Gagal',
                             text: "Tanggal Tidak Boleh Kosong",
                         })
-                    } else if ($('#txt_email').val() == "") {
+                    } else if ($('#txt_email').val().toLowerCase() == "") {
                         Swal.fire({
                             icon: 'error',
                             title: 'Gagal',
                             text: "Email Tidak Boleh Kosong",
                         })
 
-                    } else if (!validasiEmail($('#txt_email').val())) {
+                    } else if (!validasiEmail($('#txt_email').val().toLowerCase())) {
                         Swal.fire({
                             icon: 'error',
                             title: 'Gagal',
@@ -994,11 +993,11 @@ function getNameRoles($id)
                             var generateUniqKTP = "<?php echo uniqid("foto-ktp-", true) . "." . '"+getFileExtension(img_name_ktp)+"'; ?>";
                             var generateUniqKK = "<?php echo uniqid("foto-kk-", true) . "." . '"+getFileExtension(img_name_kk)+"'; ?>";
 
-                            form_data.append('query', "INSERT INTO pegawai VALUES ('<?= generateID($crud, '"+ date.getDate() + + ( date.getMonth() + 1) + date.getFullYear()+"'); ?>', '" + $('#txt_nama').val() + "', '" + $('#txt_gender').val() + "', '" + $('#txt_notelepon').val() + "', '" + $('#txt_alamat').val() + "', '" + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + "', '<?= '"+generateUniqPeg+"'; ?>', '<?= '"+generateUniqKTP+"'; ?>', '<?= '"+generateUniqKK+"'; ?>', '" + $('#txt_email').val() + "', '" + CryptoJS.MD5($("#txt_password").val()).toString() + "', '" + convertNameRolestoId($('#txt_level').val()) + "')");
+                            form_data.append('query', "INSERT INTO pegawai VALUES ('<?= generateID($crud, '"+ date.getDate() + + ( date.getMonth() + 1) + date.getFullYear()+"'); ?>', '" + $('#txt_nama').val() + "', '" + $('#txt_gender').val() + "', '" + $('#txt_notelepon').val() + "', '" + $('#txt_alamat').val() + "', '" + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + "', '<?= '"+generateUniqPeg+"'; ?>', '<?= '"+generateUniqKTP+"'; ?>', '<?= '"+generateUniqKK+"'; ?>', '" + $('#txt_email').val().toLowerCase() + "', '" + CryptoJS.MD5($("#txt_password").val()).toString() + "', '" + convertNameRolestoId($('#txt_level').val()) + "')");
                             form_data.append('img_file_peg', generateUniqPeg);
                             form_data.append('img_file_ktp', generateUniqKTP);
                             form_data.append('img_file_kk', generateUniqKK);
-                            form_data.append('txt_email', $('#txt_email').val());
+                            form_data.append('txt_email', $('#txt_email').val().toLowerCase());
 
 
                             $.ajax({

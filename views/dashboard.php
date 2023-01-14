@@ -48,11 +48,11 @@ function rupiah($angka)
   </div>
 
   <!-- Background hitam saat sidebar show -->
-  <div id="bgbody" class="w-full h-screen bg-black fixed z-51 bg-opacity-50 hidden"></div>
+  <div id="bgbody" class="w-full h-screen bg-black fixed z-[100] bg-opacity-50 hidden"></div>
   <!-- End Background hitam saat sidebar show -->
 
   <!-- sidebar -->
-  <div id="ex-sidebar" class="ex-sidebar ex-hide-sidebar fixed z-50 max-lg:transition max-lg:duration-[1s]"></div>
+  <div id="ex-sidebar" class="ex-sidebar ex-hide-sidebar fixed z-[102] max-lg:transition max-lg:duration-[1s]"></div>
   <!-- end sidebar -->
 
   <!-- start -->

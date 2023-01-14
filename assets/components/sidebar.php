@@ -1,7 +1,12 @@
 <?php
-
+include '../../config/koneksi.php';
 session_start();
 $level = $_SESSION["level"];
+$crud = new koneksi();
+$res = $crud->showData("SELECT COUNT(*) as count FROM transaksi WHERE status_confirm = 1");
+foreach ($res as $value) {
+    $count = $value['count'];
+}
 
 ?>
 
@@ -110,7 +115,12 @@ $level = $_SESSION["level"];
 
                 <!-- invoice -->
                 <a href="../views/invoice.php">
-                    <div class="cursor-pointer ex-hover-sidebar h-14 flex flex-row items-center justify-start rounded-lg px-5" id="tab_invoice">
+                    <div class="cursor-pointer ex-hover-sidebar h-14 flex flex-row items-center justify-start rounded-lg px-5 relative" id="tab_invoice">
+                        <?php if ($count != 0) : ?>
+                            <div class="bg-red-600 right-3 px-4 py-1 rounded-lg absolute scale-[80%]">
+                                <h1><?= $count; ?></h1>
+                            </div>
+                        <?php endif; ?>
                         <svg width="17" height="20" viewBox="0 0 17 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M11.4325 10.3726V11.6765H8.89192V10.3726H11.4325ZM11.4325 7.78418V9.07513H8.89192V7.78418H11.4325ZM7.62163 7.78418H5.08105V9.07513H7.62163V7.78418ZM7.62163 10.3726H5.08105V11.6765H7.62163V10.3726Z" fill="white" />
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M0 1.94615C0 1.43 0.200751 0.93499 0.558089 0.570015C0.915427 0.205041 1.40008 0 1.90543 0L12.3307 0L16.5138 4.27246V17.5154C16.5138 18.0315 16.313 18.5265 15.9557 18.8915C15.5983 19.2565 15.1137 19.4615 14.6083 19.4615H1.90543C1.40008 19.4615 0.915427 19.2565 0.558089 18.8915C0.200751 18.5265 0 18.0315 0 17.5154V1.94615ZM3.81087 5.18974H7.62174V3.89231H3.81087V5.18974ZM12.7029 6.48718H3.81087V12.9744H12.7029V6.48718ZM12.7029 15.5692H8.89202V14.2718H12.7029V15.5692Z" fill="white" />

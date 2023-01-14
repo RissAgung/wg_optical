@@ -333,7 +333,9 @@ function getStatusPembayaran($kode)
       $("#avatar_profile").attr("src", "../images/pegawai/foto_pegawai/<?= $imgProfile ?>");
       $('#title-header').html('Invoice');
       $("#burger").on("click", function() {
-        $('#bgbody').removeClass("hidden");
+
+        $('#bgbody').removeClass('scale-0');
+        $('#bgbody').addClass('effectmodal');
 
         $('#ex-sidebar').toggleClass("ex-hide-sidebar");
         $('#burger').toggleClass("show");
@@ -343,7 +345,8 @@ function getStatusPembayaran($kode)
         $('#ex-sidebar').removeAttr("ex-hide-sidebar");
         $('#burger').removeAttr("show");
 
-        $('#bgbody').addClass("hidden");
+        $('#bgbody').addClass('scale-0');
+        $('#bgbody').removeClass('effectmodal');
 
       });
 

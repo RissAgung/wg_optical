@@ -128,7 +128,7 @@ echo '<script>Swal.fire({
                         type: 'post',
                         data: {
                             'type': 'login',
-                            'txt_email': $('#txt_email').val(),
+                            'txt_email': $('#txt_email').val().toLowerCase(),
                             'txt_password': $('#txt_password').val(),
                         },
 

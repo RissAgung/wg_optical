@@ -163,11 +163,14 @@ $lens = $con->showData("SELECT * FROM lensa");
       </div>
       <div class="flex flex-col px-6 py-4 bg-white mt-[0.5px]">
         <h1>Harga Frame</h1>
-        <input id="inputHargaFrame" class="px-4 outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden" type="text" placeholder="Masukkan Harga" name="" id="">
+        <input id="inputHargaFrame" class="px-4 outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden" type="text" placeholder="Masukkan Harga">
+        <div class="flex justify-end pt-4">
+          <h1 id="value_harga_minimal" class="font-ex-medium text-yellow-600">Harga Minimal : Rp. 500.000</h1>
+        </div>
       </div>
       <div class="flex flex-col px-6 pt-2 pb-8 bg-white">
         <h1>Harga Lensa</h1>
-        <input id="inputHargaLensa" class="px-4 outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden" type="text" placeholder="Masukkan Harga" name="" id="">
+        <input id="inputHargaLensa" class="px-4 outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden" type="text" placeholder="Masukkan Harga">
       </div>
     </div>
   </section>
@@ -193,7 +196,13 @@ $lens = $con->showData("SELECT * FROM lensa");
       $('.js-example-basic-single').select2({
         placeholder: "Pilih Kode Frame",
       });
+      $('#value_harga_minimal').html("Harga Minimal = " + formatRupiah($('#frame').val().substr(0, $('#frame').val().indexOf("-")), 'Rp. '));
     });
+
+    $('#frame').on('change', function() {
+      $('#value_harga_minimal').html("Harga Minimal = " + formatRupiah($('#frame').val().substr(0, $('#frame').val().indexOf("-")), 'Rp. '));
+    });
+
     let variant = [];
 
     function choice_variant(kode) {
@@ -223,6 +232,8 @@ $lens = $con->showData("SELECT * FROM lensa");
 
 
 
+
+
     function tambah() {
 
       var value = $('#frame').val();
@@ -235,20 +246,20 @@ $lens = $con->showData("SELECT * FROM lensa");
       // resep
 
       // kiri
-      var kr_sph = $('#kr-sph').val();
-      var kr_cyl = $('#kr-cyl').val();
-      var kr_axis = $('#kr-axis').val();
-      var kr_add = $('#kr-add').val();
-      var kr_pp = $('#kr-pd').val();
-      var kr_seg = $('#kr-seg').val();
+      var kr_sph = $('#kr-sph').val() == "" ? "0" : $('#kr-sph').val();
+      var kr_cyl = $('#kr-cyl').val() == "" ? "0" : $('#kr-cyl').val();
+      var kr_axis = $('#kr-axis').val() == "" ? "0" : $('#kr-axis').val();
+      var kr_add = $('#kr-add').val() == "" ? "0" : $('#kr-add').val();
+      var kr_pp = $('#kr-pd').val() == "" ? "0" : $('#kr-pd').val();
+      var kr_seg = $('#kr-seg').val() == "" ? "0" : $('#kr-seg').val();
 
       // kanan
-      var kn_sph = $('#kn-sph').val();
-      var kn_cyl = $('#kn-cyl').val();
-      var kn_axis = $('#kn-axis').val();
-      var kn_add = $('#kn-add').val();
-      var kn_pp = $('#kn-pd').val();
-      var kn_seg = $('#kn-seg').val();
+      var kn_sph = $('#kn-sph').val() == "" ? "0" : $('#kn-sph').val();
+      var kn_cyl = $('#kn-cyl').val() == "" ? "0" : $('#kn-cyl').val();
+      var kn_axis = $('#kn-axis').val() == "" ? "0" : $('#kn-axis').val();
+      var kn_add = $('#kn-add').val() == "" ? "0" : $('#kn-add').val();
+      var kn_pp = $('#kn-pd').val() == "" ? "0" : $('#kn-pd').val();
+      var kn_seg = $('#kn-seg').val() == "" ? "0" : $('#kn-seg').val();
 
       var kode_detail_lens = '<?= strtoupper(str_replace(".", "", uniqid('KDLK', true))) ?>';
       var kode_varian_lensa = '<?= strtoupper(str_replace(".", "", uniqid('KVLK', true))) ?>';
@@ -257,6 +268,8 @@ $lens = $con->showData("SELECT * FROM lensa");
       var hargaFrame = parseInt($("#inputHargaFrame").val().replace("Rp. ", "").replace(".", "").replace(".", "").replace(" ", ""));
       var hargaLensa = parseInt($('#inputHargaLensa').val().replace("Rp. ", "").replace(".", "").replace(".", "").replace(" ", ""));
       var totalHarga = hargaFrame + hargaLensa;
+
+      console.log($('#inputHargaFrame').val());
 
       if (variant.length == 0) {
         Swal.fire({
@@ -269,6 +282,12 @@ $lens = $con->showData("SELECT * FROM lensa");
           icon: 'warning',
           title: 'Informasi',
           text: 'Lengkapi resep terlebih dahulu',
+        })
+      } else if ($('#inputHargaFrame').val() == "") {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Informasi',
+          text: 'Masukkan harga frame terlebih dahulu',
         })
       } else if (hargaFrame < harga) {
         Swal.fire({
@@ -293,7 +312,7 @@ $lens = $con->showData("SELECT * FROM lensa");
             type: "insert",
             query_keranjang: "INSERT INTO keranjang VALUES ('" + idTR + "',NOW(),'<?= $idPegawai ?>','" + totalHarga + "')",
             keranjang_frame: "INSERT INTO keranjang_frame VALUES ('" + idTR + "','" + kode + "','" + hargaFrame + "')",
-            update_status: "UPDATE detail_bawa SET status_frame='unready' WHERE Id_Bawa = '"+kode+"'",
+            update_status: "UPDATE detail_bawa SET status_frame='unready' WHERE Id_Bawa = '" + kode + "'",
             query_Keranjang_Lensa: "INSERT INTO `keranjang_lensa`(`kode_varian_lensa_keranjang`, `kode_pesanan`, `id_jenis_lensa`, `harga`) VALUES ('" + kode_varian_lensa + "','" + idTR + "','" + jenis_lensa + "','" + hargaLensa + "')",
             query_keranjang_resep: "INSERT INTO `keranjang_resep`(`kode_varian_lensa_keranjang`, `KN_SPH`, `KN_CYL`, `KN_AXIS`, `KR_SPH`, `KR_CYL`, `KR_AXIS`, `KN_ADD+`, `KN_PD`, `KN_SEG`, `KR_ADD+`, `KR_PD`, `KR_SEG`) VALUES ('" + kode_varian_lensa + "','" + kn_sph + "','" + kn_cyl + "','" + kn_axis + "','" + kr_sph + "','" + kr_cyl + "','" + kr_axis + "','" + kn_add + "','" + kn_pp + "','" + kn_seg + "','" + kr_add + "','" + kr_pp + "','" + kr_seg + "')",
           },
@@ -323,6 +342,7 @@ $lens = $con->showData("SELECT * FROM lensa");
               });
             },
             success: function(res) {
+              alert(res);
               const data = JSON.parse(res);
               if (data.status == 'success') {
                 Swal.fire({
