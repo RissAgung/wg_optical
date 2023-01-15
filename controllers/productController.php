@@ -4,6 +4,34 @@ include "../config/koneksi.php";
 
 $crud = new koneksi();
 
+function compressImage($source, $destination, $quality)
+{
+    // Get image info 
+    $imgInfo = getimagesize($source);
+    $mime = $imgInfo['mime'];
+
+    // Create a new image from file 
+    switch ($mime) {
+        case 'image/jpeg':
+            $image = imagecreatefromjpeg($source);
+            break;
+        case 'image/png':
+            $image = imagecreatefrompng($source);
+            break;
+        case 'image/gif':
+            $image = imagecreatefromgif($source);
+            break;
+        default:
+            $image = imagecreatefromjpeg($source);
+    }
+
+    // Save image 
+    imagejpeg($image, $destination, $quality);
+
+    // Return compressed image 
+    // return $destination;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (isset($_POST["type"])) {
     if ($_POST["type"] == "insert") {
@@ -15,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $allowed_exs = array("jpg", "jpeg", "png");
 
       if ($errorproduk === 0) {
-        if ($imgproduk_size > 2000000) {
+        if ($imgproduk_size > 10000000) {
           $response = array(
             'status' => 'error',
             'msg' => 'File Foto Terlalu Besar'
@@ -32,7 +60,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit();
           } else {
             $img_upload_path_produk = "../images/produk/" . $_POST['img_file_produk'];
-            move_uploaded_file($tmpproduk_name, $img_upload_path_produk);
+            compressImage($tmpproduk_name, $img_upload_path_produk, 60);
+            // move_uploaded_file($tmpproduk_name, $img_upload_path_produk);
             $crud->execute($_POST["query"]);
             $response = array(
               'status' => 'success',
@@ -77,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $allowed_exs = array("jpg", "jpeg", "png");
 
         if ($errorproduk === 0) {
-          if ($imgproduk_size > 2000000) {
+          if ($imgproduk_size > 10000000) {
             $response = array(
               'status' => 'error',
               'msg' => 'File Foto Terlalu Besar'
@@ -95,7 +124,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
               $img_upload_path_produk = "../images/produk/" . $_POST['img_file_produk_baru'];
               $img_upload_path_produk_lama = "../images/produk/" . $_POST['img_file_produk_lama'];
-              move_uploaded_file($tmpproduk_name, $img_upload_path_produk);
+              compressImage($tmpproduk_name, $img_upload_path_produk, 60);
+              // move_uploaded_file($tmpproduk_name, $img_upload_path_produk);
               if (file_exists($img_upload_path_produk_lama)) {
                 unlink($img_upload_path_produk_lama);
               }

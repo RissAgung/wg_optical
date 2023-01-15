@@ -4,11 +4,39 @@ include '../config/koneksi.php';
 
 $crud = new Koneksi();
 
+function compressImage($source, $destination, $quality)
+{
+    // Get image info 
+    $imgInfo = getimagesize($source);
+    $mime = $imgInfo['mime'];
+
+    // Create a new image from file 
+    switch ($mime) {
+        case 'image/jpeg':
+            $image = imagecreatefromjpeg($source);
+            break;
+        case 'image/png':
+            $image = imagecreatefrompng($source);
+            break;
+        case 'image/gif':
+            $image = imagecreatefromgif($source);
+            break;
+        default:
+            $image = imagecreatefromjpeg($source);
+    }
+
+    // Save image 
+    imagejpeg($image, $destination, $quality);
+
+    // Return compressed image 
+    // return $destination;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['type'])) {
         if ($_POST['type'] == 'tambah_pegawai') {
 
-            $email = $_POST['txt_email'];
+            $email = $_POST['selected_email'];
             $query = "SELECT * FROM pegawai WHERE email = '$email'";
             $result = $crud->execute($query);
             $num = mysqli_num_rows($result);
@@ -49,21 +77,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
                 if ($errorpeg === 0 || $errorktp === 0 || $errorkk === 0) {
-                    if ($imgpeg_size > 2000000) {
+                    if ($imgpeg_size > 10000000) {
                         $response = array(
                             'status' => 'error',
                             'msg' => 'File Foto Pegawai Terlalu Besar'
                         );
                         echo json_encode($response);
                         exit();
-                    } else if ($imgktp_size > 2000000) {
+                    } else if ($imgktp_size > 10000000) {
                         $response = array(
                             'status' => 'error',
                             'msg' => 'File Foto KTP Terlalu Besar'
                         );
                         echo json_encode($response);
                         exit();
-                    } else if ($imgkk_size > 2000000) {
+                    } else if ($imgkk_size > 10000000) {
                         $response = array(
                             'status' => 'error',
                             'msg' => 'File Foto KK Terlalu Besar'
@@ -99,9 +127,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             $img_upload_path_ktp = "../images/pegawai/foto_ktp/" . $_POST['img_file_ktp'];
                             $img_upload_path_kk = "../images/pegawai/foto_kk/" . $_POST['img_file_kk'];
                             # move uploaded image to 'uploads' folder
-                            move_uploaded_file($tmppeg_name, $img_upload_path_peg);
-                            move_uploaded_file($tmpktp_name, $img_upload_path_ktp);
-                            move_uploaded_file($tmpkk_name, $img_upload_path_kk);
+
+                            compressImage($tmppeg_name, $img_upload_path_peg, 60);
+                            compressImage($tmpktp_name, $img_upload_path_ktp, 60);
+                            compressImage($tmpkk_name, $img_upload_path_kk, 60);
+                            // move_uploaded_file($tmppeg_name, $img_upload_path_peg);
+                            // move_uploaded_file($tmpktp_name, $img_upload_path_ktp);
+                            // move_uploaded_file($tmpkk_name, $img_upload_path_kk);
                             // echo $_POST['query'];
                             $crud->insertData($_POST['query']);
                             $response = array(
@@ -124,24 +156,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else if ($_POST['type'] == 'ubah_pegawai') {
             $allowed_exs = array("jpg", "jpeg", "png");
             if ($_POST['opsifoto'] == 'tanpa-foto') {
-                $email = $_POST['txt_email'];
-                $query = "SELECT * FROM pegawai WHERE email = '$email'";
-                $result = $crud->execute($query);
-                $num = mysqli_num_rows($result);
+                $email = $_POST['selected_email'];
+                $result = $crud->showData("SELECT email FROM pegawai WHERE email  NOT IN ( '" . $email . "' )");
 
-                while ($row = mysqli_fetch_array($result)) {
-                    $emailval = $row['email'];
+                $checkAcc = "tidak_ditemukan";
+
+                foreach ($result as $value) {
+                    // var_dump($value);
+                    // echo $value['email'] . " + ". $email;
+                    if ($value['email'] == $_POST['txt_email']) {
+                        $checkAcc = "ditemukan";
+                        break;
+                    }
+                    // var_dump($value);
+                    // echo "huhu";
                 }
 
-                if ($num != 0) {
-                    if ($emailval == $email) {
-                        $response = array(
-                            'status' => 'error',
-                            'msg' => 'Email telah terdaftar'
-                        );
-                        echo json_encode($response);
-                        exit();
-                    }
+                if ($checkAcc == "ditemukan") {
+
+                    $response = array(
+                        'status' => 'error',
+                        'msg' => 'Email telah terdaftar'
+                    );
+                    echo json_encode($response);
+                    exit();
                 } else {
                     $crud->execute($_POST['query']);
                     $response = array(
@@ -165,14 +203,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $errorktp    = $_FILES['image_ktp']['error'];
 
                 if ($errorpeg === 0 || $errorktp === 0) {
-                    if ($imgpeg_size > 2000000) {
+                    if ($imgpeg_size > 10000000) {
                         $response = array(
                             'status' => 'error',
                             'msg' => 'File Foto Pegawai Terlalu Besar'
                         );
                         echo json_encode($response);
                         exit();
-                    } else if ($imgktp_size > 2000000) {
+                    } else if ($imgktp_size > 10000000) {
                         $response = array(
                             'status' => 'error',
                             'msg' => 'File Foto KTP Terlalu Besar'
@@ -201,24 +239,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             echo json_encode($response);
                             exit();
                         } else {
-                            $email = $_POST['txt_email'];
-                            $query = "SELECT * FROM pegawai WHERE email = '$email'";
-                            $result = $crud->execute($query);
-                            $num = mysqli_num_rows($result);
+                            $email = $_POST['selected_email'];
+                            $result = $crud->showData("SELECT email FROM pegawai WHERE email  NOT IN ( '" . $email . "' )");
 
-                            while ($row = mysqli_fetch_array($result)) {
-                                $emailval = $row['email'];
+                            $checkAcc = "tidak_ditemukan";
+
+                            foreach ($result as $value) {
+                                // var_dump($value);
+                                // echo $value['email'] . " + ". $email;
+                                if ($value['email'] == $_POST['txt_email']) {
+                                    $checkAcc = "ditemukan";
+                                    break;
+                                }
+                                // var_dump($value);
+                                // echo "huhu";
                             }
 
-                            if ($num != 0) {
-                                if ($emailval == $email) {
-                                    $response = array(
-                                        'status' => 'error',
-                                        'msg' => 'Email telah terdaftar'
-                                    );
-                                    echo json_encode($response);
-                                    exit();
-                                }
+                            if ($checkAcc == "ditemukan") {
+
+                                $response = array(
+                                    'status' => 'error',
+                                    'msg' => 'Email telah terdaftar'
+                                );
+                                echo json_encode($response);
+                                exit();
                             } else {
 
                                 # crating upload path on root directory
@@ -238,8 +282,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 }
 
                                 # move uploaded image to 'uploads' folder
-                                move_uploaded_file($tmppeg_name, $img_upload_path_peg);
-                                move_uploaded_file($tmpktp_name, $img_upload_path_ktp);
+
+                                compressImage($tmppeg_name, $img_upload_path_peg, 60);
+                                compressImage($tmpktp_name, $img_upload_path_ktp, 60);
+
+                                // move_uploaded_file($tmppeg_name, $img_upload_path_peg);
+                                // move_uploaded_file($tmpktp_name, $img_upload_path_ktp);
 
                                 // echo $_POST['query'];
 
@@ -276,14 +324,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
                 if ($errorpeg === 0 || $errorkk === 0) {
-                    if ($imgpeg_size > 2000000) {
+                    if ($imgpeg_size > 10000000) {
                         $response = array(
                             'status' => 'error',
                             'msg' => 'File Foto Pegawai Terlalu Besar'
                         );
                         echo json_encode($response);
                         exit();
-                    } else if ($imgkk_size > 2000000) {
+                    } else if ($imgkk_size > 10000000) {
                         $response = array(
                             'status' => 'error',
                             'msg' => 'File Foto KK Terlalu Besar'
@@ -312,24 +360,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             echo json_encode($response);
                             exit();
                         } else {
-                            $email = $_POST['txt_email'];
-                            $query = "SELECT * FROM pegawai WHERE email = '$email'";
-                            $result = $crud->execute($query);
-                            $num = mysqli_num_rows($result);
+                            $email = $_POST['selected_email'];
+                            $result = $crud->showData("SELECT email FROM pegawai WHERE email  NOT IN ( '" . $email . "' )");
 
-                            while ($row = mysqli_fetch_array($result)) {
-                                $emailval = $row['email'];
+                            $checkAcc = "tidak_ditemukan";
+
+                            foreach ($result as $value) {
+                                // var_dump($value);
+                                // echo $value['email'] . " + ". $email;
+                                if ($value['email'] == $_POST['txt_email']) {
+                                    $checkAcc = "ditemukan";
+                                    break;
+                                }
+                                // var_dump($value);
+                                // echo "huhu";
                             }
 
-                            if ($num != 0) {
-                                if ($emailval == $email) {
-                                    $response = array(
-                                        'status' => 'error',
-                                        'msg' => 'Email telah terdaftar'
-                                    );
-                                    echo json_encode($response);
-                                    exit();
-                                }
+                            if ($checkAcc == "ditemukan") {
+
+                                $response = array(
+                                    'status' => 'error',
+                                    'msg' => 'Email telah terdaftar'
+                                );
+                                echo json_encode($response);
+                                exit();
                             } else {
 
                                 # crating upload path on root directory
@@ -348,9 +402,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 }
 
                                 # move uploaded image to 'uploads' folder
-                                move_uploaded_file($tmppeg_name, $img_upload_path_peg);
-                                move_uploaded_file($tmpkk_name, $img_upload_path_kk);
-                                // echo $_POST['query'];
+                                compressImage($tmppeg_name, $img_upload_path_peg, 60);
+                                compressImage($tmpkk_name, $img_upload_path_kk, 60);
+                                // move_uploaded_file($tmppeg_name, $img_upload_path_peg);
+                                // move_uploaded_file($tmpkk_name, $img_upload_path_kk);
+                                // // echo $_POST['query'];
 
                                 $crud->execute($_POST['query']);
                                 $response = array(
@@ -379,7 +435,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
                 if ($errorpeg === 0) {
-                    if ($imgpeg_size > 2000000) {
+                    if ($imgpeg_size > 10000000) {
                         $response = array(
                             'status' => 'error',
                             'msg' => 'File Foto Pegawai Terlalu Besar'
@@ -401,24 +457,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             echo json_encode($response);
                             exit();
                         } else {
-                            $email = $_POST['txt_email'];
-                            $query = "SELECT * FROM pegawai WHERE email = '$email'";
-                            $result = $crud->execute($query);
-                            $num = mysqli_num_rows($result);
+                            $email = $_POST['selected_email'];
+                            $result = $crud->showData("SELECT email FROM pegawai WHERE email  NOT IN ( '" . $email . "' )");
 
-                            while ($row = mysqli_fetch_array($result)) {
-                                $emailval = $row['email'];
+                            $checkAcc = "tidak_ditemukan";
+
+                            foreach ($result as $value) {
+                                // var_dump($value);
+                                // echo $value['email'] . " + ". $email;
+                                if ($value['email'] == $_POST['txt_email']) {
+                                    $checkAcc = "ditemukan";
+                                    break;
+                                }
+                                // var_dump($value);
+                                // echo "huhu";
                             }
 
-                            if ($num != 0) {
-                                if ($emailval == $email) {
-                                    $response = array(
-                                        'status' => 'error',
-                                        'msg' => 'Email telah terdaftar'
-                                    );
-                                    echo json_encode($response);
-                                    exit();
-                                }
+                            if ($checkAcc == "ditemukan") {
+
+                                $response = array(
+                                    'status' => 'error',
+                                    'msg' => 'Email telah terdaftar'
+                                );
+                                echo json_encode($response);
+                                exit();
                             } else {
                                 # crating upload path on root directory
                                 $img_upload_path_peg = "../images/pegawai/foto_pegawai/" . $_POST['img_file_peg'];
@@ -431,7 +493,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 }
 
                                 # move uploaded image to 'uploads' folder
-                                move_uploaded_file($tmppeg_name, $img_upload_path_peg);
+                                compressImage($tmppeg_name, $img_upload_path_peg, 60);
+                                // move_uploaded_file($tmppeg_name, $img_upload_path_peg);
 
                                 // echo $_POST['query'];
 
@@ -468,14 +531,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
                 if ($errorktp === 0 || $errorkk === 0) {
-                    if ($imgktp_size > 2000000) {
+                    if ($imgktp_size > 10000000) {
                         $response = array(
                             'status' => 'error',
                             'msg' => 'File Foto KTP Terlalu Besar'
                         );
                         echo json_encode($response);
                         exit();
-                    } else if ($imgkk_size > 2000000) {
+                    } else if ($imgkk_size > 10000000) {
                         $response = array(
                             'status' => 'error',
                             'msg' => 'File Foto KK Terlalu Besar'
@@ -498,24 +561,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             echo json_encode($response);
                             exit();
                         } else {
-                            $email = $_POST['txt_email'];
-                            $query = "SELECT * FROM pegawai WHERE email = '$email'";
-                            $result = $crud->execute($query);
-                            $num = mysqli_num_rows($result);
+                            $email = $_POST['selected_email'];
+                            $result = $crud->showData("SELECT email FROM pegawai WHERE email  NOT IN ( '" . $email . "' )");
 
-                            while ($row = mysqli_fetch_array($result)) {
-                                $emailval = $row['email'];
+                            $checkAcc = "tidak_ditemukan";
+
+                            foreach ($result as $value) {
+                                // var_dump($value);
+                                // echo $value['email'] . " + ". $email;
+                                if ($value['email'] == $_POST['txt_email']) {
+                                    $checkAcc = "ditemukan";
+                                    break;
+                                }
+                                // var_dump($value);
+                                // echo "huhu";
                             }
 
-                            if ($num != 0) {
-                                if ($emailval == $email) {
-                                    $response = array(
-                                        'status' => 'error',
-                                        'msg' => 'Email telah terdaftar'
-                                    );
-                                    echo json_encode($response);
-                                    exit();
-                                }
+                            if ($checkAcc == "ditemukan") {
+
+                                $response = array(
+                                    'status' => 'error',
+                                    'msg' => 'Email telah terdaftar'
+                                );
+                                echo json_encode($response);
+                                exit();
                             } else {
                                 # crating upload path on root directory
                                 $img_upload_path_ktp = "../images/pegawai/foto_ktp/" . $_POST['img_file_ktp'];
@@ -533,8 +602,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 }
 
                                 # move uploaded image to 'uploads' folder
-                                move_uploaded_file($tmpktp_name, $img_upload_path_ktp);
-                                move_uploaded_file($tmpkk_name, $img_upload_path_kk);
+
+                                compressImage($tmpktp_name, $img_upload_path_ktp, 60);
+                                compressImage($tmpkk_name, $img_upload_path_kk, 60);
+                                // move_uploaded_file($tmpktp_name, $img_upload_path_ktp);
+                                // move_uploaded_file($tmpkk_name, $img_upload_path_kk);
                                 // echo $_POST['query'];
 
                                 $crud->execute($_POST['query']);
@@ -563,7 +635,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $errorktp    = $_FILES['image_ktp']['error'];
 
                 if ($errorktp === 0) {
-                    if ($imgktp_size > 2000000) {
+                    if ($imgktp_size > 10000000) {
                         $response = array(
                             'status' => 'error',
                             'msg' => 'File Foto KTP Terlalu Besar'
@@ -579,24 +651,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             echo json_encode($response);
                             exit();
                         } else {
-                            $email = $_POST['txt_email'];
-                            $query = "SELECT * FROM pegawai WHERE email = '$email'";
-                            $result = $crud->execute($query);
-                            $num = mysqli_num_rows($result);
+                            $email = $_POST['selected_email'];
+                            $result = $crud->showData("SELECT email FROM pegawai WHERE email  NOT IN ( '" . $email . "' )");
 
-                            while ($row = mysqli_fetch_array($result)) {
-                                $emailval = $row['email'];
+                            $checkAcc = "tidak_ditemukan";
+
+                            foreach ($result as $value) {
+                                // var_dump($value);
+                                // echo $value['email'] . " + ". $email;
+                                if ($value['email'] == $_POST['txt_email']) {
+                                    $checkAcc = "ditemukan";
+                                    break;
+                                }
+                                // var_dump($value);
+                                // echo "huhu";
                             }
 
-                            if ($num != 0) {
-                                if ($emailval == $email) {
-                                    $response = array(
-                                        'status' => 'error',
-                                        'msg' => 'Email telah terdaftar'
-                                    );
-                                    echo json_encode($response);
-                                    exit();
-                                }
+                            if ($checkAcc == "ditemukan") {
+
+                                $response = array(
+                                    'status' => 'error',
+                                    'msg' => 'Email telah terdaftar'
+                                );
+                                echo json_encode($response);
+                                exit();
                             } else {
 
                                 # crating upload path on root directory
@@ -610,7 +688,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 }
 
                                 # move uploaded image to 'uploads' folder
-                                move_uploaded_file($tmpktp_name, $img_upload_path_ktp);
+                                compressImage($tmpktp_name, $img_upload_path_ktp, 60);
+
+                                // move_uploaded_file($tmpktp_name, $img_upload_path_ktp);
                                 // echo $_POST['query'];
 
                                 $crud->execute($_POST['query']);
@@ -641,7 +721,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
                 if ($errorkk === 0) {
-                    if ($imgkk_size > 2000000) {
+                    if ($imgkk_size > 10000000) {
                         $response = array(
                             'status' => 'error',
                             'msg' => 'File Foto KK Terlalu Besar'
@@ -657,24 +737,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             echo json_encode($response);
                             exit();
                         } else {
-                            $email = $_POST['txt_email'];
-                            $query = "SELECT * FROM pegawai WHERE email = '$email'";
-                            $result = $crud->execute($query);
-                            $num = mysqli_num_rows($result);
+                            $email = $_POST['selected_email'];
+                            $result = $crud->showData("SELECT email FROM pegawai WHERE email  NOT IN ( '" . $email . "' )");
 
-                            while ($row = mysqli_fetch_array($result)) {
-                                $emailval = $row['email'];
+                            $checkAcc = "tidak_ditemukan";
+
+                            foreach ($result as $value) {
+                                // var_dump($value);
+                                // echo $value['email'] . " + ". $email;
+                                if ($value['email'] == $_POST['txt_email']) {
+                                    $checkAcc = "ditemukan";
+                                    break;
+                                }
+                                // var_dump($value);
+                                // echo "huhu";
                             }
 
-                            if ($num != 0) {
-                                if ($emailval == $email) {
-                                    $response = array(
-                                        'status' => 'error',
-                                        'msg' => 'Email telah terdaftar'
-                                    );
-                                    echo json_encode($response);
-                                    exit();
-                                }
+                            if ($checkAcc == "ditemukan") {
+
+                                $response = array(
+                                    'status' => 'error',
+                                    'msg' => 'Email telah terdaftar'
+                                );
+                                echo json_encode($response);
+                                exit();
                             } else {
 
                                 # crating upload path on root directory
@@ -688,7 +774,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 }
 
                                 # move uploaded image to 'uploads' folder
-                                move_uploaded_file($tmpkk_name, $img_upload_path_kk);
+
+                                compressImage($tmpkk_name, $img_upload_path_kk, 60);
+                                // move_uploaded_file($tmpkk_name, $img_upload_path_kk);
                                 // echo $_POST['query'];
 
                                 $crud->execute($_POST['query']);
@@ -729,21 +817,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
                 if ($errorpeg === 0 || $errorktp === 0 || $errorkk === 0) {
-                    if ($imgpeg_size > 2000000) {
+                    if ($imgpeg_size > 10000000) {
                         $response = array(
                             'status' => 'error',
                             'msg' => 'File Foto Pegawai Terlalu Besar'
                         );
                         echo json_encode($response);
                         exit();
-                    } else if ($imgktp_size > 2000000) {
+                    } else if ($imgktp_size > 10000000) {
                         $response = array(
                             'status' => 'error',
                             'msg' => 'File Foto KTP Terlalu Besar'
                         );
                         echo json_encode($response);
                         exit();
-                    } else if ($imgkk_size > 2000000) {
+                    } else if ($imgkk_size > 10000000) {
                         $response = array(
                             'status' => 'error',
                             'msg' => 'File Foto KK Terlalu Besar'
@@ -779,24 +867,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             echo json_encode($response);
                             exit();
                         } else {
-                            $email = $_POST['txt_email'];
-                            $query = "SELECT * FROM pegawai WHERE email = '$email'";
-                            $result = $crud->execute($query);
-                            $num = mysqli_num_rows($result);
+                            $email = $_POST['selected_email'];
+                            $result = $crud->showData("SELECT email FROM pegawai WHERE email  NOT IN ( '" . $email . "' )");
 
-                            while ($row = mysqli_fetch_array($result)) {
-                                $emailval = $row['email'];
+                            $checkAcc = "tidak_ditemukan";
+
+                            foreach ($result as $value) {
+                                // var_dump($value);
+                                // echo $value['email'] . " + ". $email;
+                                if ($value['email'] == $_POST['txt_email']) {
+                                    $checkAcc = "ditemukan";
+                                    break;
+                                }
+                                // var_dump($value);
+                                // echo "huhu";
                             }
 
-                            if ($num != 0) {
-                                if ($emailval == $email) {
-                                    $response = array(
-                                        'status' => 'error',
-                                        'msg' => 'Email telah terdaftar'
-                                    );
-                                    echo json_encode($response);
-                                    exit();
-                                }
+                            if ($checkAcc == "ditemukan") {
+
+                                $response = array(
+                                    'status' => 'error',
+                                    'msg' => 'Email telah terdaftar'
+                                );
+                                echo json_encode($response);
+                                exit();
                             } else {
 
                                 # crating upload path on root directory
@@ -820,9 +914,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 }
 
                                 # move uploaded image to 'uploads' folder
-                                move_uploaded_file($tmppeg_name, $img_upload_path_peg);
-                                move_uploaded_file($tmpktp_name, $img_upload_path_ktp);
-                                move_uploaded_file($tmpkk_name, $img_upload_path_kk);
+                                compressImage($tmppeg_name, $img_upload_path_peg, 60);
+                                compressImage($tmpktp_name, $img_upload_path_ktp, 60);
+                                compressImage($tmpkk_name, $img_upload_path_kk, 60);
+                                // move_uploaded_file($tmppeg_name, $img_upload_path_peg);
+                                // move_uploaded_file($tmpktp_name, $img_upload_path_ktp);
+                                // move_uploaded_file($tmpkk_name, $img_upload_path_kk);
                                 // echo $_POST['query'];
 
                                 $crud->execute($_POST['query']);

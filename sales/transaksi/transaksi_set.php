@@ -80,19 +80,19 @@ $lens = $con->showData("SELECT * FROM lensa");
               <div class="flex w-1/3 gap-2">
                 <h1>SPH:</h1>
                 <div class="shadow-md px-4 overflow-hidden w-full">
-                  <input onkeypress="return isNumberKey(event)" class="border-0 outline-0" type="text" name="" id="kr-sph">
+                  <input class="border-0 outline-0" type="number" name="" id="kr-sph">
                 </div>
               </div>
               <div class="flex w-1/3 gap-2">
                 <h1>CYL:</h1>
                 <div class="shadow-md px-4 overflow-hidden w-full">
-                  <input onkeypress="return isNumberKey(event)" class="border-0 outline-0" type="text" name="" id="kr-cyl">
+                  <input class="border-0 outline-0" type="number" name="" id="kr-cyl">
                 </div>
               </div>
               <div class="flex w-1/3 gap-2">
                 <h1>AXIS:</h1>
                 <div class="shadow-md px-4 overflow-hidden w-full">
-                  <input onkeypress="return isNumberKey(event)" class="border-0 outline-0" type="text" name="" id="kr-axis">
+                  <input class="border-0 outline-0" type="number" name="" id="kr-axis">
                 </div>
               </div>
             </div>
@@ -100,19 +100,19 @@ $lens = $con->showData("SELECT * FROM lensa");
               <div class="flex w-1/3 gap-2">
                 <h1>ADD+:</h1>
                 <div class="shadow-md px-4 overflow-hidden w-full">
-                  <input onkeypress="return isNumberKey(event)" class="border-0 outline-0" type="text" name="" id="kr-add">
+                  <input class="border-0 outline-0" type="number" name="" id="kr-add">
                 </div>
               </div>
               <div class="flex w-1/3 gap-2">
                 <h1>PD:</h1>
                 <div class="shadow-md px-4 overflow-hidden w-full">
-                  <input onkeypress="return isNumberKey(event)" class="border-0 outline-0" type="text" name="" id="kr-pd">
+                  <input class="border-0 outline-0" type="number" name="" id="kr-pd">
                 </div>
               </div>
               <div class="flex w-1/3 gap-2">
                 <h1>SEG.:</h1>
                 <div class="shadow-md px-4 overflow-hidden w-full">
-                  <input onkeypress="return isNumberKey(event)" class="border-0 outline-0" type="text" name="" id="kr-seg">
+                  <input class="border-0 outline-0" type="number" name="" id="kr-seg">
                 </div>
               </div>
             </div>
@@ -122,19 +122,19 @@ $lens = $con->showData("SELECT * FROM lensa");
               <div class="flex w-1/3 gap-2">
                 <h1>SPH:</h1>
                 <div class="shadow-md px-4 overflow-hidden w-full">
-                  <input onkeypress="return isNumberKey(event)" class="border-0 outline-0" type="text" name="" id="kn-sph">
+                  <input class="border-0 outline-0" type="number" name="" id="kn-sph">
                 </div>
               </div>
               <div class="flex w-1/3 gap-2">
                 <h1>CYL:</h1>
                 <div class="shadow-md px-4 overflow-hidden w-full">
-                  <input onkeypress="return isNumberKey(event)" class="border-0 outline-0" type="text" name="" id="kn-cyl">
+                  <input class="border-0 outline-0" type="number" name="" id="kn-cyl">
                 </div>
               </div>
               <div class="flex w-1/3 gap-2">
                 <h1>AXIS:</h1>
                 <div class="shadow-md px-4 overflow-hidden w-full">
-                  <input onkeypress="return isNumberKey(event)" class="border-0 outline-0" type="text" name="" id="kn-axis">
+                  <input class="border-0 outline-0" type="number" name="" id="kn-axis">
                 </div>
               </div>
             </div>
@@ -142,19 +142,19 @@ $lens = $con->showData("SELECT * FROM lensa");
               <div class="flex w-1/3 gap-2">
                 <h1>ADD+:</h1>
                 <div class="shadow-md px-4 overflow-hidden w-full">
-                  <input onkeypress="return isNumberKey(event)" class="border-0 outline-0" type="text" name="" id="kn-add">
+                  <input class="border-0 outline-0" type="number" name="" id="kn-add">
                 </div>
               </div>
               <div class="flex w-1/3 gap-2">
                 <h1>PD:</h1>
                 <div class="shadow-md px-4 overflow-hidden w-full">
-                  <input onkeypress="return isNumberKey(event)" class="border-0 outline-0" type="text" name="" id="kn-pd">
+                  <input class="border-0 outline-0" type="number" name="" id="kn-pd">
                 </div>
               </div>
               <div class="flex w-1/3 gap-2">
                 <h1>SEG.:</h1>
                 <div class="shadow-md px-4 overflow-hidden w-full">
-                  <input onkeypress="return isNumberKey(event)" class="border-0 outline-0" type="text" name="" id="kn-seg">
+                  <input class="border-0 outline-0" type="number" name="" id="kn-seg">
                 </div>
               </div>
             </div>
@@ -342,7 +342,7 @@ $lens = $con->showData("SELECT * FROM lensa");
               });
             },
             success: function(res) {
-              alert(res);
+              // alert(res);
               const data = JSON.parse(res);
               if (data.status == 'success') {
                 Swal.fire({

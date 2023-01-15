@@ -457,6 +457,7 @@ function getNameRoles($id)
             }
         }
 
+        var selectedEmail = "";
         $(document).ready(function() {
 
             $('#click-modal').on('click', function() {
@@ -483,9 +484,10 @@ function getNameRoles($id)
 
             });
 
+            
             <?php
             for ($index = 0; $index < count($execute); $index++) {
-            ?>
+                ?>
                 $('#edit-button-<?php echo $index; ?>').on('click', function() {
                     console.log('mphstt');
                     $('#footer-addpeg').removeClass('flex');
@@ -500,6 +502,9 @@ function getNameRoles($id)
                     let getm = '<?php echo $execute[$index]['tgl_masuk']; ?>'.substring(5, 7);
                     let gety = '<?php echo $execute[$index]['tgl_masuk']; ?>'.substring(0, 4);
                     console.log(gety + '-' + getm + '-' + getd);
+
+                    selectedEmail = '<?php echo $execute[$index]['email']; ?>';
+                    console.log(selectedEmail);
 
                     $('#tglmasuk').val(gety + '-' + getm + '-' + getd);
                     $('#txt_email').val('<?php echo $execute[$index]['email']; ?>');
@@ -654,6 +659,7 @@ function getNameRoles($id)
             $(document).ready(function() {
 
                 $('#submitform').on('click', function() {
+                    console.log(selectedEmail);
 
                     if ($('#form-password').hasClass('statusclick')) {
                         if ($('#txt_newpassword').val() == "") {
@@ -680,6 +686,7 @@ function getNameRoles($id)
                                     });
                                 },
                                 success: function(res) {
+                                    
 
                                     const data = JSON.parse(res);
                                     Swal.fire({
@@ -812,6 +819,7 @@ function getNameRoles($id)
                         form_editdata.append('img_file_ktp_old', lokasifotoktp_lama);
                         form_editdata.append('img_file_kk_old', lokasifotokk_lama);
                         form_editdata.append('txt_email', $('#txt_email').val().toLowerCase());
+                        form_editdata.append('selected_email', selectedEmail);
 
                         if (!date.getDate()) {
                             Swal.fire({
@@ -876,7 +884,7 @@ function getNameRoles($id)
                                     });
                                 },
                                 success: function(res) {
-
+                                    // alert(res);
                                     const data = JSON.parse(res);
                                     if (data.status == 'error') {
                                         Swal.fire({
@@ -1091,7 +1099,7 @@ function getNameRoles($id)
                             'pathfotokk': lokasifotokk_lama
                         },
                         success: function(res) {
-                            alert(res);
+                            // alert(res);
                             const data = JSON.parse(res);
                             Swal.fire({
                                 icon: 'success',

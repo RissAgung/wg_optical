@@ -15,7 +15,7 @@ $datenow = getdate();
 $crud = new koneksi();
 $idPeg = $_SESSION["id_pegawai"];
 
-$dataCart = $crud->showData("SELECT keranjang.kode_pesanan, keranjang_frame.harga AS harga_frame, keranjang_lensa.harga AS harga_lensa, keranjang.total FROM keranjang_frame RIGHT JOIN keranjang ON keranjang_frame.kode_pesanan = keranjang.kode_pesanan LEFT JOIN keranjang_lensa ON keranjang_lensa.kode_pesanan = keranjang.kode_pesanan WHERE keranjang.id_pegawai = '" . $idPeg . "'");
+$dataCart = $crud->showData("SELECT keranjang.kode_pesanan, keranjang_frame.harga AS harga_frame, keranjang_lensa.harga AS harga_lensa, keranjang.total FROM keranjang_frame RIGHT JOIN keranjang ON keranjang_frame.kode_pesanan = keranjang.kode_pesanan LEFT JOIN keranjang_lensa ON keranjang_lensa.kode_pesanan = keranjang.kode_pesanan WHERE keranjang.id_pegawai = '" . $idPeg . "' ORDER BY keranjang.tanggal DESC");
 
 function jenis($lensa, $frame)
 {
@@ -304,7 +304,7 @@ function rupiah($angka)
               });
             },
             success: function(res) {
-              alert(res);
+              // alert(res);
               const data = JSON.parse(res);
               if (data.status == 'berhasil') {
                 Swal.fire({
@@ -652,7 +652,7 @@ function rupiah($angka)
     }
 
     $('#opsi-pembayaran').change(function() {
-      total_harga_keranjang2
+
       if ($('#opsi-pembayaran').val() == 'Cicilan') {
         $('#field-jatuh-tgl-tempo').removeClass('hidden');
       } else {
@@ -698,119 +698,171 @@ function rupiah($angka)
 
       var kembalian = 0;
 
-      if ($('#opsi-pembayaran').val() == 'Lunas') {
-        kembalian = bayar - total;
+      if (nama == "") {
+        Swal.fire({
+          icon: 'error',
+          title: 'Gagal',
+          text: 'Masukkan Field Nama Terlebih Dahulu',
+        });
+      } else if (nohp == "") {
+        Swal.fire({
+          icon: 'error',
+          title: 'Gagal',
+          text: 'Masukkan Field No HP Terlebih Dahulu',
+        });
+      } else if (pekerjaan == "") {
+        Swal.fire({
+          icon: 'error',
+          title: 'Gagal',
+          text: 'Masukkan Field Pekerjaan Terlebih Dahulu',
+        });
+      } else if (instansi == "") {
+        Swal.fire({
+          icon: 'error',
+          title: 'Gagal',
+          text: 'Masukkan Field Instansi Terlebih Dahulu',
+        });
+      } else if(nohp.length > 13){
+        Swal.fire({
+          icon: 'error',
+          title: 'Gagal',
+          text: 'Nomor HP Tidak Boleh Lebih dari 13 Angka',
+        });
+      } else if (kecamatan == "") {
+        Swal.fire({
+          icon: 'error',
+          title: 'Gagal',
+          text: 'Masukkan Field Kecamatan Terlebih Dahulu',
+        });
+      } else if (desa == "") {
+        Swal.fire({
+          icon: 'error',
+          title: 'Gagal',
+          text: 'Masukkan Field Desa Terlebih Dahulu',
+        });
+      } else {
+        if ($('#opsi-pembayaran').val() == 'Lunas') {
+          kembalian = bayar - total;
 
-        if (bayar < total) {
-          Swal.fire({
-            icon: 'error',
-            title: 'Gagal',
-            text: 'Jumlah bayar kurang dari total pesanan',
-          });
-        } else {
-          $.ajax({
-            url: "../controllers/transaksiController.php",
-            type: 'POST',
-            data: {
-              'type': 'insert_lunas',
-              'txt_nama': nama,
-              'txt_nohp': nohp,
-              'txt_pekerjaan': pekerjaan,
-              'txt_instansi': instansi,
-              'txt_kecamatan': kecamatan,
-              'txt_desa': desa,
-              'txt_alamat': alamat,
-              'total': bayar,
-              'total_harga': total,
-              'data': JSON.stringify(kodeTR),
-              'proses_pembayaran': convertProsesPembayaran(),
-              'kembalian': kembalian,
-              'tgljatuhtempo': getDateNow(),
-              // 'tgljatuhtempo': tgljatuhtempo.getFullYear() + '-' + (tgljatuhtempo.getMonth() + 1) + '-' + tgljatuhtempo.getDate(),
-            },
-            beforeSend: function() {
-              Swal.fire({
-                title: 'Loading',
-                html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
-                allowOutsideClick: false,
-                showConfirmButton: false,
+          if (bayar < total) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Gagal',
+              text: 'Jumlah bayar kurang dari total pesanan',
+            });
+          } else {
+            $.ajax({
+              url: "../controllers/transaksiController.php",
+              type: 'POST',
+              data: {
+                'type': 'insert_lunas',
+                'txt_nama': nama,
+                'txt_nohp': nohp,
+                'txt_pekerjaan': pekerjaan,
+                'txt_instansi': instansi,
+                'txt_kecamatan': kecamatan,
+                'txt_desa': desa,
+                'txt_alamat': alamat,
+                'total': bayar,
+                'total_harga': total,
+                'data': JSON.stringify(kodeTR),
+                'proses_pembayaran': convertProsesPembayaran(),
+                'kembalian': kembalian,
+                'tgljatuhtempo': getDateNow(),
+                // 'tgljatuhtempo': tgljatuhtempo.getFullYear() + '-' + (tgljatuhtempo.getMonth() + 1) + '-' + tgljatuhtempo.getDate(),
+              },
+              beforeSend: function() {
+                Swal.fire({
+                  title: 'Loading',
+                  html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                  allowOutsideClick: false,
+                  showConfirmButton: false,
 
-              });
-            },
-            success: function(res) {
-              // alert(res);
-              const data = JSON.parse(res);
-              if (data.status == 'success') {
-                Swal.fire({
-                  icon: 'success',
-                  title: 'Berhasil',
-                  text: data.msg,
-                }).then(function() {
-                  window.location.replace("../views/digitalbill.php?status='"+data.id+"'");
                 });
-              }
-            },
-          });
-        }
-      } else if ($('#opsi-pembayaran').val() == 'Cicilan') {
-        kembalian = 0;
-        if (bayar >= total) {
-          Swal.fire({
-            icon: 'error',
-            title: 'Gagal',
-            text: 'Jumlah bayar tidak sesuai dengan jenis pembayaran',
-          });
-        } else if (tgljatuhtempo == "Invalid Date") {
-          Swal.fire({
-            icon: 'error',
-            title: 'Gagal',
-            text: 'Masukkan Tanggal Jatuh Tempo Terlebih Dahulu',
-          });
-        } else {
-          console.log(bayar);
-          $.ajax({
-            url: "../controllers/transaksiController.php",
-            type: 'POST',
-            data: {
-              'type': 'insert_cicilan',
-              'txt_nama': nama,
-              'txt_nohp': nohp,
-              'txt_pekerjaan': pekerjaan,
-              'txt_instansi': instansi,
-              'txt_kecamatan': kecamatan,
-              'txt_desa': desa,
-              'txt_alamat': alamat,
-              'total': bayar,
-              'total_harga': total,
-              'data': JSON.stringify(kodeTR),
-              'proses_pembayaran': convertProsesPembayaran(),
-              'kembalian': kembalian,
-              'tgljatuhtempo': tgljatuhtempo.getFullYear() + '-' + (tgljatuhtempo.getMonth() + 1) + '-' + tgljatuhtempo.getDate(),
-            },
-            beforeSend: function() {
-              Swal.fire({
-                title: 'Loading',
-                html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
-                allowOutsideClick: false,
-                showConfirmButton: false,
-              });
-            },
-            success: function(res) {
-              alert(res);
-              const data = JSON.parse(res);
-              if (data.status == 'success') {
+              },
+              success: function(res) {
+                // alert(res);
+                const data = JSON.parse(res);
+                if (data.status == 'success') {
+                  Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: data.msg,
+                  }).then(function() {
+                    window.location.replace("../views/digitalbill.php?status='" + data.id + "'");
+                  });
+                }
+              },
+            });
+          }
+        } else if ($('#opsi-pembayaran').val() == 'Cicilan') {
+          kembalian = 0;
+          if (bayar >= total) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Gagal',
+              text: 'Jumlah bayar tidak sesuai dengan jenis pembayaran',
+            });
+          } else if (tgljatuhtempo == "Invalid Date") {
+            Swal.fire({
+              icon: 'error',
+              title: 'Gagal',
+              text: 'Masukkan Tanggal Jatuh Tempo Terlebih Dahulu',
+            });
+          } else if ($('#txt_bayar').val() == "") {
+            Swal.fire({
+              icon: 'error',
+              title: 'Gagal',
+              text: 'Masukkan Field Depan Bayar Terlebih Dahulu',
+            });
+          } else {
+            console.log(bayar);
+            $.ajax({
+              url: "../controllers/transaksiController.php",
+              type: 'POST',
+              data: {
+                'type': 'insert_cicilan',
+                'txt_nama': nama,
+                'txt_nohp': nohp,
+                'txt_pekerjaan': pekerjaan,
+                'txt_instansi': instansi,
+                'txt_kecamatan': kecamatan,
+                'txt_desa': desa,
+                'txt_alamat': alamat,
+                'total': bayar,
+                'total_harga': total,
+                'data': JSON.stringify(kodeTR),
+                'proses_pembayaran': convertProsesPembayaran(),
+                'kembalian': kembalian,
+                'tgljatuhtempo': tgljatuhtempo.getFullYear() + '-' + (tgljatuhtempo.getMonth() + 1) + '-' + tgljatuhtempo.getDate(),
+              },
+              beforeSend: function() {
                 Swal.fire({
-                  icon: 'success',
-                  title: 'Berhasil',
-                  text: data.msg,
-                }).then(function() {
-                  window.location.replace("../views/digitalbill.php?status='"+data.id+"'");
+                  title: 'Loading',
+                  html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                  allowOutsideClick: false,
+                  showConfirmButton: false,
                 });
-              }
-            },
-          });
+              },
+              success: function(res) {
+                // alert(res);
+                const data = JSON.parse(res);
+                if (data.status == 'success') {
+                  Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: data.msg,
+                  }).then(function() {
+                    window.location.replace("../views/digitalbill.php?status='" + data.id + "'");
+                  });
+                }
+              },
+            });
+          }
         }
       }
+
+
     }
   </script>
 

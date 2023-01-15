@@ -30,7 +30,7 @@ echo '<script>Swal.fire({
         <header class="">
             <div class="w-full z-[9999] fixed bg-[#171A23]">
                 <div class="flex justify-between px-12 my-6 relative">
-                    <a href="index.html"><span class="text-white">WG <span class="font-bold">Optical</span></span></a>
+                    <a href="index.php"><span class="text-white">WG <span class="font-bold">Optical</span></span></a>
 
                     <button name="menuu" id="menuu" type="button" class="flex flex-col md:hidden">
                         <span class="menu-line transition duration-500 ease-in-out origin-bottom-left"></span>

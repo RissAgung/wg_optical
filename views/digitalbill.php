@@ -50,7 +50,7 @@
             const wa_kembalian = formatRupiah(""+dataPembayaran.kembalian, "Rp. ").replace(/ /g, "%20");
             const wa_status = dataPembayaran.total_bayar >= dataPembayaran.total_harga ? "LUNAS" : "BELUM";
 
-            const waMe = 'http://wa.me/62' + wa_noHp + '?text=*NOTA%20ELEKTRONIK*%0A%0Ahttp://localhost/Workshop_web/src/views/digitalbill.php?status=' + encodeURI("%27"+wa_tr+"%27") + '%0A%0APelanggan%20Yth.%0A' + wa_nama + ',%0Ano:62' + wa_noHp + '%0A' + wa_jl + '%20' + wa_kec + '%0A%0A*Ket*%20:%0A==========%0ADetail%20:%0AKode%20Transaksi%20:%20' + wa_tr + '%0ATotal%20Tagihan%20:%20' + wa_total + '%0ANominal%20Bayar%20:%20' + wa_bayar + '%0AKembalian%20:%20' + wa_kembalian + '%0A%0AStatus%20:%20' + wa_status + '%0A%0A*TERIMAKASIH*';
+            const waMe = 'http://wa.me/62' + wa_noHp + '?text=*NOTA%20ELEKTRONIK*%0A%0Ahttps://wgoptical.me/views/digitalbill.php?status=' + encodeURI("%27"+wa_tr+"%27") + '%0A%0APelanggan%20Yth.%0A' + wa_nama + ',%0Ano:62' + wa_noHp + '%0A' + wa_jl + '%20' + wa_kec + '%0A%0A*Ket*%20:%0A==========%0ADetail%20:%0AKode%20Transaksi%20:%20' + wa_tr + '%0ATotal%20Tagihan%20:%20' + wa_total + '%0ANominal%20Bayar%20:%20' + wa_bayar + '%0AKembalian%20:%20' + wa_kembalian + '%0A%0AStatus%20:%20' + wa_status + '%0A%0A*TERIMAKASIH*';
 
             console.log(waMe);
 

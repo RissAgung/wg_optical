@@ -329,7 +329,7 @@ $data = (isset($_GET["search"])) ? $crud->showData("SELECT * FROM perlengkapan W
                 });
               },
               success: function(res) {
-                //alert(res)
+                alert(res)
                 const data = JSON.parse(res);
 
                 if (data.status == 'error') {
