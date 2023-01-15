@@ -3,6 +3,34 @@ date_default_timezone_set("Asia/Bangkok");
 include "../config/koneksi.php";
 $crud = new koneksi();
 
+function compressImage($source, $destination, $quality)
+{
+    // Get image info 
+    $imgInfo = getimagesize($source);
+    $mime = $imgInfo['mime'];
+
+    // Create a new image from file 
+    switch ($mime) {
+        case 'image/jpeg':
+            $image = imagecreatefromjpeg($source);
+            break;
+        case 'image/png':
+            $image = imagecreatefrompng($source);
+            break;
+        case 'image/gif':
+            $image = imagecreatefromgif($source);
+            break;
+        default:
+            $image = imagecreatefromjpeg($source);
+    }
+
+    // Save image 
+    imagejpeg($image, $destination, $quality);
+
+    // Return compressed image 
+    // return $destination;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (isset($_POST["type"])) {
     if ($_POST["type"] == "up_bukti") {
@@ -31,7 +59,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit();
           } else {
             $img_upload_path_produk = "../images/landing/" . $_POST['img_file_produk'];
-            move_uploaded_file($tmpproduk_name, $img_upload_path_produk);
+            compressImage($tmpproduk_name, $img_upload_path_produk, 60);
+            // move_uploaded_file($tmpproduk_name, $img_upload_path_produk);
             $crud->execute($_POST["query"]);
             $response = array(
               'status' => 'success',
@@ -53,7 +82,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($_POST["type"] == "delete") {
       $crud->execute($_POST["query"]);
       $path = "../images/landing/" . $_POST["imgPath"];
-      unlink($path);
+
+      if (file_exists($path)) {
+        unlink($path);
+      }
       $response = array(
         'status' => 'success',
         'msg' => 'Data berhasil dihapus'

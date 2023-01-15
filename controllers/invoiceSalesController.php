@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           } else {
             $img_upload_path_produk = "../images/bukti_pengiriman/" . $_POST['img_file_produk'];
 
-            $compress = compressImage($tmpproduk_name, $img_upload_path_produk, 60);
+            compressImage($tmpproduk_name, $img_upload_path_produk, 60);
             // move_uploaded_file($tmpproduk_name, $img_upload_path_produk);
             $crud->execute($_POST["query"]);
             $response = array(

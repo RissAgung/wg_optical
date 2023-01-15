@@ -264,7 +264,22 @@ function rupiah($angka)
         <script src="../js/xlsx.full.min.js"></script>
 
         <script>
-            
+
+function formatRupiah(angka, prefix) {
+      var number_string = angka.replace(/[^,\d]/g, '').toString(),
+        split = number_string.split(','),
+        sisa = split[0].length % 3,
+        rupiah = split[0].substr(0, sisa),
+        ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+      if (ribuan) {
+        separator = sisa ? '.' : '';
+        rupiah += separator + ribuan.join('.');
+      }
+
+      rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+      return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+    }
             $('#top_bar').load("../assets/components/top_bar.php", function() {
                 $("#avatar_profile").attr("src", "../images/pegawai/foto_pegawai/<?= $imgProfile ?>");
                 $('#title-header').html('Pengeluaran');
@@ -315,30 +330,44 @@ function rupiah($angka)
                 tablesop.push(rows);
             }
 
+            function refreshCurrency() {
+                var myTable = document.getElementById('table-operasional');
+                for (var index = 1; index < $('#table-operasional').find('tr').length; index++) {
+                    myTable.rows[index].cells[5].innerHTML = formatRupiah(myTable.rows[index].cells[5].innerHTML, 'Rp. ');
+                }
+            }
+
 
             function tableToExcel(type) {
 
                 if (tabSelected == 1) {
+                    var myTable = document.getElementById('table-operasional');
+                    for (var index = 1; index < $('#table-operasional').find('tr').length; index++) {
+                        myTable.rows[index].cells[5].innerHTML = myTable.rows[index].cells[5].innerHTML.replace("Rp. ", "").replace(".", "").replace(".", "").replace(" ", "");
+                    }
                     var data = document.getElementById('table-operasional');
                     var excelFile = XLSX.utils.table_to_book(data, {
                         sheet: "Pengeluaran Operasional",
                         raw: false
                     });
 
-                    var ws = excelFile.Sheets["Pengeluaran Operasional"];
-                    //  get the current sheet
-                    for (var index = 2; index < $('#table-operasional').find('tr').length + 1; index++) {
-                        const getV = ws["F" + index].v;
-                        ws["F" + index].v = String(getV).replace("Rp. ", "").replace(".", "").replace(".", "").replace(" ", "");
+                    // var ws = excelFile.Sheets["Pengeluaran Operasional"];
+                    // //  get the current sheet
+                    // for (var index = 2; index < $('#table-operasional').find('tr').length + 1; index++) {
+                    //     const getV = ws["F" + index].v;
+                    //     ws["F" + index].v = String(getV).replace("Rp. ", "").replace(".", "").replace(".", "").replace(" ", "");
+                    //     // XLSX.utils.sheet_add_aoa(excelFile, [[String(getV).replace("Rp. ", "").replace(".", "").replace(".", "").replace(" ", "")]], {origin: 'F' + index});
 
-                    }
-
+                    // }
                     XLSX.write(excelFile, {
                         bookType: type,
                         bookSST: false,
                         type: 'base64'
                     });
                     XLSX.writeFile(excelFile, 'ExportedFile:Pengeluaran-Operasional.' + type);
+
+
+                    refreshCurrency();
 
                 } else {
 
@@ -1244,7 +1273,7 @@ function rupiah($angka)
                         }
                     })
                 }
-            
+
             }
         </script>
 

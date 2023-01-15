@@ -2,10 +2,10 @@
 
 class koneksi
 {
-  private $server = "localhost";
-  private $username = "root";
-  private $password = "";
-  private $db = "wgoptical";
+  private $server = "mphstar.com";
+  private $username = "mphstar";
+  private $password = "123";
+  private $db = "wgoptical-3";
 
   public function prepareKoneksi()
   {
