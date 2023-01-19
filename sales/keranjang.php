@@ -108,6 +108,8 @@ function rupiah($angka)
         <div class="flex flex-col px-6 py-4 bg-white mt-[0.5px] font-ex-medium">
           <h1 class="pt-4">Nama</h1>
           <input class="cursor-pointer px-4 outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden" type="text" placeholder="" name="" id="txt_nama">
+          <h1 class="pt-4">Umur</h1>
+          <input class="cursor-pointer px-4 outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden" onkeypress="return isNumberKey(event)" type="text" maxlength="3" placeholder="" name="" id="txt_umur">
           <h1 class="pt-6">No Telepon</h1>
           <input class="cursor-pointer px-4 outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden" type="number" placeholder="" name="" id="txt_nohp">
           <h1 class="pt-6">Pekerjaan / Instansi</h1>
@@ -680,6 +682,7 @@ function rupiah($angka)
 
     function submitTransaksi() {
       var nama = $('#txt_nama').val();
+      var umur = $('#txt_umur').val();
       var nohp = $('#txt_nohp').val();
       var pekerjaan = $('#txt_pekerjaan').val();
       var instansi = $('#txt_instansi').val();
@@ -722,7 +725,7 @@ function rupiah($angka)
           title: 'Gagal',
           text: 'Masukkan Field Instansi Terlebih Dahulu',
         });
-      } else if(nohp.length > 13){
+      } else if (nohp.length > 13) {
         Swal.fire({
           icon: 'error',
           title: 'Gagal',
@@ -757,6 +760,7 @@ function rupiah($angka)
               data: {
                 'type': 'insert_lunas',
                 'txt_nama': nama,
+                'txt_umur': umur,
                 'txt_nohp': nohp,
                 'txt_pekerjaan': pekerjaan,
                 'txt_instansi': instansi,
@@ -823,6 +827,7 @@ function rupiah($angka)
               data: {
                 'type': 'insert_cicilan',
                 'txt_nama': nama,
+                'txt_umur': umur,
                 'txt_nohp': nohp,
                 'txt_pekerjaan': pekerjaan,
                 'txt_instansi': instansi,
@@ -863,6 +868,13 @@ function rupiah($angka)
       }
 
 
+    }
+
+    function isNumberKey(evt) {
+      var charCode = (evt.which) ? evt.which : evt.keyCode
+      if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+      return true;
     }
   </script>
 

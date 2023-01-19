@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $idCus = generateCustomerID($crud);
             // insert customer
-            $crud->execute("INSERT INTO customer VALUES ('" . $idCus . "', '" . $_POST['txt_nama'] . "', '" . $_POST['txt_kecamatan'] . "', '" . $_POST['txt_desa'] . "', '" . $_POST['txt_alamat'] . "', '" . $_POST['txt_pekerjaan'] . "', '" . $_POST['txt_instansi'] . "', '" . $_POST['txt_nohp'] . "')");
+            $crud->execute("INSERT INTO customer VALUES ('" . $idCus . "', '" . $_POST['txt_nama'] . "', '" . $_POST['txt_umur'] . "', '" . $_POST['txt_kecamatan'] . "', '" . $_POST['txt_desa'] . "', '" . $_POST['txt_alamat'] . "', '" . $_POST['txt_pekerjaan'] . "', '" . $_POST['txt_instansi'] . "', '" . $_POST['txt_nohp'] . "')");
 
             foreach (json_decode($_POST['data']) as $value) {
                 array_push($data, (array) $value);
@@ -47,11 +47,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $cekstockcase = $crud->showData("SELECT * FROM tambahan WHERE kode_barang = 'CKCMT'");
             $cekstocklap = $crud->showData("SELECT * FROM tambahan WHERE kode_barang = 'LPXQW'");
 
-            if(count($cekstockcase) == 0){
+            if (count($cekstockcase) == 0) {
                 $crud->execute("INSERT INTO tambahan VALUES ('CKCMT', 'Case Kacamata', '0')");
             }
 
-            if(count($cekstocklap) == 0){
+            if (count($cekstocklap) == 0) {
                 $crud->execute("INSERT INTO tambahan VALUES ('LPXQW', 'Lap Kacamata', '0')");
             }
 
@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $idCus = generateCustomerID($crud);
             // insert customer
-            $crud->execute("INSERT INTO customer VALUES ('" . $idCus . "', '" . $_POST['txt_nama'] . "', '" . $_POST['txt_kecamatan'] . "', '" . $_POST['txt_desa'] . "', '" . $_POST['txt_alamat'] . "', '" . $_POST['txt_pekerjaan'] . "', '" . $_POST['txt_instansi'] . "', '" . $_POST['txt_nohp'] . "')");
+            $crud->execute("INSERT INTO customer VALUES ('" . $idCus . "', '" . $_POST['txt_nama'] . "', '" . $_POST['txt_umur'] . "', '" . $_POST['txt_kecamatan'] . "', '" . $_POST['txt_desa'] . "', '" . $_POST['txt_alamat'] . "', '" . $_POST['txt_pekerjaan'] . "', '" . $_POST['txt_instansi'] . "', '" . $_POST['txt_nohp'] . "')");
 
             foreach (json_decode($_POST['data']) as $value) {
                 array_push($data, (array) $value);
@@ -104,11 +104,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $cekstockcase = $crud->showData("SELECT * FROM tambahan WHERE kode_barang = 'CKCMT'");
             $cekstocklap = $crud->showData("SELECT * FROM tambahan WHERE kode_barang = 'LPXQW'");
 
-            if(count($cekstockcase) == 0){
+            if (count($cekstockcase) == 0) {
                 $crud->execute("INSERT INTO tambahan VALUES ('CKCMT', 'Case Kacamata', '0')");
             }
 
-            if(count($cekstocklap) == 0){
+            if (count($cekstocklap) == 0) {
                 $crud->execute("INSERT INTO tambahan VALUES ('LPXQW', 'Lap Kacamata', '0')");
             }
 
