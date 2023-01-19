@@ -197,7 +197,7 @@ $imgFrame = $crud->showData("SELECT merk, gambar FROM produk LIMIT 6");
             <footer>
                 <div class="w-full h-auto bg-[#171A23]">
                     <div class=" mx-auto flex flex-col items-center justify-center py-12 px-9">
-                        <h1 class="text-white font-bold text-xl">Waluyo Group</h1>
+                        <h1 class="text-white font-bold text-xl">WG Optical</h1>
 
                         <div class="flex gap-4 py-12">
                             <div class="w-14 h-14 bg-[#333A4E] rounded-full relative">
@@ -223,8 +223,7 @@ $imgFrame = $crud->showData("SELECT merk, gambar FROM produk LIMIT 6");
                             </div>
                         </div>
 
-                        <h1 class="text-white font-base text-center">Copyright @2022 <span class="text-white font-bold">Waluyo
-                                Group</span> IT Team. All Right Reserved</h1>
+                        <h1 class="text-white font-base text-center">Copyright @2022 <span class="text-white font-bold">WG Optical</span> IT Team. All Right Reserved</h1>
 
                     </div>
                 </div>

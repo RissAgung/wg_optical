@@ -63,7 +63,7 @@ echo '<script>Swal.fire({
         <div class="w-full md:w-[60%]">
             <div class="flex flex-col pt-40 items-center md:items-start px-12 md:px-24 lg:px-32 md:pt-52 xl:px-44">
                 <h1 class="text-white text-4xl lg:text-5xl text-center md:text-start font-bold">Welcome to</h1>
-                <h1 class="text-white text-4xl lg:text-5xl text-center md:text-start font-semibold mb-8">Waluyo Group Optical
+                <h1 class="text-white text-4xl lg:text-5xl text-center md:text-start font-semibold mb-8">WG Optical
                 </h1>
                 <p class="text-white text-center md:text-start">Masukkan email dan password anda untuk login</p>
             </div>
