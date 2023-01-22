@@ -185,7 +185,7 @@ function getNameRoles($id)
                                 <td class="p-3 text-sm tracking-wide text-center"><?php echo $data['gender'] ?></td>
                                 <td class="p-3 text-sm tracking-wide text-center"><?php echo $data['no.Telp'] ?></td>
                                 <td class="p-3 text-sm tracking-wide text-center"><?php echo getNameRoles($data['id_level']) ?></td>
-                                <td class="p-3 text-sm tracking-wide text-center"><?php echo $data['alamat'] ?></td>
+                                <td class="p-3 text-sm tracking-wide text-center"><?php echo $data['alamat']; ?></td>
                                 <td class="p-3 text-sm tracking-wide text-center">
                                     <?php if ($data['id_level'] == 3) : ?>
                                         <button onclick="detailBarang('<?= $data['id_pegawai']; ?>', '<?= $data['nama']; ?>')">
@@ -512,7 +512,7 @@ function getNameRoles($id)
                     $('#txt_gender').val('<?php echo $execute[$index]['gender']; ?>');
                     $('#txt_level').val(convertIdRolesToName('<?php echo $execute[$index]['id_level']; ?>'));
                     $('#txt_notelepon').val('<?php echo $execute[$index]['no.Telp']; ?>');
-                    $('#txt_alamat').val('<?php echo $execute[$index]['alamat']; ?>');
+                    $('#txt_alamat').val("<?php echo $execute[$index]['alamat']; ?>");
 
                     $('#imgpreview_peg').removeClass('hidden');
                     $('#imgdefault_peg').addClass('hidden');
