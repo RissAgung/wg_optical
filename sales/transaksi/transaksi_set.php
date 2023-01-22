@@ -161,15 +161,11 @@ $lens = $con->showData("SELECT * FROM lensa");
         </div>
       </div>
       <div class="flex flex-col px-6 py-4 bg-white mt-[0.5px]">
-        <h1>Harga Frame</h1>
+        <h1>Harga</h1>
         <input id="inputHargaFrame" class="px-4 outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden" type="text" placeholder="Masukkan Harga">
         <div class="flex justify-end pt-4">
           <h1 id="value_harga_minimal" class="font-ex-medium text-yellow-600">Harga Minimal : Rp. 500.000</h1>
         </div>
-      </div>
-      <div class="flex flex-col px-6 pt-2 pb-8 bg-white">
-        <h1>Harga Lensa</h1>
-        <input id="inputHargaLensa" class="px-4 outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden" type="text" placeholder="Masukkan Harga">
       </div>
     </div>
   </section>
@@ -265,8 +261,7 @@ $lens = $con->showData("SELECT * FROM lensa");
 
 
       var hargaFrame = parseInt($("#inputHargaFrame").val().replace("Rp. ", "").replace(".", "").replace(".", "").replace(" ", ""));
-      var hargaLensa = parseInt($('#inputHargaLensa').val().replace("Rp. ", "").replace(".", "").replace(".", "").replace(" ", ""));
-      var totalHarga = hargaFrame + hargaLensa;
+      var totalHarga = hargaFrame;
 
       console.log($('#inputHargaFrame').val());
 
@@ -294,13 +289,6 @@ $lens = $con->showData("SELECT * FROM lensa");
           title: 'Informasi',
           text: 'Minimal harga bayar ' + formatRupiah(harga, 'Rp. '),
         })
-
-      } else if ($('#inputHargaLensa').val() == "") {
-        Swal.fire({
-          icon: 'warning',
-          title: 'Informasi',
-          text: 'Masukkan harga lensa terlebih dahulu',
-        })
       } else {
         var idTR = '<?= strtoupper(str_replace(".", "", uniqid('TR', true))) ?>';
 
@@ -315,7 +303,7 @@ $lens = $con->showData("SELECT * FROM lensa");
           cancelButtonText: 'Batal',
         }).then((result) => {
           if (result.isConfirmed) {
-            
+
             $.ajax({
               url: "../../controllers/keranjangController.php",
               type: "post",
@@ -324,17 +312,17 @@ $lens = $con->showData("SELECT * FROM lensa");
                 query_keranjang: "INSERT INTO keranjang VALUES ('" + idTR + "',NOW(),'<?= $idPegawai ?>','" + totalHarga + "')",
                 keranjang_frame: "INSERT INTO keranjang_frame VALUES ('" + idTR + "','" + kode + "','" + hargaFrame + "')",
                 update_status: "UPDATE detail_bawa SET status_frame='unready' WHERE Id_Bawa = '" + kode + "'",
-                query_Keranjang_Lensa: "INSERT INTO `keranjang_lensa`(`kode_varian_lensa_keranjang`, `kode_pesanan`, `id_jenis_lensa`, `harga`) VALUES ('" + kode_varian_lensa + "','" + idTR + "','" + jenis_lensa + "','" + hargaLensa + "')",
+                query_Keranjang_Lensa: "INSERT INTO `keranjang_lensa`(`kode_varian_lensa_keranjang`, `kode_pesanan`, `id_jenis_lensa`, `harga`) VALUES ('" + kode_varian_lensa + "','" + idTR + "','" + jenis_lensa + "','0')",
                 query_keranjang_resep: "INSERT INTO `keranjang_resep`(`kode_varian_lensa_keranjang`, `KN_SPH`, `KN_CYL`, `KN_AXIS`, `KR_SPH`, `KR_CYL`, `KR_AXIS`, `KN_ADD+`, `KN_PD`, `KN_SEG`, `KR_ADD+`, `KR_PD`, `KR_SEG`) VALUES ('" + kode_varian_lensa + "','" + kn_sph + "','" + kn_cyl + "','" + kn_axis + "','" + kr_sph + "','" + kr_cyl + "','" + kr_axis + "','" + kn_add + "','" + kn_pp + "','" + kn_seg + "','" + kr_add + "','" + kr_pp + "','" + kr_seg + "')",
               },
             }).then(function() {
               var variant_sent = new FormData();
-    
+
               variant_sent.append('data-' + 0, JSON.stringify({
                 'kode': $('#varian_lensa').val(),
                 'kodeVariant': kode_varian_lensa,
               }));
-    
+
               $.ajax({
                 url: "../../controllers/keranjangController.php",
                 type: "post",
@@ -347,7 +335,7 @@ $lens = $con->showData("SELECT * FROM lensa");
                     html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
                     allowOutsideClick: false,
                     showConfirmButton: false,
-    
+
                   });
                 },
                 success: function(res) {
@@ -387,12 +375,8 @@ $lens = $con->showData("SELECT * FROM lensa");
 
     /* Dengan Rupiah */
     var dengan_rupiah_Frame = document.getElementById('inputHargaFrame');
-    var dengan_rupiah_Lensa = document.getElementById('inputHargaLensa');
     dengan_rupiah_Frame.addEventListener('keyup', function(e) {
       dengan_rupiah_Frame.value = formatRupiah(this.value, 'Rp. ');
-    });
-    dengan_rupiah_Lensa.addEventListener('keyup', function(e) {
-      dengan_rupiah_Lensa.value = formatRupiah(this.value, 'Rp. ');
     });
 
     /* Fungsi */

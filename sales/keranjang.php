@@ -150,7 +150,7 @@ function rupiah($angka)
               <input type="date" id="tgljatuhtempo" class="h-full w-full" min="<?= $datenow['year'] . '-' . $datenow['mon'] . '-' . $datenow['mday']; ?>">
             </div>
           </div>
-          <h1 class="pt-6">Depan Bayar</h1>
+          <h1 id="title-jenis-bayar" class="pt-6">Total Bayar</h1>
           <input class="cursor-pointer px-4 outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden" type="text" placeholder="" name="" id="txt_bayar">
         </div>
       </div>
@@ -657,8 +657,10 @@ function rupiah($angka)
 
       if ($('#opsi-pembayaran').val() == 'Cicilan') {
         $('#field-jatuh-tgl-tempo').removeClass('hidden');
+        $('#title-jenis-bayar').html('Depan Bayar');
       } else {
         $('#field-jatuh-tgl-tempo').addClass('hidden');
+        $('#title-jenis-bayar').html('Total Bayar');
       }
     });
 
