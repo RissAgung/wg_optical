@@ -420,11 +420,11 @@ function rupiah($angka)
               title: 'Gagal',
               text: "Kode Frame Tidak Boleh Kosong",
             })
-          } else if (kode_frame.length < 5) {
+          } else if (kode_frame.length < 3) {
             Swal.fire({
               icon: 'error',
               title: 'Gagal',
-              text: "Kode Frame Tidak Boleh Kurang Dari 5 Karakter",
+              text: "Kode Frame Tidak Boleh Kurang Dari 3 Karakter",
             })
           } else if (merk == "") {
             Swal.fire({
@@ -481,6 +481,7 @@ function rupiah($angka)
                 });
               },
               success: function(res) {
+                // alert(res);
 
                 const data = JSON.parse(res);
 
@@ -562,7 +563,7 @@ function rupiah($angka)
                   title: 'Gagal',
                   text: "Kode Frame Tidak Boleh Kosong",
                 })
-              } else if (kode_frame.length < 5) {
+              } else if (kode_frame.length < 3) {
                 Swal.fire({
                   icon: 'error',
                   title: 'Gagal',
@@ -636,7 +637,7 @@ function rupiah($angka)
                   title: 'Gagal',
                   text: "Kode Frame Tidak Boleh Kosong",
                 })
-              } else if (kode_frame.length < 5) {
+              } else if (kode_frame.length < 3) {
                 Swal.fire({
                   icon: 'error',
                   title: 'Gagal',
@@ -770,7 +771,7 @@ function rupiah($angka)
                   title: 'Gagal',
                   text: "Kode Frame Tidak Boleh Kosong",
                 })
-              } else if (kode_frame.length < 5) {
+              } else if (kode_frame.length < 3) {
                 Swal.fire({
                   icon: 'error',
                   title: 'Gagal',
@@ -844,7 +845,7 @@ function rupiah($angka)
                   title: 'Gagal',
                   text: "Kode Frame Tidak Boleh Kosong",
                 })
-              } else if (kode_frame.length < 5) {
+              } else if (kode_frame.length < 3) {
                 Swal.fire({
                   icon: 'error',
                   title: 'Gagal',
@@ -930,7 +931,7 @@ function rupiah($angka)
 
       function getData() {
         kode_frame = $("#kode_txt").val();
-        merk = $("#merk_txt").val();
+        merk = $("#merk_txt").val().replace(/["]+/g, '`').replace(/[']+/g, "`");
         warna = $("#warna_txt").val();
         harga = parseInt($("#harga_txt").val().replace("Rp. ", "").replace(".", "").replace(".", "").replace(" ", ""));
       }
