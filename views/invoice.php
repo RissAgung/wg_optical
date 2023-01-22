@@ -888,13 +888,15 @@ function getStatusPembayaran($kode)
 
             let jenis_transaksi = "";
 
-            if (data_lensa[0] != "" && data_content.frame != "") {
+            if (data_lensa[0] != null && data_content.frame != null) {
               jenis_transaksi = "Set";
-            } else if (data_lensa[0] != "" && data_content.frame == "") {
+            } else if (data_lensa[0] != null && data_content.frame == null) {
               jenis_transaksi = "Lensa";
-            } else if (data_lensa[0] == "" && data_content.frame != "") {
+            } else if (data_lensa[0] == null && data_content.frame != null) {
               jenis_transaksi = "Frame";
             }
+
+            console.log(data_lensa[0] +" oawkokawokowak "+ data_content.frame);
 
             kontenHtml += '<div class="flex flex-row w-full">'
             kontenHtml += '<div class="w-[40%] py-1">Kode Frame</div>'
