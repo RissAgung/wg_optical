@@ -1,6 +1,6 @@
 <?php
 
-  session_start();
+session_start();
 
 ?>
 <!DOCTYPE html>
@@ -45,12 +45,12 @@
             const wa_jl = finalData.alamat_jalan.replace(/ /g, "%20");
             const wa_kec = finalData.kecamatan.replace(/ /g, "%20");
             const wa_tr = finalData.kode_pesanan.replace(/ /g, "%20");
-            const wa_total = formatRupiah(""+dataPembayaran.total_harga, "Rp. ").replace(/ /g, "%20");
-            const wa_bayar = formatRupiah(""+dataPembayaran.total_bayar, "Rp. ").replace(/ /g, "%20");
-            const wa_kembalian = formatRupiah(""+dataPembayaran.kembalian, "Rp. ").replace(/ /g, "%20");
+            const wa_total = formatRupiah("" + dataPembayaran.total_harga, "Rp. ").replace(/ /g, "%20");
+            const wa_bayar = formatRupiah("" + dataPembayaran.total_bayar, "Rp. ").replace(/ /g, "%20");
+            const wa_kembalian = formatRupiah("" + dataPembayaran.kembalian, "Rp. ").replace(/ /g, "%20");
             const wa_status = dataPembayaran.total_bayar >= dataPembayaran.total_harga ? "LUNAS" : "BELUM";
 
-            const waMe = 'http://wa.me/62' + wa_noHp + '?text=*NOTA%20ELEKTRONIK*%0A%0Ahttps://wgoptical.me/views/digitalbill.php?status=' + encodeURI("%27"+wa_tr+"%27") + '%0A%0APelanggan%20Yth.%0A' + wa_nama + ',%0Ano:62' + wa_noHp + '%0A' + wa_jl + '%20' + wa_kec + '%0A%0A*Ket*%20:%0A==========%0ADetail%20:%0AKode%20Transaksi%20:%20' + wa_tr + '%0ATotal%20Tagihan%20:%20' + wa_total + '%0ANominal%20Bayar%20:%20' + wa_bayar + '%0AKembalian%20:%20' + wa_kembalian + '%0A%0AStatus%20:%20' + wa_status + '%0A%0A*TERIMAKASIH*';
+            const waMe = 'http://wa.me/62' + wa_noHp + '?text=*NOTA%20ELEKTRONIK*%0A%0Ahttps://wgoptical.me/views/digitalbill.php?status=' + encodeURI("%27" + wa_tr + "%27") + '%0A%0APelanggan%20Yth.%0A' + wa_nama + ',%0Ano:62' + wa_noHp + '%0A' + wa_jl + '%20' + wa_kec + '%0A%0A*Ket*%20:%0A==========%0ADetail%20:%0AKode%20Transaksi%20:%20' + wa_tr + '%0ATotal%20Tagihan%20:%20' + wa_total + '%0ANominal%20Bayar%20:%20' + wa_bayar + '%0AKembalian%20:%20' + wa_kembalian + '%0A%0AStatus%20:%20' + wa_status + '%0A%0A*TERIMAKASIH*';
 
             console.log(waMe);
 
@@ -143,31 +143,59 @@
 
               kontenHtml += '<div class="flex flex-col w-full">'
 
-              if (finalPesanan.frame != null) {
-                kontenHtml += '<div class="flex flex-row justify-between items-center py-2">'
-                kontenHtml += '<p class="break-words w-[40%]">Frame : ' + finalPesanan.frame + '</p>'
-                kontenHtml += '<p class="text-center break-words w-[50%] h-full">' + formatRupiah("" + finalPesanan.harga_frame, "Rp. ") + '</p>'
-                kontenHtml += '</div>'
-              }
-
-              if (finalPesanan.lensa[0][0] != null) {
-                // console.log("kontol"+index)
-
-                let hasilLensa = "";
-
-                for (let indexLensa = 0; indexLensa < finalPesanan.lensa.length; indexLensa++) {
-                  hasilLensa += finalPesanan.lensa[indexLensa][0] + ", ";
+              if (finalPesanan.frame != null && finalPesanan.lensa[0][0] != null) {
+                if (finalPesanan.frame != null) {
+                  kontenHtml += '<div class="flex flex-row justify-between items-center py-2">'
+                  kontenHtml += '<p class="break-words w-[40%]">Frame : ' + finalPesanan.frame + '</p>'
+                  kontenHtml += '<p class="text-center break-words w-[50%] h-full"></p>'
+                  kontenHtml += '</div>'
                 }
 
-                kontenHtml += '<div class="flex flex-row justify-between items-center py-2">'
-                kontenHtml += '<div class="w-[50%]">'
-                kontenHtml += '<p class="break-words">Lensa : ' + hasilLensa.substring(0, hasilLensa.length - 2) + '</p>'
-                kontenHtml += '</div>'
+                if (finalPesanan.lensa[0][0] != null) {
+                  // console.log("kontol"+index)
 
-                kontenHtml += '<div class="h-full text-center w-[50%]">'
-                kontenHtml += formatRupiah("" + finalPesanan.harga_lensa, "Rp. ")
-                kontenHtml += '</div>'
-                kontenHtml += '</div>'
+                  let hasilLensa = "";
+
+                  for (let indexLensa = 0; indexLensa < finalPesanan.lensa.length; indexLensa++) {
+                    hasilLensa += finalPesanan.lensa[indexLensa][0] + ", ";
+                  }
+
+                  kontenHtml += '<div class="flex flex-row justify-between items-center py-2">'
+                  kontenHtml += '<div class="w-[50%]">'
+                  kontenHtml += '<p class="break-words">Lensa : ' + hasilLensa.substring(0, hasilLensa.length - 2) + '</p>'
+                  kontenHtml += '</div>'
+
+                  kontenHtml += '<div class="h-full text-center w-[50%]">'
+                  kontenHtml += '</div>'
+                  kontenHtml += '</div>'
+                }
+              } else {
+                if (finalPesanan.frame != null) {
+                  kontenHtml += '<div class="flex flex-row justify-between items-center py-2">'
+                  kontenHtml += '<p class="break-words w-[40%]">Frame : ' + finalPesanan.frame + '</p>'
+                  kontenHtml += '<p class="text-center break-words w-[50%] h-full">' + formatRupiah("" + finalPesanan.harga_frame, "Rp. ") + '</p>'
+                  kontenHtml += '</div>'
+                }
+
+                if (finalPesanan.lensa[0][0] != null) {
+                  // console.log("kontol"+index)
+
+                  let hasilLensa = "";
+
+                  for (let indexLensa = 0; indexLensa < finalPesanan.lensa.length; indexLensa++) {
+                    hasilLensa += finalPesanan.lensa[indexLensa][0] + ", ";
+                  }
+
+                  kontenHtml += '<div class="flex flex-row justify-between items-center py-2">'
+                  kontenHtml += '<div class="w-[50%]">'
+                  kontenHtml += '<p class="break-words">Lensa : ' + hasilLensa.substring(0, hasilLensa.length - 2) + '</p>'
+                  kontenHtml += '</div>'
+
+                  kontenHtml += '<div class="h-full text-center w-[50%]">'
+                  kontenHtml += formatRupiah("" + finalPesanan.harga_lensa, "Rp. ")
+                  kontenHtml += '</div>'
+                  kontenHtml += '</div>'
+                }
               }
 
               kontenHtml += '</div>'

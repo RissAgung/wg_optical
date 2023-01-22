@@ -396,11 +396,11 @@ $datariwayat = (isset($_GET["search"])) ? $crud->showData("SELECT transaksi.stat
 
             let jenis_transaksi = "";
 
-            if (data_lensa[0] != "" && data_content.frame != "") {
+            if (data_lensa[0] != null && data_content.frame != null) {
               jenis_transaksi = "Set";
-            } else if (data_lensa[0] != "" && data_content.frame == "") {
+            } else if (data_lensa[0] != null && data_content.frame == null) {
               jenis_transaksi = "Lensa";
-            } else if (data_lensa[0] == "" && data_content.frame != "") {
+            } else if (data_lensa[0] == null && data_content.frame != null) {
               jenis_transaksi = "Frame";
             }
 
