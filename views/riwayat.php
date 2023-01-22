@@ -132,7 +132,8 @@ $datariwayat = (isset($_GET["search"])) ? $crud->showData("SELECT transaksi.stat
             </tr>
           </thead>
           <tbody>
-            <?php $totalData = 0; $no = 1; ?>
+            <?php $totalData = 0;
+            $no = 1; ?>
             <?php foreach ($datariwayat as $index) : ?>
               <?php if ($index['total_bayar'] >= $index['total_harga'] && $index['status_pengiriman'] == 'terima') : ?>
                 <?php $totalData = $totalData + 1 ?>
@@ -350,7 +351,7 @@ $datariwayat = (isset($_GET["search"])) ? $crud->showData("SELECT transaksi.stat
           kontenHtml += '<div class="flex flex-row w-full">'
           kontenHtml += '<div class="w-[40%] py-1">No Telepon</div>'
           kontenHtml += '<div class="w-[10%] py-1 flex justify-center">:</div>'
-          kontenHtml += '<div class="w-[50%] py-1">081233764580</div>'
+          kontenHtml += '<div class="w-[50%] py-1">' + finalData.nomor_hp + '</div>'
           kontenHtml += '</div>'
           kontenHtml += '<div class="flex flex-row w-full">'
           kontenHtml += '<div class="w-[40%] py-1">Kecamatan</div>'
@@ -567,6 +568,15 @@ $datariwayat = (isset($_GET["search"])) ? $crud->showData("SELECT transaksi.stat
           kontenHtml += '<div class="w-[10%] py-1 flex justify-center">:</div>'
           kontenHtml += '<div class="w-[50%] py-1">' + status_lunas + '</div>'
           kontenHtml += '</div>'
+
+          kontenHtml += '<div class="flex flex-row w-full">'
+          let urlBill = "../views/digitalbill.php?status='" + finalData.kode_pesanan + "'"
+          kontenHtml += '<a href="' + urlBill + '" class="cursor-pointer flex flex-row items-center justify-center gap-3 bg-[#3C9781] hover:bg-[#2C6A5B] transition ease-in-out text-center max-[359px]:w-full w-[45%] mx-auto rounded-md mt-5 p-2 text-xs">'
+          kontenHtml += '<svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 24 24" width="20px" height="20px" fill="#FFFFFF"><path d="M5.521,19.9h5.322l3.519,3.515a2.035,2.035,0,0,0,1.443.6,2.1,2.1,0,0,0,.523-.067,2.026,2.026,0,0,0,1.454-1.414L23.989,1.425Z"/><path d="M4.087,18.5,22.572.012,1.478,6.233a2.048,2.048,0,0,0-.886,3.42l3.495,3.492Z"/></svg>'
+          kontenHtml += '<p class="font-ex-semibold text-white">Cek Nota</p>'
+          kontenHtml += '</a>'
+          kontenHtml += '</div>'
+
           kontenHtml += '</div>'
 
           $('#main_content').html(kontenHtml);
