@@ -114,37 +114,51 @@ $dataLens = $con->showData("SELECT detail_bawa.Id_Bawa, produk.harga_jual FROM d
 
         var idTR = '<?= strtoupper(str_replace(".", "", uniqid('TR', true))) ?>';
 
-        $.ajax({
-          url: "../../controllers/keranjangController.php",
-          type: "post",
-          data: {
-            type: "insert_frame",
-            query_keranjang: "INSERT INTO keranjang VALUES ('" + idTR + "',NOW(),'<?= $idPegawai ?>','" + harga_input + "')",
-            keranjang_frame: "INSERT INTO keranjang_frame VALUES ('" + idTR + "','" + kode + "','" + harga_input + "')",
-            update_status: "UPDATE detail_bawa SET status_frame='unready' WHERE Id_Bawa = '" + kode + "'",
-          },
-          beforeSend: function() {
-            Swal.fire({
-              title: 'Loading',
-              html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
-              allowOutsideClick: false,
-              showConfirmButton: false,
-
+        Swal.fire({
+          title: 'Informasi',
+          text: "Apakah anda yakin ingin memasukkan kedalam keranjang?",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Ya',
+          cancelButtonText: 'Batal',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            $.ajax({
+              url: "../../controllers/keranjangController.php",
+              type: "post",
+              data: {
+                type: "insert_frame",
+                query_keranjang: "INSERT INTO keranjang VALUES ('" + idTR + "',NOW(),'<?= $idPegawai ?>','" + harga_input + "')",
+                keranjang_frame: "INSERT INTO keranjang_frame VALUES ('" + idTR + "','" + kode + "','" + harga_input + "')",
+                update_status: "UPDATE detail_bawa SET status_frame='unready' WHERE Id_Bawa = '" + kode + "'",
+              },
+              beforeSend: function() {
+                Swal.fire({
+                  title: 'Loading',
+                  html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                  allowOutsideClick: false,
+                  showConfirmButton: false,
+    
+                });
+              },
+              success: function(res) {
+                const data = JSON.parse(res);
+                if (data.status == 'success') {
+                  Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: data.msg,
+                  }).then(function() {
+                    window.location.replace("../dashboard.php");
+                  });
+                }
+              }
             });
-          },
-          success: function(res) {
-            const data = JSON.parse(res);
-            if (data.status == 'success') {
-              Swal.fire({
-                icon: 'success',
-                title: 'Berhasil',
-                text: data.msg,
-              }).then(function() {
-                window.location.replace("../dashboard.php");
-              });
-            }
           }
-        })
+        });
+
 
       } else {
         Swal.fire({

@@ -310,10 +310,10 @@ $execute = (isset($_GET["search"])) ? $crud->showData("SELECT * FROM supplier WH
             var alamat;
 
             function getData() {
-                name = $("#name").val();
+                name = $("#name").val().replace(/["]+/g, '`').replace(/[']+/g, "`");
                 nohp = $("#nohp").val();
-                ket = $("#ket").val();
-                alamat = $("#addres").val();
+                ket = $("#ket").val().replace(/["]+/g, '`').replace(/[']+/g, "`");
+                alamat = $("#addres").val().replace(/["]+/g, '`').replace(/[']+/g, "`");
             }
 
             //start add data

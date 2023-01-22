@@ -447,7 +447,7 @@ $data = (isset($_GET["search"])) ? $crud->showData("SELECT * FROM tambahan WHERE
 
       function getData() {
         kodebarang = $("#kode_barang").val();
-        namabarang = $("#nama_barang").val();
+        namabarang = $("#nama_barang").val().replace(/["]+/g, '`').replace(/[']+/g, "`");
       }
       $("#btn_out").on("click", function() {
         $('#bgmodalinput').removeClass("effectmodal");
