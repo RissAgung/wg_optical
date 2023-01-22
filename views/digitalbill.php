@@ -24,6 +24,8 @@ session_start();
   </div>
 
   <script src="../js/jquery-3.6.1.min.js"></script>
+  <!-- <script src="../js/html2pdf.bundle.js"></script> -->
+  <script src="../js/html2Canvas.js"></script>
   <script>
     $(document).ready(function() {
       var kontenHtml = "";
@@ -355,11 +357,15 @@ session_start();
 
             console.log(account_check);
             if (account_check != undefined) {
-              kontenHtml += '<a href="' + waMe + '" class="cursor-pointer flex flex-row items-center justify-center gap-3 bg-[#3C9781] hover:bg-[#2C6A5B] transition ease-in-out text-center w-[70%] mx-auto rounded-full p-3 text-xs">'
+              kontenHtml += '<a id="btn_share" href="' + waMe + '" class="cursor-pointer flex flex-row items-center justify-center gap-3 bg-[#3C9781] hover:bg-[#2C6A5B] transition ease-in-out text-center w-[70%] mx-auto rounded-full p-3 text-xs">'
               kontenHtml += '<svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 50 50" width="25px" height="25px" fill="#FFFFFF">   <path d="M25,2C12.318,2,2,12.318,2,25c0,3.96,1.023,7.854,2.963,11.29L2.037,46.73c-0.096,0.343-0.003,0.711,0.245,0.966 C2.473,47.893,2.733,48,3,48c0.08,0,0.161-0.01,0.24-0.029l10.896-2.699C17.463,47.058,21.21,48,25,48c12.682,0,23-10.318,23-23 S37.682,2,25,2z M36.57,33.116c-0.492,1.362-2.852,2.605-3.986,2.772c-1.018,0.149-2.306,0.213-3.72-0.231 c-0.857-0.27-1.957-0.628-3.366-1.229c-5.923-2.526-9.791-8.415-10.087-8.804C15.116,25.235,13,22.463,13,19.594 s1.525-4.28,2.067-4.864c0.542-0.584,1.181-0.73,1.575-0.73s0.787,0.005,1.132,0.021c0.363,0.018,0.85-0.137,1.329,1.001 c0.492,1.168,1.673,4.037,1.819,4.33c0.148,0.292,0.246,0.633,0.05,1.022c-0.196,0.389-0.294,0.632-0.59,0.973 s-0.62,0.76-0.886,1.022c-0.296,0.291-0.603,0.606-0.259,1.19c0.344,0.584,1.529,2.493,3.285,4.039 c2.255,1.986,4.158,2.602,4.748,2.894c0.59,0.292,0.935,0.243,1.279-0.146c0.344-0.39,1.476-1.703,1.869-2.286 s0.787-0.487,1.329-0.292c0.542,0.194,3.445,1.604,4.035,1.896c0.59,0.292,0.984,0.438,1.132,0.681 C37.062,30.587,37.062,31.755,36.57,33.116z"/></svg>'
               kontenHtml += '<p class="font-ex-semibold text-white">Kirim Nota</p>'
               kontenHtml += '</a>'
             }
+            const hahai = finalData.kode_pesanan;
+            kontenHtml += '<div id="btn_download" onclick="tesDownload(' + encodeURI("'" + hahai + "'") + ')" class="cursor-pointer flex flex-row items-center justify-center gap-3 bg-[#3C9781] hover:bg-[#2C6A5B] transition ease-in-out text-center w-[70%] mx-auto rounded-full p-3 text-xs mt-2">'
+            kontenHtml += '<div class="flex flex-row gap-2 justify-center items-center font-ex-semibold text-white"><svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 24 24" width="20" height="20" fill="#FFFFFF"><path d="M23,24H1c-.55,0-1-.45-1-1s.45-1,1-1H23c.55,0,1,.45,1,1s-.45,1-1,1Zm-8.23-5.14s6.35-6.75,6.35-6.75c.87-.87,1.12-2.11,.65-3.24-.47-1.13-1.52-1.84-2.75-1.85h-2.02s0-4.03,0-4.03c.01-1.67-1.36-3-3.02-3h-3.98c-1.66,0-3,1.34-3,3v4s-1.87,0-1.87,0c-1.17,0-2.3,.61-2.81,1.66-.57,1.18-.34,2.51,.54,3.4l6.29,6.8c.77,.77,1.79,1.16,2.81,1.16s2.03-.39,2.81-1.16Z"/></svg><p>Download</p></div>'
+            kontenHtml += '</div>'
 
             $('#content').html(kontenHtml);
           }
@@ -368,6 +374,26 @@ session_start();
         $('#content').html("Pesanan tidak valid");
       }
     })
+
+    function tesDownload(kodeTr) {
+      $("#btn_share").addClass("hidden");
+      $("#btn_download").addClass("hidden");
+
+      const element = document.getElementById('content');
+      
+      
+      html2canvas(element).then(function(canvas) {
+        var imageData = canvas.toDataURL("image/jpg", 0.9).replace("image/png", "image/octet-stream");
+        var a = document.createElement('a');
+        a.href = imageData;
+        a.download = kodeTr + '.jpg';
+        a.click();
+      })
+
+      $("#btn_share").removeClass("hidden");
+      $("#btn_download").removeClass("hidden");
+
+    }
 
     function formatRupiah(angka, prefix) {
       var number_string = angka.replace(/[^,\d]/g, '').toString(),
