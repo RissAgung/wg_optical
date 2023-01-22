@@ -2,7 +2,7 @@
 
 class koneksi
 {
-  private $server = "hamsyong.cuy";
+  private $server = "mphstar.com";
   private $username = "root";
   private $password = "123";
   private $db = "wgoptical";

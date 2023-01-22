@@ -107,16 +107,16 @@ function rupiah($angka)
         <h1 class="font-ex-semibold px-6 pt-8">Detail Custommer</h1>
         <div class="flex flex-col px-6 py-4 bg-white mt-[0.5px] font-ex-medium">
           <h1 class="pt-4">Nama</h1>
-          <input class="cursor-pointer px-4 outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden" type="text" placeholder="" name="" id="txt_nama">
+          <input class="cursor-pointer px-4 outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden" type="text" placeholder="" name="" id="txt_nama" maxlength="100">
           <h1 class="pt-4">Umur</h1>
           <input class="cursor-pointer px-4 outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden" onkeypress="return isNumberKey(event)" type="text" maxlength="3" placeholder="" name="" id="txt_umur">
           <h1 class="pt-6">No Telepon</h1>
-          <input class="cursor-pointer px-4 outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden" type="number" placeholder="" name="" id="txt_nohp">
+          <input class="cursor-pointer px-4 outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden" onkeypress="return isNumberKey(event)" type="text" placeholder="" name="" id="txt_nohp" maxlength="13">
           <h1 class="pt-6">Pekerjaan / Instansi</h1>
           <div class="px-4 flex flex-row justify-between items-center outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden">
-            <input class="cursor-pointer h-full w-full pr-4 outline-0" type="text" placeholder="" name="" id="txt_pekerjaan">
+            <input class="cursor-pointer h-full w-full pr-4 outline-0" type="text" placeholder="" name="" id="txt_pekerjaan" maxlength="100">
             <h1 class="h-full flex items-center justify-center font-ex-semibold w-12 text-center">/</h1>
-            <input class="cursor-pointer h-full w-full pl-4 outline-0" type="text" placeholder="" name="" id="txt_instansi">
+            <input class="cursor-pointer h-full w-full pl-4 outline-0" type="text" placeholder="" name="" id="txt_instansi" maxlength="13">
           </div>
         </div>
         <h1 class="font-ex-semibold px-6 pt-8">Detail Alamat</h1>
@@ -127,7 +127,7 @@ function rupiah($angka)
 
           <h1 class="pt-6">Desa</h1>
           <div class="px-4 flex flex-row justify-between items-center outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden">
-            <input class="cursor-pointer h-full w-full outline-0" type="text" placeholder="" name="" id="txt_desa">
+            <input class="cursor-pointer h-full w-full outline-0" type="text" placeholder="" name="" id="txt_desa" maxlength="50">
           </div>
           <h1 class="pt-6">Alamat</h1>
           <div class="h-[167px] w-full border border-[#C9C9C9] rounded-lg mt-3 overflow-hidden">
@@ -681,13 +681,13 @@ function rupiah($angka)
     }
 
     function submitTransaksi() {
-      var nama = $('#txt_nama').val();
-      var umur = $('#txt_umur').val();
-      var nohp = $('#txt_nohp').val();
-      var pekerjaan = $('#txt_pekerjaan').val();
-      var instansi = $('#txt_instansi').val();
-      var kecamatan = $('#txt_kecamatan').val();
-      var alamat = $('#txt_alamat').val();
+      var nama = $('#txt_nama').val().replace(/["#&]+/g, '`').replace(/[']+/g, "`");
+      var umur = $('#txt_umur').val().replace(/["#&]+/g, '`').replace(/[']+/g, "`");
+      var nohp = $('#txt_nohp').val().replace(/["#&]+/g, '`').replace(/[']+/g, "`");
+      var pekerjaan = $('#txt_pekerjaan').val().replace(/["#&]+/g, '`').replace(/[']+/g, "`");
+      var instansi = $('#txt_instansi').val().replace(/["#&]+/g, '`').replace(/[']+/g, "`");
+      var kecamatan = $('#txt_kecamatan').val().replace(/["#&]+/g, '`').replace(/[']+/g, "`");
+      var alamat = $('#txt_alamat').val().replace(/["#&]+/g, '`').replace(/[']+/g, "`");
       var bayar;
       console.log($('#txt_bayar').val());
       if ($('#txt_bayar').val() == "") {
@@ -697,7 +697,7 @@ function rupiah($angka)
         bayar = parseInt($("#txt_bayar").val().replace("Rp. ", "").replace(".", "").replace(".", "").replace(" ", ""))
       }
       var tgljatuhtempo = new Date($('#tgljatuhtempo').val());
-      var desa = $('#txt_desa').val();
+      var desa = $('#txt_desa').val().replace(/["#&]+/g, '`').replace(/[']+/g, "`");
 
       var kembalian = 0;
 
@@ -707,23 +707,17 @@ function rupiah($angka)
           title: 'Gagal',
           text: 'Masukkan Field Nama Terlebih Dahulu',
         });
+      } else if (umur == "") {
+        Swal.fire({
+          icon: 'error',
+          title: 'Gagal',
+          text: 'Masukkan Field Umur Terlebih Dahulu',
+        });
       } else if (nohp == "") {
         Swal.fire({
           icon: 'error',
           title: 'Gagal',
           text: 'Masukkan Field No HP Terlebih Dahulu',
-        });
-      } else if (pekerjaan == "") {
-        Swal.fire({
-          icon: 'error',
-          title: 'Gagal',
-          text: 'Masukkan Field Pekerjaan Terlebih Dahulu',
-        });
-      } else if (instansi == "") {
-        Swal.fire({
-          icon: 'error',
-          title: 'Gagal',
-          text: 'Masukkan Field Instansi Terlebih Dahulu',
         });
       } else if (nohp.length > 13) {
         Swal.fire({
@@ -754,50 +748,74 @@ function rupiah($angka)
               text: 'Jumlah bayar kurang dari total pesanan',
             });
           } else {
-            $.ajax({
-              url: "../controllers/transaksiController.php",
-              type: 'POST',
-              data: {
-                'type': 'insert_lunas',
-                'txt_nama': nama,
-                'txt_umur': umur,
-                'txt_nohp': nohp,
-                'txt_pekerjaan': pekerjaan,
-                'txt_instansi': instansi,
-                'txt_kecamatan': kecamatan,
-                'txt_desa': desa,
-                'txt_alamat': alamat,
-                'total': bayar,
-                'total_harga': total,
-                'data': JSON.stringify(kodeTR),
-                'proses_pembayaran': convertProsesPembayaran(),
-                'kembalian': kembalian,
-                'tgljatuhtempo': getDateNow(),
-                // 'tgljatuhtempo': tgljatuhtempo.getFullYear() + '-' + (tgljatuhtempo.getMonth() + 1) + '-' + tgljatuhtempo.getDate(),
-              },
-              beforeSend: function() {
-                Swal.fire({
-                  title: 'Loading',
-                  html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
-                  allowOutsideClick: false,
-                  showConfirmButton: false,
+            Swal.fire({
+              title: 'Informasi',
+              text: "Apakah anda yakin ingin melakukan transaksi?",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Ya',
+              cancelButtonText: 'Batal',
+            }).then((result) => {
+              if (result.isConfirmed) {
 
+                $.ajax({
+                  url: "../controllers/transaksiController.php",
+                  type: 'POST',
+                  data: {
+                    'type': 'insert_lunas',
+                    'txt_nama': nama,
+                    'txt_umur': umur,
+                    'txt_nohp': nohp,
+                    'txt_pekerjaan': pekerjaan,
+                    'txt_instansi': instansi,
+                    'txt_kecamatan': kecamatan,
+                    'txt_desa': desa,
+                    'txt_alamat': alamat,
+                    'total': bayar,
+                    'total_harga': total,
+                    'data': JSON.stringify(kodeTR),
+                    'proses_pembayaran': convertProsesPembayaran(),
+                    'kembalian': kembalian,
+                    'tgljatuhtempo': getDateNow(),
+                    // 'tgljatuhtempo': tgljatuhtempo.getFullYear() + '-' + (tgljatuhtempo.getMonth() + 1) + '-' + tgljatuhtempo.getDate(),
+                  },
+                  beforeSend: function() {
+
+                    Swal.fire({
+                      title: 'Loading',
+                      html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                      allowOutsideClick: false,
+                      showConfirmButton: false,
+
+                    });
+                  },
+                  success: function(res) {
+                    try {
+                      const data = JSON.parse(res);
+                      if (data.status == 'success') {
+                        Swal.fire({
+                          icon: 'success',
+                          title: 'Berhasil',
+                          text: data.msg,
+                        }).then(function() {
+                          window.location.replace("../views/digitalbill.php?status='" + data.id + "'");
+                        });
+                      }
+                    } catch (error) {
+                      Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal',
+                        text: 'Gagal Melakukan Transaksi',
+
+                      })
+                    }
+                  },
                 });
-              },
-              success: function(res) {
-                // alert(res);
-                const data = JSON.parse(res);
-                if (data.status == 'success') {
-                  Swal.fire({
-                    icon: 'success',
-                    title: 'Berhasil',
-                    text: data.msg,
-                  }).then(function() {
-                    window.location.replace("../views/digitalbill.php?status='" + data.id + "'");
-                  });
-                }
-              },
+              }
             });
+
           }
         } else if ($('#opsi-pembayaran').val() == 'Cicilan') {
           kembalian = 0;
@@ -820,48 +838,70 @@ function rupiah($angka)
               text: 'Masukkan Field Depan Bayar Terlebih Dahulu',
             });
           } else {
-            console.log(bayar);
-            $.ajax({
-              url: "../controllers/transaksiController.php",
-              type: 'POST',
-              data: {
-                'type': 'insert_cicilan',
-                'txt_nama': nama,
-                'txt_umur': umur,
-                'txt_nohp': nohp,
-                'txt_pekerjaan': pekerjaan,
-                'txt_instansi': instansi,
-                'txt_kecamatan': kecamatan,
-                'txt_desa': desa,
-                'txt_alamat': alamat,
-                'total': bayar,
-                'total_harga': total,
-                'data': JSON.stringify(kodeTR),
-                'proses_pembayaran': convertProsesPembayaran(),
-                'kembalian': kembalian,
-                'tgljatuhtempo': tgljatuhtempo.getFullYear() + '-' + (tgljatuhtempo.getMonth() + 1) + '-' + tgljatuhtempo.getDate(),
-              },
-              beforeSend: function() {
-                Swal.fire({
-                  title: 'Loading',
-                  html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
-                  allowOutsideClick: false,
-                  showConfirmButton: false,
+            Swal.fire({
+              title: 'Informasi',
+              text: "Apakah anda yakin ingin melakukan transaksi?",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Ya',
+              cancelButtonText: 'Batal',
+            }).then((result) => {
+              if (result.isConfirmed) {
+                $.ajax({
+                  url: "../controllers/transaksiController.php",
+                  type: 'POST',
+                  data: {
+                    'type': 'insert_cicilan',
+                    'txt_nama': nama,
+                    'txt_umur': umur,
+                    'txt_nohp': nohp,
+                    'txt_pekerjaan': pekerjaan,
+                    'txt_instansi': instansi,
+                    'txt_kecamatan': kecamatan,
+                    'txt_desa': desa,
+                    'txt_alamat': alamat,
+                    'total': bayar,
+                    'total_harga': total,
+                    'data': JSON.stringify(kodeTR),
+                    'proses_pembayaran': convertProsesPembayaran(),
+                    'kembalian': kembalian,
+                    'tgljatuhtempo': tgljatuhtempo.getFullYear() + '-' + (tgljatuhtempo.getMonth() + 1) + '-' + tgljatuhtempo.getDate(),
+                  },
+                  beforeSend: function() {
+                    Swal.fire({
+                      title: 'Loading',
+                      html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                      allowOutsideClick: false,
+                      showConfirmButton: false,
+                    });
+                  },
+                  success: function(res) {
+                    // alert(res);
+
+                    try {
+                      const data = JSON.parse(res);
+                      if (data.status == 'success') {
+                        Swal.fire({
+                          icon: 'success',
+                          title: 'Berhasil',
+                          text: data.msg,
+                        }).then(function() {
+                          window.location.replace("../views/digitalbill.php?status='" + data.id + "'");
+                        });
+                      }
+                    } catch (error) {
+                      Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal',
+                        text: 'Gagal Melakukan Transaksi',
+
+                      });
+                    }
+                  },
                 });
-              },
-              success: function(res) {
-                // alert(res);
-                const data = JSON.parse(res);
-                if (data.status == 'success') {
-                  Swal.fire({
-                    icon: 'success',
-                    title: 'Berhasil',
-                    text: data.msg,
-                  }).then(function() {
-                    window.location.replace("../views/digitalbill.php?status='" + data.id + "'");
-                  });
-                }
-              },
+              }
             });
           }
         }

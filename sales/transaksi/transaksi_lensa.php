@@ -51,16 +51,15 @@ $lens = $con->showData("SELECT * FROM lensa");
         </select>
       </div>
       <div class="flex flex-col px-6 pt-2 pb-8 bg-white">
-        <h1>Varian Lensa</h1>
-        <div class="w-full items-center max-h-[230px] border-[1px] border-[#D9D9D9] rounded-md flex flex-row gap-4 flex-wrap justify-start mt-3 scrollbar overflow-x-hidden p-3">
-          <?php foreach ($lens as $index) : ?>
-            <div class="flex flex-row p-4 w-32 gap-4">
-              <input onclick="choice_variant('<?= $index['kode_lensa'] ?>')" class="flex items-center" type="checkbox" id="lens-<?= $index['kode_lensa'] ?>">
-              <label for="lens-<?= $index['kode_lensa'] ?>"><?= $index['nama_lensa'] ?></label>
-            </div>
-          <?php endforeach ?>
-        </div>
+        <h1 class="">Varian Lensa</h1>
+        <select id="varian_lensa" class="cursor-pointer outline-0 mt-3 md:mt-6 h-16 border-[1px] bg-white border-[#D9D9D9] rounded-md overflow-hidden">
+          <option class="text-xs" value="LNS1">Bluray</option>
+          <option class="text-xs" value="LNS2">Photochromic</option>
+          <option class="text-xs" value="LNS3">Bluecromic</option>
+          <option class="text-xs" value="LNS4">MC</option>
+        </select>
       </div>
+      
 
       <div class="flex flex-col px-6 py-4 bg-white mt-[10px]">
         <h1>Detail Lensa</h1>
@@ -71,19 +70,19 @@ $lens = $con->showData("SELECT * FROM lensa");
               <div class="flex w-1/3 gap-2">
                 <h1>SPH:</h1>
                 <div class="shadow-md px-4 overflow-hidden w-full">
-                  <input class="border-0 outline-0" type="number" name="" id="kr-sph">
+                  <input class="border-0 outline-0" type="text" name="" id="kr-sph">
                 </div>
               </div>
               <div class="flex w-1/3 gap-2">
                 <h1>CYL:</h1>
                 <div class="shadow-md px-4 overflow-hidden w-full">
-                  <input class="border-0 outline-0" type="number" name="" id="kr-cyl">
+                  <input class="border-0 outline-0" type="text" name="" id="kr-cyl">
                 </div>
               </div>
               <div class="flex w-1/3 gap-2">
                 <h1>AXIS:</h1>
                 <div class="shadow-md px-4 overflow-hidden w-full">
-                  <input class="border-0 outline-0" type="number" name="" id="kr-axis">
+                  <input class="border-0 outline-0" type="text" name="" id="kr-axis">
                 </div>
               </div>
             </div>
@@ -91,19 +90,19 @@ $lens = $con->showData("SELECT * FROM lensa");
               <div class="flex w-1/3 gap-2">
                 <h1>ADD+:</h1>
                 <div class="shadow-md px-4 overflow-hidden w-full">
-                  <input class="border-0 outline-0" type="number" name="" id="kr-add">
+                  <input class="border-0 outline-0" type="text" name="" id="kr-add">
                 </div>
               </div>
               <div class="flex w-1/3 gap-2">
                 <h1>PD:</h1>
                 <div class="shadow-md px-4 overflow-hidden w-full">
-                  <input class="border-0 outline-0" type="number" name="" id="kr-pd">
+                  <input class="border-0 outline-0" type="text" name="" id="kr-pd">
                 </div>
               </div>
               <div class="flex w-1/3 gap-2">
                 <h1>SEG.:</h1>
                 <div class="shadow-md px-4 overflow-hidden w-full">
-                  <input class="border-0 outline-0" type="number" name="" id="kr-seg">
+                  <input class="border-0 outline-0" type="text" name="" id="kr-seg">
                 </div>
               </div>
             </div>
@@ -113,19 +112,19 @@ $lens = $con->showData("SELECT * FROM lensa");
               <div class="flex w-1/3 gap-2">
                 <h1>SPH:</h1>
                 <div class="shadow-md px-4 overflow-hidden w-full">
-                  <input class="border-0 outline-0" type="number" name="" id="kn-sph">
+                  <input class="border-0 outline-0" type="text" name="" id="kn-sph">
                 </div>
               </div>
               <div class="flex w-1/3 gap-2">
                 <h1>CYL:</h1>
                 <div class="shadow-md px-4 overflow-hidden w-full">
-                  <input class="border-0 outline-0" type="number" name="" id="kn-cyl">
+                  <input class="border-0 outline-0" type="text" name="" id="kn-cyl">
                 </div>
               </div>
               <div class="flex w-1/3 gap-2">
                 <h1>AXIS:</h1>
                 <div class="shadow-md px-4 overflow-hidden w-full">
-                  <input class="border-0 outline-0" type="number" name="" id="kn-axis">
+                  <input class="border-0 outline-0" type="text" name="" id="kn-axis">
                 </div>
               </div>
             </div>
@@ -133,19 +132,19 @@ $lens = $con->showData("SELECT * FROM lensa");
               <div class="flex w-1/3 gap-2">
                 <h1>ADD+:</h1>
                 <div class="shadow-md px-4 overflow-hidden w-full">
-                  <input class="border-0 outline-0" type="number" name="" id="kn-add">
+                  <input class="border-0 outline-0" type="text" name="" id="kn-add">
                 </div>
               </div>
               <div class="flex w-1/3 gap-2">
                 <h1>PD:</h1>
                 <div class="shadow-md px-4 overflow-hidden w-full">
-                  <input class="border-0 outline-0" type="number" name="" id="kn-pd">
+                  <input class="border-0 outline-0" type="text" name="" id="kn-pd">
                 </div>
               </div>
               <div class="flex w-1/3 gap-2">
                 <h1>SEG.:</h1>
                 <div class="shadow-md px-4 overflow-hidden w-full">
-                  <input class="border-0 outline-0" type="number" name="" id="kn-seg">
+                  <input class="border-0 outline-0" type="text" name="" id="kn-seg">
                 </div>
               </div>
             </div>
@@ -210,22 +209,22 @@ $lens = $con->showData("SELECT * FROM lensa");
       var jenis_lensa = $('#jenis_lensa').val()
 
       // resep
-
+      
       // kiri
-      var kr_sph = $('#kr-sph').val() == "" ? "0" : $('#kr-sph').val();
-      var kr_cyl = $('#kr-cyl').val() == "" ? "0" : $('#kr-cyl').val();
-      var kr_axis = $('#kr-axis').val() == "" ? "0" : $('#kr-axis').val();
-      var kr_add = $('#kr-add').val() == "" ? "0" : $('#kr-add').val();
-      var kr_pp = $('#kr-pd').val() == "" ? "0" : $('#kr-pd').val();
-      var kr_seg = $('#kr-seg').val() == "" ? "0" : $('#kr-seg').val();
+      var kr_sph = $('#kr-sph').val() == "" ? "0" : $('#kr-sph').val().replace(/["]+/g, '`').replace(/[']+/g, "`");
+      var kr_cyl = $('#kr-cyl').val() == "" ? "0" : $('#kr-cyl').val().replace(/["]+/g, '`').replace(/[']+/g, "`");
+      var kr_axis = $('#kr-axis').val() == "" ? "0" : $('#kr-axis').val().replace(/["]+/g, '`').replace(/[']+/g, "`");
+      var kr_add = $('#kr-add').val() == "" ? "0" : $('#kr-add').val().replace(/["]+/g, '`').replace(/[']+/g, "`");
+      var kr_pp = $('#kr-pd').val() == "" ? "0" : $('#kr-pd').val().replace(/["]+/g, '`').replace(/[']+/g, "`");
+      var kr_seg = $('#kr-seg').val() == "" ? "0" : $('#kr-seg').val().replace(/["]+/g, '`').replace(/[']+/g, "`");
 
       // kanan
-      var kn_sph = $('#kn-sph').val() == "" ? "0" : $('#kn-sph').val();
-      var kn_cyl = $('#kn-cyl').val() == "" ? "0" : $('#kn-cyl').val();
-      var kn_axis = $('#kn-axis').val() == "" ? "0" : $('#kn-axis').val();
-      var kn_add = $('#kn-add').val() == "" ? "0" : $('#kn-add').val();
-      var kn_pp = $('#kn-pd').val() == "" ? "0" : $('#kn-pd').val();
-      var kn_seg = $('#kn-seg').val() == "" ? "0" : $('#kn-seg').val();
+      var kn_sph = $('#kn-sph').val() == "" ? "0" : $('#kn-sph').val().replace(/["]+/g, '`').replace(/[']+/g, "`");
+      var kn_cyl = $('#kn-cyl').val() == "" ? "0" : $('#kn-cyl').val().replace(/["]+/g, '`').replace(/[']+/g, "`");
+      var kn_axis = $('#kn-axis').val() == "" ? "0" : $('#kn-axis').val().replace(/["]+/g, '`').replace(/[']+/g, "`");
+      var kn_add = $('#kn-add').val() == "" ? "0" : $('#kn-add').val().replace(/["]+/g, '`').replace(/[']+/g, "`");
+      var kn_pp = $('#kn-pd').val() == "" ? "0" : $('#kn-pd').val().replace(/["]+/g, '`').replace(/[']+/g, "`");
+      var kn_seg = $('#kn-seg').val() == "" ? "0" : $('#kn-seg').val().replace(/["]+/g, '`').replace(/[']+/g, "`");
 
       var kode_detail_lens = '<?= strtoupper(str_replace(".", "", uniqid('KDLK', true))) ?>';
       var kode_varian_lensa = '<?= strtoupper(str_replace(".", "", uniqid('KVLK', true))) ?>';
@@ -233,7 +232,7 @@ $lens = $con->showData("SELECT * FROM lensa");
       var hargaLensa = parseInt($('#inputHargaLensa').val().replace("Rp. ", "").replace(".", "").replace(".", "").replace(" ", ""));
       var totalHarga = hargaLensa;
 
-      if (variant.length == 0) {
+      if ($('#varian_lensa').val() == "") {
         Swal.fire({
           icon: 'warning',
           title: 'Informasi',
@@ -254,67 +253,69 @@ $lens = $con->showData("SELECT * FROM lensa");
       } else {
         var idTR = '<?= strtoupper(str_replace(".", "", uniqid('TR', true))) ?>';
 
-        $.ajax({
-          url: "../../controllers/keranjangController.php",
-          type: "post",
-          data: {
-            type: "insert_lensa",
-            query_keranjang: "INSERT INTO keranjang (`kode_pesanan`, `tanggal`, `id_pegawai`, `total`) VALUES ('" + idTR + "',NOW(),'<?= $idPegawai ?>','" + totalHarga + "')",
-            query_Keranjang_Lensa: "INSERT INTO `keranjang_lensa`(`kode_varian_lensa_keranjang`, `kode_pesanan`, `id_jenis_lensa`, `harga`) VALUES ('" + kode_varian_lensa + "','" + idTR + "','" + jenis_lensa + "','" + hargaLensa + "')",
-            query_keranjang_resep: "INSERT INTO `keranjang_resep`(`kode_varian_lensa_keranjang`, `KN_SPH`, `KN_CYL`, `KN_AXIS`, `KR_SPH`, `KR_CYL`, `KR_AXIS`, `KN_ADD+`, `KN_PD`, `KN_SEG`, `KR_ADD+`, `KR_PD`, `KR_SEG`) VALUES ('" + kode_varian_lensa + "','" + kn_sph + "','" + kn_cyl + "','" + kn_axis + "','" + kr_sph + "','" + kr_cyl + "','" + kr_axis + "','" + kn_add + "','" + kn_pp + "','" + kn_seg + "','" + kr_add + "','" + kr_pp + "','" + kr_seg + "')",
-          },
-        }).then(function() {
-          var variant_sent = new FormData();
-
-          for (let index = 0; index < variant.length; index++) {
-            variant_sent.append('data-' + index, JSON.stringify({
-              'kode': variant[index]['kode'],
-              'kodeVariant': kode_varian_lensa,
-            }));
-          }
-
-          $.ajax({
-            url: "../../controllers/keranjangController.php",
-            type: "post",
-            data: variant_sent,
-            contentType: false,
-            processData: false,
-            beforeSend: function() {
-              Swal.fire({
-                title: 'Loading',
-                html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
-                allowOutsideClick: false,
-                showConfirmButton: false,
-
-              });
-            },
-            beforeSend: function() {
-              Swal.fire({
-                title: 'Loading',
-                html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
-                allowOutsideClick: false,
-                showConfirmButton: false,
-
-              });
-            },
-            success: function(res) {
-              const data = JSON.parse(res);
-              if (data.status == 'success') {
+        Swal.fire({
+          title: 'Informasi',
+          text: "Apakah anda yakin ingin memasukkan kedalam keranjang?",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Ya',
+          cancelButtonText: 'Batal',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            $.ajax({
+              url: "../../controllers/keranjangController.php",
+              type: "post",
+              beforeSend: function() {
                 Swal.fire({
-                  icon: 'success',
-                  title: 'Berhasil',
-                  text: data.msg,
-                }).then(function() {
-                  window.location.replace("../dashboard.php");
+                  title: 'Loading',
+                  html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+                  allowOutsideClick: false,
+                  showConfirmButton: false,
+
                 });
-              }
-            }
-          })
+              },
+              data: {
+                type: "insert_lensa",
+                query_keranjang: "INSERT INTO keranjang (`kode_pesanan`, `tanggal`, `id_pegawai`, `total`) VALUES ('" + idTR + "',NOW(),'<?= $idPegawai ?>','" + totalHarga + "')",
+                query_Keranjang_Lensa: "INSERT INTO `keranjang_lensa`(`kode_varian_lensa_keranjang`, `kode_pesanan`, `id_jenis_lensa`, `harga`) VALUES ('" + kode_varian_lensa + "','" + idTR + "','" + jenis_lensa + "','" + hargaLensa + "')",
+                query_keranjang_resep: "INSERT INTO `keranjang_resep`(`kode_varian_lensa_keranjang`, `KN_SPH`, `KN_CYL`, `KN_AXIS`, `KR_SPH`, `KR_CYL`, `KR_AXIS`, `KN_ADD+`, `KN_PD`, `KN_SEG`, `KR_ADD+`, `KR_PD`, `KR_SEG`) VALUES ('" + kode_varian_lensa + "','" + kn_sph + "','" + kn_cyl + "','" + kn_axis + "','" + kr_sph + "','" + kr_cyl + "','" + kr_axis + "','" + kn_add + "','" + kn_pp + "','" + kn_seg + "','" + kr_add + "','" + kr_pp + "','" + kr_seg + "')",
+              },
+            }).then(function() {
+              var variant_sent = new FormData();
+
+              variant_sent.append('data-' + 0, JSON.stringify({
+                'kode': $('#varian_lensa').val(),
+                'kodeVariant': kode_varian_lensa,
+              }));
+          
+
+              $.ajax({
+                url: "../../controllers/keranjangController.php",
+                type: "post",
+                data: variant_sent,
+                contentType: false,
+                processData: false,
+
+
+                success: function(res) {
+                  const data = JSON.parse(res);
+                  if (data.status == 'success') {
+                    Swal.fire({
+                      icon: 'success',
+                      title: 'Berhasil',
+                      text: data.msg,
+                    }).then(function() {
+                      window.location.replace("../dashboard.php");
+                    });
+                  }
+                }
+              })
+            });
+          }
         });
-
-
       }
-
     }
 
 

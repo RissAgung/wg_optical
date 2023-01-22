@@ -31,7 +31,7 @@
         <div class="w-full h-[60vh] px-3 text-sm overflow-y-auto scrollbar-hide">
             <div class="flex flex-row w-full items-center justify-between px-5 mt-7">
                 <p class="font-ex-semibold">Kode Frame</p>
-                <input type="text" id="kode_txt" class="border-[1px] h-11 w-52 px-3 rounded-md border-[#C9C9C9] outline-none">
+                <input type="text" id="kode_txt" class="border-[1px] h-11 w-52 px-3 rounded-md border-[#C9C9C9] outline-none" maxlength="10">
             </div>
 
             <div class="flex flex-row w-full items-center justify-between px-5 mt-7">
@@ -114,7 +114,6 @@
             $('#imgdefault_peg').removeClass("hidden");
         }
 
-        $('#kode_txt').attr('maxlength', 5);
 
         /* Dengan Rupiah */
         var dengan_rupiah = document.getElementById('harga_txt');
