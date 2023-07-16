@@ -23,7 +23,7 @@ $halamanAktif = (isset($_GET["halaman"])) ? $_GET["halaman"] : 1;
 $awalData = ($jumlahDataPerHalaman * $halamanAktif) - $jumlahDataPerHalaman;
 
 $data = (isset($_GET["search"])) ? $crud->showData("SELECT * FROM produk WHERE kode_frame LIKE'%" . $_GET["search"] . "%' LIMIT $awalData, $jumlahDataPerHalaman") : $crud->showData("SELECT * FROM produk LIMIT $awalData, $jumlahDataPerHalaman");
-$dataCatalog = $crud->showData("SELECT * FROM produk");
+// $dataCatalog = $crud->showData("SELECT * FROM produk");
 // $data = $crud->showData("SELECT * FROM produk LIMIT $awalData, $jumlahDataPerHalaman");
 
 function rupiah($angka)
@@ -54,9 +54,9 @@ function rupiah($angka)
 
 <body class="bg-[#F0F0F0] font-ex-color box-border">
 
-  <div id="loading" class="fixed w-full h-full top-0 left-0 flex flex-col justify-center items-center bg-slate-50 z-[99]">
+  <!-- <div id="loading" class="fixed w-full h-full top-0 left-0 flex flex-col justify-center items-center bg-slate-50 z-[99]">
     <div class="loadingspinner"></div>
-  </div>
+  </div> -->
 
   <!-- Logout modal -->
   <div id="bgmodal" class="w-full h-screen fixed hidden bg-black z-[51] opacity-0 transition duration-300"></div>
@@ -112,11 +112,11 @@ function rupiah($angka)
     <div class="mt-3 flex items-center flex-col md:flex-row md:justify-around lg:justify-between lg:px-16 md:py-[3px]">
 
       <!-- Tab Bar -->
-      <div class="w-44 box-border p-1.5 shadow-sm rounded-md flex justify-between flex-row text-sm font-ex-semibold bg-white">
-        <div class="transition bg-[#343948] h-8 w-[80px] absolute rounded-md translate-x-0 ease-in-out" id="bgtab">
-        </div>
-        <div class="flex justify-center py-1.5 w-20 rounded-md tab-focus cursor-pointer" id="tab_table">Table</div>
-        <div class="flex justify-center py-1.5 w-20 rounded-md cursor-pointer" id="tab_catalog">Catalog</div>
+      <div class="w-30 box-border p-1.5 shadow-sm rounded-md flex justify-between flex-row text-sm font-ex-semibold bg-black">
+        <!-- <div class="transition bg-[#343948] h-8 w-[80px] absolute rounded-md translate-x-0 ease-in-out" id="bgtab">
+        </div> -->
+        <div class="flex justify-center py-1.5 w-20 rounded-md tab-focus cursor-pointer " id="tab_table">Table</div>
+        <!-- <div class="flex justify-center py-1.5 w-20 rounded-md cursor-pointer" id="tab_catalog">Catalog</div> -->
       </div>
 
       <!-- Search and Button Add -->
@@ -163,6 +163,7 @@ function rupiah($angka)
               <th class="p-3 text-sm tracking-wide text-center">Merk</th>
               <th class="p-3 text-sm tracking-wide text-center">Warna</th>
               <th class="p-3 text-sm tracking-wide text-center">Harga Jual</th>
+              <th class="p-3 text-sm tracking-wide text-center">foto </th>
               <th class="p-3 text-sm tracking-wide text-center">Aksi</th>
             </tr>
           </thead>
@@ -176,6 +177,12 @@ function rupiah($angka)
                 <td class="p-3 text-sm tracking-wide text-center"><?= $index["merk"] ?></td>
                 <td class="p-3 text-sm tracking-wide text-center"><?= $index["warna"] ?></td>
                 <td class="p-3 text-sm tracking-wide text-center"><?= rupiah($index["harga_jual"]) ?></td>
+      <div class="flex box-border h-12.5% w-15% justify-center">
+  <td class="p-3 text-sm tracking-wide text-center">
+    <img class="object-cover w-25 h-20" src="../images/produk/<?= $index["gambar"] ?>" alt="product image">
+  </td>
+</div>
+                
                 <td class="p-3 text-sm tracking-wide text-center">
                   <button id="edit-button-<?= $i; ?>">
                     <svg width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -275,12 +282,13 @@ function rupiah($angka)
     <!-- end konten table -->
 
     <!-- konten catalog -->
-    <div class="hidden" id="catalog">
+    
+    <!-- <div class="hidden" id="catalog">
       <div class="container-catalog flex flex-row flex-wrap overflow-y-scroll scrollbar-hide text-sm mx-auto w-[90%] md:w-[90%] md:mx-auto bg-white rounded-md mt-4 ex-catalog pl-6 pr-[8px] pt-[8pxb ] justify-between max-[391px]:justify-center">
 
         <?php $idx = 1 ?>
         <?php foreach ($dataCatalog as $index) : ?>
-          <!-- items -->
+           
           <div class="max-[391px]:w-[163px] max-md:w-[139px] w-[163px] max-md:h-[263px] h-[273px]  shadow-md relative rounded-2xl overflow-hidden mt-4 mr-4">
             <div class="max-[391px]:w-[163px] max-md:w-[139px] max-[391px]:h-[163px] max-md:h-[139px] h-[163px] w-[163px] bg-red-100 rounded-2xl overflow-hidden">
               <img class="max-[400px]:w-[163px] max-md:w-[149px] max-[400px]:h-[163px] max-md:h-[149px] h-[163px] w-[163px] object-cover" src="../images/produk/<?= $index["gambar"] ?>" alt="product image">
@@ -307,13 +315,13 @@ function rupiah($angka)
               </div>
             </div>
           </div>
-          <!-- items -->
+        
           <?php $idx++ ?>
         <?php endforeach ?>
 
       </div>
 
-    </div>
+    </div> -->
   </div>
   </div>
   <!-- konten catalog -->
@@ -362,7 +370,13 @@ function rupiah($angka)
     }
 
     function getFileExtension(fstring) {
-      return fstring.slice((Math.max(0, fstring.lastIndexOf(".")) || Infinity) + 1);
+
+      if (fstring && typeof fstring === "string") {
+        return fstring.slice((Math.max(0, fstring.lastIndexOf(".")) || Infinity) + 1);
+      } else {
+        return "default_extension";
+      }
+      
     }
 
     function resetField() {
@@ -372,7 +386,7 @@ function rupiah($angka)
       $('#merk_txt').val(null);
       $('#warna_txt').val(null);
       $('#harga_txt').val(null);
-      imgpreview_peg.src = "#";
+      // imgpreview_peg.src = "#";
       $('#imgpreview_peg').addClass("hidden");
       $('#imgdefault_peg').removeClass("hidden");
     }
@@ -444,27 +458,29 @@ function rupiah($angka)
               title: 'Gagal',
               text: "Harga Tidak Boleh Kosong",
             })
-          } else if (!imgProduk.length > 0) {
-            Swal.fire({
-              icon: 'error',
-              title: 'Gagal',
-              text: 'Masukkan Gambar Terlebih Dahulu',
-            })
-          } else {
-
-            query = "gambar product ada";
-
-            formData.append('image_produk', imgProduk[0]);
-            formData.append('type', "insert");
-
-            var img_name_produk = formData.get('image_produk')['name'];
-            var generateUniqProduk = "<?php echo uniqid('produk-lensa-', true) . '.' . '"+getFileExtension(img_name_produk).toLowerCase()+"' ?>";
-
-            // cek bagian toLowercase jika error (tmp)
-
-            formData.append('img_file_produk', generateUniqProduk);
-            formData.append('query', "INSERT INTO produk VALUES ('" + kode_frame + "','" + merk + "','" + warna + "','0','" + generateUniqProduk + "','" + harga + "')");
-
+          } 
+          // else if (!imgProduk.length > 0) {
+          //   Swal.fire({
+          //     icon: 'error',
+          //     title: 'Gagal',
+          //     text: 'Masukkan Gambar Terlebih Dahulu',
+          //   })
+          // } 
+          else {
+            if (imgProduk.length > 0) {
+              formData.append('image_produk', imgProduk[0]);
+                var img_name_produk = formData.get('image_produk')['name'];
+                var generateUniqProduk = "<?php echo uniqid('produk-lensa-', true) . '.' . '"+getFileExtension(img_name_produk).toLowerCase()+"' ?>";
+                formData.append('img_file_produk', generateUniqProduk);
+                formData.append('query', "INSERT INTO produk VALUES ('" + kode_frame + "','" + merk + "','" + warna + "','0','" + generateUniqProduk + "','" + harga + "')");
+               formData.append('type','insert');
+              
+              }
+            else{
+              formData.append('query', "INSERT INTO produk VALUES ('" + kode_frame + "','" + merk + "','" + warna + "','0','','" + harga + "')");
+              formData.append('type','insert');
+            }
+            console.log(formData);
             $.ajax({
               type: "post",
               url: "../controllers/productController.php",
@@ -481,7 +497,8 @@ function rupiah($angka)
                 });
               },
               success: function(res) {
-                // alert(res);
+                // console.log(res);
+                alert(res);
 
                 const data = JSON.parse(res);
 
@@ -607,6 +624,7 @@ function rupiah($angka)
                     });
                   },
                   success: function(res) {
+                    // console.log(res);
                     const data = JSON.parse(res);
 
                     if (data.status == 'error') {
@@ -717,212 +735,7 @@ function rupiah($angka)
       <?php endfor ?>
 
       // edit catalog
-      <?php for ($i = 1; $i <= count($dataCatalog); $i++) : ?>
-        $('#edit-button-catalog-<?= $i ?>').on('click', function() {
-
-          chenge("edit");
-
-          reset();
-
-          $('#title').html('Edit Data');
-          $('#btn_tambah').html('Edit');
-
-          $('#bgmodalinput').addClass("effectmodal");
-          $('#modalkonten').removeClass("scale-0");
-
-          console.log("edit click");
-
-          imgInp.onchange = evt => {
-            const [file] = imgInp.files
-            if (file) {
-              imgpreview_peg.src = URL.createObjectURL(file);
-              $('#imgpreview_peg').removeClass("hidden");
-              $('#imgdefault_peg').addClass("hidden");
-            }
-          }
-
-
-          // load data
-          $("#kode_txt").val('<?= $dataCatalog[$i - 1]["kode_frame"] ?>');
-          $("#kode_txt").attr('readonly', true);
-          $("#merk_txt").val('<?= $dataCatalog[$i - 1]["merk"] ?>');
-          $("#warna_txt").val('<?= $dataCatalog[$i - 1]["warna"] ?>');
-          $("#harga_txt").val('<?= rupiah($dataCatalog[$i - 1]["harga_jual"]) ?>');
-
-          imgpreview_peg.src = "../images/produk/<?= $dataCatalog[$i - 1]["gambar"] ?>";
-          $('#imgpreview_peg').removeClass("hidden");
-          $('#imgdefault_peg').addClass("hidden");
-
-          $("#btn_edit").on("click", function(e) {
-
-            e.preventDefault();
-
-            getData();
-
-            let formData = new FormData();
-            let imgProduk = $('#imgInp')[0].files;
-
-            if (!imgProduk.length > 0) {
-              console.log("tanpa gambar");
-              // gambar tidak ada atau kosong
-              if (kode_frame == "") {
-                Swal.fire({
-                  icon: 'error',
-                  title: 'Gagal',
-                  text: "Kode Frame Tidak Boleh Kosong",
-                })
-              } else if (kode_frame.length < 3) {
-                Swal.fire({
-                  icon: 'error',
-                  title: 'Gagal',
-                  text: "Kode Frame Tidak Boleh Kurang Dari 5 Karakter",
-                })
-              } else if (merk == "") {
-                Swal.fire({
-                  icon: 'error',
-                  title: 'Gagal',
-                  text: "Merk Tidak Boleh Kosong",
-                })
-              } else if (warna == "") {
-                Swal.fire({
-                  icon: 'error',
-                  title: 'Gagal',
-                  text: "Warna Tidak Boleh Kosong",
-                })
-              } else if ($("#harga_txt").val() == "") {
-                Swal.fire({
-                  icon: 'error',
-                  title: 'Gagal',
-                  text: "Harga Tidak Boleh Kosong",
-                })
-              } else {
-                formData.append('type', "update");
-                formData.append('query', "UPDATE produk SET merk='" + merk + "', warna='" + warna + "', harga_jual='" + harga + "' WHERE kode_frame = '" + kode_frame + "'");
-
-                $.ajax({
-                  type: "post",
-                  url: "../controllers/productController.php",
-                  data: formData,
-                  contentType: false,
-                  processData: false,
-                  beforeSend: function() {
-                    Swal.fire({
-                      title: 'Loading',
-                      html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
-                      allowOutsideClick: false,
-                      showConfirmButton: false,
-
-                    });
-                  },
-                  success: function(res) {
-                    const data = JSON.parse(res);
-
-                    if (data.status == 'error') {
-                      Swal.fire({
-                        icon: 'error',
-                        title: 'Gagal',
-                        text: data.msg,
-                      })
-                    } else {
-                      Swal.fire({
-                        icon: 'success',
-                        title: 'Berhasil',
-                        text: data.msg,
-
-                      }).then(function() {
-                        window.location.replace("master_product.php?halaman=<?= $halamanAktif ?>");
-                      });
-                    }
-                  }
-                });
-              }
-            } else {
-              console.log("dengan gambar");
-
-              if (kode_frame == "") {
-                Swal.fire({
-                  icon: 'error',
-                  title: 'Gagal',
-                  text: "Kode Frame Tidak Boleh Kosong",
-                })
-              } else if (kode_frame.length < 3) {
-                Swal.fire({
-                  icon: 'error',
-                  title: 'Gagal',
-                  text: "Kode Frame Tidak Boleh Kurang Dari 5 Karakter",
-                })
-              } else if (merk == "") {
-                Swal.fire({
-                  icon: 'error',
-                  title: 'Gagal',
-                  text: "Merk Tidak Boleh Kosong",
-                })
-              } else if (warna == "") {
-                Swal.fire({
-                  icon: 'error',
-                  title: 'Gagal',
-                  text: "Warna Tidak Boleh Kosong",
-                })
-              } else if ($("#harga_txt").val() == "") {
-                Swal.fire({
-                  icon: 'error',
-                  title: 'Gagal',
-                  text: "Harga Tidak Boleh Kosong",
-                })
-              } else {
-                formData.append('image_produk', imgProduk[0]);
-                formData.append('type', "update");
-
-                var img_name_produk = formData.get('image_produk')['name'];
-                var generateUniqProduk = "<?php echo uniqid('produk-lensa-', true) . '.' . '"+getFileExtension(img_name_produk).toLowerCase()+"' ?>";
-                var img_name_produk_lama = '<?= $dataCatalog[$i - 1]["gambar"] ?>';
-
-                formData.append('img_file_produk_baru', generateUniqProduk);
-                formData.append('img_file_produk_lama', img_name_produk_lama);
-
-                formData.append('query', "UPDATE produk SET merk='" + merk + "', warna='" + warna + "', harga_jual='" + harga + "', gambar='" + generateUniqProduk + "' WHERE kode_frame = '" + kode_frame + "'");
-
-                $.ajax({
-                  type: "post",
-                  url: "../controllers/productController.php",
-                  data: formData,
-                  contentType: false,
-                  processData: false,
-                  beforeSend: function() {
-                    Swal.fire({
-                      title: 'Loading',
-                      html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
-                      allowOutsideClick: false,
-                      showConfirmButton: false,
-
-                    });
-                  },
-                  success: function(res) {
-                    const data = JSON.parse(res);
-
-                    if (data.status == 'error') {
-                      Swal.fire({
-                        icon: 'error',
-                        title: 'Gagal',
-                        text: data.msg,
-                      })
-                    } else {
-                      Swal.fire({
-                        icon: 'success',
-                        title: 'Berhasil',
-                        text: data.msg,
-
-                      }).then(function() {
-                        window.location.replace("master_product.php?halaman=<?= $halamanAktif ?>");
-                      });
-                    }
-                  }
-                });
-              }
-            }
-          });
-        });
-      <?php endfor ?>
+    
 
       var kode_frame;
       var merk;

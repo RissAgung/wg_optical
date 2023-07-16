@@ -50,6 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           );
           echo json_encode($response);
           exit();
+          
         } else {
           if (!in_array(pathinfo($imgproduk_name, PATHINFO_EXTENSION), $allowed_exs)) {
             $response = array(
@@ -58,27 +59,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             );
             echo json_encode($response);
             exit();
+
           } else {
-            $img_upload_path_produk = "../images/produk/" . $_POST['img_file_produk'];
+              $img_upload_path_produk = "../images/produk/" . $_POST['img_file_produk'];
             compressImage($tmpproduk_name, $img_upload_path_produk, 60);
-            // move_uploaded_file($tmpproduk_name, $img_upload_path_produk);
+            move_uploaded_file($tmpproduk_name, $img_upload_path_produk);
             $crud->execute($_POST["query"]);
             $response = array(
               'status' => 'success',
-              'msg' => 'Berhasil Menambahkan Data'
+              'msg' => 'Berhasil Menambahkan Data memakai gambar '
             );
             echo json_encode($response);
             exit();
           }
+          
         }
       } else {
-        $response = array(
-          'status' => 'error',
-          'msg' => 'Gagal Menambahkan Data'
+         $crud->execute($_POST["query"]);
+       
+         $response = array(
+          'status' => 'success',
+          'msg' => 'Berhasil Menambahkan Data tanpa gambar'
         );
         echo json_encode($response);
         exit();
-      }
+      } 
+       
     }
 
     if ($_POST["type"] == "delete") {
