@@ -1486,26 +1486,6 @@ video {
   height: 100vh;
 }
 
-.h-5 {
-  height: 1.25rem;
-}
-
-.h-32 {
-  height: 8rem;
-}
-
-.h-3 {
-  height: 0.75rem;
-}
-
-.h-60 {
-  height: 15rem;
-}
-
-.h-2 {
-  height: 0.5rem;
-}
-
 .max-h-\[400px\] {
   max-height: 400px;
 }
@@ -1764,22 +1744,6 @@ video {
 
 .w-screen {
   width: 100vw;
-}
-
-.w-5 {
-  width: 1.25rem;
-}
-
-.w-3 {
-  width: 0.75rem;
-}
-
-.w-1 {
-  width: 0.25rem;
-}
-
-.w-2 {
-  width: 0.5rem;
 }
 
 .max-w-\[250px\] {

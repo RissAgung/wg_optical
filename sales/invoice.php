@@ -116,7 +116,7 @@ function rupiah($angka)
   <!-- dikirim -->
   <div id="page_kirim" class="hidden flex flex-col items-center w-full h-full pb-[76px] pt-[110px] gap-2 overflow-y-auto bg-[#ECECEC]">
     <?php foreach ($dataProses as $index) : ?>
-      <?php if ($index["status_pengiriman"] == "kirim" && $index["status_confirm"] == 2 && $index["bukti_pengiriman"] == null) : ?>
+      <?php if ($index["status_pengiriman"] == "kirim" && $index["status_confirm"] == 2 && $index["bukti_pengiriman"] == 0) : ?>
         <div class="flex flex-col w-[95%] bg-white rounded-lg p-4 shadow-sm">
           <div onclick="show_detail('<?= $index['kode_pesanan'] ?>')" class="flex flex-row justify-between items-center w-full h-full">
 
@@ -152,8 +152,14 @@ function rupiah($angka)
               <p class="text-xs">Total</p>
               <p class="text-sm font-ex-semibold"><?= rupiah($index["total_harga"]) ?></p>
             </div>
-            <div onclick="showPengiriman('<?= $index['kode_pesanan'] ?>')" class="cursor-pointer flex justify-center items-center text-xs w-[120px] h-[30px] bg-[#163d64] text-white rounded-md font-ex-medium">
+
+            <!-- kode lama -->
+            <!-- <div onclick="showPengiriman('<?= $index['kode_pesanan'] ?>')" class="cursor-pointer flex justify-center items-center text-xs w-[120px] h-[30px] bg-[#163d64] text-white rounded-md font-ex-medium">
               Bukti Pengiriman
+            </div> -->
+
+            <div onclick="confirmPengiriman('<?= $index['kode_pesanan'] ?>')" class="cursor-pointer flex justify-center items-center text-xs px-4 h-[30px] bg-[#163d64] text-white rounded-md font-ex-medium">
+              Konfirmasi Pengiriman
             </div>
           </div>
 
@@ -227,28 +233,29 @@ function rupiah($angka)
 
 
 
-  $('#modalAddHeader').load("../assets/components/up_bukti_pengiriman.html", function() {
-    $('#btnOutHeader').on('click', function() {
-      $('#modalImgHeader').addClass('scale-0');
-      $('#bgmodalinput').removeClass("effectmodal");
-    });
+  // kode lama
+  // $('#modalAddHeader').load("../assets/components/up_bukti_pengiriman.html", function() {
+  //   $('#btnOutHeader').on('click', function() {
+  //     $('#modalImgHeader').addClass('scale-0');
+  //     $('#bgmodalinput').removeClass("effectmodal");
+  //   });
 
-    $('#btn_out').on('click', function() {
-      $('#modalImgHeader').addClass('scale-0');
-      $('#bgmodalinput').removeClass("effectmodal");
-    });
+  //   $('#btn_out').on('click', function() {
+  //     $('#modalImgHeader').addClass('scale-0');
+  //     $('#bgmodalinput').removeClass("effectmodal");
+  //   });
 
-    imgInp.onchange = evt => {
-      const [file] = imgInp.files
-      console.log(file);
-      if (file) {
-        console.log("masuk");
-        imgpreview_peg.src = URL.createObjectURL(file);
-        $('#imgpreview_peg').removeClass("hidden");
-        $('#imgdefault_peg').addClass("hidden");
-      }
-    }
-  });
+  //   imgInp.onchange = evt => {
+  //     const [file] = imgInp.files
+  //     console.log(file);
+  //     if (file) {
+  //       console.log("masuk");
+  //       imgpreview_peg.src = URL.createObjectURL(file);
+  //       $('#imgpreview_peg').removeClass("hidden");
+  //       $('#imgdefault_peg').addClass("hidden");
+  //     }
+  //   }
+  // });
 
   // modal detail invoice
   $("#modal_detail_invoice").load("../assets/components/modal_detail_invoice.html", function() {
@@ -267,85 +274,144 @@ function rupiah($angka)
     console.log("hahai ready");
   });
 
-  function resetImg() {
-    $('#imgInp').val(null);
-    imgpreview_peg.src = "#";
-    $('#imgpreview_peg').addClass("hidden");
-    $('#imgdefault_peg').removeClass("hidden");
-  }
+  // kode lama
 
-  function showPengiriman(id) {
+  // function resetImg() {
+  //   $('#imgInp').val(null);
+  //   imgpreview_peg.src = "#";
+  //   $('#imgpreview_peg').addClass("hidden");
+  //   $('#imgdefault_peg').removeClass("hidden");
+  // }
 
-    resetImg();
-    $('#modalImgHeader').removeClass('scale-0');
-    $('#bgmodalinput').addClass("effectmodal");
+  // function showPengiriman(id) {
 
-    $('#btn_upload').on('click', function(e) {
+  //   resetImg();
+  //   $('#modalImgHeader').removeClass('scale-0');
+  //   $('#bgmodalinput').addClass("effectmodal");
 
-      e.preventDefault();
+  //   $('#btn_upload').on('click', function(e) {
 
+  //     e.preventDefault();
+
+  //     let formData = new FormData();
+  //     let imgProduk = $('#imgInp')[0].files;
+
+  //     if (!imgProduk.length > 0) {
+  //       Swal.fire({
+  //         icon: 'error',
+  //         title: 'Gagal',
+  //         text: "Anda Belum mengupload gambar",
+  //       })
+  //     } else {
+  //       formData.append('image_produk', imgProduk[0]);
+  //       formData.append('type', "up_bukti");
+
+  //       var img_name_produk = formData.get('image_produk')['name'];
+  //       var generateUniqProduk = "<?php echo uniqid('bukti-pengiriman-', true) . '.' . '"+getFileExtension(img_name_produk).toLowerCase()+"' ?>";
+
+  //       formData.append('img_file_produk', generateUniqProduk);
+  //       formData.append("query", "UPDATE transaksi SET bukti_pengiriman = '" + generateUniqProduk + "' WHERE kode_pesanan = '" + id + "'");
+
+  //       let loading = "";
+
+  //       $.ajax({
+  //         type: "post",
+  //         url: "../controllers/invoiceSalesController.php",
+  //         data: formData,
+  //         contentType: false,
+  //         processData: false,
+  //         beforeSend: function() {
+  //           loading = Swal.fire({
+  //             title: 'Loading',
+  //             html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+  //             allowOutsideClick: false,
+  //             showConfirmButton: false,
+  //           });
+  //         },
+  //         success: function(res) {
+  //           // loading.close();
+  //           // alert(res);
+  //           const data = JSON.parse(res);
+
+  //           if (data.status == "error") {
+  //             Swal.fire({
+  //               icon: 'error',
+  //               title: 'Gagal',
+  //               text: data.msg,
+  //             })
+  //           } else {
+  //             Swal.fire({
+  //               icon: 'success',
+  //               title: 'Berhasil',
+  //               text: data.msg,
+  //             }).then(function() {
+  //               window.location.replace("invoice.php");
+  //             });
+  //           }
+
+  //         }
+  //       });
+  //     }
+
+  //   })
+
+  // }
+
+  function confirmPengiriman(id) {
+    Swal.fire({
+      icon: 'question',
+      title: 'Apakah anda yakin?',
+      text: 'Konfirmasi pengiriman barang',
+      showDenyButton: true,
+      confirmButtonText: 'Ya',
+      denyButtonText: `Batal`,
+    }).then((result) => {
+
+      // alert("awkokaokwaok")
       let formData = new FormData();
-      let imgProduk = $('#imgInp')[0].files;
+      formData.append('type', "up_bukti");
+      formData.append("query", "UPDATE transaksi SET bukti_pengiriman = 1 WHERE kode_pesanan = '" + id + "'");
+      let loading = "";
 
-      if (!imgProduk.length > 0) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Gagal',
-          text: "Anda Belum mengupload gambar",
-        })
-      } else {
-        formData.append('image_produk', imgProduk[0]);
-        formData.append('type', "up_bukti");
+      $.ajax({
+        type: "post",
+        url: "../controllers/invoiceSalesController.php",
+        data: formData,
+        contentType: false,
+        processData: false,
+        beforeSend: function() {
+          loading = Swal.fire({
+            title: 'Loading',
+            html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+            allowOutsideClick: false,
+            showConfirmButton: false,
+          });
+        },
+        success: function(res) {
+          // loading.close();
+          // alert(res);
+          const data = JSON.parse(res);
 
-        var img_name_produk = formData.get('image_produk')['name'];
-        var generateUniqProduk = "<?php echo uniqid('bukti-pengiriman-', true) . '.' . '"+getFileExtension(img_name_produk).toLowerCase()+"' ?>";
-
-        formData.append('img_file_produk', generateUniqProduk);
-        formData.append("query", "UPDATE transaksi SET bukti_pengiriman = '" + generateUniqProduk + "' WHERE kode_pesanan = '" + id + "'");
-
-        let loading = "";
-
-        $.ajax({
-          type: "post",
-          url: "../controllers/invoiceSalesController.php",
-          data: formData,
-          contentType: false,
-          processData: false,
-          beforeSend: function() {
-            loading = Swal.fire({
-              title: 'Loading',
-              html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
-              allowOutsideClick: false,
-              showConfirmButton: false,
+          if (data.status == "error") {
+            Swal.fire({
+              icon: 'error',
+              title: 'Gagal',
+              text: data.msg,
+            })
+          } else {
+            Swal.fire({
+              icon: 'success',
+              title: 'Berhasil',
+              text: data.msg,
+            }).then(function() {
+              window.location.replace("invoice.php");
             });
-          },
-          success: function(res) {
-            // loading.close();
-            // alert(res);
-            const data = JSON.parse(res);
-
-            if (data.status == "error") {
-              Swal.fire({
-                icon: 'error',
-                title: 'Gagal',
-                text: data.msg,
-              })
-            } else {
-              Swal.fire({
-                icon: 'success',
-                title: 'Berhasil',
-                text: data.msg,
-              }).then(function() {
-                window.location.replace("invoice.php");
-              });
-            }
-
           }
-        });
-      }
+
+        }
+      });
 
     })
-
   }
 
   function getFileExtension(fstring) {

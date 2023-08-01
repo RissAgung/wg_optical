@@ -2,9 +2,9 @@
 
 class koneksi
 {
-  private $server = "rizal.cuk";
+  private $server = "localhost";
   private $username = "root";
-  private $password = "123";
+  private $password = "";
   private $db = "wgoptical";
 
   public function prepareKoneksi()

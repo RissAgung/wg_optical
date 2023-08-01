@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             // insert transaksi
-            $crud->execute("INSERT INTO transaksi VALUES ('" . generateTransaksiID($data) . "', '1', NOW(), '" . $_SESSION["id_pegawai"] . "', '" . $_POST['total'] . "', '" . $_POST['total_harga'] . "', '" . $_POST['kembalian'] . "', '" . $idCus . "', '" . $_POST['tgljatuhtempo'] . "', NULL, NULL)");
+            $crud->execute("INSERT INTO transaksi VALUES ('" . generateTransaksiID($data) . "', '1', NOW(), '" . $_SESSION["id_pegawai"] . "', '" . $_POST['total'] . "', '" . $_POST['total_harga'] . "', '" . $_POST['kembalian'] . "', '" . $idCus . "', '" . $_POST['tgljatuhtempo'] . "', NULL, 0)");
 
             // insert transaksi
             for ($i = 0; $i < count($data); $i++) {
